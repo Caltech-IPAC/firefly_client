@@ -8,7 +8,7 @@ setup(
     description='Python API for Firefly',
     author='IPAC LSST SUIT',
     license='BSD',
-    url='http://github.com/Caltech-IPAC/firefly',
+    url='http://github.com/Caltech-IPAC/firefly_client',
     packages = ['firefly_client'],
     install_requires=['ws4py', 'future'],
     classifiers=[
