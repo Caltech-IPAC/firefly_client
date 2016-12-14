@@ -1,4 +1,4 @@
 setupRequired(ws4py)
 setupRequired(python_future)
 
-envPrepend(PYTHONPATH, ${PRODUCT_DIR}/python)
+envPrepend(PYTHONPATH, ${PRODUCT_DIR}/lib/python)
