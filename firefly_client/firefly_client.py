@@ -534,10 +534,18 @@ class FireflyClient(WebSocketClient):
         plot_id : str or list of str, optional
             The id you assign to the image plot. This is necessary to further control the plot.
 
-        additional_params : dict, optional
-            Dictionary of any valid fits viewer plotting parameters,
+        **additional_params : optional keyword arguments
+            Any valid fits viewer plotting parameters,
             see `fits plotting
             parameters<https://github.com/Caltech-IPAC/firefly/blob/dev/docs/fits-plotting-parameters.md>`_.
+            Also see 'Other Parameters'.
+        
+        Other Parameters
+        ----------------
+        MultiImageIdx : int, optional
+            Display only a particular image extension from the file (zero-based index)
+        Title : str, optional
+            Title to display with the image.
 
         Returns
         -------
@@ -1014,10 +1022,10 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        image_number : int
-            Image number of the mask layer, HDU extension in fits.
         bit_number : int
             Bit number of the mask to overlay.
+        image_number : int
+            Image number of the mask layer HDU extension in FITS. This is a zero-based index.
         plot_id : str
             ID of the plot to overlay the mask on.
         mask_id : str, optional
