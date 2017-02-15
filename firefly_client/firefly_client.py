@@ -60,7 +60,7 @@ class FireflyClient(WebSocketClient):
         Show a fits image.
     show_table(file_on_server, tbl_id, title, page_size, is_catalog)
         Show a table.
-    show_xyplot(file_on_server, standalone, chart_params)
+    show_xyplot(file_on_server, standalone, **chart_params)
         Show a XY plot.
     add_extension(ext_type, plot_id, title, tool_tip, extension_id, image_src)
         Add extension to the plot.
@@ -627,7 +627,7 @@ class FireflyClient(WebSocketClient):
         payload = {'request': tbl_req, 'hlRowIdx': 0}
         return self.dispatch_remote_action(self.channel, FireflyClient.ACTION_DICT['FetchTblData'], payload)
 
-    def show_xyplot(self, tbl_id, chart_params, standalone=False):
+    def show_xyplot(self, tbl_id, standalone=False, **chart_params):
         """
         Show a XY plot
 
@@ -635,39 +635,39 @@ class FireflyClient(WebSocketClient):
         ----------
         tbl_id : str, required
             A table ID of the data to be plotted.
-        chart_params
-            parameters for XY Plot, please see the details in 'Chart Parameters'.
         standalone : bool, optional
             When true, the chart is always present in the chart area, 
-            no matter if the related table is present or not 
+            no matter if the related table is present or not
+         **chart_params
+            parameters for XY Plot, please see the details in 'Chart Parameters'.
 
         Chart Parameters
         ----------------
-        chart_params.xCol: str
+        xCol: str
             column or expression to use for x values, can contain multiple column names,
             ex. log(col) or (col1-col2)/col3.
-        chart_params.xError: str
+        xError: str
             column or expression to use for x error, can contain multiple column names
-        chart_params.yCol: str
+        yCol: str
             column or expression to use for y values, can contain multiple column names,
             ex. sin(col) or (col1-col2)/col3.
-        chart_params.yError: str
+        yError: str
             column or expression to use for x error, can contain multiple column names
-        chart_params.xyRatio : numeric types
+        xyRatio : numeric types
             Aspect ratio (must be between 1 and 10).
-        chart_params.stretch : {'fit', 'fill'}
+        stretch : {'fit', 'fill'}
             Stretch method.
-        chart_params.xLabel : str
+        xLabel : str
             label to use with x axis.
-        chart_params.yLabel : str
+        yLabel : str
             label to use with y axis.
-        chart_params.xUnit : str
+        xUnit : str
             unit for x axis.
-        chart_params.yUnit : str
+        yUnit : str
             unit for y axis.
-        chart_params.xOptions : str
+        xOptions : str
             Comma separated list of x axis options: grid,flip,log.
-        chart_params.yOptions : str
+        yOptions : str
             Comma separated list of y axis options: grid,flip,log.
 
         Notes
