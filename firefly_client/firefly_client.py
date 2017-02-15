@@ -60,7 +60,7 @@ class FireflyClient(WebSocketClient):
         Show a fits image.
     show_table(file_on_server, tbl_id, title, page_size, is_catalog)
         Show a table.
-    show_xyplot(file_on_server, **additional_params)
+    show_xyplot(file_on_server, standalone, chart_params)
         Show a XY plot.
     add_extension(ext_type, plot_id, title, tool_tip, extension_id, image_src)
         Add extension to the plot.
@@ -109,7 +109,9 @@ class FireflyClient(WebSocketClient):
     ACTION_DICT = {
         'ShowFits': 'ImagePlotCntlr.PlotImage',
         'AddExtension': 'ExternalAccessCntlr/extensionAdd',
+        'FetchTblData': 'table.fetch',
         'ShowTable': 'table.search',
+        'ShowXYPlot': 'charts.data/chartAdd',
         'ZoomImage': 'ImagePlotCntlr.ZoomImage',
         'PanImage': 'ImagePlotCntlr.recenter',
         'StretchImage': 'ImagePlotCntlr.StretchChange',
@@ -121,7 +123,7 @@ class FireflyClient(WebSocketClient):
         'DeleteOverlayMask': 'ImagePlotCntlr.deleteOverlayPlot'}
 
     # id for table, region layer, extension
-    _item_id = {'Table': 0, 'RegionLayer': 0, 'Extension': 0, 'MaskLayer': 0}
+    _item_id = {'Table': 0, 'RegionLayer': 0, 'Extension': 0, 'MaskLayer': 0, 'XYPlot': 0}
 
     # urls:
     # launch browser:  http://<host>/firefly/firefly.html;wsch=<channel id> or (mode == 'full')
@@ -563,7 +565,7 @@ class FireflyClient(WebSocketClient):
         Parameters
         ----------
         file_on_server : str, optional
-            The is the name of the file on the server.  If you use upload_file()
+            The name of the file on the server.  If you use upload_file()
             then it is the return value of the method. Otherwise it is a file that
             Firefly has direct access to.
         tbl_id : str, optional
@@ -595,46 +597,77 @@ class FireflyClient(WebSocketClient):
 
         return self.dispatch_remote_action(self.channel, FireflyClient.ACTION_DICT['ShowTable'], payload)
 
-    def show_xyplot(self, file_on_server, **additional_params):
+    def fetch_table(self, file_on_server, tbl_id=None, page_size=1):
+        """
+        Fetch table data without showing them.
+
+        Parameters
+        ----------
+        file_on_server : str, optional
+            The name of the file on the server.  If you use upload_file()
+            then it is the return value of the method. Otherwise it is a file that
+            Firefly has direct access to.
+        tbl_id : str, optional
+            A table ID. It will be created automatically if not specified.
+        page_size : int, optional
+            The number of rows to fetch.
+
+        Returns
+        -------
+        out : dict
+            Status of the request, like {'success': true}. 
+        """
+
+        if not tbl_id:
+            tbl_id = FireflyClient._gen_item_id('Table')
+        tbl_req = {'startIdx': 0, 'pageSize': page_size, 'source': file_on_server,
+                   'id': 'IpacTableFromSource', 'tbl_id': tbl_id}
+        meta_info = {'title': tbl_id, 'tbl_id': tbl_id}
+        tbl_req.update({'META_INFO': meta_info})
+        payload = {'request': tbl_req, 'hlRowIdx': 0}
+        return self.dispatch_remote_action(self.channel, FireflyClient.ACTION_DICT['FetchTblData'], payload)
+
+    def show_xyplot(self, tbl_id, chart_params, standalone=False):
         """
         Show a XY plot
 
         Parameters
         ----------
-        file_on_server : str, optional
-            The is the name of the file on the server.  If you use upload_file()
-            then it is the return value of the method. Otherwise it is a file that
-            Firefly has direct access to.
-        **additional_params
-            Additional parameters for XY Plot, please see the details in 'Other Parameters'.
+        tbl_id : str, required
+            A table ID of the data to be plotted.
+        chart_params
+            parameters for XY Plot, please see the details in 'Chart Parameters'.
+        standalone : bool, optional
+            When true, the chart is always present in the chart area, 
+            no matter if the related table is present or not 
 
-        Other Parameters
+        Chart Parameters
         ----------------
-        source: str
-            location of the ipac table, url or file path; ignored when XY plot view is added to table.
-        chartTitle : str
-            title of the chart.
-        xCol: str
+        chart_params.xCol: str
             column or expression to use for x values, can contain multiple column names,
             ex. log(col) or (col1-col2)/col3.
-        yCol: str
+        chart_params.xError: str
+            column or expression to use for x error, can contain multiple column names
+        chart_params.yCol: str
             column or expression to use for y values, can contain multiple column names,
             ex. sin(col) or (col1-col2)/col3.
-        xyRatio : numeric types
+        chart_params.yError: str
+            column or expression to use for x error, can contain multiple column names
+        chart_params.xyRatio : numeric types
             Aspect ratio (must be between 1 and 10).
-        stretch : {'fit', 'fill'}
+        chart_params.stretch : {'fit', 'fill'}
             Stretch method.
-        xLabel : str
+        chart_params.xLabel : str
             label to use with x axis.
-        yLabel : str
+        chart_params.yLabel : str
             label to use with y axis.
-        xUnit : str
+        chart_params.xUnit : str
             unit for x axis.
-        yUnit : str
+        chart_params.yUnit : str
             unit for y axis.
-        xOptions : str
+        chart_params.xOptions : str
             Comma separated list of x axis options: grid,flip,log.
-        yOptions : str
+        chart_params.yOptions : str
             Comma separated list of y axis options: grid,flip,log.
 
         Notes
@@ -648,11 +681,33 @@ class FireflyClient(WebSocketClient):
             Status of the request, like {'success': true}.
         """
 
-        url = self.url_root + "?cmd=pushXYPlot"
-        if additional_params:
-            url += '&' + '&'.join(['%s=%s' % (k, v) for k, v in additional_params.items()])
-        url += '&file=%s' % file_on_server
-        return self._send_url_as_get(url)
+        x_all = {'columnOrExpr': chart_params.get('xCol'), 'error': chart_params.get('xError'),
+                 'label': chart_params.get('xLabel'), 'unit': chart_params.get('xUnit'),
+                 'options': chart_params.get('xOptions')}
+        x = {k: v for k, v in x_all.items() if v}  # remove None values
+
+        y_all = {'columnOrExpr': chart_params.get('yCol'), 'error': chart_params.get('yError'),
+                 'label': chart_params.get('yLabel'), 'unit': chart_params.get('yUnit'),
+                 'options': chart_params.get('yOptions')}
+        y = {k: v for k, v in y_all.items() if v}  # remove None values
+
+        options_all = {'x': x, 'y': y, 'plotStyle': chart_params.get('plotStyle'),
+                       'sortColOrExpr': chart_params.get('sortColOrExpr'),
+                       'xyRatio': chart_params.get('xyRatio'), 'stretch': chart_params.get('stretch')}
+        options = {k: v for k, v in options_all.items() if v}  # remove None values
+
+        chart_data_elements = [{'type': 'xycols', 'options': options, 'tblId': tbl_id}]
+        
+        cid = FireflyClient._gen_item_id('XYPlot')
+        if standalone:
+            group_id = 'default'
+        else:
+            group_id = tbl_id
+
+        payload = {'chartId': cid, 'chartType': 'scatter', 'groupId': group_id,
+                   'chartDataElements': chart_data_elements}
+        
+        return self.dispatch_remote_action(self.channel, FireflyClient.ACTION_DICT['ShowXYPlot'], payload)
 
     def add_extension(self, ext_type, plot_id=None, title='', tool_tip='',
                       extension_id=None, image_src=None):
@@ -1101,7 +1156,7 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        item : {'Table', 'RegionLayer', 'Extension'}
+        item : {'Table', 'RegionLayer', 'Extension', 'XYPlot'}
             Entity type.
 
         Returns
