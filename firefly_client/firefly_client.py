@@ -725,7 +725,7 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        ext_type : {'AREA_SELECT', 'LINE_SELECT', or 'POINT'}
+        ext_type : {'AREA_SELECT', 'LINE_SELECT', or 'POINT' or any firefly action}
             Extension type. It can be one of the values in the list,
             or it will be reset to be 'NONE'.
         plot_id : str, optional
@@ -751,8 +751,8 @@ class FireflyClient(WebSocketClient):
             Status of the request, like {'success': true}.
         """
 
-        if ext_type not in FireflyClient.EXTENSION_TYPE:
-            ext_type = 'NONE'
+        #if ext_type not in FireflyClient.EXTENSION_TYPE:
+        #    ext_type = 'NONE'
 
         if not extension_id:
             extension_id = FireflyClient._gen_item_id('Extension')
