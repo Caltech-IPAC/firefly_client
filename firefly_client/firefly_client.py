@@ -113,7 +113,9 @@ class FireflyClient(WebSocketClient):
     #    'dataType': ['STRING', 'JSON', 'BG_STATUS'],
     #    'data': {'channel': , 'connID': }
     # }
-    def _received_message(self, m):
+    def received_message(self, m):
+        """Override the superclass's method
+        """
         ev = json.loads(m.data.decode('utf8'))
         event_name = ev['name']
 
@@ -789,7 +791,7 @@ class FireflyClient(WebSocketClient):
 
             **lower_value** : `int` or  `float`, optional
                 Lower end of stretch (the default is 1).
-            **uppler_value** : `int` or  `float`, optional
+            **upper_value** : `int` or  `float`, optional
                 Upper end of stretch (the default is 90).
 
         Returns
