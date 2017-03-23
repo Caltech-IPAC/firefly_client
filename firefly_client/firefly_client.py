@@ -26,84 +26,31 @@ class FireflyClient(WebSocketClient):
     """
     For Firefly client to build interface to remotely communicate to the Firefly viewer.
 
-    methods
-    -------
-    add_listener(callback, name)
-        Add listener to events on Firefly client.
-    remove_listener(callback, name)
-        Remove event name from callback listener.
-    launch_browser()
-        Launch a browsers with the Firefly Tools viewer and the channel set.
-    wait_for_events()
-        Wait over events from the server.
-    get_firefly_url(mode, channel)
-        Get URL to Firefly Tools viewer and the channel set.
-    stay_connected()
-        Keep WebSocket connected.
-    disconnect()
-        Disconnect the WebSocket.
-    upload_file(path, pre_load)
-        Upload a file to the Firefly Server.
-    upload_fits_data(stream)
-        Upload fits file like object to the Firefly server.
-    upload_text_data(stream)
-        Upload a text file like object to the Firefly server.
-    upload_data(stream, data_type)
-        Upload a file like object to the Firefly server
-    create_image_url(image_source)
-        Create image url or data uri.
-    dispatch_remote_action(channel, action_type, payload)
-        Dispatch the action to the server by sending 'GET' request.
-    dispatch_remote_action_by_post(channel, action_type, payload)
-        Dispatch the action to the server by sending 'POST' request.
-    show_fits(file_on_server, plot_id, **additional_params)
-        Show a fits image.
-    show_table(file_on_server, tbl_id, title, page_size, is_catalog)
-        Show a table.
-    show_xyplot(file_on_server, standalone, **chart_params)
-        Show a XY plot.
-    add_extension(ext_type, plot_id, title, tool_tip, extension_id, image_src)
-        Add extension to the plot.
-    set_zoom(plot_id, factor)
-        Zoom the image.
-    set_pan(plot_id, x, y, coord)
-        Relocate the center of the image.
-    set_stretch(plot_id, type, algorithm, **additional_params)
-        Change the stretch of the image (no band case).
-    overlay_region_layer(file_on_server, region_data, title, region_layer_id, plot_id)
-        Overlay a region layer on the image plot.
-    delete_region_layer(region_layer_id, plot_id)
-        Delete region layer from the image plot.
-    add_region_data(region_data, region_layer_id, title, plot_id)
-        Add region entries to the region layer.
-    remove_region_data(region_data, region_layer_id)
-        Remove region entries from the region layer.
-    add_mask(bit_number, image_number, plot_id, mask_id, color, title, file_on_server)
-        Add a mask layer to the image plot.
-    remove_mask(plot_id, mask_id)
-         Remove a mask layer from the image plot.
-
-    Attributes
+    Parameters
     ----------
-    STRETCH_TYPE_DICT, STRETCH_ALGORITHM_DICT : dict
-        Definition of stretch type and algorithm.
-    ACTION_DICT : dict
-        Definition of FIrefly action.
-    EXTENSION_TYPE : list of str
-        Type of plot where the extension is added to.
+    host : `str`
+        Firefly host.
+    channel : `str`
+        WebSocket channel ID.
     """
 
     _fftools_cmd = '/firefly/sticky/CmdSrv'
     _my_localhost = 'localhost:8080'
     ALL = 'ALL_EVENTS_ENABLED'
+    """All events are enabled for the listener (`str`)."""
 
     # for serializing the RangeValues object
     STRETCH_TYPE_DICT = {'percent': 88, 'maxmin': 89, 'absolute': 90,  'zscale': 91, 'sigma': 92}
+    """Definition of stretch type (`dict`)."""
+
     STRETCH_ALGORITHM_DICT = {'linear': 44, 'log': 45, 'loglog': 46, 'equal': 47, 'squared': 48, 'sqrt': 49,
                               'asinh': 50, 'powerlaw_gamma': 51}
+    """Definition of stretch algorithm (`dict`)."""
 
     # extension type
     EXTENSION_TYPE = ['AREA_SELECT', 'LINE_SELECT', 'POINT']
+    """Type of plot where the extension is added to (`list` of `str`)."""
+
 
     # actions from Firefly
     ACTION_DICT = {
@@ -121,6 +68,7 @@ class FireflyClient(WebSocketClient):
         'RemoveRegionData': 'DrawLayerCntlr.RegionPlot.removeRegion',
         'PlotMask': 'ImagePlotCntlr.plotMask',
         'DeleteOverlayMask': 'ImagePlotCntlr.deleteOverlayPlot'}
+    """Definition of Firefly action (`dict`)."""
 
     # id for table, region layer, extension
     _item_id = {'Table': 0, 'RegionLayer': 0, 'Extension': 0, 'MaskLayer': 0, 'XYPlot': 0}
@@ -133,16 +81,6 @@ class FireflyClient(WebSocketClient):
     # open websocket:  ws://<host>/firefly/sticky/firefly/events?channdleID=<channel id>
 
     def __init__(self, host=_my_localhost, channel=None):
-        """initialize a 'FireflyClient' object and build websocket.
-
-        Parameters
-        ----------
-        host : str
-            Firefly host.
-        channel : str
-            WebSocket channel id.
-        """
-
         if host.startswith('http://'):
             host = host[7:]
 
@@ -176,6 +114,8 @@ class FireflyClient(WebSocketClient):
     #    'data': {'channel': , 'connID': }
     # }
     def received_message(self, m):
+        """Override the superclass's method
+        """
         ev = json.loads(m.data.decode('utf8'))
         event_name = ev['name']
 
@@ -196,21 +136,24 @@ class FireflyClient(WebSocketClient):
             self._handle_event(ev)
 
     def _send_url_as_get(self, url):
-        """Send URL in 'GET' request and return status."""
+        """Send URL in 'GET' request and return status.
+        """
 
         response = self.session.get(url, headers=self.headers)
         status = json.loads(response.text)
         return status[0]
 
     def _send_url_as_post(self, data):
-        """Send URL in 'POST' request and return status."""
+        """Send URL in 'POST' request and return status.
+        """
 
         response = self.session.post(self.url_root, data=data, headers=self.headers)
         status = json.loads(response.text)
         return status[0]
 
     def _is_page_connected(self):
-        """Check if the page is connected."""
+        """Check if the page is connected.
+        """
 
         ip = socket.gethostbyname(socket.gethostname())
         url = self.url_root + '?cmd=pushAliveCheck&ipAddress=%s' % ip
@@ -226,20 +169,22 @@ class FireflyClient(WebSocketClient):
 # Public API Begins
 # -----------------------------------------------------------------
 # -----------------------------------------------------------------
-
     def add_listener(self, callback, name=ALL):
         """
-        Add a function to listen for events on the Firefly client.
+        Add a callback function to listen for events on the Firefly client.
 
         Parameters
         ----------
-        callback : function
+        callback : `Function`
             The function to be called when a event happens on the Firefly client.
-        name : str, optional
-            The name of the events (the default is ALL, all events).
+        name : `str`, optional
+            The name of the events (the default is `ALL`, all events).
+
+        Returns
+        -------
+        out : none
 
         """
-
         if callback not in self.listeners.keys():
             self.listeners[callback] = []
         if name not in self.listeners[callback]:
@@ -247,22 +192,22 @@ class FireflyClient(WebSocketClient):
 
     def remove_listener(self, callback, name=ALL):
         """
-        Remove a event name from the callback listener.
+        Remove an event name from the callback listener.
 
         Parameters
         ----------
-        callback : function
+        callback : `Function`
             A previously set callback function.
-        name : str, optional
+        name : `str`, optional
             The name of the event to be removed from the callback listener
-            (the default is ALL, all events).
+            (the default is `ALL`, all events).
 
+        Returns
+        -------
+        out : none
 
-        Notes
-        -----
-        The callback listener is removed if all events are removed from the callback.
+        .. note:: `callback` in listener list is removed if all events are removed from the callback.
         """
-
         if callback in self.listeners.keys():
             if name in self.listeners[callback]:
                 self.listeners[callback].remove(name)
@@ -271,31 +216,32 @@ class FireflyClient(WebSocketClient):
 
     def wait_for_events(self):
         """
-        Pause and do not exit.  Wait over events from the server.
-        This is optional. You should not use this method in ipython notebook
+        Wait over events from the server.
+
+        Pause and do not exit.
+
+        This is optional. You should not use this method in ipython notebook.
         Event will get called anyway.
         """
-
         WebSocketClient.run_forever(self)
 
     def get_firefly_url(self, mode='minimal', channel=None):
         """
-        Get URL to Firefly Tools viewer and the channel set. Normally this method
-        will be called without any parameters.
+        Get URL to Firefly Tools viewer and the channel set.
+        Normally this method will be called without any parameters.
 
         Parameters
         -------------
         mode : {'full', 'minimal'}, optional
             Url mode (the default is 'minimal').
-        channel : str, optional
+        channel : `str`, optional
             A different channel string than the default.
 
         Returns
         -------
-        out : str
+        out : `str`
             url string.
         """
-
         if not channel:
             channel = self.channel
 
@@ -307,21 +253,22 @@ class FireflyClient(WebSocketClient):
     def launch_browser(self, url=None, channel=None, force=False):
         """
         Launch a browser with the Firefly Tools viewer and the channel set.
-        The page is launched when `force` is true or the page is not opened yet.
+
+        The page is launched when `force` is *True* or the page is not opened yet.
         Normally this method will be called without any parameters.
 
         Parameters
         ----------
-        url : str, optional
-            An url overriding the default (the default is set as self.url_bw).
-        channel : str, optional
-            A different channel than the default (the default is set as self.channel).
-        force : bool, optional
-            If the browser page is forced to be opened (the default is false).
+        url : `str`, optional
+            An url overriding the default (the default is set as *self.url_bw*).
+        channel : `str`, optional
+            A different channel than the default (the default is set as *self.channel*).
+        force : `bool`, optional
+            If the browser page is forced to be opened (the default is *False*).
 
         Returns
         -------
-        out : str
+        out : `str`
             The channel ID.
         """
 
@@ -337,11 +284,13 @@ class FireflyClient(WebSocketClient):
         return channel
 
     def stay_connected(self):
-        """Keep WebSocket connected."""
+        """Keep WebSocket connected.
+        """
         self.run()
 
     def disconnect(self):
-        """Disconnect the WebSocket."""
+        """Disconnect the WebSocket.
+        """
         self.close()
 
     def upload_file(self, path, pre_load=True):
@@ -350,18 +299,17 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        path : str
+        path : `str`
             Path of uploaded file. It can be fits, region, and various types of table files.
-        pre_load : bool
+        pre_load : `bool`, optional
             This parameter is not used.
-
-        Notes
-        -----
-        'pre_load' is not implemented in the server (will be removed later).
 
         Returns
         -------
+        out: `str`
             Path of file after the upload.
+
+        .. note:: 'pre_load' is not implemented in the server (will be removed later).
         """
 
         url = 'http://' + self.this_host + '/firefly/sticky/Firefly_FileUpload?preload=%s' % pre_load
@@ -372,19 +320,19 @@ class FireflyClient(WebSocketClient):
 
     def upload_fits_data(self, stream):
         """
-        Upload a FITS file like object to the Firefly server. The method should allow file like data
-        to be streamed without using a actual file.
+        Upload a FITS file like object to the Firefly server.
+        The method should allow file like data to be streamed without using an actual file.
 
         Parameters
         ----------
-        stream: file-like object
-            An file like object containing fits data,
+        stream : `object`
+            A FITS file like object containing fits data,
             such as if *f = open(<a_fits_path>)*, *f* is a file object.
 
         Returns
         -------
-        out : dict
-            Status, like {'success': true}.
+        out : `dict`
+            Status, like {'success': True}.
         """
 
         url = 'http://' + self.this_host + '/firefly/sticky/Firefly_FileUpload?preload=true'
@@ -395,39 +343,38 @@ class FireflyClient(WebSocketClient):
 
     def upload_text_data(self, stream):
         """
-        Upload a Text file like object to the Firefly server. The method should allow text file like data
-        to be streamed without using a actual file.
+        Upload a text file like object to the Firefly server.
+        The method should allow text file like data to be streamed without using an actual file.
 
         Parameters
         ----------
-        stream : file-like object
-            An file like object containing text data,
+        stream : `object`
+            A text file like object containing text data,
             such as if *f = open(<a_textfile_path>)*, *f* is a file object.
-
 
         Returns
         -------
-        out : dict
-            Status, like {'success': true}.
+        out : `dict`
+            Status, like {'success': True}.
         """
         return self.upload_data(stream, 'UNKNOWN')
 
     def upload_data(self, stream, data_type):
         """
-        Upload a file like object to the Firefly server. The method should allow either fits or
-        non-fits file like data to be streamed without using a actual file.
+        Upload a file like object to the Firefly server.
+        The method should allow either FITS or non-FITS file like data to be streamed without using an actual file.
 
         Parameters
         ----------
-        stream : file-like object
-            An file like object containing fits data or others.
+        stream : `object`
+            A file like object containing FITS data or others.
         data_type : {'FITS', 'UNKNOWN'}
-            Data type, fits or others.
+            Data type, FITS or others.
 
         Returns
         -------
-        out : dict
-            Status, like {'success': true}.
+        out : `dict`
+            Status, like {'success': True}.
         """
 
         url = 'http://' + self.this_host + '/firefly/sticky/Firefly_FileUpload?preload='
@@ -444,12 +391,12 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        image_source : str
+        image_source : `str`
             An image path or image url.
 
         Returns
         -------
-         out : str
+         out : `str`
             Data URI or image url.
         """
 
@@ -471,17 +418,17 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        channel : str
-            WebSocket channel id.
-        action_type : str
-            Action type,  one of actions from FireflyClient's attribute,  ACTION_DICT.
-        payload : dict
-            Payload, the content varies among action types.
+        channel : `str`
+            WebSocket channel ID.
+        action_type : `str`
+            Action type,  one of actions from FireflyClient's attribute,  `ACTION_DICT`.
+        payload : `dict`
+            Payload, the content varies based on the value of `action_type`.
 
         Returns
         -------
-        out : dict
-            Status of remote dispatch, like {'success': true}.
+        out : `dict`
+            Status of remote dispatch, like {'success': True}.
         """
 
         action = {'type': action_type, 'payload': payload}
@@ -495,17 +442,17 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        channel : str
-            Websocket channel id.
-        action_type : str
-            Action type, one of actions from FireflyClient's attribute, ACTION_DICT.
-        payload : dict
-            Payload, the content varies among action types.
+        channel : `str`
+            Websocket channel ID.
+        action_type : `str`
+            Action type, one of actions from FireflyClient's attribute, `ACTION_DICT`.
+        payload : `dict`
+            Payload, the content varies based on the value of `action_type`.
 
         Returns
         -------
-        out : dict
-            Status of remotely dispatch, like {'success': true}.
+        out : `dict`
+            Status of remotely dispatch, like {'success': True}.
         """
 
         action = {'type': action_type, 'payload': payload}
@@ -523,34 +470,33 @@ class FireflyClient(WebSocketClient):
 
     def show_fits(self, file_on_server=None, plot_id=None, **additional_params):
         """
-        Show a fits image.
+        Show a FITS image.
 
         Parameters
         ----------
-        file_on_server : str, optional
-            The is the name of the file on the server.  If you use upload_file()
-            then it is the return value of the method. Otherwise it is a file that
+        file_on_server : `str`, optional
+            The is the name of the file on the server.
+            If you use `upload_file()`, then it is the return value of the method. Otherwise it is a file that
             Firefly has direct access to.
-        plot_id : str or list of str, optional
-            The id you assign to the image plot. This is necessary to further control the plot.
+        plot_id : `str` or `list` of `str`, optional
+            The ID you assign to the image plot. This is necessary to further control the plot.
 
-        **additional_params : optional keyword arguments
-            Any valid fits viewer plotting parameters,
-            see `fits plotting
-            parameters<https://github.com/Caltech-IPAC/firefly/blob/dev/docs/fits-plotting-parameters.md>`_.
-            Also see 'Other Parameters'.
-        
-        Other Parameters
-        ----------------
-        MultiImageIdx : int, optional
-            Display only a particular image extension from the file (zero-based index)
-        Title : str, optional
-            Title to display with the image.
+        \*\*additional_params : optional keyword arguments
+            Any valid fits viewer plotting parameters, please see the details in `fits plotting parameters`_.
+
+            .. _fits plotting parameters: https://github.com/Caltech-IPAC/firefly/blob/dev/docs/fits-plotting-parameters.md
+
+            More options are shown as below:
+
+            **MultiImageIdx** : `int`, optional
+                Display only a particular image extension from the file (zero-based index).
+            **Title** : `str`, optional
+                Title to display with the image.
 
         Returns
         -------
-        out : dict
-            Status of the request, like {'success': true}.
+        out : `dict`
+            Status of the request, like {'success': True}.
         """
 
         wp_request = {'plotGroupId': 'groupFromPython',
@@ -572,23 +518,23 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        file_on_server : str, optional
-            The name of the file on the server.  If you use upload_file()
-            then it is the return value of the method. Otherwise it is a file that
+        file_on_server : `str`
+            The name of the file on the server.
+            If you use `upload_file()`, then it is the return value of the method. Otherwise it is a file that
             Firefly has direct access to.
-        tbl_id : str, optional
+        tbl_id : `str`, optional
             A table ID. It will be created automatically if not specified.
-        title : str, optional
+        title : `str`, optional
             Title associated with the table.
-        page_size : int, optional
+        page_size : `int`, optional
             The number of rows that are shown in the table page (the default is 100).
-        is_catalog : bool, optional
-            If the table file is a catalog (the default is true) or not.
+        is_catalog : `bool`, optional
+            If the table file is a catalog (the default is *True*) or not.
 
         Returns
         -------
-        out : dict
-            Status of the request, like {'success': true}.
+        out : `dict`
+            Status of the request, like {'success': True}.
         """
 
         if not tbl_id:
@@ -607,23 +553,23 @@ class FireflyClient(WebSocketClient):
 
     def fetch_table(self, file_on_server, tbl_id=None, page_size=1):
         """
-        Fetch table data without showing them.
+        Fetch table data without showing them
 
         Parameters
         ----------
-        file_on_server : str, optional
-            The name of the file on the server.  If you use upload_file()
-            then it is the return value of the method. Otherwise it is a file that
+        file_on_server : `str`
+            The name of the file on the server.
+            If you use `upload_file()`, then it is the return value of the method. Otherwise it is a file that
             Firefly has direct access to.
-        tbl_id : str, optional
+        tbl_id : `str`, optional
             A table ID. It will be created automatically if not specified.
-        page_size : int, optional
+        page_size : `int`, optional
             The number of rows to fetch.
 
         Returns
         -------
-        out : dict
-            Status of the request, like {'success': true}. 
+        out : `dict`
+            Status of the request, like {'success': True}.
         """
 
         if not tbl_id:
@@ -635,58 +581,55 @@ class FireflyClient(WebSocketClient):
         payload = {'request': tbl_req, 'hlRowIdx': 0}
         return self.dispatch_remote_action(self.channel, FireflyClient.ACTION_DICT['FetchTblData'], payload)
 
+
     def show_xyplot(self, tbl_id, standalone=False, **chart_params):
         """
         Show a XY plot
 
         Parameters
         ----------
-        tbl_id : str, required
+        tbl_id : `str`
             A table ID of the data to be plotted.
-        standalone : bool, optional
-            When true, the chart is always present in the chart area, 
+        standalone : `bool`, optional
+            When it is *True*, the chart is always present in the chart area,
             no matter if the related table is present or not
-         **chart_params
-            parameters for XY Plot, please see the details in 'Chart Parameters'.
+        \*\*chart_params : optional keyword arguments
+            Parameters for XY Plot. The options are shown as below:
 
-        Chart Parameters
-        ----------------
-        xCol: str
-            column or expression to use for x values, can contain multiple column names,
-            ex. log(col) or (col1-col2)/col3.
-        xError: str
-            column or expression to use for x error, can contain multiple column names
-        yCol: str
-            column or expression to use for y values, can contain multiple column names,
-            ex. sin(col) or (col1-col2)/col3.
-        yError: str
-            column or expression to use for x error, can contain multiple column names
-        xyRatio : numeric types
-            Aspect ratio (must be between 1 and 10).
-        stretch : {'fit', 'fill'}
-            Stretch method.
-        xLabel : str
-            label to use with x axis.
-        yLabel : str
-            label to use with y axis.
-        xUnit : str
-            unit for x axis.
-        yUnit : str
-            unit for y axis.
-        xOptions : str
-            Comma separated list of x axis options: grid,flip,log.
-        yOptions : str
-            Comma separated list of y axis options: grid,flip,log.
-
-        Notes
-        -----
-            For the additional parameters, xCol and yCol are required, then all other
-            parameters are valid.
+            **xCol**: `str`
+                Column or expression to use for x values, can contain multiple column names,
+                ex. *log(col)* or *(col1-col2)/col3*.
+            **xError**: `str`
+                Column or expression to use for x error, can contain multiple column names
+            **yCol**: `str`
+                Column or expression to use for y values, can contain multiple column names,
+                ex. *sin(col)* or *(col1-col2)/col3*.
+            **yError**: `str`
+                Column or expression to use for x error, can contain multiple column names
+            **xyRatio** : `int` or  `float`
+                Aspect ratio (must be between 1 and 10).
+            **stretch** : {'fit', 'fill'}
+                Stretch method.
+            **xLabel** : `str`
+                Label to use with x axis.
+            **yLabel** : `str`
+                Label to use with y axis.
+            **xUnit** : `str`
+                Unit for x axis.
+            **yUnit** : `str`
+                Unit for y axis.
+            **xOptions** : `str`
+                Comma separated list of x axis options: grid,flip,log.
+            **yOptions** : `str`
+                Comma separated list of y axis options: grid,flip,log.
 
         Returns
         -------
-        out : dict
-            Status of the request, like {'success': true}.
+        out : `dict`
+            Status of the request, like {'success': True}.
+
+        .. note:: For the chart parameters, `xCol` and `yCol` are required, then all other
+                  parameters are valid.
         """
 
         x_all = {'columnOrExpr': chart_params.get('xCol'), 'error': chart_params.get('xError'),
@@ -720,37 +663,34 @@ class FireflyClient(WebSocketClient):
     def add_extension(self, ext_type, plot_id=None, title='', tool_tip='',
                       extension_id=None, image_src=None):
         """
-        Add an extension to the plot. Extensions are context menus that allows you to extend
-        what Firefly can do when certain actions happen.
+        Add an extension to the plot.
+        Extensions are context menus that allows you to extend what Firefly can do when certain actions happen.
 
         Parameters
         ----------
-        ext_type : {'AREA_SELECT', 'LINE_SELECT', or 'POINT' or any firefly action}
-            Extension type. It can be one of the values in the list,
+        ext_type : {'AREA_SELECT', 'LINE_SELECT', 'POINT'}
+            Extension type. It can be one of the values in the list or any Firefly action,
             or it will be reset to be 'NONE'.
-        plot_id : str, optional
-            Plot ID of the plot which the extension is added to, if not specified, then this request
-            applied to all plots in the same group of the active plot.
-        title : str, optional
+        plot_id : `str`, optional
+            Plot ID of the plot which the extension is added to, if not specified, this request
+            is applied to all plots in the same group of the active plot.
+        title : `str`, optional
             The title for the extension.
-        tool_tip : str, optional
+        tool_tip : `str`, optional
             Tooltip for the extension.
-        extension_id : str, optional
+        extension_id : `str`, optional
             Extension ID. It will be created automatically if not specifed.
-        image_src : str, optional
+        image_src : `str`, optional
             Image source of an icon to be displayed on the toolbar instead of the title.
             Image source could be an image path or an image url.
 
-        Notes
-        -----
-        If image_src is not specified, then no extension is added.
-
         Returns
         -------
-        out : dict
-            Status of the request, like {'success': true}.
-        """
+        out : `dict`
+            Status of the request, like {'success': True}.
 
+        .. note:: If `image_src` is not specified, then no extension is added.
+        """
         #if ext_type not in FireflyClient.EXTENSION_TYPE:
         #    ext_type = 'NONE'
 
@@ -775,16 +715,16 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        plot_id : str or a list of str
-            ID of the plot to be zoomed. If plot_id is a list or tuple, then each plot in the list
+        plot_id : `str` or `list` of `str`
+            ID of the plot to be zoomed. If `plot_id` is a list or tuple, then each plot in the list
             or the tuple is zoomed in order.
-        factor : numeric type
+        factor : `int` or  `float`, optional
             Zoom factor for the image.
 
         Returns
         -------
-        out : dict
-            Status of the request, like {'success': true}.
+        out : `dict`
+            Status of the request, like {'success': True}.
         """
 
         def zoom_oneplot(one_plot_id, f):
@@ -799,22 +739,22 @@ class FireflyClient(WebSocketClient):
     def set_pan(self, plot_id, x=None, y=None, coord='image'):
         """
         Relocate the image to center on the given image coordinate or EQ_J2000 coordinate.
-        If no (x, y) is given, the image is recentered at the center of the image.
+        If no (x, y) is given, the image is re-centered at the center of the image.
 
         Parameters
         ----------
-        plot_id : str or a list of str
+        plot_id : `str` or `list` of `str`
             ID of the plot to be panned. If plot_id is a list or tuple, then each plot in the list
             or the tuple is panned in order.
-        x, y : numeric type
+        x, y : `int` or  `float`, optional
             New center of x and y position to scroll to.
-        coord: {'image', 'J2000'}, optional
+        coord : {'image', 'J2000'}, optional
             Coordinate system (the default is 'image').
 
         Returns
         -------
-        out : dict
-            Status of the request, like {'success': true}.
+        out : `dict`
+            Status of the request, like {'success': True}.
         """
 
         payload = {'plotId': plot_id}
@@ -832,39 +772,35 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        plot_id : str or a list of str
-            ID of the plot to be panned. If plot_id is a list or tuple, then each plot in the list
+        plot_id : `str` or `list` of `str`
+            ID of the plot to be stretched. If `plot_id` is a list or tuple, then each plot in the list
             or the tuple is stretched in order.
         stype : {'percent','maxmin','absolute','zscale', 'sigma'}, optional
             Stretch method (the default is 'percent').
         algorithm : {'linear', 'log','loglog','equal', 'squared', 'sqrt', 'asinh', 'powerlaw_gamma'}, optional
             Stretch algorithm (the default is 'linear').
-        **additional_params
-            Additional parameters for image stretch. Please see the details in 'Other Parameters'.
+        \*\*additional_params : optional keyword arguments
+            Parameters for changing the stretch. The options are shown as below:
 
-        Other Parameters
-        ----------------
-        zscale_contrast : numeric type
-            zscale contrast (the default is 25).
-        zscale_samples : int
-            zscale samples, int (the default is 600).
-        zscale_samples_perline : int
-            zscale samples per line (the default is 120).
+            **zscale_contrast** : `int` or  `float`, optional
+                zscale contrast (the default is 25).
+            **zscale_samples** : `int`, optional
+                zscale samples, int (the default is 600).
+            **zscale_samples_perline** : `int`, optional
+                zscale samples per line (the default is 120).
 
-        lower_value : numeric type
-            Lower end of stretch (the default is 1).
-        uppler_value : numeric type
-            Upper end of stretch (the default is 90).
-
-        Notes
-        -----
-            `zscale_contrast`, `zscale_samples`, and `zscale_samples_perline` are for
-            `stype = 'zscale'` case, and `lower_value`, and `upper_value` are for other type cases.
+            **lower_value** : `int` or  `float`, optional
+                Lower end of stretch (the default is 1).
+            **upper_value** : `int` or  `float`, optional
+                Upper end of stretch (the default is 90).
 
         Returns
         -------
-        out : dict
-            Status of the request, like {'success': true}.
+        out : `dict`
+            Status of the request, like {'success': True}.
+
+        .. note:: `zscale_contrast`, `zscale_samples`, and `zscale_samples_perline` are used when
+                  `stype` is 'zscale', and `lower_value` and `upper_value` are used when `stype` is not 'zscale'.
         """
 
         if stype and stype.lower() == 'zscale':
@@ -884,35 +820,33 @@ class FireflyClient(WebSocketClient):
     def overlay_region_layer(self, file_on_server=None, region_data=None, title=None,
                              region_layer_id=None, plot_id=None):
         """
-        Overlay a region layer on the loaded FITS images. The regions are defined either by a file or
-        by text region description.
+        Overlay a region layer on the loaded FITS images.
+        The regions are defined either by a file or by text region description.
 
         Parameters
         ----------
-        file_on_server : str, optional
-            This is the name of the file on the server.  If you used upload_file()
+        file_on_server : `str`, optional
+            This is the name of the file on the server.  If you use `upload_file()`,
             then it is the return value of the method. Otherwise it
             is a file that Firefly has direct read access to.
-        region_data: str or list of str, optional
+        region_data : `str` or `list` of `str`, optional
             Region description, either a list of strings or a string.
-        title : str, optional
+        title : `str`, optional
             Title of the region layer.
-        region_layer_id : str, optional
-            ID of the layer to be created. It is automatically created if not specified.
-        plot_id : str or a list of str, optional
+        region_layer_id : `str`, optional
+            ID of the region layer to be created. It is automatically created if not specified.
+        plot_id : `str` or `list` of `str`, optional
             ID of the plot that the region layer is created on.
             If None,  then overlay region(s) on all plots in the same group of the active plot.
 
-        Notes
-        -----
-        file_on_server and region_data are exclusively required.
-        If both are specified, file_on_server takes the priority.
-        If none is specified, no region layer is created.
-
         Returns
         -------
-        out : dict
-            Status of the request, like {'success': true}.
+        out : `dict`
+            Status of the request, like {'success': True}.
+
+        .. note:: `file_on_server` and `region_data` are exclusively required.
+                  If both are specified, `file_on_server` takes the priority.
+                  If none is specified, no region layer is created.
         """
 
         if not region_layer_id:
@@ -938,16 +872,16 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        region_layer_id : str
-            Region layer with the region_layer_id to be removed.
-        plot_id : str or a list of str
-            Plot ID. The region layer is removed from the plot with the plot id.
+        region_layer_id : `str`
+            Region layer ID. The region layer with the region layer ID is to be removed.
+        plot_id : `str` or a `list` of `str`, optional
+            Plot ID. The region layer is removed from the plot with the plot ID.
             If not specified, then remove region layer from all plots in the same group of the active plot.
 
         Returns
         -------
-         out : dict
-            Status of the request, like {'success': true}.
+         out : `dict`
+            Status of the request, like {'success': True}.
         """
 
         payload = {'drawLayerId': region_layer_id}
@@ -963,26 +897,25 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        region_data : str or a list of str
+        region_data : `str` or `list` of `str`
             Region entries to be added.
-        region_layer_id : str
+        region_layer_id : `str`
             ID of region layer where the entries are added to.
-        title : str, optional
+        title : `str`, optional
             Title of the region layer. If the layer exists, the original title is replaced.
             If the layer doesn't exist, a new layer with the given title is created.
-        plot_id : str or a list of str, optional
+        plot_id : `str` or `list` of `str`, optional
             Plot ID. This is for the case that the region layer doesn't exist.
             If the region layer exists, this request applies to all plots attached to the layer.
 
-        Notes
-        -----
-            If no region layer with the given ID exists, a new region layer will be created
-            automatically just like how function 'overlay_region_layer' works.
-
         Returns
         -------
-        out : dict
-            Status of the request, like {'success': true}.
+        out : `dict`
+            Status of the request, like {'success': True}.
+
+        .. note:: If no region layer with the given ID exists, a new region layer will be created
+                  automatically just like how function `overlay_region_layer` works.
+
         """
 
         payload = {'regionChanges': region_data, 'drawLayerId': region_layer_id}
@@ -1000,15 +933,15 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        region_data : str or a list of str
+        region_data : `str` or `list` of `str`
             Region entries to be removed.
-        region_layer_id : str
+        region_layer_id : `str`
             ID of the region layer where the region entries are removed from.
 
         Returns
         --------
-        out : dict
-            Status of the request, like {'success': true}.
+        out : `dict`
+            Status of the request, like {'success': True}.
         """
         payload = {'regionChanges': region_data, 'drawLayerId': region_layer_id}
 
@@ -1022,26 +955,26 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        bit_number : int
+        bit_number : `int`
             Bit number of the mask to overlay.
-        image_number : int
+        image_number : `int`
             Image number of the mask layer HDU extension in FITS. This is a zero-based index.
-        plot_id : str
+        plot_id : `str`
             ID of the plot to overlay the mask on.
-        mask_id : str, optional
+        mask_id : `str`, optional
             Mask ID. It will be created automatically if not specified.
-        color : str, optional
-            Color as an html color (eg. #FF0000 (red) #00FF00 (green). A color will be
+        color : `str`, optional
+            Color as an html color (eg. '#ff0000'(red), '#00ff00' (green)). A color will be
             created in default if not specified.
-        title : str, optional
+        title : `str`, optional
             Title of the mask layer.
-        file_on_server : str, optional
+        file_on_server : `str`, optional
             File to get the mask from. The mask will be taken from the original file if not specified.
 
         Returns
         --------
-        out : dict
-            Status of the request, like {'success': true}.
+        out : `dict`
+            Status of the request, like {'success': True}.
         """
 
         if not mask_id:
@@ -1065,15 +998,15 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        plot_id : str
+        plot_id : `str`
             ID of the plot where the mask layer to be removed from.
-        mask_id: str
+        mask_id : `str`
             ID of the mask layer to be removed.
 
         Returns
         --------
-        out : dict
-            Status of the request, like {'success': true}
+        out : `dict`
+            Status of the request, like {'success': True}
         """
 
         payload = {'plotId': plot_id, 'imageOverlayId': mask_id}
@@ -1110,14 +1043,14 @@ class FireflyClient(WebSocketClient):
             Stretch algorithm.
         stretch_type : {'Percent','Absolute','Sigma'}
             Stretch type.
-        lower_value: numeric type
+        lower_value: `int` or  `float`
             Lower end of stretch.
-        upper_value: numeric type
+        upper_value: `int` or  `float`
             Upper end of stretch
 
         Returns
         -------
-        out : str
+        out : `str`
             a serialized range values string
         """
 
@@ -1137,16 +1070,16 @@ class FireflyClient(WebSocketClient):
         ----------
         algorithm: {'Linear', 'Log','LogLog','Equal','Squared', 'Sqrt'}
             Stretch algorithm.
-        zscale_contrast: numeric type
+        zscale_contrast: `int` or  `float`
             Zscale contrast.
-        zscale_samples: int
+        zscale_samples: `int`
             Zscale samples
-        zscale_samples_perline: int
+        zscale_samples_perline: `int`
             Zscale samples per line
 
         Returns
         -------
-        out : str
+        out : `str`
             a serialized range values string
         """
 
@@ -1169,7 +1102,7 @@ class FireflyClient(WebSocketClient):
 
         Returns
         -------
-        out : str
+        out : `str`
             ID string.
         """
 
