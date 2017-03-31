@@ -18,6 +18,7 @@ import urllib.parse
 import math
 import mimetypes
 import base64
+import io
 
 __docformat__ = 'restructuredtext'
 
@@ -32,9 +33,10 @@ class FireflyClient(WebSocketClient):
         Firefly host.
     channel : `str`
         WebSocket channel ID.
+    basedir : `str`
+        basedir for the url, e.g. 'firefly' in 'http://localhost:8080/firefly'
     """
 
-    _fftools_cmd = '/firefly/sticky/CmdSrv'
     _my_localhost = 'localhost:8080'
     ALL = 'ALL_EVENTS_ENABLED'
     """All events are enabled for the listener (`str`)."""
@@ -74,25 +76,27 @@ class FireflyClient(WebSocketClient):
     _item_id = {'Table': 0, 'RegionLayer': 0, 'Extension': 0, 'MaskLayer': 0, 'XYPlot': 0}
 
     # urls:
-    # launch browser:  http://<host>/firefly/firefly.html;wsch=<channel id> or (mode == 'full')
-    #                  http://<host>/firefly/firefly.html;id=Loader&channelID=<channel id>
-    # dispatch action: http://<host>/firefly/sticky/CmdSrv?channelID=<channel id>
+    # launch browser:  http://<host>/<basedir>/;wsch=<channel id> or (mode == 'full')
+    #                  http://<host>/<basedir>/;id=Loader&channelID=<channel id>
+    # dispatch action: http://<host>/<basedir>/sticky/CmdSrv?channelID=<channel id>
     #                  &cmd=pushAction&Action=<ACTION_DICT>
-    # open websocket:  ws://<host>/firefly/sticky/firefly/events?channdleID=<channel id>
+    # open websocket:  ws://<host>/<basedir>/sticky/firefly/events?channdleID=<channel id>
 
-    def __init__(self, host=_my_localhost, channel=None):
+    def __init__(self, host=_my_localhost, channel=None, basedir='firefly'):
+        self._basedir = basedir
+        self._fftools_cmd = '/%s/sticky/CmdSrv' % self._basedir
         if host.startswith('http://'):
             host = host[7:]
 
         self.this_host = host
 
-        url = 'ws://%s/firefly/sticky/firefly/events' % host  # web socket url
+        url = 'ws://%s/%s/sticky/firefly/events' % (host, self._basedir)  # web socket url
         if channel:
             url += '?channelID=%s' % channel
         WebSocketClient.__init__(self, url)
 
         self.url_root = 'http://' + host + self._fftools_cmd
-        self.url_bw = 'http://' + self.this_host + '/firefly/firefly.html;wsch='
+        self.url_bw = 'http://' + self.this_host + '/%s;wsch=' % self._basedir
 
         self.listeners = {}
         self.channel = channel
@@ -245,7 +249,7 @@ class FireflyClient(WebSocketClient):
         if not channel:
             channel = self.channel
 
-        url = 'http://' + self.this_host + '/firefly/firefly.html?id=Loader&channelID='
+        url = 'http://%s/%s?id=Loader&channelID='%(self.this_host,self._basedir)
         if mode.lower() == "full":
             url = self.url_bw
         return url + channel
@@ -311,12 +315,24 @@ class FireflyClient(WebSocketClient):
 
         .. note:: 'pre_load' is not implemented in the server (will be removed later).
         """
-
-        url = 'http://' + self.this_host + '/firefly/sticky/Firefly_FileUpload?preload=%s' % pre_load
-        files = {'file': open(path, 'rb')}
-        result = self.session.post(url, files=files, headers=self.headers)
-        index = result.text.find('$')
-        return result.text[index:]
+        # Try new, then previous urls
+        # todo: remove previous Firefly_FileUpload url
+        for url in [('http://%s/%s/sticky/CmdSrv?cmd=upload'
+                     % (self.this_host, self._basedir)),
+                    ('http://%s/%s/sticky/Firefly_FileUpload'
+                     %(self.this_host, self._basedir))]:
+            # quick test of upload url with a small stream
+            test = self.session.post(url,
+                                     files={'data': io.StringIO('test')},
+                                     headers=self.headers)
+            if test.status_code != 200:
+                continue
+            files = {'file': open(path, 'rb')}
+            result = self.session.post(url, files=files, headers=self.headers)
+            if result.status_code == 200:
+                index = result.text.find('$')
+                return result.text[index:]
+        raise(requests.HTTPError, 'Upload unsuccessful')
 
     def upload_fits_data(self, stream):
         """
@@ -334,12 +350,7 @@ class FireflyClient(WebSocketClient):
         out : `dict`
             Status, like {'success': True}.
         """
-
-        url = 'http://' + self.this_host + '/firefly/sticky/Firefly_FileUpload?preload=true'
-        data_pack = {'data': stream}
-        result = self.session.post(url, files=data_pack, headers=self.headers)
-        index = result.text.find('$')
-        return result.text[index:]
+        return self.upload_data(stream, 'FITS')
 
     def upload_text_data(self, stream):
         """
@@ -376,13 +387,27 @@ class FireflyClient(WebSocketClient):
         out : `dict`
             Status, like {'success': True}.
         """
+        # Try new, then previous urls
+        # todo: remove previous Firefly_FileUpload url
+        for url in [('http://%s/%s/sticky/CmdSrv?cmd=upload&preload='
+                     % (self.this_host, self._basedir)),
+                    ('http://%s/%s/sticky/Firefly_FileUpload?preload='
+                     %(self.this_host, self._basedir))]:
+            # quick test of upload url with a small stream
+            test = self.session.post(url+'false&type=UNKNOWN',
+                                     files={'data': io.StringIO('test')},
+                                     headers=self.headers)
+            if test.status_code != 200:
+                continue
+            url += 'true&type=FITS' if data_type.upper() == 'FITS' else 'false&type=UNKNOWN'
+            stream.seek(0,0)
+            data_pack = {'data': stream}
+            result = self.session.post(url, files=data_pack, headers=self.headers)
+            if result.status_code == 200:
+                index = result.text.find('$')
+                return result.text[index:]
+        raise(requests.HTTPError, 'Upload unsuccessful')
 
-        url = 'http://' + self.this_host + '/firefly/sticky/Firefly_FileUpload?preload='
-        url += 'true&type=FITS' if data_type.upper() == 'FITS' else 'false&type=UNKNOWN'
-        data_pack = {'data': stream}
-        result = self.session.post(url, files=data_pack, headers=self.headers)
-        index = result.text.find('$')
-        return result.text[index:]
 
     @staticmethod
     def create_image_url(image_source):
@@ -648,7 +673,7 @@ class FireflyClient(WebSocketClient):
         options = {k: v for k, v in options_all.items() if v}  # remove None values
 
         chart_data_elements = [{'type': 'xycols', 'options': options, 'tblId': tbl_id}]
-        
+
         cid = FireflyClient._gen_item_id('XYPlot')
         if standalone:
             group_id = 'default'
@@ -657,7 +682,7 @@ class FireflyClient(WebSocketClient):
 
         payload = {'chartId': cid, 'chartType': 'scatter', 'groupId': group_id,
                    'chartDataElements': chart_data_elements}
-        
+
         return self.dispatch_remote_action(self.channel, FireflyClient.ACTION_DICT['ShowXYPlot'], payload)
 
     def add_extension(self, ext_type, plot_id=None, title='', tool_tip='',
