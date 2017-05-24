@@ -323,7 +323,7 @@ class FireflyClient(WebSocketClient):
                      %(self.this_host, self._basedir))]:
             # quick test of upload url with a small stream
             test = self.session.post(url,
-                                     files={'data': io.StringIO('test')},
+                                     files={'data': io.StringIO(u'test')},
                                      headers=self.headers)
             if test.status_code != 200:
                 continue
@@ -395,7 +395,7 @@ class FireflyClient(WebSocketClient):
                      %(self.this_host, self._basedir))]:
             # quick test of upload url with a small stream
             test = self.session.post(url+'false&type=UNKNOWN',
-                                     files={'data': io.StringIO('test')},
+                                     files={'data': io.StringIO(u'test')},
                                      headers=self.headers)
             if test.status_code != 200:
                 continue
