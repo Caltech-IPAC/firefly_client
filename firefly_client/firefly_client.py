@@ -315,24 +315,14 @@ class FireflyClient(WebSocketClient):
 
         .. note:: 'pre_load' is not implemented in the server (will be removed later).
         """
-        # Try new, then previous urls
-        # todo: remove previous Firefly_FileUpload url
-        for url in [('http://%s/%s/sticky/CmdSrv?cmd=upload'
-                     % (self.this_host, self._basedir)),
-                    ('http://%s/%s/sticky/Firefly_FileUpload'
-                     %(self.this_host, self._basedir))]:
-            # quick test of upload url with a small stream
-            test = self.session.post(url,
-                                     files={'data': io.StringIO(u'test')},
-                                     headers=self.headers)
-            if test.status_code != 200:
-                continue
-            files = {'file': open(path, 'rb')}
-            result = self.session.post(url, files=files, headers=self.headers)
-            if result.status_code == 200:
-                index = result.text.find('$')
-                return result.text[index:]
-        raise(requests.HTTPError, 'Upload unsuccessful')
+
+        url = 'http://%s/%s/sticky/CmdSrv?cmd=upload' % (self.this_host, self._basedir)
+        files = {'file': open(path, 'rb')}
+        result = self.session.post(url, files=files, headers=self.headers)
+        if result.status_code == 200:
+            index = result.text.find('$')
+            return result.text[index:]
+        raise requests.HTTPError('Upload unsuccessful')
 
     def upload_fits_data(self, stream):
         """
@@ -387,27 +377,16 @@ class FireflyClient(WebSocketClient):
         out : `dict`
             Status, like {'success': True}.
         """
-        # Try new, then previous urls
-        # todo: remove previous Firefly_FileUpload url
-        for url in [('http://%s/%s/sticky/CmdSrv?cmd=upload&preload='
-                     % (self.this_host, self._basedir)),
-                    ('http://%s/%s/sticky/Firefly_FileUpload?preload='
-                     %(self.this_host, self._basedir))]:
-            # quick test of upload url with a small stream
-            test = self.session.post(url+'false&type=UNKNOWN',
-                                     files={'data': io.StringIO(u'test')},
-                                     headers=self.headers)
-            if test.status_code != 200:
-                continue
-            url += 'true&type=FITS' if data_type.upper() == 'FITS' else 'false&type=UNKNOWN'
-            stream.seek(0,0)
-            data_pack = {'data': stream}
-            result = self.session.post(url, files=data_pack, headers=self.headers)
-            if result.status_code == 200:
-                index = result.text.find('$')
-                return result.text[index:]
-        raise(requests.HTTPError, 'Upload unsuccessful')
 
+        url = 'http://%s/%s/sticky/CmdSrv?cmd=upload&preload=' % (self.this_host, self._basedir)
+        url += 'true&type=FITS' if data_type.upper() == 'FITS' else 'false&type=UNKNOWN'
+        stream.seek(0,0)
+        data_pack = {'data': stream}
+        result = self.session.post(url, files=data_pack, headers=self.headers)
+        if result.status_code == 200:
+            index = result.text.find('$')
+            return result.text[index:]
+        raise requests.HTTPError('Upload unsuccessful')
 
     @staticmethod
     def create_image_url(image_source):
