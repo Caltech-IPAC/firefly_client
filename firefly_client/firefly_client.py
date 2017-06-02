@@ -18,7 +18,6 @@ import urllib.parse
 import math
 import mimetypes
 import base64
-import io
 
 __docformat__ = 'restructuredtext'
 
@@ -42,7 +41,7 @@ class FireflyClient(WebSocketClient):
     """All events are enabled for the listener (`str`)."""
 
     # for serializing the RangeValues object
-    STRETCH_TYPE_DICT = {'percent': 88, 'maxmin': 89, 'absolute': 90,  'zscale': 91, 'sigma': 92}
+    STRETCH_TYPE_DICT = {'percent': 88, 'minmax': 89, 'absolute': 90,  'zscale': 91, 'sigma': 92}
     """Definition of stretch type (`dict`)."""
 
     STRETCH_ALGORITHM_DICT = {'linear': 44, 'log': 45, 'loglog': 46, 'equal': 47, 'squared': 48, 'sqrt': 49,
@@ -779,7 +778,7 @@ class FireflyClient(WebSocketClient):
         plot_id : `str` or `list` of `str`
             ID of the plot to be stretched. If `plot_id` is a list or tuple, then each plot in the list
             or the tuple is stretched in order.
-        stype : {'percent','maxmin','absolute','zscale', 'sigma'}, optional
+        stype : {'percent','minmax','absolute','zscale', 'sigma'}, optional
             Stretch method (the default is 'percent').
         algorithm : {'linear', 'log','loglog','equal', 'squared', 'sqrt', 'asinh', 'powerlaw_gamma'}, optional
             Stretch algorithm (the default is 'linear').
@@ -809,6 +808,10 @@ class FireflyClient(WebSocketClient):
 
         if stype and stype.lower() == 'zscale':
             serialized_rv = self._create_rangevalues_zscale(algorithm, **additional_params)
+        elif stype and (stype.lower() in ['minmax', 'maxmin']):
+            # 'maxmin' retained for backwards compatibility
+            serialized_rv = self._create_rangevalues_standard(algorithm, 'percent', 
+                                                              lower_value=0, upper_value=100)
         else:
             serialized_rv = self._create_rangevalues_standard(algorithm, stype, **additional_params)
 
@@ -1060,7 +1063,7 @@ class FireflyClient(WebSocketClient):
 
         retval = self._create_rv(stretch_type, lower_value, upper_value, algorithm)
         if not retval:
-            t = stretch_type if stretch_type.lower() in FireflyClient.STRETCH_ALGORITHM_DICT else 'percent'
+            t = stretch_type if stretch_type.lower() in FireflyClient.STRETCH_TYPE_DICT else 'percent'
             a = algorithm if algorithm.lower() in FireflyClient.STRETCH_ALGORITHM_DICT else 'linear'
             retval = self._create_rv(t, 1, 99, a)
         return retval
