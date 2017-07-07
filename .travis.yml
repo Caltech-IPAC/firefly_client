@@ -1,0 +1,20 @@
+sudo: false
+language: python
+matrix:
+  include:
+    # This is the ltd-mason documentation deployment build
+    - python: "3.6"
+      env: LTD_MASON_BUILD=true
+install:
+  - pip install -r requirements.txt
+  - pip install -e .
+script:
+  - 'sphinx-build -b html -a -d doc/_build/doctree doc doc/_build/html'
+after_success:
+  # ltd-mason is a no-op for regular builds with LTD_MASON_BUILD=false
+  - ltd-mason-travis --html-dir doc/_build/html --verbose
+env:
+  global:
+    - LTD_MASON_BUILD=false  # disable builds in regular text matrix
+    - LTD_MASON_PRODUCT="firefly-client"
+    # Add encrypted credentials below
