@@ -1,0 +1,21 @@
+sudo: false
+language: python
+matrix:
+  include:
+  - python: '3.6'
+    env: LTD_MASON_BUILD=true
+install:
+- pip install -r requirements.txt
+- pip install -e .
+script:
+- cd doc && sphinx-build -b html -a -d _build/doctree . _build/html && cd ..
+after_success:
+- ltd-mason-travis --html-dir doc/_build/html --verbose
+env:
+  global:
+  - LTD_MASON_BUILD=false
+  - LTD_MASON_PRODUCT="firefly-client"
+  # travis encrypt "LTD_MASON_AWS_ID=... LTD_MASON_AWS_SECRET=...
+  - secure: Sd/7ZpYW5bcHKr5mWUdIAXTW/yd0jjCgrOQez/Q0+qHjySTXVi6kFPJcrG7fMOS2iRMetGgroec12OfIDRek1598yEU6FLD7CuKfS2mPd6qCMCUV9p0JQcIej267ItGWR7FYjsNdI7U9kzLfFa6/56jbIoDIRX/QAmTB9PGl3LTbpHiGkLZ0diFi1xtoGhmPMwA/iWxJ4MEKmWe5xCA2Da3DEJVKgpG4aj/4yW/Hb/dycGk15rbNvKP7GMRsdJ4D1slp98E22KFs5Mtm9NLBP9TKnJUTTn9Rt3PWYRx/6U0BXwdCKayZrFQJ/EFVls6jDjo+MnE69vwfwftqmvi+Bd2Z6rsEWXjLgTDFYenowKY8TJHAX13x6KDqUFwhvrQKt7PaT5WuNbOnmIO428PYkopv2QLU1qEj8Ht9Ih6tmh6AbxXfMbLJ8q8xslY1XIZ5W2X9heOCqn2u7McpZlFtuDYiF46Vl8tqgG6ZA3nhXNcNLq6MJhMsOZ6MHBxSru7bR6RaoA+NJ7yHOw32P2Sw2ENwshIocauhy0tzE0SYTMlXxiVuXIFvea0kcnSn7K/MP2EsiPZJfIvttrE6sQVRKh5/zkK6eCEewyg0hCzkCc0Z+BhNs9veHxTxRQn5UDXxBA9j5gsp72nExa37Tvc6uQQlbPCNCTyNcwusi+fdZ+Y=
+  # travis encrypt "LTD_KEEPER_URL=... LTD_KEEPER_USER=... LTD_KEEPER_PASSWORD=..." --add env.global
+  - secure: pXL676/O/IGUX2DNXhz2c119d+w4lzMc5e99i0vCVn5R/+t3DPbQP6zyjACeUqfJoS1JFLqSURsl3nhayj+GU3bStPX/3iAZEWBYYHrsRh6zy0kjBC68mmwmqpt2cm3vtS8IOQvPMt1xgnkvLX+Jn+WP9VcNp6cHwRWAW3nS36o8aieLjJgvJui6YYdPOOQUgnn1ZH37LXCIxfVbARMvKZteDhEJmwQuaaofFO0YizvENUUi5aK/QEzpsazEBlmRrRGtUp8Nm0yudPg/Ugxfv9M/vj6cTpKrqh5eMNMPjopcmdpn5j4ZWC/ES6gaFl3DwcG8zg2rEVtLCjnR39JnQs5Ba+U37jAXqmOwSFROR+kWuZpRYL3G40tvpx8i9bd0qVFUFJnABuHGmqWXYQCt4cQ7C5FfUdIzQmW/1H0hIErHWeK0jaGFgixJUU3m4QJnz9NsbFenywGPVMBIdA6vpiuwJIcOa8lkFfu9ExjtJDoagtL5oTgLETDUTJcNx5t7zMlDxJ6j2D46WEB45SBUnUoIw5BmAzGRppFRKMetXvkVwwJaNeUB/nMSE6C2UJyqCYZWO4/4JC59qiDGfoJn3KTebp24CUA1nv4JYKhYY+9FCl+eirfWoJq4t/LMuMTTz39zUB4Vz0G4YgJ2K3aQBnn6GUtGHGJ4r25prmJyJ0s=

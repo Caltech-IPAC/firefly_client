@@ -1,6 +1,6 @@
 # Documentation dependencies
-Sphinx>=1.5.3
-astropy-helpers>=1.2
-documenteer>=0.1.11
+Sphinx>=1.5.3,<1.6.0
+astropy-helpers>=1.2,<2.0
+documenteer>=0.1.11,<0.2
 lsst-sphinx-bootstrap-theme
-ltd-mason==0.2.1
+ltd-mason==0.2.4
