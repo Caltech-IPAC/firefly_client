@@ -762,8 +762,6 @@ class FireflyClient(WebSocketClient):
                 comma separated list of x axis options: flip,log.
             **yOptions**: `str`
                 comma separated list of y axis options: flip,log.
-            **fixedBinSizeSelection**: {'binWidth', 'numBins'}
-                Fixed bin size selection.
             **falsePositiveRate**: `int` or `float`
                 false positive rate for bayesian blocks algorithm.
             **numBins** : `int`
@@ -780,19 +778,23 @@ class FireflyClient(WebSocketClient):
         """
 
         chart_data_elements = {'type': 'histogram', 'tblId': tbl_id}
+
         if 'col' in histogram_params:
             options = {'columnOrExpr': histogram_params.get('col'),
                        'x': histogram_params.get('xOptions', ''),
                        'y': histogram_params.get('yOptions', '')}
 
-            if 'false_positive_rate' in histogram_params and 'numBins' not in histogram_params:
-                options.update({'falsePositiveRate': histogram_params.get('false_positive_rate')})
+            if 'falsePositiveRate' in histogram_params:
+                options.update({'falsePositiveRate': histogram_params.get('falsePositiveRate')})
                 options.update({'algorithm': 'bayesianBlocks'})
             else:
-                options.update({'fixedBinSizeSelection': histogram_params.get('fixedBinSizeSelection', 'numBins'),
-                                'numBins': histogram_params.get('numBins', 50),
-                                'binWidth': histogram_params.get('binWidth', 0),
-                                'algorithm': 'fixedSizeBins'})
+                options.update({'algorithm': 'fixedSizeBins'})
+                if 'numBins' in histogram_params or histogram_params.get('binWidth', 0) == 0:
+                    options.update({'fixedBinSizeSelection': histogram_params.get('fixedBinSizeSelection', 'numBins'),
+                                    'numBins': histogram_params.get('numBins', 50)})
+                else:
+                    options.update({'fixedBinSizeSelection': histogram_params.get('fixedBinSizeSelection', 'binWidth'),
+                                    'binWidth': histogram_params.get('binWidth')})
             chart_data_elements.update({'options': options})
 
         if not group_id:
