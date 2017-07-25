@@ -789,9 +789,11 @@ class FireflyClient(WebSocketClient):
                 options.update({'algorithm': 'bayesianBlocks'})
             else:
                 options.update({'algorithm': 'fixedSizeBins'})
-                if 'numBins' in histogram_params or histogram_params.get('binWidth', 0) == 0:
+                if histogram_params.get('numBins', 0) > 0 or histogram_params.get('binWidth', 0) <= 0:
+                    num = histogram_params.get('numBins', 50)
+                    num = 50 if num <= 0 else num
                     options.update({'fixedBinSizeSelection': histogram_params.get('fixedBinSizeSelection', 'numBins'),
-                                    'numBins': histogram_params.get('numBins', 50)})
+                                    'numBins': num})
                 else:
                     options.update({'fixedBinSizeSelection': histogram_params.get('fixedBinSizeSelection', 'binWidth'),
                                     'binWidth': histogram_params.get('binWidth')})
