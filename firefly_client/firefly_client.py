@@ -931,7 +931,8 @@ class FireflyClient(WebSocketClient):
                 An array of data for all traces of the plot.ly chart.
             **fireflyData**: `list` of `dict`, optional
                 This array contains the information for creating a table and the table has data for chart rendering.
-
+            **layout**: 'dict', optional
+                The layout for plot.ly layout.
         Returns
         -------
         out : `dict`
@@ -949,6 +950,8 @@ class FireflyClient(WebSocketClient):
             payload.update({'fireflyData': chart_params.get('fireflyData')})
         if 'data' in chart_params:
             payload.update({'data': chart_params.get('data')})
+        if 'layout' in chart_params:
+            payload.update({'layout': chart_params.get('layout')})
 
         return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['ShowPlot'], payload)
 
