@@ -913,7 +913,7 @@ class FireflyClient(WebSocketClient):
 
         return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['ShowXYPlot'], payload)
 
-    def show_plot(self, group_id=None, **chart_params):
+    def show_plot(self, group_id=None, is_3d=False, **chart_params):
         """
         Show a plot by using plot.ly charts
 
@@ -922,6 +922,8 @@ class FireflyClient(WebSocketClient):
         group_id : `str`, optional
             Group ID of the chart group where the chart belongs to. If grid view is used, group id is
             the cell id of the cell which contains the chart.
+        is_3d : 'bool', optional
+            A flag indicate if the plot is for scatter3d in plot.ly chart.
         \*\*chart_params : optional keyword arguments
             Parameters for the chart. The options are shown as below:
 
@@ -948,10 +950,21 @@ class FireflyClient(WebSocketClient):
 
         if 'fireflyData' in chart_params:
             payload.update({'fireflyData': chart_params.get('fireflyData')})
+
         if 'data' in chart_params:
             payload.update({'data': chart_params.get('data')})
+
+        layout = {}
+        if is_3d:
+            layout.update({'xaxis': {'visible': False}, 'yaxis': {'visible': False}})
         if 'layout' in chart_params:
-            payload.update({'layout': chart_params.get('layout')})
+            if is_3d:
+                layout.update({'scene': chart_params.get('layout')})
+            else:
+                layout = chart_params.get('layout')
+
+        if layout:
+            payload.update({'layout': layout})
 
         return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['ShowPlot'], payload)
 
