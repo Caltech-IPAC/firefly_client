@@ -959,10 +959,6 @@ class FireflyClient(WebSocketClient):
 
         layout = chart_params.get('layout')
         if layout:
-            if 'xaxis' not in layout:
-                layout.update({'xaxis': {'visible': False}})
-            if 'yaxis' not in layout:
-                layout.update({'yaxis': {'visible': False}})
             payload.update({'layout': layout})
 
         return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['ShowPlot'], payload)
