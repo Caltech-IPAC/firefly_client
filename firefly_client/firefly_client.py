@@ -840,7 +840,8 @@ class FireflyClient(WebSocketClient):
             else:
                 group_id = tbl_id
 
-        payload = {'chartId': cid, 'chartType': 'scatter', 'groupId': group_id,
+        payload = {'chartId': cid, 'chartType': 'scatter',
+                   'groupId': group_id, 'viewerId': group_id,
                    'chartDataElements': chart_data_elements}
 
         return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['ShowXYPlot'], payload)
@@ -909,6 +910,7 @@ class FireflyClient(WebSocketClient):
         cid = FireflyClient._gen_item_id('Histogram')
         payload = {'chartId': cid, 'chartType': 'histogram',
                    'groupId': group_id,
+                   'viewerId': group_id,
                    'chartDataElements': [chart_data_elements]}
 
         return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['ShowXYPlot'], payload)
@@ -940,9 +942,12 @@ class FireflyClient(WebSocketClient):
 
         """
 
+        if not group_id:
+            group_id = 'default'
         chart_id = chart_params.get('chartId') if 'chartId' in chart_params else FireflyClient._gen_item_id('Plotly')
         payload = {'chartId': chart_id,
-                   'viewerId': group_id if group_id else 'default',
+                   'groupId': group_id,
+                   'viewerId': group_id,
                    'chartType': 'plot.ly',
                    'closable': True}
 
