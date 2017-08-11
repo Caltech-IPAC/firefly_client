@@ -935,6 +935,9 @@ class FireflyClient(WebSocketClient):
                 This array contains the information for creating a table and the table has data for chart rendering.
             **layout**: 'dict', optional
                 The layout for plot.ly layout.
+            **fireflyLayout** : `dict`, optional
+                The layout contains information to be processed by Firefly.
+
         Returns
         -------
         out : `dict`
@@ -951,15 +954,9 @@ class FireflyClient(WebSocketClient):
                    'chartType': 'plot.ly',
                    'closable': True}
 
-        if 'fireflyData' in chart_params:
-            payload.update({'fireflyData': chart_params.get('fireflyData')})
-
-        if 'data' in chart_params:
-            payload.update({'data': chart_params.get('data')})
-
-        layout = chart_params.get('layout')
-        if layout:
-            payload.update({'layout': layout})
+        for item in ['data', 'fireflyData', 'layout', 'fireflyLayout']:
+            if item in chart_params:
+                payload.update({item: chart_params.get(item)})
 
         return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['ShowPlot'], payload)
 
