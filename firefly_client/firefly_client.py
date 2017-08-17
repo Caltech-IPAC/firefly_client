@@ -97,20 +97,26 @@ class FireflyClient(WebSocketClient):
     def __init__(self, host=_my_localhost, channel=None, basedir='firefly', html_file=None):
         self._basedir = basedir
         self._fftools_cmd = '/%s/sticky/CmdSrv' % self._basedir
+        use_ssl = False
+        protocol = 'http'
+        wsproto = 'ws'
         if host.startswith('http://'):
             host = host[7:]
-
+        if host.startswith('https://'):
+            host = host[8:]
+            protocol = 'https'
+            wsproto = 'wss'
+            use_ssl = True
         self.this_host = host
 
-        url = 'ws://%s/%s/sticky/firefly/events' % (host, self._basedir)  # web socket url
+        url = '%s://%s/%s/sticky/firefly/events' % (wsproto, host, self._basedir)  # web socket url
         if channel:
             url += '?channelID=%s' % channel
         WebSocketClient.__init__(self, url)
 
-        self.url_root = 'http://' + host + self._fftools_cmd
+        self.url_root = protocol + '://' + host + self._fftools_cmd
         self.html_file = ('/'+html_file) if html_file else ''
-        self.url_bw = 'http://' + self.this_host + '/%s%s;wsch=' % (self._basedir, self.html_file)
-
+        self.url_bw = protocol + '://' + self.this_host + '/%s%s;wsch=' % (self._basedir, self.html_file)
         self.listeners = {}
         self.channel = channel
         self.session = requests.Session()
