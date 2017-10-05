@@ -88,7 +88,7 @@ class FireflyClient(WebSocketClient):
                 'Cell': 0, 'Histogram': 0, 'Plotly': 0}
 
     # urls:
-    # launch browser:  http://<host>/<basedir>/;wsch=<channel id> or (mode == 'full')
+    # launch browser:  http://<host>/<basedir>/?__wsch=<channel id> or (mode == 'full')
     #                  http://<host>/<basedir>/;id=Loader&channelID=<channel id>
     # dispatch action: http://<host>/<basedir>/sticky/CmdSrv?channelID=<channel id>
     #                  &cmd=pushAction&Action=<ACTION_DICT>
@@ -116,7 +116,7 @@ class FireflyClient(WebSocketClient):
 
         self.url_root = protocol + '://' + host + self._fftools_cmd
         self.html_file = ('/'+html_file) if html_file else ''
-        self.url_bw = protocol + '://' + self.this_host + '/%s%s;wsch=' % (self._basedir, self.html_file)
+        self.url_bw = protocol + '://' + self.this_host + '/%s%s?__wsch=' % (self._basedir, self.html_file)
         self.listeners = {}
         self.channel = channel
         self.session = requests.Session()
