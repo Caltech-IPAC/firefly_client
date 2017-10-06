@@ -268,7 +268,7 @@ class FireflyClient(WebSocketClient):
         if not channel:
             channel = self.channel
 
-        url = 'http://%s/%s%s?id=Loader&channelID=' % (self.this_host, self._basedir, self.html_file)
+        url = 'http://%s/%s%s?id=Loader&__wsch=' % (self.this_host, self._basedir, self.html_file)
         if mode.lower() == "full":
             url = self.url_bw
 
