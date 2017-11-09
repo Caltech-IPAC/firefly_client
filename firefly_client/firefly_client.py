@@ -921,9 +921,18 @@ class FireflyClient(WebSocketClient):
 
         return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['ShowXYPlot'], payload)
 
-    def show_plot(self, group_id=None, **chart_params):
+    def show_chart(self, group_id=None, **chart_params):
         """
-        Show a plot by using plot.ly charts
+        Show a plot.ly chart
+
+        Plotly chart is described by a list of trace data and a layout. Any list in trace data can come from a table.
+
+        For example, if a trace is defined by *{'tbl_id': 'wise', 'x': 'tables::w1mpro', 'y': 'tables::w2mpro' }*,
+        *x* and *y* points of the trace will come from *w1mpro* and *w2mpro* columns of the table with the id *wise*.
+
+        See `plotly.js attribute reference <https://plot.ly/javascript/reference/>`_
+        for the supported trace types and attributes. Note, that *data* and *layout* are expected to be
+        basic Python object hierarchies, as *json.dumps* is used to convert them to JSON.
 
         Parameters
         ----------
@@ -936,13 +945,9 @@ class FireflyClient(WebSocketClient):
             **chartId**: `str`, optional
                 The chart ID.
             **data**: `list` of `dict`, optional
-                An array of data for all traces of the plot.ly chart.
-            **fireflyData**: `list` of `dict`, optional
-                This array contains the information for creating a table and the table has data for chart rendering.
-            **layout**: 'dict', optional
-                The layout for plot.ly layout.
-            **fireflyLayout** : `dict`, optional
-                The layout contains information to be processed by Firefly.
+                A list of data for all traces of the plot.ly chart. Firefly-specific keys: *tbl_id*, *firefly* (for Firefly chart types).
+            **layout**: `dict`, optional
+                The layout for plot.ly layout. Optional *firefly* key refers to the information processed by Firefly.
 
         Returns
         -------
@@ -960,7 +965,7 @@ class FireflyClient(WebSocketClient):
                    'chartType': 'plot.ly',
                    'closable': True}
 
-        for item in ['data', 'fireflyData', 'layout', 'fireflyLayout']:
+        for item in ['data', 'layout']:
             if item in chart_params:
                 payload.update({item: chart_params.get(item)})
 
