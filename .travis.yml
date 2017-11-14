@@ -8,6 +8,7 @@ install:
 - pip install -r requirements.txt
 - pip install -e .
 script:
+- pytest
 - cd doc && sphinx-build -b html -a -d _build/doctree . _build/html && cd ..
 after_success:
 - ltd-mason-travis --html-dir doc/_build/html --verbose
