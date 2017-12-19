@@ -120,7 +120,7 @@ class FireflyClient(WebSocketClient):
         self.listeners = {}
         self.channel = channel
         self.session = requests.Session()
-        self.headers = {'FF_FF-channel': self.channel}
+        self.headers = {'FF-channel': self.channel}
         self.connect()
 
     def _handle_event(self, ev):
@@ -150,7 +150,7 @@ class FireflyClient(WebSocketClient):
                 if 'connID' in conn_info:
                     self.conn_id = conn_info['connID']
 
-                self.headers = {'FF_FF-channel': self.channel,
+                self.headers = {'FF-channel': self.channel,
                                 'FF-connID': self.conn_id}
             except:
                 print('from callback exception: ')
