@@ -16,24 +16,35 @@ Introduction
 
 Firefly is a web framework for astronomical data access and visualization,
 developed at Caltech/IPAC and deployed for the archives of several major
-facilities including Spitzer, WISE, Plank and others. Firefly is a part
-of the LSST Science User Platform. Its client-server architecture is designed
-to enable a user to easily visualize images and catalog data from a remote
-site.
+facilities including Spitzer, WISE, Plank and others. Firefly is the
+framework for the Portal Aspect of the LSST Science User Platform.
+Its client-server architecture is designed to enable a user to easily visualize
+images and catalog data from a remote site.
 
 The `firefly_client` package provides a lightweight client class that includes
 a Python interface to `Firefly's Javascript API <http://firefly.lsst.io>`_.
-After starting a `FireflyClient` instance with details about the server location,
-the instance can be used to upload and display astronomical images, tables
-and catalogs.
+This document contains examples of how to start a `FireflyClient` instance
+with details about the server location, and how to use the instance
+to upload and display astronomical images, tables and catalogs.
 
+
+.. _firefly_client-prerequisites:
+
+Prerequisites
+=============
+
+* Python 3
+
+* firefly_client (installable with `pip install firefly_client`)
+
+* URL for a Firefly server
 
 .. _firefly_client-getting-started:
 
 Getting Started
 ===============
 
-At a shell prompt, download some data:
+First, download some data by using wget or curl:
 
 .. code-block:: shell
    :name: gs-download
@@ -41,12 +52,12 @@ At a shell prompt, download some data:
    wget http://web.ipac.caltech.edu/staff/roby/demo/2mass-m31-green.fits
    wget http://web.ipac.caltech.edu/staff/roby/demo/m31-2mass-2412-row.tbl
 
+   curl -o 2mass-m31-green.fits http://web.ipac.caltech.edu/staff/roby/demo/2mass-m31-green.fits
+   curl -o m31-2mass-2412-row.tbl http://web.ipac.caltech.edu/staff/roby/demo/m31-2mass-2412-row.tbl
 
-In this example we use a public Firefly server.
-
-Start a Python session in the directory from which you downloaded the sample
-files. Then connect an instance of :class:`firefly_client.FireflyClient` to a Firefly
-server. In this example, we use a public server.
+Second, start a Python session and connect an instance of :class:`firefly_client.FireflyClient`
+to a Firefly server. In this example, we use a public server. For ease of demonstration,
+please start the Python session in the directory from which you downloaded the sample files.
 
 .. code-block:: py
     :name: gs-start
@@ -54,17 +65,16 @@ server. In this example, we use a public server.
     from firefly_client import FireflyClient
     fc = FireflyClient('irsa.ipac.caltech.edu:80', basedir='irsaviewer')
 
-The :meth:`FireflyClient.launch_browser` method opens
-a new browser tab with the channel name provided by the client.
+Third, open a new browser tab using the :meth:`FireflyClient.launch_browser` method:
 
 .. code-block:: py
     :name: gs-launch
 
     fc.launch_browser()
 
-Displaying an image in a FITS file is a two-step process. Upload the
+Fourth, display an image in a FITS file by uploading the
 file to the server with :meth:`FireflyClient.upload_file`
-and then show the image.
+and then showing the image.
 
 .. code-block:: py
     :name: gs-image
@@ -72,15 +82,16 @@ and then show the image.
     fval = fc.upload_file('2mass-m31-green.fits')
     fc.show_fits(fval)
 
-Upload a catalog table (here, in IPAC format) and show the table in
-a table component. The sources are also overlaid automatically on the
-image since the catalog contains celestial coordinates.
+Fifth, display a table by uloading a catalog table (here, in IPAC format) and
+then showing the table. The sources are also overlaid automatically on the
+image since the catalog contains celestial coordinates, and a default
+chart is displayed.
 
 .. code-block:: py
     :name: gs-table
 
     tval = fc.upload_file('m31-2mass-2412-row.tbl')
-    fc.show_fits(tval)
+    fc.show_table(tval)
 
 .. _firefly_client-using:
 
@@ -104,7 +115,7 @@ with the port that the server is using. The default port is 8080.
     :name: using-localhost
 
     import firefly_client
-    fc = firefly_client.FireflyClient('localhost:8080')
+    fc = firefly_client.FireflyClient('127.0.0.1:8080')
 
 If the Python session is running on your own machine, you can use the
 :meth:`FireflyClient.launch_browser` method to open up a browser tab.
@@ -141,6 +152,10 @@ the host and port parts of the URL to match your tunnel.
 You may set the `channel` parameter to a string of your choosing. In general,
 care should be taken to make the channel unique -- otherwise other users
 of your Firefly server could write to your display.
+
+.. code-block:: py
+
+    fc = firefly_client.FireflyClient('127.0.0.1:8080', channel='qxefvt')
 
 Some Firefly servers do not use the default `basedir` in their URLs. Other
 values in use include `suit` (for LSST) and `irsaviewer` (for applications
@@ -274,8 +289,8 @@ without showing the table in the viewer, use :meth:`FireflyClient.fetch_table`:
     fc.fetch_table(file_on_server=tval, tbl_id='invisible-table')
 
 If the table does not contain celestial coordinates recognized by Firefly,
-the image overlay will not appear. Alternatively, `is_catalog=False` can
-be specified:
+the image overlay will not appear. BUt if you specifically do not want
+the table overlaid on the image, `is_catalog=False` can be specified:
 
 .. code-block:: py
 
@@ -319,7 +334,7 @@ to the Python session:
            dec = float(wdata[1])
            print('ra={:.6f}, dec={:.6f}'.format(ra,dec))
 
-    plistner = fc.add_callback(print_coords)
+    plistner = fc.add_listener(print_coords)
 
 To activate the callback in point-selection mode, add it as an extension
 with `ext_type='POINT'`. By default, the title of the extension will appear
