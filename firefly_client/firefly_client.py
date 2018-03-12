@@ -120,7 +120,6 @@ class FireflyClient(WebSocketClient):
         self.listeners = {}
         self.channel = channel
         self.session = requests.Session()
-        self.headers = {'FF-channel': self.channel}
         self.connect()
 
     def _handle_event(self, ev):
@@ -248,7 +247,7 @@ class FireflyClient(WebSocketClient):
         """
         WebSocketClient.run_forever(self)
 
-    def get_firefly_url(self, mode='minimal', channel=None):
+    def get_firefly_url(self, mode='full', channel=None):
         """
         Get URL to Firefly Tools viewer and the channel set.
         Normally this method will be called without any parameters.
@@ -256,7 +255,7 @@ class FireflyClient(WebSocketClient):
         Parameters
         -------------
         mode : {'full', 'minimal'}, optional
-            Url mode (the default is 'minimal').
+            Url mode (deprecated, no longer used).
         channel : `str`, optional
             A different channel string than the default.
 
@@ -268,9 +267,7 @@ class FireflyClient(WebSocketClient):
         if not channel:
             channel = self.channel
 
-        url = 'http://%s/%s%s?id=Loader&__wsch=' % (self.this_host, self._basedir, self.html_file)
-        if mode.lower() == "full":
-            url = self.url_bw
+        url = self.url_bw
 
         return url + channel
 
@@ -337,7 +334,7 @@ class FireflyClient(WebSocketClient):
         .. note:: 'pre_load' is not implemented in the server (will be removed later).
         """
 
-        url = 'http://%s/%s/sticky/CmdSrv?cmd=upload' % (self.this_host, self._basedir)
+        url = self.url_root + '?cmd=upload'
         files = {'file': open(path, 'rb')}
         result = self.session.post(url, files=files, headers=self.headers)
         if result.status_code == 200:
@@ -399,7 +396,7 @@ class FireflyClient(WebSocketClient):
             Status, like {'success': True}.
         """
 
-        url = 'http://%s/%s/sticky/CmdSrv?cmd=upload&preload=' % (self.this_host, self._basedir)
+        url = self.url_root + '?cmd=upload&preload='
         url += 'true&type=FITS' if data_type.upper() == 'FITS' else 'false&type=UNKNOWN'
         stream.seek(0, 0)
         data_pack = {'data': stream}
