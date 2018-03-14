@@ -15,6 +15,7 @@ import json
 import time
 import socket
 import urllib.parse
+import uuid
 import math
 import mimetypes
 import base64
@@ -110,8 +111,10 @@ class FireflyClient(WebSocketClient):
         self.this_host = host
 
         url = '%s://%s/%s/sticky/firefly/events' % (wsproto, host, self._basedir)  # web socket url
-        if channel:
-            url += '?channelID=%s' % channel
+        if channel is None:
+            channel = str(uuid.uuid1())
+
+        url += '?channelID=%s' % channel
         WebSocketClient.__init__(self, url)
 
         self.url_root = protocol + '://' + host + self._fftools_cmd
@@ -119,6 +122,7 @@ class FireflyClient(WebSocketClient):
         self.url_bw = protocol + '://' + self.this_host + '/%s%s?__wsch=' % (self._basedir, self.html_file)
         self.listeners = {}
         self.channel = channel
+        self.headers = {'FF-channel':channel}
         self.session = requests.Session()
         self.connect()
 
@@ -264,7 +268,7 @@ class FireflyClient(WebSocketClient):
         out : `str`
             url string.
         """
-        if not channel:
+        if channel is None:
             channel = self.channel
 
         url = self.url_bw
