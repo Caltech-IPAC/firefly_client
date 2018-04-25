@@ -303,13 +303,15 @@ class FireflyClient(WebSocketClient):
             channel = self.channel
         if not url:
             url = self.url_bw
+
         do_open = True if force else not self._is_page_connected()
+        url = self.get_firefly_url(url, channel)
 
         if do_open:
-            webbrowser.open(self.get_firefly_url(url, channel))
+            webbrowser.open(url)
 
         time.sleep(5)  # todo: find something better to do than sleeping
-        return channel
+        return url
 
     def stay_connected(self):
         """Keep WebSocket connected.
