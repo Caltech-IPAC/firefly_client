@@ -649,7 +649,7 @@ class FireflyClient(WebSocketClient):
         return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['ShowFits'], payload)
 
     def show_table(self, file_on_server=None, tbl_id=None, title=None, page_size=100, is_catalog=True,
-                   meta=None, target_search_info=None, options=None):
+                   meta=None, target_search_info=None, options=None, table_index=None):
         """
         Show a table.
 
@@ -704,6 +704,10 @@ class FireflyClient(WebSocketClient):
                 if table shows units for the columns.
             **showFilters** : `bool`
                 if table shows filter button
+        table_index : `int`, optional
+            The table to be shown in case `file_on_server` contains multiple tables. It is the extension number for
+            a FITS file or the table index for a VOTable file. In unspeficied, the server will fetch extension 1 from
+            a FITS file or the table at index 0 from a VOTable file.
 
         Returns
         -------
@@ -727,6 +731,8 @@ class FireflyClient(WebSocketClient):
             tbl_type = 'table' if not is_catalog else 'catalog'
             tbl_req.update({'source': file_on_server, 'tblType': tbl_type,
                             'id': 'IpacTableFromSource'})
+            if table_index:
+                tbl_req.update({'tbl_index': table_index})
         elif target_search_info:
             target_search_info.update(
                     {'use': target_search_info.get('use') if 'use' in target_search_info else 'catalog_overlay'})
@@ -741,7 +747,7 @@ class FireflyClient(WebSocketClient):
 
         return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['ShowTable'], payload)
 
-    def fetch_table(self, file_on_server, tbl_id=None, page_size=1):
+    def fetch_table(self, file_on_server, tbl_id=None, page_size=1, table_index=None):
         """
         Fetch table data without showing them
 
@@ -755,6 +761,10 @@ class FireflyClient(WebSocketClient):
             A table ID. It will be created automatically if not specified.
         page_size : `int`, optional
             The number of rows to fetch.
+        table_index : `int`, optional
+            The table to be fetched in case `file_on_server` contains multiple tables. It is the extension number for
+            a FITS file or the table index for a VOTable file. In unspeficied, the server will fetch extension 1 from
+            a FITS file or the table at index 0 from a VOTable file.
 
         Returns
         -------
@@ -766,6 +776,9 @@ class FireflyClient(WebSocketClient):
             tbl_id = FireflyClient._gen_item_id('Table')
         tbl_req = {'startIdx': 0, 'pageSize': page_size, 'source': file_on_server,
                    'id': 'IpacTableFromSource', 'tbl_id': tbl_id}
+        if table_index:
+            tbl_req.update({'tbl_index': table_index})
+
         meta_info = {'title': tbl_id, 'tbl_id': tbl_id}
         tbl_req.update({'META_INFO': meta_info})
         payload = {'request': tbl_req, 'hlRowIdx': 0}
