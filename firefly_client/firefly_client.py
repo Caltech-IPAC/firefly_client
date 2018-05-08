@@ -705,9 +705,9 @@ class FireflyClient(WebSocketClient):
             **showFilters** : `bool`
                 if table shows filter button
         table_index : `int`, optional
-            The table to be shown in case `file_on_server` contains multiple tables. It is extension number for
-            a fits file or table index for a votable file. In default, table of extension 1 from a fits file or
-            table of index 0 from a votable file is shown.
+            The table to be shown in case `file_on_server` contains multiple tables. It is the extension number for
+            a FITS file or the table index for a VOTable file. In unspeficied, the server will fetch extension 1 from
+            a FITS file or the table at index 0 from a VOTable file.
 
         Returns
         -------
@@ -762,9 +762,9 @@ class FireflyClient(WebSocketClient):
         page_size : `int`, optional
             The number of rows to fetch.
         table_index : `int`, optional
-            The table to be fetched in case `file_on_server` contains multiple tables. It is extension number for
-            a fits file or table index for a votable file. In default, table of extension 1 from a fits file or
-            table of index 0 from a votable file is fetched.
+            The table to be fetched in case `file_on_server` contains multiple tables. It is the extension number for
+            a FITS file or the table index for a VOTable file. In unspeficied, the server will fetch extension 1 from
+            a FITS file or the table at index 0 from a VOTable file.
 
         Returns
         -------
