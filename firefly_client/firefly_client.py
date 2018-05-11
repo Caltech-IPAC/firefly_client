@@ -277,7 +277,7 @@ class FireflyClient(WebSocketClient):
 
         return url + channel
 
-    def launch_browser(self, url=None, channel=None, force=False):
+    def launch_browser(self, url=None, channel=None, force=False, verbose=True):
         """
         Launch a browser with the Firefly Tools viewer and the channel set.
 
@@ -292,6 +292,8 @@ class FireflyClient(WebSocketClient):
             A different channel than the default (the default is set as *self.channel*).
         force : `bool`, optional
             If the browser page is forced to be opened (the default is *False*).
+        verbose: `bool`, optional
+            If True, print instructions if web browser is not opened (default *True*)
 
         Returns
         -------
@@ -308,10 +310,15 @@ class FireflyClient(WebSocketClient):
         url = self.get_firefly_url(url, channel)
 
         if do_open:
-            webbrowser.open(url)
+            retval = webbrowser.open(url)
+            if retval is True:
+                time.sleep(5)  # todo: find something better to do than sleeping
+            else:
+                if verbose is True:
+                    print('Cannot open web browser. Copy/paste this URL into your browser:')
+                    print(url)
 
-        time.sleep(5)  # todo: find something better to do than sleeping
-        return url
+        return retval, url
 
     def stay_connected(self):
         """Keep WebSocket connected.
