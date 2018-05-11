@@ -9,6 +9,7 @@ from future import standard_library
 standard_library.install_aliases()
 from builtins import str
 from ws4py.client.threadedclient import WebSocketClient
+import os
 import requests
 import webbrowser
 import json
@@ -21,6 +22,20 @@ import mimetypes
 import base64
 
 __docformat__ = 'restructuredtext'
+
+if 'FIREFLY_ROUTE' in os.environ:
+    basedir = os.environ['FIREFLY_ROUTE']
+else:
+    basedir = 'firefly'
+
+_my_localhost = 'http://localhost:8080'
+
+if 'FIREFLY_URL' in os.environ:
+    _my_host = os.environ['FIREFLY_URL']
+elif 'EXTERNAL_URL' in os.environ:
+    _my_host = os.environ['EXTERNAL_URL']
+else:
+    _my_host = _my_localhost
 
 
 class FireflyClient(WebSocketClient):
@@ -37,7 +52,6 @@ class FireflyClient(WebSocketClient):
         basedir for the url, e.g. 'firefly' in 'http://localhost:8080/firefly'
     """
 
-    _my_localhost = 'localhost:8080'
     ALL = 'ALL_EVENTS_ENABLED'
     """All events are enabled for the listener (`str`)."""
 
@@ -97,7 +111,7 @@ class FireflyClient(WebSocketClient):
     #                  &cmd=pushAction&Action=<ACTION_DICT>
     # open websocket:  ws://<host>/<basedir>/sticky/firefly/events?channdleID=<channel id>
 
-    def __init__(self, host=_my_localhost, channel=None, basedir='firefly', html_file=None):
+    def __init__(self, host=_my_host, channel=None, basedir=basedir, html_file=None):
         self._basedir = basedir
         self._fftools_cmd = '/%s/sticky/CmdSrv' % self._basedir
 
