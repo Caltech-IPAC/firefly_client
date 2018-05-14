@@ -23,19 +23,16 @@ import base64
 
 __docformat__ = 'restructuredtext'
 
-if 'FIREFLY_ROUTE' in os.environ:
-    basedir = os.environ['FIREFLY_ROUTE']
-else:
-    basedir = 'firefly'
-
-_my_localhost = 'http://localhost:8080'
+_my_localurl = 'http://localhost:8080/firefly'
 
 if 'FIREFLY_URL' in os.environ:
-    _my_host = os.environ['FIREFLY_URL']
-elif 'EXTERNAL_URL' in os.environ:
-    _my_host = os.environ['EXTERNAL_URL']
+    _my_url = os.environ['FIREFLY_URL']
 else:
-    _my_host = _my_localhost
+    _my_url = _my_localurl
+
+_my_html_file = None
+if 'FIREFLY_HTML' in os.environ:
+    _my_html_file = os.environ['FIREFLY_HTML']
 
 
 class FireflyClient(WebSocketClient):
@@ -44,12 +41,15 @@ class FireflyClient(WebSocketClient):
 
     Parameters
     ----------
-    host : `str`
-        Firefly host.
+    url : `str`
+        URL for Firefly server, e.g. https://lsst-demo.ncsa.illinois.edu/firefly.
+        Defaults to the value of the environment variable FIREFLY_URL, if defined;
+        or to 'http://localhost:8080/firefly' if FIREFLY_URL is not defined.
     channel : `str`
-        WebSocket channel ID.
-    basedir : `str`
-        basedir for the url, e.g. 'firefly' in 'http://localhost:8080/firefly'
+        WebSocket channel ID. Default is None which auto-generates a unique string.
+    html_file : `str`
+        HTML file that is the 'landing page' for users, appended to the URL.
+        e.g. 'slate.html'. Defaults to None which is an empty string.
     """
 
     ALL = 'ALL_EVENTS_ENABLED'
@@ -104,38 +104,34 @@ class FireflyClient(WebSocketClient):
     _item_id = {'Table': 0, 'RegionLayer': 0, 'Extension': 0, 'MaskLayer': 0, 'XYPlot': 0,
                 'Cell': 0, 'Histogram': 0, 'Plotly': 0, 'Image': 0}
 
-    # urls:
-    # launch browser:  http://<host>/<basedir>/?__wsch=<channel id> or (mode == 'full')
-    #                  http://<host>/<basedir>/;id=Loader&channelID=<channel id>
-    # dispatch action: http://<host>/<basedir>/sticky/CmdSrv?channelID=<channel id>
-    #                  &cmd=pushAction&Action=<ACTION_DICT>
-    # open websocket:  ws://<host>/<basedir>/sticky/firefly/events?channdleID=<channel id>
-
-    def __init__(self, host=_my_host, channel=None, basedir=basedir, html_file=None):
-        self._basedir = basedir
-        self._fftools_cmd = '/%s/sticky/CmdSrv' % self._basedir
+    def __init__(self, url=_my_url, channel=None, html_file=_my_html_file):
 
         protocol = 'http'
         wsproto = 'ws'
-        if host.startswith('http://'):
-            host = host[7:]
-        if host.startswith('https://'):
-            host = host[8:]
+        location = url
+        if url.startswith('http://'):
+            location = url[7:]
+        if url.startswith('https://'):
+            location = location[8:]
             protocol = 'https'
             wsproto = 'wss'
 
-        self.this_host = host
-
-        url = '%s://%s/%s/sticky/firefly/events' % (wsproto, host, self._basedir)  # web socket url
+        # auto-generate unique channel if not provided
         if channel is None:
             channel = str(uuid.uuid1())
 
-        url += '?channelID=%s' % channel
-        WebSocketClient.__init__(self, url)
+        # websocket url
+        ws_url = '%s://%s/sticky/firefly/events' % (wsproto, location)  # web socket url
+        ws_url += '?channelID=%s' % channel
+        WebSocketClient.__init__(self, ws_url)
 
-        self.url_root = protocol + '://' + host + self._fftools_cmd
+        # url for dispatching actions
+        self.url_root = protocol + '://' + location + '/sticky/CmdSrv'
+
+        # url for user's web browser
         self.html_file = ('/'+html_file) if html_file else ''
-        self.url_bw = protocol + '://' + self.this_host + '/%s%s?__wsch=' % (self._basedir, self.html_file)
+        self.url_bw = protocol + '://' + location + '%s?__wsch=' % self.html_file
+
         self.listeners = {}
         self.channel = channel
         self.headers = {'FF-channel': channel}
