@@ -63,9 +63,10 @@ please start the Python session in the directory from which you downloaded the s
     :name: gs-start
 
     from firefly_client import FireflyClient
-    fc = FireflyClient('irsa.ipac.caltech.edu:80', basedir='irsaviewer')
+    fc = FireflyClient('https://irsa.ipac.caltech.edu/irsaviewer')
 
-Third, open a new browser tab using the :meth:`FireflyClient.launch_browser` method:
+Third, open a new browser tab using the :meth:`FireflyClient.launch_browser` method. If
+a browser cannot be opened, a URL will be displayed for your web browser.
 
 .. code-block:: py
     :name: gs-launch
@@ -82,7 +83,7 @@ and then showing the image.
     fval = fc.upload_file('2mass-m31-green.fits')
     fc.show_fits(fval)
 
-Fifth, display a table by uloading a catalog table (here, in IPAC format) and
+Fifth, display a table by uploading a catalog table (here, in IPAC format) and
 then showing the table. The sources are also overlaid automatically on the
 image since the catalog contains celestial coordinates, and a default
 chart is displayed.
@@ -105,8 +106,13 @@ Initializing a FireflyClient instance
 -------------------------------------
 
 Once a Firefly server has been identified, the connection parameters can be
-used to initialize a :class:`FireflyClient` instance. A `host:port` parameter is
-required. Optional arguments are `channel` and `basedir`.
+used to initialize a :class:`FireflyClient` instance. By default, the value
+of the environment variable `FIREFLY_URL` will be used as the server URL, if defined. If
+`FIREFLY_URL` is not defined, the default server URL is `http://localhost:8080/firefly`
+which is often used for a Firefly server running locally.
+
+Optional arguments for initializing a `FireflyClient` instance include `channel`
+and `html_file`.
 
 For a default server running locally, use `localhost` or `127.0.0.1` together
 with the port that the server is using. The default port is 8080.
@@ -115,7 +121,7 @@ with the port that the server is using. The default port is 8080.
     :name: using-localhost
 
     import firefly_client
-    fc = firefly_client.FireflyClient('127.0.0.1:8080')
+    fc = firefly_client.FireflyClient('http://127.0.0.1:8080')
 
 If the Python session is running on your own machine, you can use the
 :meth:`FireflyClient.launch_browser` method to open up a browser tab.
@@ -125,8 +131,9 @@ If the Python session is running on your own machine, you can use the
 
     fc.launch_browser()
 
-The :meth:`FireflyClient.launch_browser` method will return the channel string. If the user
-did not specify a channel string, the Firefly server will auto-generate one.
+The :meth:`FireflyClient.launch_browser` method will return two values: a boolean
+indicating whether the web browser open was successful, and the URL for your
+web browser.
 
 .. warning::
 
@@ -138,33 +145,19 @@ did not specify a channel string, the Firefly server will auto-generate one.
 
 If your Python session is not running on your local machine, the
 :meth:`FireflyClient.launch_browser`
-method should not be used. Instead, display the URL to which you must connect
-using :meth:`FireflyClient.get_firefly_url`:
+method will display the URL for your web browser. Alternatively, you can use
+the :meth:`FireflyClient.display_url` method to print the browser URL if
+running in a terminal, and to show a clickable link if running in a
+Jupyter notebook.
 
 .. code-block:: py
 
-    print(fc.get_firefly_url('full'))
+    fc.display_url()
 
-Copy and paste the string into  your address bar. If you are using SSH
-tunneling to connect to your Firefly server, you may need to modify
-the host and port parts of the URL to match your tunnel.
-
-You may set the `channel` parameter to a string of your choosing. In general,
-care should be taken to make the channel unique -- otherwise other users
-of your Firefly server could write to your display.
-
-.. code-block:: py
-
-    fc = firefly_client.FireflyClient('127.0.0.1:8080', channel='qxefvt')
-
-Some Firefly servers do not use the default `basedir` in their URLs. Other
-values in use include `suit` (for LSST) and `irsaviewer` (for applications
-deployed for the Infrared Science Archive). A public server is usually available
-at `http://irsaviewer.ipac.caltech.edu:80/irsaviewer <http://irsaviewer.ipac.caltech.edu:80/irsaviewer>`:
-
-.. code-block:: py
-
-    fc = firefly_client.FireflyClient('irsa.ipac.caltech.edu:80', basedir='irsaviewer')
+In typical usage, it is unnecessary to set the `channel` parameter when
+instantiating `FireflyClient`. A unique string will be auto-generated.
+If you do wish to set the channel explicitly, e.g. for sharing your display
+with someone else, take care to make the channel unique.
 
 .. warning::
 
