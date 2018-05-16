@@ -324,8 +324,10 @@ class FireflyClient(WebSocketClient):
 
         Returns
         -------
-        out : `str`
-            The channel ID.
+        open_success : `bool`
+            If True, the web browser open was successful.
+        url : `str`
+            The URL that is used in the user's web browser.
         """
 
         if not channel:
@@ -335,17 +337,18 @@ class FireflyClient(WebSocketClient):
 
         do_open = True if force else not self._is_page_connected()
         url = self.get_firefly_url(url, channel)
+        open_success = False
 
         if do_open:
-            retval = webbrowser.open(url)
-            if retval is True:
+            open_success = webbrowser.open(url)
+            if open_success is True:
                 time.sleep(5)  # todo: find something better to do than sleeping
             else:
                 if verbose is True:
                     print('Cannot open web browser. Copy/paste this URL into your browser:')
                     print(url)
 
-        return retval, url
+        return open_success, url
 
     def stay_connected(self):
         """Keep WebSocket connected.
