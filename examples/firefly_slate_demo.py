@@ -135,6 +135,6 @@ def load_first_image_in_random(fc):
 
 def load_second_image_in_random(fc):
     fc.show_fits(plot_id='xxq', Service='TWOMASS', Title='2mass from service', ZoomType='LEVEL',
-                 initZoomLevel=2, SurveyKey='k', WorldPt='10.68479;41.26906;EQ_J2000',
-                 RangeValues='92,-1,92,2,1,0,1,2,44,120', SizeInDeg='.12')
+                 initZoomLevel=2, SurveyKey='asky', SurveyKeyBand='k',
+                 WorldPt='10.68479;41.26906;EQ_J2000', SizeInDeg='.12')
 
