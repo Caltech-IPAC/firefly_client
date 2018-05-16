@@ -115,13 +115,13 @@ Optional arguments for initializing a `FireflyClient` instance include `channel`
 and `html_file`.
 
 For a default server running locally, use `localhost` or `127.0.0.1` together
-with the port that the server is using. The default port is 8080.
+with the port that the server is using, and append `/firefly`. The default port is 8080.
 
 .. code-block:: py
     :name: using-localhost
 
     import firefly_client
-    fc = firefly_client.FireflyClient('http://127.0.0.1:8080')
+    fc = firefly_client.FireflyClient('http://127.0.0.1:8080/firefly')
 
 If the Python session is running on your own machine, you can use the
 :meth:`FireflyClient.launch_browser` method to open up a browser tab.
