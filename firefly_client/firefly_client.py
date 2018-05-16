@@ -9,6 +9,7 @@ from future import standard_library
 standard_library.install_aliases()
 from builtins import str
 from ws4py.client.threadedclient import WebSocketClient
+import os
 import requests
 import webbrowser
 import json
@@ -22,6 +23,17 @@ import base64
 
 __docformat__ = 'restructuredtext'
 
+_my_localurl = 'http://localhost:8080/firefly'
+
+if 'FIREFLY_URL' in os.environ:
+    _my_url = os.environ['FIREFLY_URL']
+else:
+    _my_url = _my_localurl
+
+_my_html_file = None
+if 'FIREFLY_HTML' in os.environ:
+    _my_html_file = os.environ['FIREFLY_HTML']
+
 
 class FireflyClient(WebSocketClient):
     """
@@ -29,15 +41,17 @@ class FireflyClient(WebSocketClient):
 
     Parameters
     ----------
-    host : `str`
-        Firefly host.
+    url : `str`
+        URL for Firefly server, e.g. https://lsst-demo.ncsa.illinois.edu/firefly.
+        Defaults to the value of the environment variable FIREFLY_URL, if defined;
+        or to 'http://localhost:8080/firefly' if FIREFLY_URL is not defined.
     channel : `str`
-        WebSocket channel ID.
-    basedir : `str`
-        basedir for the url, e.g. 'firefly' in 'http://localhost:8080/firefly'
+        WebSocket channel ID. Default is None which auto-generates a unique string.
+    html_file : `str`
+        HTML file that is the 'landing page' for users, appended to the URL.
+        e.g. 'slate.html'. Defaults to None which is an empty string.
     """
 
-    _my_localhost = 'localhost:8080'
     ALL = 'ALL_EVENTS_ENABLED'
     """All events are enabled for the listener (`str`)."""
 
@@ -90,38 +104,34 @@ class FireflyClient(WebSocketClient):
     _item_id = {'Table': 0, 'RegionLayer': 0, 'Extension': 0, 'MaskLayer': 0, 'XYPlot': 0,
                 'Cell': 0, 'Histogram': 0, 'Plotly': 0, 'Image': 0}
 
-    # urls:
-    # launch browser:  http://<host>/<basedir>/?__wsch=<channel id> or (mode == 'full')
-    #                  http://<host>/<basedir>/;id=Loader&channelID=<channel id>
-    # dispatch action: http://<host>/<basedir>/sticky/CmdSrv?channelID=<channel id>
-    #                  &cmd=pushAction&Action=<ACTION_DICT>
-    # open websocket:  ws://<host>/<basedir>/sticky/firefly/events?channdleID=<channel id>
-
-    def __init__(self, host=_my_localhost, channel=None, basedir='firefly', html_file=None):
-        self._basedir = basedir
-        self._fftools_cmd = '/%s/sticky/CmdSrv' % self._basedir
+    def __init__(self, url=_my_url, channel=None, html_file=_my_html_file):
 
         protocol = 'http'
         wsproto = 'ws'
-        if host.startswith('http://'):
-            host = host[7:]
-        if host.startswith('https://'):
-            host = host[8:]
+        location = url
+        if url.startswith('http://'):
+            location = url[7:]
+        if url.startswith('https://'):
+            location = location[8:]
             protocol = 'https'
             wsproto = 'wss'
 
-        self.this_host = host
-
-        url = '%s://%s/%s/sticky/firefly/events' % (wsproto, host, self._basedir)  # web socket url
+        # auto-generate unique channel if not provided
         if channel is None:
             channel = str(uuid.uuid1())
 
-        url += '?channelID=%s' % channel
-        WebSocketClient.__init__(self, url)
+        # websocket url
+        ws_url = '%s://%s/sticky/firefly/events' % (wsproto, location)  # web socket url
+        ws_url += '?channelID=%s' % channel
+        WebSocketClient.__init__(self, ws_url)
 
-        self.url_root = protocol + '://' + host + self._fftools_cmd
+        # url for dispatching actions
+        self.url_root = protocol + '://' + location + '/sticky/CmdSrv'
+
+        # url for user's web browser
         self.html_file = ('/'+html_file) if html_file else ''
-        self.url_bw = protocol + '://' + self.this_host + '/%s%s?__wsch=' % (self._basedir, self.html_file)
+        self.url_bw = protocol + '://' + location + '%s?__wsch=' % self.html_file
+
         self.listeners = {}
         self.channel = channel
         self.headers = {'FF-channel': channel}
@@ -277,7 +287,24 @@ class FireflyClient(WebSocketClient):
 
         return url + channel
 
-    def launch_browser(self, url=None, channel=None, force=False):
+    def display_url(self):
+        """
+        Display URL in a user-friendly format
+
+        """
+        try:
+            ipy_str = str(type(get_ipython()))
+            if 'zmqshell' in ipy_str:
+                from IPython.display import display, Markdown
+                display(
+                    Markdown('>Open your web browser to [{}](<a href={} target="_blank">{}</a>)'
+                                 .format([self.get_firefly_url()]*3)))
+                return
+        except:
+            pass
+        print('Open your web browser to {}'.format(self.get_firefly_url()))
+
+    def launch_browser(self, url=None, channel=None, force=False, verbose=True):
         """
         Launch a browser with the Firefly Tools viewer and the channel set.
 
@@ -292,11 +319,15 @@ class FireflyClient(WebSocketClient):
             A different channel than the default (the default is set as *self.channel*).
         force : `bool`, optional
             If the browser page is forced to be opened (the default is *False*).
+        verbose: `bool`, optional
+            If True, print instructions if web browser is not opened (default *True*)
 
         Returns
         -------
-        out : `str`
-            The channel ID.
+        open_success : `bool`
+            If True, the web browser open was successful.
+        url : `str`
+            The URL that is used in the user's web browser.
         """
 
         if not channel:
@@ -306,12 +337,18 @@ class FireflyClient(WebSocketClient):
 
         do_open = True if force else not self._is_page_connected()
         url = self.get_firefly_url(url, channel)
+        open_success = False
 
         if do_open:
-            webbrowser.open(url)
+            open_success = webbrowser.open(url)
+            if open_success is True:
+                time.sleep(5)  # todo: find something better to do than sleeping
+            else:
+                if verbose is True:
+                    print('Cannot open web browser. Copy/paste this URL into your browser:')
+                    print(url)
 
-        time.sleep(5)  # todo: find something better to do than sleeping
-        return url
+        return open_success, url
 
     def stay_connected(self):
         """Keep WebSocket connected.
