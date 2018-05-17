@@ -287,11 +287,17 @@ class FireflyClient(WebSocketClient):
 
         return url + channel
 
-    def display_url(self):
+    def display_url(self, url=None):
         """
         Display URL in a user-friendly format
 
+        Parameters:
+        -----------
+        url : `str`, optional
+            A url overriding the default (the default retrieves from *self.get_firefly_url*).
         """
+        if url is None:
+            url = self.get_firefly_url()
         try:
             ipy_str = str(type(get_ipython()))
         except NameError:
@@ -299,11 +305,10 @@ class FireflyClient(WebSocketClient):
         if 'zmqshell' in ipy_str:
             from IPython.display import display, Markdown
             display(
-                Markdown('>Open your web browser to [{}](<a href={} target="_blank">{}</a>)'
-                             .format(self.get_firefly_url(), self.get_firefly_url(),
-                                     self.get_firefly_url())))
+                Markdown('Open your web browser to [{}](<a href={} target="_blank">{}</a>)'
+                             .format(url, url, url)))
         else:
-            print('Open your web browser to {}'.format(self.get_firefly_url()))
+            print('Open your web browser to {}'.format(url))
 
     def launch_browser(self, url=None, channel=None, force=False, verbose=True):
         """
@@ -315,7 +320,7 @@ class FireflyClient(WebSocketClient):
         Parameters
         ----------
         url : `str`, optional
-            An url overriding the default (the default is set as *self.url_bw*).
+            A url overriding the default (the default is set as *self.url_bw*).
         channel : `str`, optional
             A different channel than the default (the default is set as *self.channel*).
         force : `bool`, optional
@@ -346,8 +351,7 @@ class FireflyClient(WebSocketClient):
                 time.sleep(5)  # todo: find something better to do than sleeping
             else:
                 if verbose is True:
-                    print('Cannot open web browser. Copy/paste this URL into your browser:')
-                    print(url)
+                    self.display_url(url)
 
         return open_success, url
 
