@@ -294,15 +294,16 @@ class FireflyClient(WebSocketClient):
         """
         try:
             ipy_str = str(type(get_ipython()))
-            if 'zmqshell' in ipy_str:
-                from IPython.display import display, Markdown
-                display(
-                    Markdown('>Open your web browser to [{}](<a href={} target="_blank">{}</a>)'
-                                 .format([self.get_firefly_url()]*3)))
-                return
-        except:
-            pass
-        print('Open your web browser to {}'.format(self.get_firefly_url()))
+        except NameError:
+            ipy_str = ''
+        if 'zmqshell' in ipy_str:
+            from IPython.display import display, Markdown
+            display(
+                Markdown('>Open your web browser to [{}](<a href={} target="_blank">{}</a>)'
+                             .format(self.get_firefly_url(), self.get_firefly_url(),
+                                     self.get_firefly_url())))
+        else:
+            print('Open your web browser to {}'.format(self.get_firefly_url()))
 
     def launch_browser(self, url=None, channel=None, force=False, verbose=True):
         """
