@@ -303,10 +303,10 @@ class FireflyClient(WebSocketClient):
         except NameError:
             ipy_str = ''
         if 'zmqshell' in ipy_str:
-            from IPython.display import display, Markdown
+            from IPython.display import display, HTML
             display(
-                Markdown('Open your web browser to [{}](<a href={} target="_blank">{}</a>)'
-                             .format(url, url, url)))
+                HTML('Open your web browser to <a href="{}"" target="_blank">this link</a>'
+                             .format(url)))
         else:
             print('Open your web browser to {}'.format(url))
 
