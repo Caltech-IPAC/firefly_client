@@ -20,6 +20,7 @@ import uuid
 import math
 import mimetypes
 import base64
+import weakref
 
 __docformat__ = 'restructuredtext'
 
@@ -50,6 +51,8 @@ class FireflyClient(WebSocketClient):
     html_file : `str`
         HTML file that is the 'landing page' for users, appended to the URL.
         e.g. 'slate.html'. Defaults to None which is an empty string.
+    make_default : `bool`
+        If True, make this the default FireflyClient instance. Default False.
     """
 
     ALL = 'ALL_EVENTS_ENABLED'
@@ -104,7 +107,11 @@ class FireflyClient(WebSocketClient):
     _item_id = {'Table': 0, 'RegionLayer': 0, 'Extension': 0, 'MaskLayer': 0, 'XYPlot': 0,
                 'Cell': 0, 'Histogram': 0, 'Plotly': 0, 'Image': 0}
 
-    def __init__(self, url=_my_url, channel=None, html_file=_my_html_file):
+    # Keep track of instances.
+    instances = []
+
+    def __init__(self, url=_my_url, channel=None, html_file=_my_html_file,
+                 make_default=False):
 
         protocol = 'http'
         wsproto = 'ws'
@@ -137,6 +144,11 @@ class FireflyClient(WebSocketClient):
         self.headers = {'FF-channel': channel}
         self.session = requests.Session()
         self.connect()
+
+        if make_default:
+            FireflyClient.instances.insert(0, weakref.ref(self))
+        else:
+            FireflyClient.instances.append(weakref.ref(self))
 
     def _handle_event(self, ev):
         for callback, eventIDList in self.listeners.items():
@@ -364,6 +376,32 @@ class FireflyClient(WebSocketClient):
         """Disconnect the WebSocket.
         """
         self.close()
+
+    @classmethod
+    def get_instances(cls):
+        """Get all current instances
+
+        Returns:
+        --------
+        `list`
+            list of instances
+        """
+        return list(FireflyClient.instances)
+
+    @classmethod
+    def get_default_instance(cls):
+        """ Return the default instance
+
+        Returns:
+        --------
+        `FireflyClient` or None
+            Return the first FireflyClient instance, or None if there are none
+        """
+        instances = FireflyClient.get_instances()
+        if len(instances) > 0:
+            return instances[0]
+        else:
+            return
 
     def upload_file(self, path, pre_load=True):
         """
