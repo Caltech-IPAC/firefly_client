@@ -653,10 +653,11 @@ class FireflyClient(WebSocketClient):
             The ID you assign to the viewer (or cell) used to contain the image plot. If grid view is used for
             display, the viewer id is the cell id of the cell which contains the image plot.
 
-        \*\*additional_params : optional keyword arguments
-            Any valid fits viewer plotting parameter, please see the details in `fits plotting parameters`_.
+        **additional_params : optional keyword arguments
+            Any valid fits viewer plotting parameter, please see the details in `FITS plotting parameters`_.
 
-            .. _fits plotting parameters:https://github.com/Caltech-IPAC/firefly/blob/dev/docs/fits-plotting-parameters.md
+            .. _`FITS plotting parameters`:
+                https://github.com/Caltech-IPAC/firefly/blob/dev/docs/fits-plotting-parameters.md
 
             More options are shown as below:
 
@@ -670,8 +671,8 @@ class FireflyClient(WebSocketClient):
         out : `dict`
             Status of the request, like {'success': True}.
 
-        .. note:: Either `file_on_server` or the target information set by `addition_parameters`
-                  is used for fits search.
+        .. note:: Either `file_on_server` or the target information set by `additional_params`
+                  is used for image search.
         """
 
         wp_request = {'plotGroupId': 'groupFromPython',
@@ -694,14 +695,14 @@ class FireflyClient(WebSocketClient):
 
     def show_fits_3color(self, three_color_params, plot_id=None, viewer_id=None):
         """
-        Show a FITS image by giving the three color requirement
+        Show a 3-color image constructed from the three color parameters
 
         Parameters
         ----------
         three_color_params : `list` of `dict` or `dict`
-            A list or objects contains fits viewer plotting parameters for either all bands or one single band.
-            For valid fits viewer plotting parameter, please see the details in `fits plotting parameters`_ or
-            the description of ****additional_params** in function `show_fits`.
+            A list or objects contains image viewer plotting parameters for either all bands or one single band.
+            For valid image viewer plotting parameter, please see the details in `FITS plotting parameters`_ or
+            the description of **additional_params** in function `show_fits`.
 
         plot_id : `str`, optional
             The ID you assign to the image plot. This is necessary to further control the plot.
@@ -878,7 +879,7 @@ class FireflyClient(WebSocketClient):
         group_id : `str`, optional
             Group ID of the chart group where the chart belongs to. If grid view is used, group id is
             the cell id of the cell which contains the chart.
-        \*\*chart_params : optional keyword arguments
+        **chart_params : optional keyword arguments
             Parameters for XY Plot. The options are shown as below:
 
             **xCol**: `str`
@@ -959,7 +960,7 @@ class FireflyClient(WebSocketClient):
         group_id : `str`, optional
             Group ID of the chart group where the histogram belongs to. If grid view is used, group id is the
             cell id of the cell which contains the histogram.
-        \*\*histogram_params : optional keyword arguments
+        **histogram_params : optional keyword arguments
             Parameters for histogram. The options are shown as below:
 
             **col**: `str`
@@ -1035,7 +1036,7 @@ class FireflyClient(WebSocketClient):
         group_id : `str`, optional
             Group ID of the chart group where the chart belongs to. If grid view is used, group id is
             the cell id of the cell which contains the chart.
-        \*\*chart_params : optional keyword arguments
+        **chart_params : optional keyword arguments
             Parameters for the chart. The options are shown as below:
 
             **chartId**: `str`, optional
@@ -1176,7 +1177,7 @@ class FireflyClient(WebSocketClient):
             HiPS access URL
         hips_image_conversion: `dict`, optional
             The info used to convert between image and HiPS
-        \*\*additional_params : optional keyword arguments
+        **additional_params : optional keyword arguments
             parameters for HiPS viewer plotting, the options are shown as below:
 
             **WorldPt** : `str`, optional
@@ -1353,7 +1354,7 @@ class FireflyClient(WebSocketClient):
             Stretch method (the default is 'percent').
         algorithm : {'linear', 'log','loglog','equal', 'squared', 'sqrt', 'asinh', 'powerlaw_gamma'}, optional
             Stretch algorithm (the default is 'linear').
-        \*\*additional_params : optional keyword arguments
+        **additional_params : optional keyword arguments
             Parameters for changing the stretch. The options are shown as below:
 
             **zscale_contrast** : `int` or  `float`, optional
