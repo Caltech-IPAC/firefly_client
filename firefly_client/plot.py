@@ -2,16 +2,16 @@
 """
 `firefly_client.plot` is a state-base interface to firefly_client,
 inspired by `matplotlib.pyplot`.
+
+Upon import, an existing FireflyClient instance will be used; then various
+Firefly server URLs will be tried, starting with the value of the environment
+variable FIREFLY_URL.
 """
 
 import logging
 import os
-#import sys
 import tempfile
 import time
-#import urllib
-#from astropy.io import fits
-#from ws4py.client import HandshakeError
 from .firefly_client import FireflyClient
 
 logger = logging.getLogger(__name__)
@@ -53,8 +53,6 @@ if fc is None:
 if fc is None:
     raise RuntimeError('Cannot find existing FireflyClient or valid server URL')
 
-#if not fc._is_page_connected():
-#    fc.launch_browser()
 
 # Set up default cells
 time.sleep(2)
@@ -63,12 +61,27 @@ plots_cellid = 'plots'
 images_cellid = 'images'
 
 def use_client(ffclient):
+    """Use the provided FireflyClient instance.
+
+    This function will attempt to open a web browser for the viewer, if one
+    is not already connected.
+
+    Parameters:
+    -----------
+    ffclient : `firefly_client.FireflyClient`
+        an instance of FireflyClient
+    """
     global fc
     fc = ffclient
     if not fc._is_page_connected():
         open_browser()
 
 def reset_layout():
+    """Reset to the default layout
+
+    The default layout is a table spanning the first row, and a second
+    row containing plots in the first column and images in the second column.
+    """
     fc.add_cell(row=0, col=0, width=2, height=2, element_type='tables',
             cell_id=table_cellid)
     fc.add_cell(row=2, col=0, width=1, height=2, element_type='xyPlots',
@@ -77,20 +90,46 @@ def reset_layout():
             cell_id=images_cellid)
 
 def reset_server(url, channel=None, html_file=html_file):
-    global fc
-    fc = FireflyClient(url, channel=channel, html_file=html_file)
+    """Construct and use a FireflyClient from parameters
+
+    Parameters:
+    -----------
+    url : `str`
+        URL for the Firefly server
+    channel : `str` or None
+        a string for the channel. If None, will be auto-generated
+    html_file : `str`
+        landing page for the web viewer. Defaults to module default
+    """
+    fc = FireflyClient(url, channel=channel, html_file=html_file,
+                       make_default=True)
+    use_client(fc)
 
 def display_url():
+    """Display the web viewer URL, if possible as a clickable link
+    """
     fc.display_url()
 
-def open_browser():
-    fc.launch_browser()
+def open_browser(force=False):
+    """open a browser tab or window to the web viewer
+
+    Parameters:
+    -----------
+    force : `bool`
+        if True, open the browser even if one is already connected. Default False
+    """
+    if (fc._is_page_connected() is True) and (force is False):
+        print('Browser page is already connected')
+        return
+    fc.launch_browser(force=force)
 
 def clear():
+    """Clear the web viewer
+    """
     fc.reinit_viewer()
 
 
-def scatter(x_col, y_col, tbl_id='', size=4, color=None, marker=None,
+def scatter(x_col, y_col, tbl_id='', size=4, color=None, opacity=1.0,
             title='', xlabel=None, ylabel=None, cell_id=plots_cellid, **kwargs):
     """Make a scatter plot from a table uploaded to Firefly
 
@@ -106,8 +145,9 @@ def scatter(x_col, y_col, tbl_id='', size=4, color=None, marker=None,
         marker size. Defaults to 4.
     color: `str`
         marker color. None uses the Plotly default
-    marker: `str`
-        marker style. None uses the Plotly default
+        Value can be 'blue' or 'rgb(50, 171, 96)'
+    opacity: `float`
+        marker opacity. Values should range between 0 and 1.
     title: `str`
         plot title. Defaults to empty string
     xlabel: `str`
@@ -126,12 +166,15 @@ def scatter(x_col, y_col, tbl_id='', size=4, color=None, marker=None,
     if len(tbl_id) == 0:
         logger.debug('Using last_tblid: {}'.format(last_tblid))
         tbl_id = last_tblid
+    marker_dict = dict(size=size, opacity=opacity)
+    if color:
+        marker_dict['color'] = color
     trace = dict(tbl_id=tbl_id,
                 x = 'tables::' + x_col,
                 y = 'tables::' + y_col,
                 mode = 'markers',
                 type = 'scatter',
-                marker = dict(size=size))
+                marker = marker_dict)
     trace.update(kwargs)
     fc.show_chart(layout=layout, data=[trace], group_id=cell_id)
 
