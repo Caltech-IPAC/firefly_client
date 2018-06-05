@@ -20,6 +20,7 @@ import uuid
 import math
 import mimetypes
 import base64
+import weakref
 
 __docformat__ = 'restructuredtext'
 
@@ -50,6 +51,8 @@ class FireflyClient(WebSocketClient):
     html_file : `str`
         HTML file that is the 'landing page' for users, appended to the URL.
         e.g. 'slate.html'. Defaults to None which is an empty string.
+    make_default : `bool`
+        If True, make this the default FireflyClient instance. Default False.
     """
 
     ALL = 'ALL_EVENTS_ENABLED'
@@ -104,7 +107,11 @@ class FireflyClient(WebSocketClient):
     _item_id = {'Table': 0, 'RegionLayer': 0, 'Extension': 0, 'MaskLayer': 0, 'XYPlot': 0,
                 'Cell': 0, 'Histogram': 0, 'Plotly': 0, 'Image': 0}
 
-    def __init__(self, url=_my_url, channel=None, html_file=_my_html_file):
+    # Keep track of instances.
+    instances = []
+
+    def __init__(self, url=_my_url, channel=None, html_file=_my_html_file,
+                 make_default=False):
 
         protocol = 'http'
         wsproto = 'ws'
@@ -137,6 +144,11 @@ class FireflyClient(WebSocketClient):
         self.headers = {'FF-channel': channel}
         self.session = requests.Session()
         self.connect()
+
+        if make_default:
+            FireflyClient.instances.insert(0, weakref.ref(self))
+        else:
+            FireflyClient.instances.append(weakref.ref(self))
 
     def _handle_event(self, ev):
         for callback, eventIDList in self.listeners.items():
@@ -364,6 +376,32 @@ class FireflyClient(WebSocketClient):
         """Disconnect the WebSocket.
         """
         self.close()
+
+    @classmethod
+    def get_instances(cls):
+        """Get all current instances
+
+        Returns:
+        --------
+        `list`
+            list of instances
+        """
+        return list(FireflyClient.instances)
+
+    @classmethod
+    def get_default_instance(cls):
+        """ Return the default instance
+
+        Returns:
+        --------
+        `FireflyClient` or None
+            Return the first FireflyClient instance, or None if there are none
+        """
+        instances = FireflyClient.get_instances()
+        if len(instances) > 0:
+            return instances[0]
+        else:
+            return
 
     def upload_file(self, path, pre_load=True):
         """
@@ -615,10 +653,11 @@ class FireflyClient(WebSocketClient):
             The ID you assign to the viewer (or cell) used to contain the image plot. If grid view is used for
             display, the viewer id is the cell id of the cell which contains the image plot.
 
-        \*\*additional_params : optional keyword arguments
-            Any valid fits viewer plotting parameter, please see the details in `fits plotting parameters`_.
+        **additional_params : optional keyword arguments
+            Any valid fits viewer plotting parameter, please see the details in `FITS plotting parameters`_.
 
-            .. _fits plotting parameters:https://github.com/Caltech-IPAC/firefly/blob/dev/docs/fits-plotting-parameters.md
+            .. _`FITS plotting parameters`:
+                https://github.com/Caltech-IPAC/firefly/blob/dev/docs/fits-plotting-parameters.md
 
             More options are shown as below:
 
@@ -632,8 +671,8 @@ class FireflyClient(WebSocketClient):
         out : `dict`
             Status of the request, like {'success': True}.
 
-        .. note:: Either `file_on_server` or the target information set by `addition_parameters`
-                  is used for fits search.
+        .. note:: Either `file_on_server` or the target information set by `additional_params`
+                  is used for image search.
         """
 
         wp_request = {'plotGroupId': 'groupFromPython',
@@ -656,14 +695,14 @@ class FireflyClient(WebSocketClient):
 
     def show_fits_3color(self, three_color_params, plot_id=None, viewer_id=None):
         """
-        Show a FITS image by giving the three color requirement
+        Show a 3-color image constructed from the three color parameters
 
         Parameters
         ----------
         three_color_params : `list` of `dict` or `dict`
-            A list or objects contains fits viewer plotting parameters for either all bands or one single band.
-            For valid fits viewer plotting parameter, please see the details in `fits plotting parameters`_ or
-            the description of ****additional_params** in function `show_fits`.
+            A list or objects contains image viewer plotting parameters for either all bands or one single band.
+            For valid image viewer plotting parameter, please see the details in `FITS plotting parameters`_ or
+            the description of **additional_params** in function `show_fits`.
 
         plot_id : `str`, optional
             The ID you assign to the image plot. This is necessary to further control the plot.
@@ -840,7 +879,7 @@ class FireflyClient(WebSocketClient):
         group_id : `str`, optional
             Group ID of the chart group where the chart belongs to. If grid view is used, group id is
             the cell id of the cell which contains the chart.
-        \*\*chart_params : optional keyword arguments
+        **chart_params : optional keyword arguments
             Parameters for XY Plot. The options are shown as below:
 
             **xCol**: `str`
@@ -921,7 +960,7 @@ class FireflyClient(WebSocketClient):
         group_id : `str`, optional
             Group ID of the chart group where the histogram belongs to. If grid view is used, group id is the
             cell id of the cell which contains the histogram.
-        \*\*histogram_params : optional keyword arguments
+        **histogram_params : optional keyword arguments
             Parameters for histogram. The options are shown as below:
 
             **col**: `str`
@@ -997,7 +1036,7 @@ class FireflyClient(WebSocketClient):
         group_id : `str`, optional
             Group ID of the chart group where the chart belongs to. If grid view is used, group id is
             the cell id of the cell which contains the chart.
-        \*\*chart_params : optional keyword arguments
+        **chart_params : optional keyword arguments
             Parameters for the chart. The options are shown as below:
 
             **chartId**: `str`, optional
@@ -1138,7 +1177,7 @@ class FireflyClient(WebSocketClient):
             HiPS access URL
         hips_image_conversion: `dict`, optional
             The info used to convert between image and HiPS
-        \*\*additional_params : optional keyword arguments
+        **additional_params : optional keyword arguments
             parameters for HiPS viewer plotting, the options are shown as below:
 
             **WorldPt** : `str`, optional
@@ -1315,7 +1354,7 @@ class FireflyClient(WebSocketClient):
             Stretch method (the default is 'percent').
         algorithm : {'linear', 'log','loglog','equal', 'squared', 'sqrt', 'asinh', 'powerlaw_gamma'}, optional
             Stretch algorithm (the default is 'linear').
-        \*\*additional_params : optional keyword arguments
+        **additional_params : optional keyword arguments
             Parameters for changing the stretch. The options are shown as below:
 
             **zscale_contrast** : `int` or  `float`, optional

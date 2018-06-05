@@ -347,7 +347,7 @@ to the Python session:
            dec = float(wdata[1])
            print('ra={:.6f}, dec={:.6f}'.format(ra,dec))
 
-    plistner = fc.add_listener(print_coords)
+    fc.add_listener(print_coords)
 
 To activate the callback in point-selection mode, add it as an extension
 with `ext_type='POINT'`. By default, the title of the extension will appear
@@ -369,7 +369,7 @@ The callback can be deleted with `FireflyClient.remove_listener`:
 
 .. code-block:: py
 
-    fc.remove_listener(plistner)
+    fc.remove_listener(print_coords)
 
 
 
