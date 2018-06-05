@@ -129,7 +129,7 @@ def clear():
     fc.reinit_viewer()
 
 
-def scatter(x_col, y_col, tbl_id='', size=4, color=None, opacity=1.0,
+def scatter(x_col, y_col, tbl_id='', size=4, color=None, alpha=1.0,
             title='', xlabel=None, ylabel=None, cell_id=plots_cellid, **kwargs):
     """Make a scatter plot from a table uploaded to Firefly
 
@@ -146,14 +146,14 @@ def scatter(x_col, y_col, tbl_id='', size=4, color=None, opacity=1.0,
     color: `str`
         marker color. None uses the Plotly default
         Value can be 'blue' or 'rgb(50, 171, 96)'
-    opacity: `float`
+    alpha: `float`
         marker opacity. Values should range between 0 and 1.
     title: `str`
         plot title. Defaults to empty string
     xlabel: `str`
-        x-axis label. If None, defaults to xname
+        x-axis label. If None, defaults to x_col
     ylabel: `str`
-        y-axis label. If None, defaults to yname
+        y-axis label. If None, defaults to y_col
     cell_id: `str`
         ID of Slate cell from add_cell, defaults to table_cellid
 
@@ -166,7 +166,7 @@ def scatter(x_col, y_col, tbl_id='', size=4, color=None, opacity=1.0,
     if len(tbl_id) == 0:
         logger.debug('Using last_tblid: {}'.format(last_tblid))
         tbl_id = last_tblid
-    marker_dict = dict(size=size, opacity=opacity)
+    marker_dict = dict(size=size, opacity=alpha)
     if color:
         marker_dict['color'] = color
     trace = dict(tbl_id=tbl_id,
@@ -223,7 +223,8 @@ def hist(data_col, tbl_id='', nbins=30, title='', xlabel=None,
     fc.show_chart(group_id=cell_id, layout=layout, data=[hist_data] )
     return
 
-def upload_table(table, title=None, show=True, write_func="auto", tbl_index=1, page_size=200):
+def upload_table(table, title=None, show=True, write_func="auto", tbl_index=1, page_size=200,
+                 view_coverage=False):
     """upload a table object to Firefly
 
     Parameters:
@@ -261,8 +262,9 @@ def upload_table(table, title=None, show=True, write_func="auto", tbl_index=1, p
                             atable.rename_column(c, c[:68])
                     #atable.remove_columns([c for c in table.colnames if len(c) > 68])
                     import warnings
+                    from astropy.utils.exceptions import AstropyWarning
                     with warnings.catch_warnings():
-                        warnings.simplefilter('ignore', UserWarning)
+                        warnings.simplefilter('ignore', AstropyWarning)
                         atable.write(fname, format='fits', overwrite=True)
                 write_func = write_astropy
             else:
@@ -276,6 +278,8 @@ def upload_table(table, title=None, show=True, write_func="auto", tbl_index=1, p
         tbl_id = FireflyClient._gen_item_id('Table')
     else:
         tbl_id = title
+    if view_coverage:
+        coverage()
     if show:
         status = fc.show_table(tval, tbl_id=tbl_id, title=title, table_index=tbl_index, page_size=page_size)
     else:
@@ -287,8 +291,6 @@ def upload_table(table, title=None, show=True, write_func="auto", tbl_index=1, p
     else:
         raise RuntimeError('table upload unsuccessful')
 
-
-
 def upload_image(image, title=None, write_func='auto', cell_id=images_cellid):
     """display an array or astropy.io.fits HDU or HDUList
 
@@ -298,6 +300,8 @@ def upload_image(image, title=None, write_func='auto', cell_id=images_cellid):
         Data to show in Firefly
     title: `str`
         title for the plot, if None then an integer is used
+    cell_id: `str`
+        cell id for the image. Defaults to the images cell default.
 
     Returns:
     --------
@@ -313,8 +317,9 @@ def upload_image(image, title=None, write_func='auto', cell_id=images_cellid):
             elif 'astropy.io.fits' in str(type(image)):
                 def write_astropy_image(fname):
                     import warnings
+                    from astropy.utils.exceptions import AstropyWarning
                     with warnings.catch_warnings():
-                        warnings.simplefilter('ignore', UserWarning)
+                        warnings.simplefilter('ignore', AstropyWarning)
                         image.writeto(fname, overwrite=True)
                 write_func = write_astropy_image
             elif 'numpy.ndarray' in str(type(image)):
@@ -340,3 +345,13 @@ def upload_image(image, title=None, write_func='auto', cell_id=images_cellid):
         return image_id
     else:
         raise RuntimeError('image upload and display unsuccessful')
+
+def coverage(cell_id=images_cellid):
+    """Show a coverage image for the current table
+
+    Parameters:
+    -----------
+    cell_id: `str`
+        cell id for the image. Defaults to the images cell default.
+    """
+    fc.show_coverage(viewer_id=cell_id)
