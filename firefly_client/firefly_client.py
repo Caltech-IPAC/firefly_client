@@ -1369,6 +1369,12 @@ class FireflyClient(WebSocketClient):
             **upper_value** : `int` or  `float`, optional
                 Upper end of stretch (the default is 90).
 
+            **asinh_q_value** : `float`, optional
+                The asinh softening parameter for Asinh stretch.
+                Use Q=0 for linear stretch, increase Q to make brighter features visible.
+                When not specified, Q is calculated by Firefly to use full color range.
+            **gamma_value**
+                The gamma value for Power Law Gamma stretch
         Returns
         -------
         out : `dict`
@@ -1599,20 +1605,29 @@ class FireflyClient(WebSocketClient):
     @staticmethod
     def _create_rv(stretch_type, lower_value, upper_value, algorithm,
                    zscale_contrast=25, zscale_samples=600, zscale_samples_perline=120,
-                   beta_value=0.1, gamma_value=2.0):
+                   asinh_q_value=None, gamma_value=2.0):
         retval = None
         st = stretch_type.lower()
         a = algorithm.lower()
+
+        # when q is NaN (case-sensitive), Firefly will calculate q using range
+        if asinh_q_value is None or math.isnan(asinh_q_value):
+            qstr = 'NaN'
+        elif math.isinf(asinh_q_value):
+            raise ValueError('invalid asinh_q_value: %f' % asinh_q_value)
+        else:
+            qstr = '%f' % asinh_q_value
+            
         if st in FireflyClient.STRETCH_TYPE_DICT and a in FireflyClient.STRETCH_ALGORITHM_DICT:
-            retval = '%d,%f,%d,%f,%f,%f,%d,%d,%d,%d' % \
+            retval = '%d,%f,%d,%f,%s,%f,%d,%d,%d,%d' % \
                    (FireflyClient.STRETCH_TYPE_DICT[st], lower_value,
                     FireflyClient.STRETCH_TYPE_DICT[st], upper_value,
-                    beta_value, gamma_value,
+                    qstr, gamma_value,
                     FireflyClient.STRETCH_ALGORITHM_DICT[a],
                     zscale_contrast, zscale_samples, zscale_samples_perline)
         return retval
 
-    def _create_rangevalues_standard(self, algorithm, stretch_type='Percent', lower_value=1, upper_value=99):
+    def _create_rangevalues_standard(self, algorithm, stretch_type='Percent', lower_value=1, upper_value=99, **additional_params):
         """
         Create range values for non-zscale cases.
 
@@ -1627,21 +1642,31 @@ class FireflyClient(WebSocketClient):
         upper_value: `int` or  `float`
             Upper end of stretch
 
+        **additional_params : optional keyword arguments
+            Algorithm specific parameters for changing the stretch. The options are shown as below:
+
+            **asinh_q_value** : `float`, optional
+                The asinh softening parameter for Asinh stretch.
+                Use Q=0 for linear stretch, increase Q to make brighter features visible.
+                When not specified, Q is calculated by Firefly to use full color range.
+            **gamma_value**
+                The gamma value for Power Law Gamma stretch
+
         Returns
         -------
         out : `str`
             a serialized range values string
         """
 
-        retval = self._create_rv(stretch_type, lower_value, upper_value, algorithm)
+        retval = self._create_rv(stretch_type, lower_value, upper_value, algorithm, **additional_params)
         if not retval:
             t = stretch_type if stretch_type.lower() in FireflyClient.STRETCH_TYPE_DICT else 'percent'
             a = algorithm if algorithm.lower() in FireflyClient.STRETCH_ALGORITHM_DICT else 'linear'
-            retval = self._create_rv(t, 1, 99, a)
+            retval = self._create_rv(t, 1, 99, a, **additional_params)
         return retval
 
     def _create_rangevalues_zscale(self, algorithm, zscale_contrast=25,
-                                   zscale_samples=600, zscale_samples_perline=120):
+                                   zscale_samples=600, zscale_samples_perline=120, **additional_params):
         """
         Create range values for zscale case.
 
@@ -1656,6 +1681,16 @@ class FireflyClient(WebSocketClient):
         zscale_samples_perline: `int`
             Zscale samples per line
 
+        **additional_params : optional keyword arguments
+            Algorithm specific parameters for changing the stretch. The options are shown as below:
+
+            **asinh_q_value** : `float`, optional
+                The asinh softening parameter for Asinh stretch.
+                Use Q=0 for linear stretch, increase Q to make brighter features visible.
+                When not specified, Q is calculated by Firefly to use full color range.
+            **gamma_value**
+                The gamma value for Power Law Gamma stretch
+
         Returns
         -------
         out : `str`
@@ -1663,10 +1698,10 @@ class FireflyClient(WebSocketClient):
         """
 
         retval = self._create_rv('zscale', 1, 1, algorithm,
-                                 zscale_contrast, zscale_samples, zscale_samples_perline)
+                                 zscale_contrast, zscale_samples, zscale_samples_perline, **additional_params)
         if not retval:
             a = algorithm if algorithm.lower() in FireflyClient.STRETCH_ALGORITHM_DICT else 'linear'
-            retval = self._create_rv('zscale', 1, 2, a, 25, 600, 120)
+            retval = self._create_rv('zscale', 1, 2, a, 25, 600, 120, **additional_params)
         return retval
 
     @classmethod
