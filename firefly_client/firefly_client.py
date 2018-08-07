@@ -1396,7 +1396,9 @@ class FireflyClient(WebSocketClient):
         st_data = [{'band': 'NO_BAND', 'rv': serialized_rv, 'bandVisible': True}]
         payload = {'stretchData': st_data, 'plotId': plot_id}
 
-        return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['StretchImage'], payload)
+        return_val = self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['StretchImage'], payload)
+        return_val['rv_string'] = serialized_rv
+        return return_val
 
     # -----------------------------------------------------------------
     # Region Stuff
