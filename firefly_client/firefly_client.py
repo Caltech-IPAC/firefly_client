@@ -61,10 +61,12 @@ class FireflyClient(WebSocketClient):
     # for serializing the RangeValues object
     STRETCH_TYPE_DICT = {'percent': 88, 'minmax': 89, 'absolute': 90,  'zscale': 91, 'sigma': 92}
     """Definition of stretch type (`dict`)."""
+    INVERSE_STRETCH_TYPE = {v: k for k, v in STRETCH_TYPE_DICT.items()}
 
     STRETCH_ALGORITHM_DICT = {'linear': 44, 'log': 45, 'loglog': 46, 'equal': 47, 'squared': 48, 'sqrt': 49,
                               'asinh': 50, 'powerlaw_gamma': 51}
     """Definition of stretch algorithm (`dict`)."""
+    INVERSE_STRETCH_ALGORITHM = {v: k for k, v in STRETCH_ALGORITHM_DICT.items()}
 
     # extension type
     EXTENSION_TYPE = ['AREA_SELECT', 'LINE_SELECT', 'POINT']
@@ -1357,7 +1359,7 @@ class FireflyClient(WebSocketClient):
         **additional_params : optional keyword arguments
             Parameters for changing the stretch. The options are shown as below:
 
-            **zscale_contrast** : `int` or  `float`, optional
+            **zscale_contrast** : `int`, optional
                 zscale contrast (the default is 25).
             **zscale_samples** : `int`, optional
                 zscale samples, int (the default is 600).
@@ -1389,7 +1391,7 @@ class FireflyClient(WebSocketClient):
         elif stype and (stype.lower() in ['minmax', 'maxmin']):
             # 'maxmin' retained for backwards compatibility
             serialized_rv = self._create_rangevalues_standard(algorithm, 'percent', 
-                                                              lower_value=0, upper_value=100)
+                                                              lower_value=0, upper_value=100, **additional_params)
         else:
             serialized_rv = self._create_rangevalues_standard(algorithm, stype, **additional_params)
 
@@ -1399,6 +1401,57 @@ class FireflyClient(WebSocketClient):
         return_val = self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['StretchImage'], payload)
         return_val['rv_string'] = serialized_rv
         return return_val
+
+    def parse_rvstring(self, rvstring):
+        """parse a Firefly RangeValues string into a dictionary
+
+        Parameters:
+        -----------
+        rvstring : `str`
+            RangeValues string as returned by the set_stretch method.
+
+        Returns:
+        --------
+        outdict : `dict`
+            dictionary of the inputs
+        """
+        vals = rvstring.split(',')
+        assert len(vals) == 10
+        outdict = dict(lower_type = self.INVERSE_STRETCH_TYPE[int(vals[0])],
+                   lower_limit = float(vals[1]),
+                   upper_type = self.INVERSE_STRETCH_TYPE[int(vals[2])],
+                   upper_limit = float(vals[3]),
+                   asinh_q = float(vals[4]),
+                   gamma = float(vals[5]),
+                   algorithm = self.INVERSE_STRETCH_ALGORITHM[int(vals[6])],
+                   zscale_contrast = int(vals[7]),
+                   zscale_samples = int(vals[8]),
+                   zscale_samples_perline = int(vals[9]))
+        return outdict
+
+    def rvstring_from_dict(self, rvdict):
+        """create an rvstring from a dictionary
+
+        Parameters:
+        -----------
+        rvdict : `dict`
+            Dictionary with the same keys as those returned by parse_rvstring
+
+        Returns:
+        --------
+        rvstring : `str`
+            RangeValues string that can be passed to the show_fits methods
+        """
+        rvstring = self._create_rv(stretch_type=rvdict['lower_type'],
+                              lower_value = rvdict['lower_limit'],
+                              upper_value = rvdict['upper_limit'],
+                              algorithm = rvdict['algorithm'],
+                              zscale_contrast = rvdict['zscale_contrast'],
+                              zscale_samples = rvdict['zscale_samples'],
+                              zscale_samples_perline = rvdict['zscale_samples_perline'],
+                              asinh_q_value = rvdict['asinh_q'],
+                              gamma_value = rvdict['gamma'])
+        return rvstring
 
     # -----------------------------------------------------------------
     # Region Stuff
@@ -1619,7 +1672,7 @@ class FireflyClient(WebSocketClient):
             raise ValueError('invalid asinh_q_value: %f' % asinh_q_value)
         else:
             qstr = '%f' % asinh_q_value
-            
+
         if st in FireflyClient.STRETCH_TYPE_DICT and a in FireflyClient.STRETCH_ALGORITHM_DICT:
             retval = '%d,%f,%d,%f,%s,%f,%d,%d,%d,%d' % \
                    (FireflyClient.STRETCH_TYPE_DICT[st], lower_value,
@@ -1676,7 +1729,7 @@ class FireflyClient(WebSocketClient):
         ----------
         algorithm: {'Linear', 'Log','LogLog','Equal','Squared', 'Sqrt'}
             Stretch algorithm.
-        zscale_contrast: `int` or  `float`
+        zscale_contrast: `int`
             Zscale contrast.
         zscale_samples: `int`
             Zscale samples
