@@ -1418,11 +1418,11 @@ class FireflyClient(WebSocketClient):
         vals = rvstring.split(',')
         assert len(vals) == 10
         outdict = dict(lower_type = self.INVERSE_STRETCH_TYPE[int(vals[0])],
-                   lower_limit = float(vals[1]),
+                   lower_value = float(vals[1]),
                    upper_type = self.INVERSE_STRETCH_TYPE[int(vals[2])],
-                   upper_limit = float(vals[3]),
-                   asinh_q = float(vals[4]),
-                   gamma = float(vals[5]),
+                   upper_value = float(vals[3]),
+                   asinh_q_value = float(vals[4]),
+                   gamma_value = float(vals[5]),
                    algorithm = self.INVERSE_STRETCH_ALGORITHM[int(vals[6])],
                    zscale_contrast = int(vals[7]),
                    zscale_samples = int(vals[8]),
@@ -1443,14 +1443,14 @@ class FireflyClient(WebSocketClient):
             RangeValues string that can be passed to the show_fits methods
         """
         rvstring = self._create_rv(stretch_type=rvdict['lower_type'],
-                              lower_value = rvdict['lower_limit'],
-                              upper_value = rvdict['upper_limit'],
+                              lower_value = rvdict['lower_value'],
+                              upper_value = rvdict['upper_value'],
                               algorithm = rvdict['algorithm'],
                               zscale_contrast = rvdict['zscale_contrast'],
                               zscale_samples = rvdict['zscale_samples'],
                               zscale_samples_perline = rvdict['zscale_samples_perline'],
-                              asinh_q_value = rvdict['asinh_q'],
-                              gamma_value = rvdict['gamma'])
+                              asinh_q_value = rvdict['asinh_q_value'],
+                              gamma_value = rvdict['gamma_value'])
         return rvstring
 
     # -----------------------------------------------------------------
