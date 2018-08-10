@@ -102,12 +102,13 @@ class FireflyClient(WebSocketClient):
         'ShowImageMetaData': 'layout.enableSpecialViewer',
         'ReinitViewer': 'app_data.reinitApp',
         'ShowHiPS': 'ImagePlotCntlr.PlotHiPS',
-        'ShowImageOrHiPS': 'ImagePlotCntlr.plotHiPSOrImage'}
+        'ShowImageOrHiPS': 'ImagePlotCntlr.plotHiPSOrImage',
+        'ImagelineBasedFootprint': 'DrawLayerCntlr.ImageLineBasedFP.imagelineBasedFPCreate'}
     """Definition of Firefly action (`dict`)."""
 
     # id for table, region layer, extension
     _item_id = {'Table': 0, 'RegionLayer': 0, 'Extension': 0, 'MaskLayer': 0, 'XYPlot': 0,
-                'Cell': 0, 'Histogram': 0, 'Plotly': 0, 'Image': 0}
+                'Cell': 0, 'Histogram': 0, 'Plotly': 0, 'Image': 0, 'FootprintLayer': 0}
 
     # Keep track of instances.
     instances = []
@@ -1454,6 +1455,64 @@ class FireflyClient(WebSocketClient):
         return rvstring
 
     # -----------------------------------------------------------------
+    # image line based footprint overlay
+    # -----------------------------------------------------------------
+    def overlay_imagepixel_based_footprint_layer(self, footprint_data, title=None,
+                                          footprint_layer_id=None, plot_id=None, **additional_params):
+        """
+        Overlay a footprint described in image line style on the loaded FITS images.
+        The footprint is defined in JSON string description.
+
+        Parameters
+        ----------
+        footprint_data : `dict`
+            footprint description in JSON format.
+        title : `str`, optional
+            Title of the footprint layer.
+        footprint_layer_id : `str`, optional
+            ID of the footprint layer to be created. It is automatically created if not specified.
+        plot_id : `str` or `list` of `str`, optional
+            ID of the plot that the footprint layer is created on.
+            If None,  then overlay the footprint on all plots in the same group of the active plot.
+
+        **additional_params : optional keyword arguments
+            parameters for HiPS viewer plotting, the options are shown as below:
+
+            **color** : `str`, optional
+                color for the footprint. it is color name like 'red' or color code like 'rgb(0,0,0)'
+            **style** : `str`, optional
+                footprint display style, 'outline' or 'fill'
+            **showText** : `bool`, optional
+                show text, footprint id if there is, by the 'outline' display
+        Returns
+        -------
+        out : `dict`
+            Status of the request, like {'success': True}.
+
+        .. note:: `file_on_server` and `region_data` are exclusively required.
+                  If both are specified, `file_on_server` takes the priority.
+                  If none is specified, no region layer is created.
+        """
+
+        if not footprint_layer_id:
+            footprint_layer_id = FireflyClient._gen_item_id('FootprintLayer')
+        payload = {'drawLayerId': footprint_layer_id}
+
+        if title:
+            payload.update({'title': title})
+        if plot_id:
+            payload.update({'plotId': plot_id})
+
+        payload.update({'footprintData': footprint_data})
+        if additional_params:
+            payload.update(additional_params)
+
+        #print(json.dumps(payload))
+
+        return self.dispatch_remote_action_by_post(
+                self.channel, FireflyClient.ACTION_DICT['ImagelineBasedFootprint'], payload)
+
+    # -----------------------------------------------------------------
     # Region Stuff
     # -----------------------------------------------------------------
 
@@ -1766,7 +1825,7 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        item : {'Table', 'RegionLayer', 'Extension', 'XYPlot', 'Cell'}
+        item : {'Table', 'RegionLayer', 'Extension', 'XYPlot', 'Cell', 'FootprintLayer'}
             Entity type.
 
         Returns
