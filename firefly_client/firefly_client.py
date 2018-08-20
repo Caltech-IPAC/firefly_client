@@ -1457,16 +1457,16 @@ class FireflyClient(WebSocketClient):
     # -----------------------------------------------------------------
     # image line based footprint overlay
     # -----------------------------------------------------------------
-    def overlay_imagepixel_based_footprint_layer(self, footprint_data, title=None,
+    def overlay_footprints(self, footprint_data, title=None,
                                           footprint_layer_id=None, plot_id=None, **additional_params):
         """
-        Overlay a footprint described in image line style on the loaded FITS images.
-        The footprint is defined in JSON string description.
+        Overlay a footprint dictionary on displayed images.
+        The dictionary must be convertible to JSON format.
 
         Parameters
         ----------
         footprint_data : `dict`
-            footprint description in JSON format.
+            footprint description in JSON format including image coordinate system.
         title : `str`, optional
             Title of the footprint layer.
         footprint_layer_id : `str`, optional
@@ -1476,7 +1476,7 @@ class FireflyClient(WebSocketClient):
             If None,  then overlay the footprint on all plots in the same group of the active plot.
 
         **additional_params : optional keyword arguments
-            parameters for HiPS viewer plotting, the options are shown as below:
+            parameters for footprint overlays, the options are shown as below:
 
             **color** : `str`, optional
                 color for the footprint. it is color name like 'red' or color code like 'rgb(0,0,0)'
@@ -1488,10 +1488,6 @@ class FireflyClient(WebSocketClient):
         -------
         out : `dict`
             Status of the request, like {'success': True}.
-
-        .. note:: `file_on_server` and `region_data` are exclusively required.
-                  If both are specified, `file_on_server` takes the priority.
-                  If none is specified, no region layer is created.
         """
 
         if not footprint_layer_id:
@@ -1506,8 +1502,6 @@ class FireflyClient(WebSocketClient):
         payload.update({'footprintData': footprint_data})
         if additional_params:
             payload.update(additional_params)
-
-        #print(json.dumps(payload))
 
         return self.dispatch_remote_action_by_post(
                 self.channel, FireflyClient.ACTION_DICT['ImagelineBasedFootprint'], payload)
