@@ -1492,6 +1492,11 @@ class FireflyClient(WebSocketClient):
                 footprint display style, 'outline' or 'fill'
             **showText** : `bool`, optional
                 show text, footprint id if there is, by the 'outline' display
+            **selectColor** : 'str`, optional
+                color for selected footprint
+            **highlightColor** : `str` optional
+                color for highlighted footprint
+
         Returns
         -------
         out : `dict`
