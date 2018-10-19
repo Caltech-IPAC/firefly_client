@@ -25,7 +25,9 @@ __docformat__ = 'restructuredtext'
 
 _my_localurl = 'http://localhost:8080/firefly'
 
-if 'FIREFLY_URL' in os.environ:
+if 'fireflyLabExtension' in os.environ:
+    _my_url = os.environ['fireflyURLLab']
+elif 'FIREFLY_URL' in os.environ:
     _my_url = os.environ['FIREFLY_URL']
 else:
     _my_url = _my_localurl
@@ -118,12 +120,16 @@ class FireflyClient(WebSocketClient):
 
         # auto-generate unique channel if not provided
         if channel is None:
-            channel = str(uuid.uuid1())
+            if 'fireflyLabExtension' in os.environ:
+                channel = os.environ['fireflyChannelLab']
+            else:
+                channel = str(uuid.uuid1())
 
         # websocket url
         ws_url = '%s://%s/sticky/firefly/events' % (wsproto, location)  # web socket url
         ws_url += '?channelID=%s' % channel
         WebSocketClient.__init__(self, ws_url)
+        print('chan: {}, url: {}'.format(channel,url))
 
         # url for dispatching actions
         self.url_root = protocol + '://' + location + '/sticky/CmdSrv'
