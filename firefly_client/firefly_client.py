@@ -1457,8 +1457,8 @@ class FireflyClient(WebSocketClient):
     # -----------------------------------------------------------------
     # image line based footprint overlay
     # -----------------------------------------------------------------
-    def overlay_footprints(self, footprint_data, title=None,
-                                          footprint_layer_id=None, plot_id=None, **additional_params):
+    def overlay_footprints(self, footprint_data=None, footprint_file=None, footprint_image=None, title=None,
+                            footprint_layer_id=None, plot_id=None, table_index=None, **additional_params):
         """
         Overlay a footprint dictionary on displayed images.
         The dictionary must be convertible to JSON format.
@@ -1467,6 +1467,10 @@ class FireflyClient(WebSocketClient):
         ----------
         footprint_data : `dict`
             footprint description in JSON format including image coordinate system.
+        footprint_file : `str`
+            footprint file with a table containing measurements and footprints
+        footprint_image: `str`
+            footprint image file
         title : `str`, optional
             Title of the footprint layer.
         footprint_layer_id : `str`, optional
@@ -1474,6 +1478,10 @@ class FireflyClient(WebSocketClient):
         plot_id : `str` or `list` of `str`, optional
             ID of the plot that the footprint layer is created on.
             If None,  then overlay the footprint on all plots in the same group of the active plot.
+        table_index : `int`, optional
+            The table to be shown in case `file_on_server` contains multiple tables. It is the extension number for
+            a FITS file or the table index for a VOTable file. In unspeficied, the server will fetch extension 1 from
+            a FITS file or the table at index 0 from a VOTable file.
 
         **additional_params : optional keyword arguments
             parameters for footprint overlays, the options are shown as below:
@@ -1498,6 +1506,12 @@ class FireflyClient(WebSocketClient):
             payload.update({'title': title})
         if plot_id:
             payload.update({'plotId': plot_id})
+        if footprint_file:
+            payload.update({'footprintFile': footprint_file})
+        if footprint_image:
+            payload.update({'footprintImageFile': footprint_image})
+        if table_index:
+            payload.update({'tbl_index': table_index})
 
         payload.update({'footprintData': footprint_data})
         if additional_params:
