@@ -1457,7 +1457,7 @@ class FireflyClient(WebSocketClient):
     # -----------------------------------------------------------------
     # image line based footprint overlay
     # -----------------------------------------------------------------
-    def overlay_footprints(self, footprint_data=None, footprint_file=None, footprint_image=None, title=None,
+    def overlay_footprints(self, footprint_file, footprint_image=None, title=None,
                             footprint_layer_id=None, plot_id=None, table_index=None, **additional_params):
         """
         Overlay a footprint dictionary on displayed images.
@@ -1465,8 +1465,6 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        footprint_data : `dict`
-            footprint description in JSON format including image coordinate system.
         footprint_file : `str`
             footprint file with a table containing measurements and footprints
         footprint_image: `str`
@@ -1518,7 +1516,6 @@ class FireflyClient(WebSocketClient):
         if table_index:
             payload.update({'tbl_index': table_index})
 
-        payload.update({'footprintData': footprint_data})
         if additional_params:
             payload.update(additional_params)
 
