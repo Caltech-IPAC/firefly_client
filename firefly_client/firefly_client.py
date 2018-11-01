@@ -738,7 +738,8 @@ class FireflyClient(WebSocketClient):
         return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['ShowFits'], payload)
 
     def show_table(self, file_on_server=None, tbl_id=None, title=None, page_size=100, is_catalog=True,
-                   meta=None, target_search_info=None, options=None, table_index=None):
+                   meta=None, target_search_info=None, options=None, table_index=None,
+                   column_spec = None, filters=None):
         """
         Show a table.
 
@@ -797,6 +798,13 @@ class FireflyClient(WebSocketClient):
             The table to be shown in case `file_on_server` contains multiple tables. It is the extension number for
             a FITS file or the table index for a VOTable file. In unspeficied, the server will fetch extension 1 from
             a FITS file or the table at index 0 from a VOTable file.
+        column_spec : `str`, optional
+            A string specifying column names from the table that will be shown. Column
+            names must appear in the string in quotes, eg. '"ra","dec","mag"'
+            It is possible to derive columns, e.g. '"flux"/"flux_err" as "SNR"'
+        filters : `str`, optional
+            A string specifying filters. Column names must be quoted.
+            For example, '("coord_dec" > -0.478) and ("parent" > 0)'.
 
         Returns
         -------
@@ -832,6 +840,10 @@ class FireflyClient(WebSocketClient):
         tbl_req.update({'META_INFO': meta_info})
         if options:
             tbl_req.update({'options': options})
+        if column_spec:
+            tbl_req.update({'inclCols':column_spec})
+        if filters:
+            tbl_req.update({'filters': filters})
         payload = {'request': tbl_req}
 
         return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['ShowTable'], payload)
