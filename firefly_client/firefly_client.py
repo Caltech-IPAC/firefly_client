@@ -129,7 +129,6 @@ class FireflyClient(WebSocketClient):
         ws_url = '%s://%s/sticky/firefly/events' % (wsproto, location)  # web socket url
         ws_url += '?channelID=%s' % channel
         WebSocketClient.__init__(self, ws_url)
-        print('chan: {}, url: {}'.format(channel,url))
 
         # url for dispatching actions
         self.url_root = protocol + '://' + location + '/sticky/CmdSrv'
