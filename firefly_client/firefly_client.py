@@ -311,8 +311,8 @@ class FireflyClient(WebSocketClient):
         """
         Display URL in a user-friendly format
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         url : `str`, optional
             A url overriding the default (the default retrieves from *self.get_firefly_url*).
         """
@@ -389,8 +389,8 @@ class FireflyClient(WebSocketClient):
     def get_instances(cls):
         """Get all current instances
 
-        Returns:
-        --------
+        Returns
+        -------
         `list`
             list of instances
         """
@@ -400,8 +400,8 @@ class FireflyClient(WebSocketClient):
     def get_default_instance(cls):
         """ Return the default instance
 
-        Returns:
-        --------
+        Returns
+        -------
         `FireflyClient` or None
             Return the first FireflyClient instance, or None if there are none
         """
@@ -1397,6 +1397,7 @@ class FireflyClient(WebSocketClient):
                 When not specified, Q is calculated by Firefly to use full color range.
             **gamma_value**
                 The gamma value for Power Law Gamma stretch
+
         Returns
         -------
         out : `dict`
@@ -1434,7 +1435,7 @@ class FireflyClient(WebSocketClient):
         return return_val
 
     def set_stretch_hprgb(self, plot_id, asinh_q_value=None, scaling_k=1.0,
-                        pedestal_value=1, pedestal_type='percent'):
+                          pedestal_value=1, pedestal_type='percent'):
         """
         Change the stretch of RGB image (hue-preserving rgb case). When a parameter is list,
         the first value if for red, the second value - for green, and the third value - for blue band.
@@ -1450,11 +1451,12 @@ class FireflyClient(WebSocketClient):
             Use Q=0 for linear stretch, increase Q to make brighter features visible.
             When not specified, Q is calculated by Firefly to use full color range for intensity.
         scaling_k : `float` or `list` of `float`, optional
-            Scaling coefficient from 0.1 to 10 ( the default is 1 )
-        pedestal_type : {'percent','minmax','absolute','zscale', 'sigma'} or `list`, optional
+            Scaling coefficient from 0.1 to 10 (the default is 1).
+        pedestal_type : {'percent','minmax','absolute','zscale','sigma'} or `list` of `str`, optional
             Method to obtain pedestal value (the default is 'percent').
-        pedestal_value : `int` or `float` or `list` of `int` or `float`, optional
-            Minimum value (the default is 1 percent)
+        pedestal_value : `float` or `list` of `float`, optional
+            Minimum value (the default is 1 percent).
+
         Returns
         -------
         out : `dict`
@@ -1489,13 +1491,13 @@ class FireflyClient(WebSocketClient):
     def parse_rvstring(self, rvstring):
         """parse a Firefly RangeValues string into a dictionary
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         rvstring : `str`
             RangeValues string as returned by the set_stretch method.
 
-        Returns:
-        --------
+        Returns
+        -------
         outdict : `dict`
             dictionary of the inputs
         """
@@ -1521,13 +1523,13 @@ class FireflyClient(WebSocketClient):
     def rvstring_from_dict(self, rvdict):
         """create an rvstring from a dictionary
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         rvdict : `dict`
             Dictionary with the same keys as those returned by parse_rvstring
 
-        Returns:
-        --------
+        Returns
+        -------
         rvstring : `str`
             RangeValues string that can be passed to the show_fits methods
         """
@@ -1537,7 +1539,7 @@ class FireflyClient(WebSocketClient):
                     'asinh_q_value','gamma_value',
                     'rgb_preserve_hue','asinh_stretch', 'scaling_k']
         kw = dict((k,rvdict[k]) for k in argnames)
-        rvstring = self._create_rv( stretch_type=rvdict['lower_type'],**kw)
+        rvstring = self._create_rv(stretch_type=rvdict['lower_type'],**kw)
 
         # rvstring = self._create_rv(stretch_type=rvdict['lower_type'],
         #                       lower_value = rvdict['lower_value'],
@@ -1971,15 +1973,15 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        val : `str`, `float`, or `int`
-            Scalar value or a list with 3 items
+        val : `str` or `float` or `int`
+            Scalar value or a list with 3 items.
         name : `str`
-            Name associated with the value (for error traceability)
+            Name associated with the value (for error traceability).
 
         Returns
         -------
         out : `list`
-            List with 3 items
+            List with 3 items.
         """
 
         ret = val if type(val) == list else [val, val, val]
