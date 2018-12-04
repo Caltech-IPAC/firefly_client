@@ -1370,9 +1370,9 @@ class FireflyClient(WebSocketClient):
         plot_id : `str` or `list` of `str`
             ID of the plot to be stretched. If `plot_id` is a list or tuple, then each plot in the list
             or the tuple is stretched in order.
-        stype : {'percent','minmax','absolute','zscale', 'sigma'}, optional
+        stype : {'percent', 'minmax', 'absolute', 'zscale', 'sigma'}, optional
             Stretch method (the default is 'percent').
-        algorithm : {'linear', 'log','loglog','equal', 'squared', 'sqrt', 'asinh', 'powerlaw_gamma'}, optional
+        algorithm : {'linear', 'log', 'loglog', 'equal', 'squared', 'sqrt', 'asinh', 'powerlaw_gamma'}, optional
             Stretch algorithm (the default is 'linear').
         band : {'RED', 'GREEN', 'BLUE', 'ALL'}, optional
             3-color band to apply stretch to
@@ -1437,9 +1437,9 @@ class FireflyClient(WebSocketClient):
     def set_stretch_hprgb(self, plot_id, asinh_q_value=None, scaling_k=1.0,
                           pedestal_value=1, pedestal_type='percent'):
         """
-        Change the stretch of RGB image (hue-preserving rgb case). When a parameter is list,
-        the first value if for red, the second value - for green, and the third value - for blue band.
-        Otherwise the same value is used for all three bands.
+        Change the stretch of RGB image (hue-preserving rgb case). When a parameter is a list,
+        it must contain three elements, for red, green and blue bands respectively.
+        Otherwise the parameter is a scalar that is used for all three bands.
 
         Parameters
         ----------
@@ -1452,7 +1452,7 @@ class FireflyClient(WebSocketClient):
             When not specified, Q is calculated by Firefly to use full color range for intensity.
         scaling_k : `float` or `list` of `float`, optional
             Scaling coefficient from 0.1 to 10 (the default is 1).
-        pedestal_type : {'percent','minmax','absolute','zscale','sigma'} or `list` of `str`, optional
+        pedestal_type : {'percent', 'minmax', 'absolute', 'zscale', 'sigma'} or `list` of `str`, optional
             Method to obtain pedestal value (the default is 'percent').
         pedestal_value : `float` or `list` of `float`, optional
             Minimum value (the default is 1 percent).
@@ -1872,9 +1872,9 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         -----------
-        algorithm : {'Linear', 'Log','LogLog','Equal','Squared', 'Sqrt'}
+        algorithm : {'Linear', 'Log', 'LogLog', 'Equal', 'Squared', 'Sqrt'}
             Stretch algorithm.
-        stretch_type : {'Percent','Absolute','Sigma'}
+        stretch_type : {'Percent', 'Absolute', 'Sigma'}
             Stretch type.
         lower_value: `int` or  `float`
             Lower end of stretch.
@@ -1911,7 +1911,7 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        algorithm: {'Linear', 'Log','LogLog','Equal','Squared', 'Sqrt'}
+        algorithm: {'Linear', 'Log', 'LogLog', 'Equal', 'Squared', 'Sqrt'}
             Stretch algorithm.
         zscale_contrast: `int`
             Zscale contrast.
