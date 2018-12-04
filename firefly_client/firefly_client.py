@@ -311,8 +311,8 @@ class FireflyClient(WebSocketClient):
         """
         Display URL in a user-friendly format
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         url : `str`, optional
             A url overriding the default (the default retrieves from *self.get_firefly_url*).
         """
@@ -389,8 +389,8 @@ class FireflyClient(WebSocketClient):
     def get_instances(cls):
         """Get all current instances
 
-        Returns:
-        --------
+        Returns
+        -------
         `list`
             list of instances
         """
@@ -400,8 +400,8 @@ class FireflyClient(WebSocketClient):
     def get_default_instance(cls):
         """ Return the default instance
 
-        Returns:
-        --------
+        Returns
+        -------
         `FireflyClient` or None
             Return the first FireflyClient instance, or None if there are none
         """
@@ -1361,19 +1361,21 @@ class FireflyClient(WebSocketClient):
 
         return self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['PanImage'], payload)
 
-    def set_stretch(self, plot_id, stype=None, algorithm=None, **additional_params):
+    def set_stretch(self, plot_id, stype=None, algorithm=None, band=None, **additional_params):
         """
-        Change the stretch of the image (no band case).
+        Change the stretch of the image (no band or 3-color per-band cases).
 
         Parameters
         ----------
         plot_id : `str` or `list` of `str`
             ID of the plot to be stretched. If `plot_id` is a list or tuple, then each plot in the list
             or the tuple is stretched in order.
-        stype : {'percent','minmax','absolute','zscale', 'sigma'}, optional
+        stype : {'percent', 'minmax', 'absolute', 'zscale', 'sigma'}, optional
             Stretch method (the default is 'percent').
-        algorithm : {'linear', 'log','loglog','equal', 'squared', 'sqrt', 'asinh', 'powerlaw_gamma'}, optional
+        algorithm : {'linear', 'log', 'loglog', 'equal', 'squared', 'sqrt', 'asinh', 'powerlaw_gamma'}, optional
             Stretch algorithm (the default is 'linear').
+        band : {'RED', 'GREEN', 'BLUE', 'ALL'}, optional
+            3-color band to apply stretch to
         **additional_params : optional keyword arguments
             Parameters for changing the stretch. The options are shown as below:
 
@@ -1395,6 +1397,7 @@ class FireflyClient(WebSocketClient):
                 When not specified, Q is calculated by Firefly to use full color range.
             **gamma_value**
                 The gamma value for Power Law Gamma stretch
+
         Returns
         -------
         out : `dict`
@@ -1413,28 +1416,93 @@ class FireflyClient(WebSocketClient):
         else:
             serialized_rv = self._create_rangevalues_standard(algorithm, stype, **additional_params)
 
-        st_data = [{'band': 'NO_BAND', 'rv': serialized_rv, 'bandVisible': True}]
+        bands_3color = ['RED', 'GREEN', 'BLUE', 'ALL']
+        if (not band):
+            band_list = ['NO_BAND']
+        elif band in bands_3color:
+            band_list = ['RED', 'GREEN', 'BLUE'] if band == 'ALL' else [band]
+        else:
+            raise ValueError('invalid band: %s' % band)
+
+        st_data = []
+        for b in band_list:
+            st_data.append({'band': b, 'rv': serialized_rv, 'bandVisible': True})
+
         payload = {'stretchData': st_data, 'plotId': plot_id}
 
         return_val = self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['StretchImage'], payload)
         return_val['rv_string'] = serialized_rv
         return return_val
 
+    def set_stretch_hprgb(self, plot_id, asinh_q_value=None, scaling_k=1.0,
+                          pedestal_value=1, pedestal_type='percent'):
+        """
+        Change the stretch of RGB image (hue-preserving rgb case). When a parameter is a list,
+        it must contain three elements, for red, green and blue bands respectively.
+        Otherwise the parameter is a scalar that is used for all three bands.
+
+        Parameters
+        ----------
+        plot_id : `str` or `list` of `str`
+            ID of the plot to be stretched. If `plot_id` is a list or tuple, then each plot in the list
+            or the tuple is stretched in order.
+        asinh_q_value : `float`, optional
+            The asinh softening parameter for Asinh stretch.
+            Use Q=0 for linear stretch, increase Q to make brighter features visible.
+            When not specified, Q is calculated by Firefly to use full color range for intensity.
+        scaling_k : `float` or `list` of `float`, optional
+            Scaling coefficient from 0.1 to 10 (the default is 1).
+        pedestal_type : {'percent', 'minmax', 'absolute', 'zscale', 'sigma'} or `list` of `str`, optional
+            Method to obtain pedestal value (the default is 'percent').
+        pedestal_value : `float` or `list` of `float`, optional
+            Minimum value (the default is 1 percent).
+
+        Returns
+        -------
+        out : `dict`
+            Status of the request, like {'success': True}.
+
+        .. note:: `pedestal_value` is used when `pedestal_type` is not 'zscale'.
+        """
+
+        scaling_k = self._ensure3(scaling_k, 'scaling_k')
+        pedestal_type = self._ensure3(pedestal_type, 'pedestal_type')
+        pedestal_value = self._ensure3(pedestal_value, 'pedestal_value')
+
+        st_data = []
+        bands = ['RED', 'GREEN', 'BLUE']
+        for i, band  in enumerate(bands):
+            serialized_rv = self._create_rv(stretch_type=pedestal_type[i],
+                                          lower_value = pedestal_value[i],
+                                          upper_value = 99.0,
+                                          algorithm = 'asinh',
+                                          asinh_q_value = asinh_q_value,
+                                          rgb_preserve_hue = 1,
+                                          scaling_k = scaling_k[i])
+            st_data.append({ 'band': band, 'rv': serialized_rv, 'bandVisible': True})
+
+        payload = {'stretchData': st_data, 'plotId': plot_id}
+
+        return_val = self.dispatch_remote_action_by_post(self.channel, FireflyClient.ACTION_DICT['StretchImage'], payload)
+        return_val['rv_lst'] = [d['rv'] for d in st_data]
+        return return_val
+
+
     def parse_rvstring(self, rvstring):
         """parse a Firefly RangeValues string into a dictionary
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         rvstring : `str`
             RangeValues string as returned by the set_stretch method.
 
-        Returns:
-        --------
+        Returns
+        -------
         outdict : `dict`
             dictionary of the inputs
         """
         vals = rvstring.split(',')
-        assert len(vals) == 10
+        assert 10 <= len(vals) <= 13
         outdict = dict(lower_type = self.INVERSE_STRETCH_TYPE[int(vals[0])],
                    lower_value = float(vals[1]),
                    upper_type = self.INVERSE_STRETCH_TYPE[int(vals[2])],
@@ -1445,30 +1513,46 @@ class FireflyClient(WebSocketClient):
                    zscale_contrast = int(vals[7]),
                    zscale_samples = int(vals[8]),
                    zscale_samples_perline = int(vals[9]))
+        if len(vals) > 10:
+            outdict['rgb_preserve_hue'] = int(vals[10])
+            outdict['asinh_stretch'] = float(vals[11])
+            outdict['scaling_k'] = float(vals[12])
+
         return outdict
 
     def rvstring_from_dict(self, rvdict):
         """create an rvstring from a dictionary
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         rvdict : `dict`
             Dictionary with the same keys as those returned by parse_rvstring
 
-        Returns:
-        --------
+        Returns
+        -------
         rvstring : `str`
             RangeValues string that can be passed to the show_fits methods
         """
-        rvstring = self._create_rv(stretch_type=rvdict['lower_type'],
-                              lower_value = rvdict['lower_value'],
-                              upper_value = rvdict['upper_value'],
-                              algorithm = rvdict['algorithm'],
-                              zscale_contrast = rvdict['zscale_contrast'],
-                              zscale_samples = rvdict['zscale_samples'],
-                              zscale_samples_perline = rvdict['zscale_samples_perline'],
-                              asinh_q_value = rvdict['asinh_q_value'],
-                              gamma_value = rvdict['gamma_value'])
+
+        argnames = ['lower_value','upper_value','upper_value','algorithm',
+                    'zscale_contrast','zscale_samples','zscale_samples_perline',
+                    'asinh_q_value','gamma_value',
+                    'rgb_preserve_hue','asinh_stretch', 'scaling_k']
+        kw = dict((k,rvdict[k]) for k in argnames)
+        rvstring = self._create_rv(stretch_type=rvdict['lower_type'],**kw)
+
+        # rvstring = self._create_rv(stretch_type=rvdict['lower_type'],
+        #                       lower_value = rvdict['lower_value'],
+        #                       upper_value = rvdict['upper_value'],
+        #                       algorithm = rvdict['algorithm'],
+        #                       zscale_contrast = rvdict['zscale_contrast'],
+        #                       zscale_samples = rvdict['zscale_samples'],
+        #                       zscale_samples_perline = rvdict['zscale_samples_perline'],
+        #                       asinh_q_value = rvdict['asinh_q_value'],
+        #                       gamma_value = rvdict['gamma_value'],
+        #                       rgb_preserve_hue = rvdict['rgb_preserve_hue'],
+        #                       asinh_stretch = rvdict['asinh_stretch'],
+        #                       scaling_k = rvdict['scaling_k'])
         return rvstring
 
     # -----------------------------------------------------------------
@@ -1746,7 +1830,8 @@ class FireflyClient(WebSocketClient):
     @staticmethod
     def _create_rv(stretch_type, lower_value, upper_value, algorithm,
                    zscale_contrast=25, zscale_samples=600, zscale_samples_perline=120,
-                   asinh_q_value=None, gamma_value=2.0):
+                   asinh_q_value=None, gamma_value=2.0,
+                   rgb_preserve_hue=0, asinh_stretch=None, scaling_k=1.0):
         retval = None
         st = stretch_type.lower()
         a = algorithm.lower()
@@ -1759,13 +1844,26 @@ class FireflyClient(WebSocketClient):
         else:
             qstr = '%f' % asinh_q_value
 
+        # when asinh_stretch is NaN (case-sensitive), Firefly will calculate asinh_stretch
+        # for hue-preserving rgb using z-scale range of intensity
+        if asinh_stretch is None or math.isnan(asinh_stretch):
+            asinh_stretch_str = 'NaN'
+        elif math.isinf(asinh_stretch) or asinh_stretch < 0:
+            raise ValueError('invalid asinh_stretch for hue-preserving rgb: %f' % asinh_stretch)
+        else:
+            asinh_stretch_str = '%f' % asinh_stretch
+
+        if rgb_preserve_hue is None:
+            rgb_preserve_hue = 0
+
         if st in FireflyClient.STRETCH_TYPE_DICT and a in FireflyClient.STRETCH_ALGORITHM_DICT:
-            retval = '%d,%f,%d,%f,%s,%f,%d,%d,%d,%d' % \
+            retval = '%d,%f,%d,%f,%s,%f,%d,%d,%d,%d,%d,%s,%f' % \
                    (FireflyClient.STRETCH_TYPE_DICT[st], lower_value,
                     FireflyClient.STRETCH_TYPE_DICT[st], upper_value,
                     qstr, gamma_value,
                     FireflyClient.STRETCH_ALGORITHM_DICT[a],
-                    zscale_contrast, zscale_samples, zscale_samples_perline)
+                    zscale_contrast, zscale_samples, zscale_samples_perline,
+                    rgb_preserve_hue, asinh_stretch_str, scaling_k)
         return retval
 
     def _create_rangevalues_standard(self, algorithm, stretch_type='Percent', lower_value=1, upper_value=99, **additional_params):
@@ -1774,9 +1872,9 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         -----------
-        algorithm : {'Linear', 'Log','LogLog','Equal','Squared', 'Sqrt'}
+        algorithm : {'Linear', 'Log', 'LogLog', 'Equal', 'Squared', 'Sqrt'}
             Stretch algorithm.
-        stretch_type : {'Percent','Absolute','Sigma'}
+        stretch_type : {'Percent', 'Absolute', 'Sigma'}
             Stretch type.
         lower_value: `int` or  `float`
             Lower end of stretch.
@@ -1813,7 +1911,7 @@ class FireflyClient(WebSocketClient):
 
         Parameters
         ----------
-        algorithm: {'Linear', 'Log','LogLog','Equal','Squared', 'Sqrt'}
+        algorithm: {'Linear', 'Log', 'LogLog', 'Equal', 'Squared', 'Sqrt'}
             Stretch algorithm.
         zscale_contrast: `int`
             Zscale contrast.
@@ -1867,3 +1965,26 @@ class FireflyClient(WebSocketClient):
         else:
             return None
 
+    @staticmethod
+    def _ensure3(val, name):
+        """
+        Make sure that the value is a scalar or a list with 3 values.
+        If the number of items is less than 3, raise an error.
+
+        Parameters
+        ----------
+        val : `str` or `float` or `int`
+            Scalar value or a list with 3 items.
+        name : `str`
+            Name associated with the value (for error traceability).
+
+        Returns
+        -------
+        out : `list`
+            List with 3 items.
+        """
+
+        ret = val if type(val) == list else [val, val, val]
+        if not len(ret) == 3:
+            raise ValueError('%s list should have 3 items' % name)
+        return ret
