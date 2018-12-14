@@ -128,10 +128,11 @@ class FireflyClient(WebSocketClient):
     instances = []
 
     @staticmethod
-    def make_lab_client(start_browser_tab=False, html_file=_my_html_file, start_tab=True):
+    def make_lab_client(start_browser_tab=False, html_file=_my_html_file, start_tab=True,
+                        verbose=False):
         """
         Factory method to create a Firefly client in the Jupyter lab environment. If you are using Lab the  this method
-        is the best way to construct a FireflyClientK
+        is the best way to construct a FireflyClient
         If called in a non-Jupyter lab
         environment, it will not create a FireflyClient, show an error message,  and return a null.
 
@@ -139,6 +140,10 @@ class FireflyClient(WebSocketClient):
         ----------
         start_browser_tab : `bool`
             If True start a browser tab, if False start a lab tab. (will only work if start_tab is True, the default)
+            To start a new tab you will have to disable popup blocking for the Jupyterlab site.
+                Chrome: look at the right side of the address bar
+                Firefox: a preference bar appears at the top
+                Safari: shows an animation to follow on the left side bar
         html_file : `str`, optional
             HTML file that is the 'landing page' for users, appended to the URL.
             You should almost always take the default.
@@ -153,24 +158,31 @@ class FireflyClient(WebSocketClient):
         """
 
         if 'fireflyLabExtension' not in os.environ:
-            print('FireflyClient.makeLabClient can only be used in the Jupyter Lab Environment')
-            return None
+            if verbose:
+                print('could not find environment variable fireflyLabExtension')
+            raise RuntimeError('FireflyClient.makeLabClient can only be used in the Jupyterlab environment')
         if 'fireflyChannelLab' not in os.environ:
-            print('Could not find channel. jupyter_firefly_extensions appears to be install incorrectly.')
-            return None
+            if verbose:
+                print('could not find environment variable fireflyChannelLab')
+            raise RuntimeError('Could not find channel. jupyter_firefly_extensions appears' +
+                               ' to be installed incorrectly.')
         if _my_url != os.environ['fireflyURLLab']:
-            print('Could not find url. jupyter_firefly_extensions appears to be install incorrectly.')
+            if verbose:
+                print('could not find environment variable fireflyURLLab')
+            raise RuntimeError('Could not find url. jupyter_firefly_extensions appears' +
+                               ' to be installed incorrectly.')
             return None
         if start_browser_tab:
-            print('To start a new tab you you will have to disable popup blocking for this site.')
-            print('     Chrome: look at the right side of the address bar')
-            print('     Firefox: a preference bar appears at the top')
-            print('     Safari: shows an animation to to follow on left side bar')
+            if verbose:
+                print('To start a new tab you you will have to disable popup blocking for this site.')
+                print('     Chrome: look at the right side of the address bar')
+                print('     Firefox: a preference bar appears at the top')
+                print('     Safari: shows an animation to follow on left side bar')
         return FireflyClient(url=_my_url, html_file=html_file,
                              use_lab_env=True, start_tab=start_tab,
                              start_browser_tab=start_browser_tab)
 
-    def __init__(self, url, channel=None, html_file=_my_html_file,
+    def __init__(self, url=_my_url, channel=None, html_file=_my_html_file,
                  make_default=False, use_lab_env=False, start_tab=False, start_browser_tab=False):
 
         FireflyClient._instance_cnt += 1
