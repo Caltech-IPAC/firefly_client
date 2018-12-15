@@ -20,6 +20,7 @@ import uuid
 import math
 import mimetypes
 import base64
+import datetime
 import weakref
 
 __docformat__ = 'restructuredtext'
@@ -33,9 +34,7 @@ elif 'FIREFLY_URL' in os.environ:
 else:
     _my_url = _my_localurl
 
-_my_html_file = None
-if 'FIREFLY_HTML' in os.environ:
-    _my_html_file = os.environ['FIREFLY_HTML']
+_my_html_file = os.environ.get('FIREFLY_HTML', None)
 
 
 class FireflyClient(WebSocketClient):
@@ -131,23 +130,25 @@ class FireflyClient(WebSocketClient):
     def make_lab_client(start_browser_tab=False, html_file=_my_html_file, start_tab=True,
                         verbose=False):
         """
-        Factory method to create a Firefly client in the Jupyter lab environment. If you are using Lab the  this method
-        is the best way to construct a FireflyClient
-        If called in a non-Jupyter lab
-        environment, it will not create a FireflyClient, show an error message,  and return a null.
+        Factory method to create a Firefly client in the Jupyterlab environment.
+        If you are using Jupyterlab with the jupyter_firefly_extension installed,
+        then this method is the best way to construct a FireflyClient.
+        If called in a non-Jupyterlab  environment, the method raises a RuntimeError.
 
         Parameters
         ----------
         start_browser_tab : `bool`
-            If True start a browser tab, if False start a lab tab. (will only work if start_tab is True, the default)
+            If True start a browser tab, if False start a lab tab. start_tab must
+            also be True.
             To start a new tab you will have to disable popup blocking for the Jupyterlab site.
                 Chrome: look at the right side of the address bar
                 Firefox: a preference bar appears at the top
                 Safari: shows an animation to follow on the left side bar
         html_file : `str`, optional
             HTML file that is the 'landing page' for users, appended to the URL.
-            You should almost always take the default.
-            e.g. 'slate.html'. Defaults to None which is an empty string.
+            You should almost always take the default, e.g. 'slate.html'.
+            Defaults to the value of the environment variable 'FIREFLY_URL' if
+            it is defined: otherwise defaults to None.
         start_tab : `bool`, optional
             If True, bring up a Jupyterlab or a browser tab for Firefly. You should almost always take the default.
 
@@ -182,8 +183,65 @@ class FireflyClient(WebSocketClient):
                              use_lab_env=True, start_tab=start_tab,
                              start_browser_tab=start_browser_tab)
 
+    @staticmethod
+    def make_client(url=_my_url, html_file=_my_html_file, launch_browser=True,
+                    channel_override=None, verbose=False):
+        """
+        Factory method to create a Firefly client in a plain Python, IPython, or
+        notebook session, and attempt to open a display.  If a display cannot be
+        opened, a link will be displayed.
+
+        Parameters
+        ----------
+        url : `str`, optional
+            URL of the Firefly server. The default is determined by checking
+            environment variables 'fireflyURLLab' and 'FIREFLY_URL'; if these
+            are undefined, then the default is 'http://localhost:8080/firefly'
+            for the case of a user running a Firefly server on their desktop.
+        html_file : `str`, optional
+            HTML file that is the 'landing page' for users, appended to the URL.
+            The default is the value of the environment variable 'FIREFLY_HTML'
+            if it is defined; otherwise None.
+        launch_browser : `bool`, optional
+            If True, attempt to launch a browser tab for the Firefly viewer.
+            If that attempt is unsuccessful, a link for the Firefly viewer is
+            displayed.
+        channel_override: `str` or None
+            If channel_override is None, the value of the environment variable
+            'FIREFLY_CHANNEL' is checked. If unset, then a URL-safe channel
+            string is generated.
+            If channel_override is set to a string, it is used for the Firefly
+            channel.
+
+        Returns
+        -------
+        fc : `FireflyClient`
+            A FireflyClient that works in the lab environment
+        """
+        if channel_override is not None:
+            channel = channel_override
+        else:
+            if 'FIREFLY_CHANNEL' in os.environ:
+                channel = os.environ['FIREFLY_CHANNEL']
+            else:
+                channel = base64.urlsafe_b64encode(
+                                (os.environ.get('USER', '') +
+                                 datetime.datetime.today().strftime('%Y-%m-%d')
+                                 ).encode()
+                           ).decode().replace('=', '')
+
+        fc = FireflyClient(url=_my_url, html_file=html_file, channel=channel,
+                           use_lab_env=False, start_tab=False,
+                           start_browser_tab=False)
+        if verbose:
+            print('Firefly URL is {}'.format(fc.get_firefly_url()))
+        if launch_browser:
+            fc.launch_browser()
+        return fc
+
     def __init__(self, url=_my_url, channel=None, html_file=_my_html_file,
-                 make_default=False, use_lab_env=False, start_tab=False, start_browser_tab=False):
+                 make_default=False, use_lab_env=False, start_tab=False,
+                 start_browser_tab=False):
 
         FireflyClient._instance_cnt += 1
         protocol = 'http'
