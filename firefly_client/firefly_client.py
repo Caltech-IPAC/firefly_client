@@ -1419,7 +1419,7 @@ class FireflyClient(WebSocketClient):
         """
 
         payload = {'plotId': plot_id}
-        if x and y:
+        if x is not None and y is not None:
             if coord.startswith('image'):
                 payload.update({'centerPt': {'x': x, 'y': y, 'type': 'ImagePt'}})
             else:
