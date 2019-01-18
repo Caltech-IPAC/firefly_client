@@ -6,9 +6,9 @@ by dispatching remote actions.
 """
 from __future__ import print_function
 from future import standard_library
-standard_library.install_aliases()
 from builtins import str
 from ws4py.client.threadedclient import WebSocketClient
+from ws4py.client import HandshakeError
 import os
 import requests
 import webbrowser
@@ -16,12 +16,14 @@ import json
 import time
 import socket
 import urllib.parse
+from urllib.parse import urljoin
 import uuid
 import math
 import mimetypes
 import base64
 import datetime
 import weakref
+from functools import reduce
 
 __docformat__ = 'restructuredtext'
 
@@ -34,7 +36,7 @@ elif 'FIREFLY_URL' in os.environ:
 else:
     _my_url = _my_localurl
 
-_my_html_file = os.environ.get('FIREFLY_HTML', None)
+_my_html_file = os.environ.get('FIREFLY_HTML', '')
 
 
 class FireflyClient(WebSocketClient):
@@ -172,7 +174,6 @@ class FireflyClient(WebSocketClient):
                 print('could not find environment variable fireflyURLLab')
             raise RuntimeError('Could not find url. jupyter_firefly_extensions appears' +
                                ' to be installed incorrectly.')
-            return None
         if start_browser_tab:
             if verbose:
                 print('To start a new tab you you will have to disable popup blocking for this site.')
@@ -253,6 +254,8 @@ class FireflyClient(WebSocketClient):
             location = location[8:]
             protocol = 'https'
             wsproto = 'wss'
+        if location.endswith('/'):
+            location = location[:-1]
 
         # auto-generate unique channel if not provided
         channel_matches = False
@@ -268,22 +271,35 @@ class FireflyClient(WebSocketClient):
                 channel_matches = channel == os.environ.get('fireflyChannelLab')
 
         # websocket url
-        ws_url = '%s://%s/sticky/firefly/events' % (wsproto, location)  # web socket url
-        ws_url += '?channelID=%s' % channel
+        ws_url = urljoin('{}://{}/'.format(wsproto, location),
+                         'sticky/firefly/events?channelID={}'.format(channel))
         WebSocketClient.__init__(self, ws_url)
 
         # url for dispatching actions
-        self.url_root = protocol + '://' + location + '/sticky/CmdSrv'
+        self.url_root = urljoin('{}://{}/'.format(protocol, location),
+                                'sticky/CmdSrv')
 
         # url for user's web browser
-        self.html_file = ('/'+html_file) if html_file else ''
-        self.url_bw = protocol + '://' + location + '%s?__wsch=' % self.html_file
+        self.url_bw = urljoin(urljoin('{}://{}/'.format(protocol, location),
+                                      html_file),
+                              '?__wsch=')
 
         self.listeners = {}
         self.channel = channel
         self.headers = {'FF-channel': channel}
         self.session = requests.Session()
-        self.connect()
+        try:
+            self.connect()
+        except (ConnectionRefusedError, HandshakeError) as err:
+            err_message = ('Connection refused to URL {}\n'.format(url) +
+                           'You may want to check the URL with your web browser.\n')
+            if ('fireflyLabExtension' in os.environ) and ('fireflyURLLab' in os.environ):
+                err_message += ('\nCheck the Firefly URL in ~/.jupyter/jupyter_notebook_config.py' +
+                                ' or ~/.jupyter/jupyter_notebook_config.json')
+            elif 'FIREFLY_URL' in os.environ:
+                err_message += ('Check setting of FIREFLY_URL environment variable: {}'
+                                .format(os.environ['FIREFLY_URL']))
+            raise ValueError(err_message) from err
 
         url_matches = url == _my_url
 
