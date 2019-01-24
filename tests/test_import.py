@@ -27,6 +27,5 @@ class Test(unittest.TestCase):
     def test_connect(self):
         """A connection test on an unused socket"""
         port = get_unused_port()
-        with self.assertRaises(ConnectionError):
+        with self.assertRaises(ValueError):
             firefly_client.FireflyClient('localhost:{}'.format(port))
-
