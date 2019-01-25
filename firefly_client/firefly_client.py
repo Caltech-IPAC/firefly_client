@@ -231,7 +231,7 @@ class FireflyClient(WebSocketClient):
                                  ).encode()
                            ).decode().replace('=', '')
 
-        fc = FireflyClient(url=_my_url, html_file=html_file, channel=channel,
+        fc = FireflyClient(url=url, html_file=html_file, channel=channel,
                            use_lab_env=False, start_tab=False,
                            start_browser_tab=False)
         if verbose:
