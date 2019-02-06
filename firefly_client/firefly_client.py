@@ -21,6 +21,7 @@ import mimetypes
 import base64
 import datetime
 import weakref
+from copy import copy
 from ws4py.client.threadedclient import WebSocketClient
 from ws4py.client import HandshakeError
 from functools import reduce
@@ -87,7 +88,7 @@ class FireflyClient:
     INVERSE_STRETCH_ALGORITHM = {v: k for k, v in STRETCH_ALGORITHM_DICT.items()}
 
     # extension type
-    EXTENSION_TYPE = ['AREA_SELECT', 'LINE_SELECT', 'POINT']
+    EXTENSION_TYPE = ['AREA_SELECT', 'LINE_SELECT', 'POINT', 'table.highlight', 'table.select']
     """Type of plot where the extension is added to (`list` of `str`)."""
 
     # layout view type
@@ -1284,7 +1285,7 @@ class FireflyClient:
 
         Parameters
         ----------
-        ext_type : {'AREA_SELECT', 'LINE_SELECT', 'POINT'}
+        ext_type : {'AREA_SELECT', 'LINE_SELECT', 'POINT', 'table.select', 'table.highlight'}
             Extension type. It can be one of the values in the list or any Firefly action,
             or it will be reset to be 'NONE'.
         plot_id : `str`, optional
@@ -1317,6 +1318,48 @@ class FireflyClient:
                      'title': title, 'extType': ext_type, 'toolTip': tool_tip}
         payload = {'extension': extension}
         return self.dispatch(FireflyClient.ACTION_DICT['AddExtension'], payload)
+
+    def table_highlight_callback(self, func, columns):
+        """ Set a user-defined callback for table highlights
+
+        Parameters
+        ----------
+        func : function
+            The function to apply to the callback data. It must take as arguments:
+            absolute_row, relative_row, column_data, table_id.
+            absolute_row is a zero-based index to the highlighted row,
+                in the original table data.
+            relative_row is the index to the highlighted row in the table view.
+            column_data is a dictionary of column name:data value pairs,
+                for the highlighted row.
+            table_id is a string identifying the table in Firefly.
+        columns : `list` or None
+            List of column names for which to return data.
+            If the list is empty, the column_data will be an empty dictionary.
+            If None, all columns are included.
+
+        Returns:
+        function : the callback function that was added
+        """
+        def highlight_callback(event):
+            if event['data'].get('type') == 'table.highlight':
+                absolute_row = int(event['data']['row']['ROW_IDX'])
+                relative_row = int(event['data']['row']['ROW_NUM'])
+                tbl_id = event.get('tbl_id')
+                col_data = copy(event['data']['row'])
+                if columns is not None:
+                    col_data.pop('ROW_IDX')
+                    col_data.pop('ROW_NUM')
+                    if len(columns) == 0:
+                        for k in col_data:
+                            col_data.pop(k)
+                    else:
+                        for k in columns:
+                            col_data.pop(k)
+                func(absolute_row, relative_row, col_data, tbl_id)
+        self.add_listener(highlight_callback)
+        self.add_extension(ext_type='table.highlight', extension_id='table_highlight')
+        return(highlight_callback)
 
     def show_hips(self, plot_id=None, viewer_id=None, hips_root_url=None, hips_image_conversion=None,
                   **additional_params):
