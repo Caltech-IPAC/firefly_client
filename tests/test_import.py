@@ -28,4 +28,10 @@ class Test(unittest.TestCase):
         """A connection test on an unused socket"""
         port = get_unused_port()
         with self.assertRaises(ValueError):
-            firefly_client.FireflyClient('localhost:{}'.format(port))
+            firefly_client.FireflyClient('http://localhost:{}/firefly'.format(port))
+
+    def test_token_http(self):
+        """A token cannot be used with a non-SSL url"""
+        with self.assertRaises(ValueError):
+            firefly_client.FireflyClient('http://127.0.0.1:8080/firefly',
+                                         token='abcdefghij')
