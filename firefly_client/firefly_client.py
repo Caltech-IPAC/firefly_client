@@ -267,6 +267,9 @@ class FireflyClient(WebSocketClient):
         if location.endswith('/'):
             location = location[:-1]
 
+        if protocol == 'http' and token is not None:
+            raise ValueError('token must be None when url starts with http://')
+
         # auto-generate unique channel if not provided
         channel_matches = False
 
