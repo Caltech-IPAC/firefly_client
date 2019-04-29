@@ -65,7 +65,9 @@ class FireflyClient(WebSocketClient):
         If True, and start_tab is true and in use_lab_env is true then start a browser tab. Default False.
     token: `str` or None
         A token for connecting to a Firefly server that requires
-        authentication.
+        authentication. The provided token will be appended to the
+        string "Bearer " to form the value of the "Authorization" header
+        in the sessions attribute.
     """
 
     _instance_cnt = 0
@@ -158,7 +160,9 @@ class FireflyClient(WebSocketClient):
             If True, bring up a Jupyterlab or a browser tab for Firefly. You should almost always take the default.
         token: `str` or None
             A token for connecting to a Firefly server that requires
-            authentication.
+            authentication. The provided token will be appended to the
+            string "Bearer " to form the value of the "Authorization" header
+            in the sessions attribute.
 
         Returns
         -------
@@ -222,7 +226,9 @@ class FireflyClient(WebSocketClient):
             channel.
         token: `str` or None
             A token for connecting to a Firefly server that requires
-            authentication.
+            authentication. The provided token will be appended to the
+            string "Bearer " to form the value of the "Authorization" header
+            in the sessions attribute.
 
         Returns
         -------
