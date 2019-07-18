@@ -12,8 +12,6 @@ setup(
     packages=['firefly_client'],
     install_requires=['ws4py', 'future', 'requests'],
     classifiers=[
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
