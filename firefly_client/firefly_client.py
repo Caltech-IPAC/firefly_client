@@ -63,6 +63,11 @@ class FireflyClient(WebSocketClient):
         If True, bring up a Jupyterlab or a browser tab for Firefly. Default False.
     start_browser_tab: `bool`
         If True, and start_tab is true and in use_lab_env is true then start a browser tab. Default False.
+    token: `str` or None
+        A token for connecting to a Firefly server that requires
+        authentication. The provided token will be appended to the
+        string "Bearer " to form the value of the "Authorization" header
+        in the sessions attribute.
     """
 
     _instance_cnt = 0
@@ -130,7 +135,7 @@ class FireflyClient(WebSocketClient):
 
     @staticmethod
     def make_lab_client(start_browser_tab=False, html_file=_my_html_file, start_tab=True,
-                        verbose=False):
+                        verbose=False, token=None):
         """
         Factory method to create a Firefly client in the Jupyterlab environment.
         If you are using Jupyterlab with the jupyter_firefly_extension installed,
@@ -153,6 +158,11 @@ class FireflyClient(WebSocketClient):
             it is defined: otherwise defaults to None.
         start_tab : `bool`, optional
             If True, bring up a Jupyterlab or a browser tab for Firefly. You should almost always take the default.
+        token: `str` or None
+            A token for connecting to a Firefly server that requires
+            authentication. The provided token will be appended to the
+            string "Bearer " to form the value of the "Authorization" header
+            in the sessions attribute.
 
         Returns
         -------
@@ -182,11 +192,12 @@ class FireflyClient(WebSocketClient):
                 print('     Safari: shows an animation to follow on left side bar')
         return FireflyClient(url=_my_url, html_file=html_file,
                              use_lab_env=True, start_tab=start_tab,
-                             start_browser_tab=start_browser_tab)
+                             start_browser_tab=start_browser_tab,
+                             token=token)
 
     @staticmethod
     def make_client(url=_my_url, html_file=_my_html_file, launch_browser=True,
-                    channel_override=None, verbose=False):
+                    channel_override=None, verbose=False, token=None):
         """
         Factory method to create a Firefly client in a plain Python, IPython, or
         notebook session, and attempt to open a display.  If a display cannot be
@@ -213,6 +224,11 @@ class FireflyClient(WebSocketClient):
             string is generated.
             If channel_override is set to a string, it is used for the Firefly
             channel.
+        token: `str` or None
+            A token for connecting to a Firefly server that requires
+            authentication. The provided token will be appended to the
+            string "Bearer " to form the value of the "Authorization" header
+            in the sessions attribute.
 
         Returns
         -------
@@ -233,7 +249,7 @@ class FireflyClient(WebSocketClient):
 
         fc = FireflyClient(url=url, html_file=html_file, channel=channel,
                            use_lab_env=False, start_tab=False,
-                           start_browser_tab=False)
+                           start_browser_tab=False, token=token)
         if verbose:
             print('Firefly URL is {}'.format(fc.get_firefly_url()))
         if launch_browser:
@@ -242,7 +258,7 @@ class FireflyClient(WebSocketClient):
 
     def __init__(self, url=_my_url, channel=None, html_file=_my_html_file,
                  make_default=False, use_lab_env=False, start_tab=False,
-                 start_browser_tab=False):
+                 start_browser_tab=False, token=None):
 
         FireflyClient._instance_cnt += 1
         protocol = 'http'
@@ -256,6 +272,9 @@ class FireflyClient(WebSocketClient):
             wsproto = 'wss'
         if location.endswith('/'):
             location = location[:-1]
+
+        if protocol == 'http' and token is not None:
+            raise ValueError('token must be None when url starts with http://')
 
         # auto-generate unique channel if not provided
         channel_matches = False
@@ -288,6 +307,11 @@ class FireflyClient(WebSocketClient):
         self.channel = channel
         self.headers = {'FF-channel': channel}
         self.session = requests.Session()
+        if token is not None:
+            tokstring = 'Bearer {}'.format(token)
+            self.session.headers.update({'Authorization': tokstring})
+            self.extra_headers = [('Authorization', tokstring)]
+
         try:
             self.connect()
         except (ConnectionRefusedError, HandshakeError) as err:
