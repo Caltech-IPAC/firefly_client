@@ -60,3 +60,19 @@ with someone else, take care to make the channel unique.
     After initializing :class:`FireflyClient`, make sure you have opened a web browser
     to the appropriate URL, before proceeding to use the Python API described
     in the following sections.
+
+
+Initializing with the make_client Factory Function
+--------------------------------------------------
+
+For an easier initialization, you can use the :meth:`FireflyClient.make_client`
+factor function. This function will use the value of the FIREFLY_URL
+environment variable for the Firefly server. Additionally, it will attempt
+to start a Firefly browser tab or window if possible, and if not, it will
+display a link for the Firefly display.
+
+.. code-boock:: py
+
+    fc = FireflyClient.make_client()
+
+
