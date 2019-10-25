@@ -44,6 +44,7 @@ Using firefly_client
     overlaying-regions
     viewing-tables
     charting
+    slate-layout
     plot-interface
     callbacks-extensions
     firefly-server
