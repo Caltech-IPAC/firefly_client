@@ -71,7 +71,7 @@ environment variable for the Firefly server. Additionally, it will attempt
 to start a Firefly browser tab or window if possible, and if not, it will
 display a link for the Firefly display.
 
-.. code-boock:: py
+.. code-block:: py
 
     fc = FireflyClient.make_client()
 
