@@ -40,7 +40,7 @@ A "zscale" stretch may be commanded with alternate parameters:
 
 At present the API does not include a function for changing the color map
 for the image. The relevant Javascript action may be invoked using
-:meth:`FireflyClient.dispatch_remote_action`:
+:meth:`FireflyClient.dispatch`:
 
 .. code-block:: py
 
