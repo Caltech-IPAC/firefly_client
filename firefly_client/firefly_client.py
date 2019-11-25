@@ -101,7 +101,7 @@ class FireflyClient(WebSocketClient):
     ACTION_DICT = {
         'ShowFits': 'ImagePlotCntlr.PlotImage',
         'AddExtension': 'ExternalAccessCntlr/extensionAdd',
-        'FetchTblData': 'table.fetch',
+        'FetchTable': 'table.fetch',
         'ShowTable': 'table.search',
         'ShowXYPlot': 'charts.data/chartAdd',
         'ShowPlot': 'charts.data/chartAdd',
@@ -914,7 +914,7 @@ class FireflyClient(WebSocketClient):
 
     def show_table(self, file_on_server=None, tbl_id=None, title=None, page_size=100, is_catalog=True,
                    meta=None, target_search_info=None, options=None, table_index=None,
-                   column_spec=None, filters=None):
+                   column_spec=None, filters=None, visible=True):
         """
         Show a table.
 
@@ -980,6 +980,8 @@ class FireflyClient(WebSocketClient):
         filters : `str`, optional
             A string specifying filters. Column names must be quoted.
             For example, '("coord_dec" > -0.478) and ("parent" > 0)'.
+        visible: `bool`, optional
+            If false, only load the table to Firefly but don't show it in the UI
 
         Returns
         -------
@@ -1019,11 +1021,13 @@ class FireflyClient(WebSocketClient):
             tbl_req.update({'inclCols': column_spec})
         if filters:
             tbl_req.update({'filters': filters})
+
         payload = {'request': tbl_req}
+        action_type = FireflyClient.ACTION_DICT['ShowTable'] if visible else FireflyClient.ACTION_DICT['FetchTable']
 
-        return self.dispatch(FireflyClient.ACTION_DICT['ShowTable'], payload)
+        return self.dispatch(action_type, payload)
 
-    def fetch_table(self, file_on_server, tbl_id=None, page_size=1, table_index=None):
+    def fetch_table(self, file_on_server, tbl_id=None, title=None, page_size=1, table_index=None, meta=None):
         """
         Fetch table data without showing them
 
@@ -1035,12 +1039,16 @@ class FireflyClient(WebSocketClient):
             Firefly has direct access to.
         tbl_id : `str`, optional
             A table ID. It will be created automatically if not specified.
+        title : `str`, optional
+            Title associated with the table.
         page_size : `int`, optional
             The number of rows to fetch.
         table_index : `int`, optional
             The table to be fetched in case `file_on_server` contains multiple tables. It is the extension number for
             a FITS file or the table index for a VOTable file. In unspeficied, the server will fetch extension 1 from
             a FITS file or the table at index 0 from a VOTable file.
+        meta : `dict`
+            META_INFO for the table search request.
 
         Returns
         -------
@@ -1050,15 +1058,19 @@ class FireflyClient(WebSocketClient):
 
         if not tbl_id:
             tbl_id = FireflyClient._gen_item_id('Table')
+        if not title:
+            title = tbl_id
         tbl_req = {'startIdx': 0, 'pageSize': page_size, 'source': file_on_server,
                    'id': 'IpacTableFromSource', 'tbl_id': tbl_id}
         if table_index:
             tbl_req.update({'tbl_index': table_index})
 
-        meta_info = {'title': tbl_id, 'tbl_id': tbl_id}
+        meta_info = {'title': title, 'tbl_id': tbl_id}
+        if meta:
+            meta_info.update(meta)
         tbl_req.update({'META_INFO': meta_info})
         payload = {'request': tbl_req, 'hlRowIdx': 0}
-        return self.dispatch(FireflyClient.ACTION_DICT['FetchTblData'], payload)
+        return self.dispatch(FireflyClient.ACTION_DICT['FetchTable'], payload)
 
     def show_xyplot(self, tbl_id, standalone=False, group_id=None, **chart_params):
         """
