@@ -8,7 +8,7 @@ import firefly_client
 _g = globals()
 _g.update(build_package_configs(
     project_name='firefly_client',
-    copyright='2016-2017 California Institute of Technology',
+    copyright='2016-2019 California Institute of Technology',
     version=firefly_client.__version__,
     doxygen_xml_dirname=None))
 
