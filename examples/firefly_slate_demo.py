@@ -105,26 +105,26 @@ def load_histogram(row, col, width, height, fc, cell_id=None):
     r = fc.add_cell(row, col, width, height, 'xyPlots', cell_id)
 
     if r['success']:
-            histData = [
-                {
-                    'type': 'fireflyHistogram',
-                    'name': 'magzp',
-                    'marker': {'color': 'rgba(153, 51, 153, 0.8)'},
-                    'firefly': {
-                        'tbl_id': 'tbl_chart',
-                        'options': {
-                            'algorithm': 'fixedSizeBins',
-                            'fixedBinSizeSelection': 'numBins',
-                            'numBins': 30,
-                            'columnOrExpr': 'magzp'
-                        }
-                    },
-                }
-            ]
+        histData = [
+            {
+                'type': 'fireflyHistogram',
+                'name': 'magzp',
+                'marker': {'color': 'rgba(153, 51, 153, 0.8)'},
+                'firefly': {
+                    'tbl_id': 'tbl_chart',
+                    'options': {
+                        'algorithm': 'fixedSizeBins',
+                        'fixedBinSizeSelection': 'numBins',
+                        'numBins': 30,
+                        'columnOrExpr': 'magzp'
+                    }
+                },
+            }
+        ]
 
-            layout_hist = {'title': 'Magnitude Zeropoints',
-                           'xaxis': {'title': 'magzp'}, 'yaxis': {'title': ''}}
-            result = fc.show_chart(group_id=r['cell_id'], layout=layout_hist, data=histData )
+        layout_hist = {'title': 'Magnitude Zeropoints',
+                       'xaxis': {'title': 'magzp'}, 'yaxis': {'title': ''}}
+        result = fc.show_chart(group_id=r['cell_id'], layout=layout_hist, data=histData )
 
 
 def load_first_image_in_random(fc):
