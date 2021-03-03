@@ -40,6 +40,19 @@ else:
     _my_url = _my_localurl
 
 _my_html_file = os.environ.get('FIREFLY_HTML', '')
+_firefly_client_debug = False
+
+
+def make_fail_network_message(location):
+    err_message = ('Connection refused to URL {}\n'.format(location) +
+                   'You may want to check the URL with your web browser.\n')
+    if ('fireflyLabExtension' in os.environ) and ('fireflyURLLab' in os.environ):
+        err_message += ('\nCheck the Firefly URL in ~/.jupyter/jupyter_notebook_config.py' +
+                        ' or ~/.jupyter/jupyter_notebook_config.json')
+    elif 'FIREFLY_URL' in os.environ:
+        err_message += ('Check setting of FIREFLY_URL environment variable: {}'
+                        .format(os.environ['FIREFLY_URL']))
+    return err_message
 
 
 class FireflyClient:
@@ -74,6 +87,7 @@ class FireflyClient:
     """
 
     _instance_cnt = 0
+    _debug = False
 
     """All events are enabled for the listener (`str`)."""
 
@@ -266,6 +280,10 @@ class FireflyClient:
                  make_default=False, use_lab_env=False, start_tab=False,
                  start_browser_tab=False, token=None):
 
+        global _firefly_client_debug
+        _firefly_client_debug = FireflyClient._debug
+        if FireflyClient._debug:
+            print('new instance: %s' % url)
         FireflyClient._instance_cnt += 1
         protocol = 'http'
         self.wsproto = 'ws'
@@ -295,8 +313,6 @@ class FireflyClient:
                 channel = str(uuid.uuid1())
                 channel_matches = channel == os.environ.get('fireflyChannelLab')
 
-        # websocket url
-
         # url for dispatching actions
         self.url_root = urljoin('{}://{}/'.format(protocol, self.location),
                                 'sticky/CmdSrv')
@@ -313,7 +329,6 @@ class FireflyClient:
             tokstring = 'Bearer {}'.format(token)
             self.session.headers.update({'Authorization': tokstring})
             self.extra_headers = [('Authorization', tokstring)]
-
 
         url_matches = url == _my_url
 
@@ -350,17 +365,23 @@ class FireflyClient:
         """Send URL in 'GET' request and return status.
         """
 
-        response = self.session.get(url, headers=FFWs.get_headers(self.channel))
-        status = json.loads(response.text)
-        return status[0]
+        try:
+            response = self.session.get(url, headers=FFWs.get_headers(self.channel, self.location))
+            status = json.loads(response.text)
+            return status[0]
+        except Exception as err:
+            raise ValueError(make_fail_network_message(location)) from err
 
     def _send_url_as_post(self, data):
         """Send URL in 'POST' request and return status.
         """
-
-        response = self.session.post(self.url_root, data=data, headers=FFWs.get_headers(self.channel))
-        status = json.loads(response.text)
-        return status[0]
+        try:
+            response = self.session.post(self.url_root, data=data, headers=FFWs.get_headers(self.channel, self.location))
+            status = json.loads(response.text)
+            return status[0]
+        except Exception as err:
+            msg = make_fail_network_message(location)
+            raise ValueError(msg) from err
 
     def _is_page_connected(self):
         """Check if the page is connected.
@@ -398,7 +419,7 @@ class FireflyClient:
         """
         try:
             FFWs.open_ws_connection(self.channel, self.wsproto, self.location)
-            FFWs.add_listener(self.channel, callback, name)
+            FFWs.add_listener(self.channel, self.location, callback, name)
         except (ConnectionRefusedError, HandshakeError) as err:
             raise ValueError(err_message) from err
 
@@ -420,7 +441,7 @@ class FireflyClient:
 
         .. note:: `callback` in listener list is removed if all events are removed from the callback.
         """
-        FFWs.remove_listener(self.channel, callback, name)
+        FFWs.remove_listener(self.channel, self.location, callback, name)
 
     def wait_for_events(self):
         """
@@ -431,7 +452,7 @@ class FireflyClient:
         This is optional. You should not use this method in ipython notebook.
         Event will get called anyway.
         """
-        FFWs.wait_for_events(self.channel)
+        FFWs.wait_for_events(self.channel, self.location)
 
     def get_firefly_url(self, channel=None):
         """
@@ -527,7 +548,7 @@ class FireflyClient:
     def disconnect(self):
         """Disconnect the WebSocket.
         """
-        FFWs.close_ws_connection(self.channel)
+        FFWs.close_ws_connection(self.channel, self.location)
 
     @classmethod
     def get_instances(cls):
@@ -574,7 +595,7 @@ class FireflyClient:
 
         url = self.url_root + '?cmd=upload'
         files = {'file': open(path, 'rb')}
-        result = self.session.post(url, files=files, headers=FFWs.get_headers(self.channel))
+        result = self.session.post(url, files=files, headers=FFWs.get_headers(self.channel, self.location))
         if result.status_code == 200:
             index = result.text.find('$')
             return result.text[index:]
@@ -902,9 +923,9 @@ class FireflyClient:
             **radius** : `float`
                 The radius for *'Cone'* or the semi-major axis for *'Eliptical'* search in terms of unit *arcsec*.
             **posang** : `float`
-                Position angle for *'Elipitical'* search in terms of unit *arcsec*.
+                Position angle for *'Eliptical'* search in terms of unit *arcsec*.
             **ratio** : `float`
-                Axial ratio for *'Elipital'* search.
+                Axial ratio for *'Eliptical'* search.
             **size** : `float`
                 Side size for *'Box'* search in terms of unit *arcsec*.
             **polygon** : `str`
@@ -923,7 +944,7 @@ class FireflyClient:
                 if table shows filter button
         table_index : `int`, optional
             The table to be shown in case `file_on_server` contains multiple tables. It is the extension number for
-            a FITS file or the table index for a VOTable file. In unspeficied, the server will fetch extension 1 from
+            a FITS file or the table index for a VOTable file. In unspecified, the server will fetch extension 1 from
             a FITS file or the table at index 0 from a VOTable file.
         column_spec : `str`, optional
             A string specifying column names from the table that will be shown. Column
@@ -997,7 +1018,7 @@ class FireflyClient:
             The number of rows to fetch.
         table_index : `int`, optional
             The table to be fetched in case `file_on_server` contains multiple tables. It is the extension number for
-            a FITS file or the table index for a VOTable file. In unspeficied, the server will fetch extension 1 from
+            a FITS file or the table index for a VOTable file. In unspecified, the server will fetch extension 1 from
             a FITS file or the table at index 0 from a VOTable file.
         meta : `dict`
             META_INFO for the table search request.
@@ -1183,7 +1204,7 @@ class FireflyClient:
 
         Plotly chart is described by a list of trace data and a layout. Any list in trace data can come from a table.
 
-        For example, if a trace is defined by *{'tbl_id': 'wise', 'x': 'tables::w1mpro', 'y': 'tables::w2mpro' }*,
+        For example, if a trace is defined by *{'tbl_id': 'wise', 'x': 'tables::w1pro', 'y': 'tables::w2mpro' }*,
         *x* and *y* points of the trace will come from *w1mpro* and *w2mpro* columns of the table with the id *wise*.
 
         See `plotly.js attribute reference <https://plot.ly/javascript/reference/>`_
@@ -1296,7 +1317,7 @@ class FireflyClient:
         tool_tip : `str`, optional
             Tooltip for the extension.
         extension_id : `str`, optional
-            Extension ID. It will be created automatically if not specifed.
+            Extension ID. It will be created automatically if not specified.
         image_src : `str`, optional
             Image source of an icon to be displayed on the toolbar instead of the title.
             Image source could be an image path or an image url.
@@ -1338,8 +1359,9 @@ class FireflyClient:
             If the list is empty, the column_data will be an empty dictionary.
             If None, all columns are included.
 
-        Returns:
-        function : the callback function that was added
+        Returns
+        -------
+        func : the callback function that was added
         """
         def highlight_callback(event):
             if event['data'].get('type') == 'table.highlight':
@@ -1359,7 +1381,7 @@ class FireflyClient:
                 func(absolute_row, relative_row, col_data, tbl_id)
         self.add_listener(highlight_callback)
         self.add_extension(ext_type='table.highlight', extension_id='table_highlight')
-        return(highlight_callback)
+        return highlight_callback
 
     def show_hips(self, plot_id=None, viewer_id=None, hips_root_url=None, hips_image_conversion=None,
                   **additional_params):
@@ -1439,7 +1461,7 @@ class FireflyClient:
             Request with fits plotting parameters. For valid fits viewer plotting parameter, please see the
             the description of `show_fits` or `show_fits_3color`.
         hips_request : `dict`, optional
-            Request with hips plotting parameters. For valid HiPS viewer plotting paramter, please see the
+            Request with hips plotting parameters. For valid HiPS viewer plotting parameter, please see the
             description of `show_hips`.
         fov_deg_fallover : `float`, optional
             The size in degrees that the image will switch between hips and a image cutout.
@@ -1761,7 +1783,7 @@ class FireflyClient:
             If None,  then overlay the footprint on all plots in the same group of the active plot.
         table_index : `int`, optional
             The table to be shown in case `file_on_server` contains multiple tables. It is the extension number for
-            a FITS file or the table index for a VOTable file. In unspeficied, the server will fetch extension 1 from
+            a FITS file or the table index for a VOTable file. In unspecified, the server will fetch extension 1 from
             a FITS file or the table at index 0 from a VOTable file.
 
         **additional_params : optional keyword arguments
@@ -2166,9 +2188,14 @@ class FireflyClient:
         return ret
 
 
-def _get(channel):
-    if channel in _connections:
-        return _connections[channel]
+def _make_key(channel, location):
+    return channel+'---'+location
+
+
+def _get(channel, location):
+    key = _make_key(channel, location)
+    if key in _connections:
+        return _connections[key]
 
     class Empty:
         headers = {'FF-channel': channel}
@@ -2191,29 +2218,36 @@ class FFWs(WebSocketClient):
 
     @staticmethod
     def open_ws_connection(channel, wsproto, location):
-        if channel not in _connections:
+        key = _make_key(channel, location)
+        if key not in _connections:
             if len(_connections) > MAX_CHANNELS:
                 err_msg = 'You may only use %s channels for a python session' % MAX_CHANNELS
                 raise ConnectionRefusedError(err_msg)
-            _connections[channel] = FFWs(channel, wsproto, location)
-        return _connections[channel]
+            _connections[key] = FFWs(channel, wsproto, location)
+            if _firefly_client_debug:
+                print('starting chan: %s %s url:%s' % (channel, wsproto, location))
+        return _connections[key]
 
     @staticmethod
-    def close_ws_connection(channel):
-        _get(channel).disconnect()
-        _connections.pop(channel, None)
+    def close_ws_connection(channel, location):
+        _get(channel, location).disconnect()
+        _connections.pop(_make_key(channel, location), None)
 
     @staticmethod
-    def get_headers(channel): return _get(channel).headers
+    def get_headers(channel, location): return _get(channel, location).headers
 
     @staticmethod
-    def add_listener(channel, callback, name=ALL): _get(channel).do_add_listener(callback, name)
+    def add_listener(channel, location, callback, name=ALL):
+        if _firefly_client_debug:
+            print('get channel and calling do_add_listener %s' % channel)
+        _get(channel, location).do_add_listener(callback, name)
 
     @staticmethod
-    def remove_listener(channel, callback, name=ALL): _get(channel).do_remove_listener(callback, name)
+    def remove_listener(channel, location, callback, name=ALL):
+        _get(channel, location).do_remove_listener(callback, name)
 
     @staticmethod
-    def wait_for_events(channel): _get(channel).do_run_forever()
+    def wait_for_events(channel, location): _get(channel, location).do_run_forever()
 
     def __init__(self, channel, wsproto, location):
 
@@ -2221,30 +2255,34 @@ class FFWs(WebSocketClient):
                          'sticky/firefly/events?channelID={}'.format(channel))
         WebSocketClient.__init__(self, ws_url)
         self.channel = channel
+        self.location = location
         self.conn_id = None
+        self.ws_url = ws_url
         self.headers = {'FF-channel': channel}
         self.listeners = {}
-
+        if _firefly_client_debug:
+            print('attempting to connect to: %s' % location)
         try:
             self.connect()
-        except (ConnectionRefusedError, HandshakeError) as err:
-            err_message = ('Connection refused to URL {}\n'.format(url) +
-                           'You may want to check the URL with your web browser.\n')
-            if ('fireflyLabExtension' in os.environ) and ('fireflyURLLab' in os.environ):
-                err_message += ('\nCheck the Firefly URL in ~/.jupyter/jupyter_notebook_config.py' +
-                                ' or ~/.jupyter/jupyter_notebook_config.json')
-            elif 'FIREFLY_URL' in os.environ:
-                err_message += ('Check setting of FIREFLY_URL environment variable: {}'
-                                .format(os.environ['FIREFLY_URL']))
-            raise ValueError(err_message) from err
+        except Exception as err:
+            raise ValueError(make_fail_network_message(location)) from err
 
     def __handle_event(self, ev):
+        name = ev['name'];
+        if _firefly_client_debug:
+            print('__handle_event: %s' % name)
+            print(ev)
+            print('\nAll Listeners for channel: %s, location: %s' % (self.channel, self.location))
+            for callback, eventIDList in self.listeners.items():
+                print("          %s" % eventIDList)
         for callback, eventIDList in self.listeners.items():
-            if ev['name'] in eventIDList or ALL in eventIDList:
+            if name in eventIDList or ALL in eventIDList:
+                if _firefly_client_debug:
+                    print('callback: %s' % name)
                 callback(ev)
 
     def received_message(self, m):
-        """Override the superclass's method
+        """Override the superclass method
         """
         ev = json.loads(m.data.decode('utf8'))
         event_name = ev['name']
@@ -2256,10 +2294,8 @@ class FFWs(WebSocketClient):
                     self.channel = conn_info['channel']
                 if 'connID' in conn_info:
                     self.conn_id = conn_info['connID']
-
-                self.headers = {'FF-channel': self.channel,
-                                'FF-connID': self.conn_id}
-            except:
+                self.headers = {'FF-channel': self.channel, 'FF-connID': self.conn_id}
+            except Exception as err:
                 print('from callback exception: ')
                 print(m)
         else:
@@ -2286,6 +2322,8 @@ class FFWs(WebSocketClient):
         out : none
 
         """
+        if _firefly_client_debug:
+            print('adding listener to %s, %s' % (self.channel, self.ws_url))
         if callback not in self.listeners.keys():
             self.listeners[callback] = []
         if name not in self.listeners[callback]:
