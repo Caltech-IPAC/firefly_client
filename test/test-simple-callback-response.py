@@ -1,5 +1,17 @@
-import json
 from firefly_client import FireflyClient
+
+lsst_demo_host = 'https://lsst-demo.ncsa.illinois.edu/firefly'
+local_host = 'http://127.0.0.1:8080/firefly'
+fd = 'https://fireflydev.ipac.caltech.edu/firefly'
+irsa_host = 'https://irsa.ipac.caltech.edu/irsaviewer'
+data_lsst_host = 'https://data.lsst.cloud/portal/app/'
+host = irsa_host
+channel1 = 'channel-test-1'
+
+FireflyClient._debug = True
+token = None
+fc = FireflyClient.make_client(host, channel_override=channel1, launch_browser=True, token=token)
+print(fc.get_firefly_url())
 
 
 def example_listener(ev):
@@ -21,21 +33,9 @@ def example_listener(ev):
             print('   world points: %s to %s' % (data['wpt0'], data['wpt1']))
 
 
-lsst_demo_host = 'https://lsst-demo.ncsa.illinois.edu/firefly'
-local_host = 'http://127.0.0.1:8080/firefly'
-fd = 'https://fireflydev.ipac.caltech.edu/firefly'
-irsa_host = 'https://irsa.ipac.caltech.edu/irsaviewer'
-# host = local_host
-# host = lsst_demo_host
-host = irsa_host
-channel1 = 'channel-test-1'
-
-FireflyClient._debug = True
-fc1_c1 = FireflyClient.make_client(host, channel_override=channel1, launch_browser=True)
-print(fc1_c1.get_firefly_url())
-fc1_c1.add_extension(ext_type='POINT', title='Output Selected Point')
-fc1_c1.add_extension(ext_type='LINE_SELECT', title='Output Selected line')
-fc1_c1.add_extension(ext_type='AREA_SELECT', title='Output Selected Area')
+fc.add_extension(ext_type='POINT', title='Output Selected Point')
+fc.add_extension(ext_type='LINE_SELECT', title='Output Selected line')
+fc.add_extension(ext_type='AREA_SELECT', title='Output Selected Area')
 # ------------ add listener and wait
-fc1_c1.add_listener(example_listener)
-fc1_c1.wait_for_events()
+fc.add_listener(example_listener)
+fc.wait_for_events()

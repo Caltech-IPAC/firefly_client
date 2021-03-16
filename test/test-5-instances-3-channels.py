@@ -48,10 +48,13 @@ fc2_c1 = FireflyClient.make_client(host, channel_override=channel1, launch_brows
 fc3_c1 = FireflyClient.make_client(host, channel_override=channel1, launch_browser=False)
 fc1_c2 = FireflyClient.make_client(host, channel_override=channel2, launch_browser=True)
 fc1_c2.add_extension(ext_type='POINT', title='a point')
-fc1_c3 = FireflyClient.make_client(host, channel_override=channel3, launch_browser=False)
+fc1_c3 = FireflyClient.make_client(host, channel_override=channel3, launch_browser=True)
 print(f'>>>>>> channel: {channel1}, firefly url: {fc1_c1.get_firefly_url()}')
 print(f'>>>>>> channel: {channel2}, firefly url: {fc1_c2.get_firefly_url()}')
 print(f'>>>>>> channel: {channel3}, firefly url: {fc1_c3.get_firefly_url()}')
+# adding stuff but there is not listener
+fc1_c3.show_fits(url="http://web.ipac.caltech.edu.s3-us-west-2.amazonaws.com/staff/roby/demo/wise-00.fits")
+fc1_c3.add_extension(ext_type='POINT', title='a point no CB')
 
 # ------------ add listeners
 fc1_c1.add_listener(listener1)  # one web socket should be made for first 3 (channel1)
