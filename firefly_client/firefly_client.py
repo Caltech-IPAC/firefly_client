@@ -4,9 +4,6 @@ Module of firefly_client.py
 This module defines class 'FireflyClient' and methods to remotely communicate to Firefly viewer
 by dispatching remote actions.
 """
-from __future__ import print_function
-from future import standard_library
-from builtins import str
 import os
 import requests
 import webbrowser
@@ -21,31 +18,38 @@ import mimetypes
 import base64
 import datetime
 import weakref
-from copy import copy
-from ws4py.client.threadedclient import WebSocketClient
-from ws4py.client import HandshakeError
+import logging
+import traceback
+import _thread
+from copy import copy, deepcopy
+import websocket
 from functools import reduce
 
 __docformat__ = 'restructuredtext'
 
-_my_localurl = 'http://localhost:8080/firefly'
 ALL = 'ALL_EVENTS_ENABLED'
 MAX_CHANNELS = 3
+_my_html_file = os.environ.get('FIREFLY_HTML', '')
+_firefly_client_debug = False
 
 if 'fireflyLabExtension' in os.environ:
     _my_url = os.environ['fireflyURLLab']
 elif 'FIREFLY_URL' in os.environ:
     _my_url = os.environ['FIREFLY_URL']
 else:
-    _my_url = _my_localurl
-
-_my_html_file = os.environ.get('FIREFLY_HTML', '')
-_firefly_client_debug = False
+    _my_url = 'http://localhost:8080/firefly'
 
 
-def make_fail_network_message(location):
-    err_message = ('Connection refused to URL {}\n'.format(location) +
-                   'You may want to check the URL with your web browser.\n')
+def debug(s): _firefly_client_debug and print('DEBUG: %s' % s)
+def warn(s): print('WARNING: %s' % s)
+def dict_to_str(in_dict): return json.dumps(in_dict, indent=2, default=str)
+def _make_key(channel, location): return channel+'---'+location
+
+
+def make_fail_network_message(location, status_code=-1):
+    s_str = 'with status: %s' % status_code if (status_code > -1) else ''
+    check = 'You may want to check the URL with your web browser.\n'
+    err_message = 'Connection fail to URL %s %s\n%s' % (location, s_str, check)
     if ('fireflyLabExtension' in os.environ) and ('fireflyURLLab' in os.environ):
         err_message += ('\nCheck the Firefly URL in ~/.jupyter/jupyter_notebook_config.py' +
                         ' or ~/.jupyter/jupyter_notebook_config.json')
@@ -282,23 +286,24 @@ class FireflyClient:
 
         global _firefly_client_debug
         _firefly_client_debug = FireflyClient._debug
-        if FireflyClient._debug:
-            print('new instance: %s' % url)
+        debug('new instance: %s' % url)
         FireflyClient._instance_cnt += 1
-        protocol = 'http'
-        self.wsproto = 'ws'
-        self.location = url
-        if url.startswith('http://'):
-            self.location = url[7:]
-        if url.startswith('https://'):
-            self.location = self.location[8:]
-            protocol = 'https'
-            self.wsproto = 'wss'
-        if self.location.endswith('/'):
-            self.location = self.location[:-1]
+        ssl = url.startswith('https://')
+        protocol = 'https' if ssl else 'http'
+        self.wsproto = 'wss' if ssl else 'ws'
+        self.location = url[8:] if ssl else url[7:]
+        self.location = self.location[:-1] if self.location.endswith('/') else self.location
+        self.session = requests.Session()
+        self.url = url
 
-        if protocol == 'http' and token is not None:
-            raise ValueError('token must be None when url starts with http://')
+        if token is not None:
+            if ssl:
+                self.auth_headers = {'Authorization': 'Bearer {}'.format(token)}
+                self.session.headers.update(self.auth_headers)
+            else:
+                print('token ignore: should be None when url starts with http://')
+        else:
+            self.auth_headers = None
 
         # auto-generate unique channel if not provided
         channel_matches = False
@@ -313,27 +318,16 @@ class FireflyClient:
                 channel = str(uuid.uuid1())
                 channel_matches = channel == os.environ.get('fireflyChannelLab')
 
+        self.channel = channel
         # url for dispatching actions
         self.url_root = urljoin('{}://{}/'.format(protocol, self.location),
                                 'sticky/CmdSrv')
 
         # url for user's web browser
-        self.url_bw = urljoin(urljoin('{}://{}/'.format(protocol, self.location),
-                                      html_file),
-                              '?__wsch=')
-
-        self.listeners = {}
-        self.channel = channel
-        self.session = requests.Session()
-        if token is not None:
-            tokstring = 'Bearer {}'.format(token)
-            self.session.headers.update({'Authorization': tokstring})
-            self.extra_headers = [('Authorization', tokstring)]
-
+        self.url_bw = urljoin(urljoin('{}://{}/'.format(protocol, self.location), html_file), '?__wsch=')
         url_matches = url == _my_url
 
-        if ('fireflyLabExtension' in os.environ) and use_lab_env \
-                and (not channel_matches or not url_matches):
+        if ('fireflyLabExtension' in os.environ) and use_lab_env and (not channel_matches or not url_matches):
             print('Cannot use Jupyter lab environment: channel or url differ from default lab environment setup.')
             if not url_matches:
                 print('>>> Default URL: %s, Passed URL, %s' % (_my_url, url))
@@ -352,7 +346,6 @@ class FireflyClient:
                                   os.environ['fireflyChannelLab'])
                 else:
                     self.dispatch(FireflyClient.ACTION_DICT['StartLabWindow'], {})
-
         else:
             self.render_tree_id = None
 
@@ -362,31 +355,21 @@ class FireflyClient:
             FireflyClient.instances.append(weakref.ref(self))
 
     def _send_url_as_get(self, url):
-        """Send URL in 'GET' request and return status.
-        """
-
-        try:
-            response = self.session.get(url, headers=FFWs.get_headers(self.channel, self.location))
-            status = json.loads(response.text)
-            return status[0]
-        except Exception as err:
-            raise ValueError(make_fail_network_message(location)) from err
+        return self.call_response(self.session.get(url, headers=FFWs.head(self.channel, self.location)))
 
     def _send_url_as_post(self, data):
-        """Send URL in 'POST' request and return status.
-        """
-        try:
-            response = self.session.post(self.url_root, data=data, headers=FFWs.get_headers(self.channel, self.location))
-            status = json.loads(response.text)
-            return status[0]
-        except Exception as err:
-            msg = make_fail_network_message(location)
-            raise ValueError(msg) from err
+        return self.call_response(self.session.post(self.url_root, data=data,
+                                                    headers=FFWs.head(self.channel, self.location)))
+    
+    def call_response(self, response):
+        if response.status_code != 200:
+            raise ValueError(make_fail_network_message(self.url, response.status_code))
+        status = json.loads(response.text)
+        return status[0]
 
     def _is_page_connected(self):
         """Check if the page is connected.
         """
-
         ip = socket.gethostbyname(socket.gethostname())
         url = self.url_root + '?cmd=pushAliveCheck&ipAddress=%s' % ip
         retval = self._send_url_as_get(url)
@@ -418,9 +401,9 @@ class FireflyClient:
 
         """
         try:
-            FFWs.open_ws_connection(self.channel, self.wsproto, self.location)
+            FFWs.open_ws_connection(self.channel, self.wsproto, self.location, self.auth_headers)
             FFWs.add_listener(self.channel, self.location, callback, name)
-        except (ConnectionRefusedError, HandshakeError) as err:
+        except ConnectionRefusedError as err:
             raise ValueError(err_message) from err
 
     def remove_listener(self, callback, name=ALL):
@@ -595,7 +578,7 @@ class FireflyClient:
 
         url = self.url_root + '?cmd=upload'
         files = {'file': open(path, 'rb')}
-        result = self.session.post(url, files=files, headers=FFWs.get_headers(self.channel, self.location))
+        result = self.session.post(url, files=files, headers=FFWs.head(self.channel, self.location))
         if result.status_code == 200:
             index = result.text.find('$')
             return result.text[index:]
@@ -659,7 +642,7 @@ class FireflyClient:
         url += 'true&type=FITS' if data_type.upper() == 'FITS' else 'false&type=UNKNOWN'
         stream.seek(0, 0)
         data_pack = {'data': stream}
-        result = self.session.post(url, files=data_pack, headers=FFWs.get_headers(self.channel))
+        result = self.session.post(url, files=data_pack, headers=FFWs.head(self.channel, self.location))
         if result.status_code == 200:
             index = result.text.find('$')
             return result.text[index:]
@@ -1298,8 +1281,7 @@ class FireflyClient:
         return self.dispatch(FireflyClient.ACTION_DICT['ShowImageMetaData'],
                              payload)
 
-    def add_extension(self, ext_type, plot_id=None, title='', tool_tip='',
-                      extension_id=None, image_src=None):
+    def add_extension(self, ext_type, plot_id=None, title='', tool_tip='', extension_id=None, image_src=None):
         """
         Add an extension to the plot.
         Extensions are context menus that allows you to extend what Firefly can do when certain actions happen.
@@ -2188,165 +2170,172 @@ class FireflyClient:
         return ret
 
 
-def _make_key(channel, location):
-    return channel+'---'+location
-
-
-def _get(channel, location):
-    key = _make_key(channel, location)
-    if key in _connections:
-        return _connections[key]
-
-    class Empty:
-        headers = {'FF-channel': channel}
-        def do_add_listener(self, channel, callback, name=ALL): return
-        def do_remove_listener(self, channel, callback, name=ALL): return
-        def do_run_forever(self): return
-        def disconnect(self): return
-
-    return Empty()
-
-
-_connections = {}
-
-
-class FFWs(WebSocketClient):
+class FFWs:
     """
     For use only by FireflyClient to manage web sockets and channel connections. This class should never be instantiated
     directly. It should only be used though the static methods
     """
 
-    @staticmethod
-    def open_ws_connection(channel, wsproto, location):
+    connections = {}
+
+    @classmethod
+    def has(cls, channel, location): return _make_key(channel, location) in cls.connections
+
+    @classmethod
+    def get(cls, channel, location):
         key = _make_key(channel, location)
-        if key not in _connections:
-            if len(_connections) > MAX_CHANNELS:
+        return cls.connections[key] if key in cls.connections else None
+
+    @classmethod
+    def open_ws_connection(cls, channel, wsproto, location, auth_headers):
+        key = _make_key(channel, location)
+        if key not in cls.connections:
+            if len(cls.connections) > MAX_CHANNELS:
                 err_msg = 'You may only use %s channels for a python session' % MAX_CHANNELS
                 raise ConnectionRefusedError(err_msg)
-            _connections[key] = FFWs(channel, wsproto, location)
-            if _firefly_client_debug:
-                print('starting chan: %s %s url:%s' % (channel, wsproto, location))
-        return _connections[key]
+            cls.connections[key] = cls(channel, wsproto, location, auth_headers)
+            debug('starting chan: %s %s url:%s' % (channel, wsproto, location))
+        return cls.connections[key]
 
-    @staticmethod
-    def close_ws_connection(channel, location):
-        _get(channel, location).disconnect()
-        _connections.pop(_make_key(channel, location), None)
+    @classmethod
+    def close_ws_connection(cls, channel, location):
+        if cls.has(channel, location):
+            cls.get(channel, location).disconnect()
+            cls.connections.pop(_make_key(channel, location), None)
 
-    @staticmethod
-    def get_headers(channel, location): return _get(channel, location).headers
+    @classmethod
+    def head(cls, channel, location):
+        return cls.get(channel, location).channel_headers if cls.has(channel, location) else {'FF-channel': channel}
 
-    @staticmethod
-    def add_listener(channel, location, callback, name=ALL):
-        if _firefly_client_debug:
-            print('get channel and calling do_add_listener %s' % channel)
-        _get(channel, location).do_add_listener(callback, name)
+    @classmethod
+    def add_listener(cls, channel, location, callback, name=ALL):
+        cls.has(channel, location) and cls.get(channel, location).do_add_listener(callback, name)
 
-    @staticmethod
-    def remove_listener(channel, location, callback, name=ALL):
-        _get(channel, location).do_remove_listener(callback, name)
+    @classmethod
+    def remove_listener(cls, channel, location, callback, name=ALL):
+        cls.has(channel, location) and cls.get(channel, location).do_remove_listener(callback, name)
 
-    @staticmethod
-    def wait_for_events(channel, location): _get(channel, location).do_run_forever()
+    @classmethod
+    def wait_for_events(cls, channel, location):
+        cls.has(channel, location) and cls.get(channel, location).do_run_forever()
 
-    def __init__(self, channel, wsproto, location):
+    def __init__(self, channel, wsproto, location, auth_headers):
 
-        ws_url = urljoin('{}://{}/'.format(wsproto, location),
-                         'sticky/firefly/events?channelID={}'.format(channel))
-        WebSocketClient.__init__(self, ws_url)
+        self.ws_url = urljoin('{}://{}/'.format(wsproto, location), 'sticky/firefly/events?channelID={}'.format(channel))
         self.channel = channel
         self.location = location
-        self.conn_id = None
-        self.ws_url = ws_url
-        self.headers = {'FF-channel': channel}
+        self.channel_headers = {'FF-channel': channel}
         self.listeners = {}
-        if _firefly_client_debug:
-            print('attempting to connect to: %s' % location)
+        self.forever_loop = True
+
+        def on_message(wsapp, ev):
+            try:
+                self.received_message(ev)
+            except Exception as on_mess_ex:
+                print(traceback.format_exc())
+                raise on_mess_ex
+
+        def on_open(wsapp):
+            if not _firefly_client_debug:
+                return
+            try:
+                debug('on open: Status: %d' % wsapp.sock.handshake_response.status)
+                debug('response headers: \n%s' % dict_to_str(wsapp.sock.handshake_response.headers))
+            except Exception as open_ex:
+                print(traceback.format_exc())
+                raise open_ex
+
+        def on_error(wsapp, exception_from_socket):
+            warn('Error: Websocket connection failed')
+            print(exception_from_socket)
+            warn('Websocket Status: %d' % wsapp.sock.handshake_response.status)
+            warn('Websocket response headers: \n%s' % dict_to_str(wsapp.sock.handshake_response.headers))
+            raise exception_from_socket
+
+        def threaded_connect():
+            try:
+                socket_headers = self.channel_headers.copy()
+                if auth_headers is not None:
+                    socket_headers.update(auth_headers)
+                self.websocket = websocket.WebSocketApp(url=self.ws_url, header=socket_headers, on_message=on_message,
+                                                        on_open=on_open, on_error=on_error)
+                self.debug_show_env(socket_headers)
+                self.websocket.run_forever(ping_interval=10)
+                self.forever_loop = False
+                debug('websocket thread ended')
+            except Exception:
+                print(traceback.format_exc())
+
         try:
-            self.connect()
+            _thread.start_new_thread(threaded_connect, ())
         except Exception as err:
             raise ValueError(make_fail_network_message(location)) from err
 
-    def __handle_event(self, ev):
-        name = ev['name'];
-        if _firefly_client_debug:
-            print('__handle_event: %s' % name)
-            print(ev)
-            print('\nAll Listeners for channel: %s, location: %s' % (self.channel, self.location))
-            for callback, eventIDList in self.listeners.items():
-                print("          %s" % eventIDList)
+    def debug_show_env(self, socket_headers):
+        if not _firefly_client_debug:
+            return
+        debug('Attempting to connect\n    %s\n    %s\n    channel: %s' % (self.location, self.ws_url, self.channel))
+        debug('Header sent to websocket connections: %s' % dict_to_str(socket_headers))
+
+    def debug_header_event_message(self, ev):
+        if not _firefly_client_debug:
+            return
+        debug('Event: %s' % ev['name'])
+        log_ev = deepcopy(ev)
+        try:
+            log_ev['data']['plotState']['bandStateAry'] = '<<<<<truncated>>>>>'
+        except KeyError:
+            pass
+        debug('JSON Data:\n%s' % json.dumps(log_ev, indent=2, default=str))
+        debug('All Listeners for channel: %s, location: %s' % (self.channel, self.location))
+        for callback, eventIDList in self.listeners.items():
+            debug("          %s" % eventIDList)
+        self.execute_callbacks(ev, do_callback=False)
+
+    def execute_callbacks(self, ev, do_callback=True):
+        name = ev['name']
         for callback, eventIDList in self.listeners.items():
             if name in eventIDList or ALL in eventIDList:
-                if _firefly_client_debug:
-                    print('callback: %s' % name)
-                callback(ev)
+                callback(ev) if do_callback else debug('callback: %s' % name)
 
-    def received_message(self, m):
-        """Override the superclass method
-        """
-        ev = json.loads(m.data.decode('utf8'))
-        event_name = ev['name']
+    def received_message(self, message):
+        try:
+            ev = json.loads(message)
+        except JSONDecodeError as err:
+            warn('Error with JSON input - event string could not be parsed')
+            warn(message)
+            warn(err)
+            return
 
-        if event_name == 'EVT_CONN_EST':
+        if ev['name'] == 'EVT_CONN_EST':
             try:
                 conn_info = ev['data']
+                debug('Connection established:\n    %s' % message)
                 if self.channel is None:
                     self.channel = conn_info['channel']
-                if 'connID' in conn_info:
-                    self.conn_id = conn_info['connID']
-                self.headers = {'FF-channel': self.channel, 'FF-connID': self.conn_id}
+                conn_id = conn_info['connID'] if 'connID' in conn_info else None
+                self.channel_headers = {'FF-channel': self.channel, 'FF-connID': conn_id}
             except Exception as err:
-                print('from callback exception: ')
-                print(m)
+                print(message)
+                raise err
         else:
-            self.__handle_event(ev)
+            self.debug_header_event_message(ev)
+            self.execute_callbacks(ev)
 
     def disconnect(self):
         """Disconnect the WebSocket.
         """
-        self.close()
+        self.websocket.close()
 
     def do_add_listener(self, callback, name=ALL):
-        """
-        Add a callback function to listen for events on the Firefly client.
-
-        Parameters
-        ----------
-        callback : `Function`
-            The function to be called when a event happens on the Firefly client.
-        name : `str`, optional
-            The name of the events (the default is `ALL`, all events).
-
-        Returns
-        -------
-        out : none
-
-        """
-        if _firefly_client_debug:
-            print('adding listener to %s, %s' % (self.channel, self.ws_url))
+        debug('adding listener to %s, %s' % (self.channel, self.ws_url))
         if callback not in self.listeners.keys():
             self.listeners[callback] = []
         if name not in self.listeners[callback]:
             self.listeners[callback].append(name)
 
     def do_remove_listener(self, callback, name=ALL):
-        """
-        Remove an event name from the callback listener.
-
-        Parameters
-        ----------
-        callback : `Function`
-            A previously set callback function.
-        name : `str`, optional
-            The name of the event to be removed from the callback listener
-            (the default is `ALL`, all events).
-
-        Returns
-        -------
-        out : none
-
-        .. note:: `callback` in listener list is removed if all events are removed from the callback.
-        """
+        debug('removing listener to %s, %s' % (self.channel, self.ws_url))
         if callback in self.listeners.keys():
             if name in self.listeners[callback]:
                 self.listeners[callback].remove(name)
@@ -2354,4 +2343,5 @@ class FFWs(WebSocketClient):
                 self.listeners.pop(callback)
 
     def do_run_forever(self):
-        WebSocketClient.run_forever(self)
+        while self.forever_loop:
+            time.sleep(10)

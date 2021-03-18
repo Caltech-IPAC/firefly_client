@@ -37,3 +37,11 @@
 1. `twine upload --repository-url https://test.pypi.org/legacy/ dist/*`
 1. `pip uninstall firefly_client`
 1. `pip install --verbose --index-url https://testpypi.python.org/pypi firefly_client`
+
+### Conda and conda-forge
+
+Anytime the version tag is updated conda-forge it set up to do a pull and add `firefly_client` to its distribution.
+
+See the following sites:
+ - https://github.com/conda-forge/firefly-client-feedstock/
+ - https://anaconda.org/conda-forge/firefly-client

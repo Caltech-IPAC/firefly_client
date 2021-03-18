@@ -4,13 +4,13 @@ from setuptools import setup
 
 setup(
     name='firefly_client',
-    version='2.5.0',
+    version='2.6.0',
     description='Python API for Firefly',
     author='IPAC LSST SUIT',
     license='BSD',
     url='http://github.com/Caltech-IPAC/firefly_client',
     packages=['firefly_client'],
-    install_requires=['ws4py', 'future', 'requests'],
+    install_requires=['websocket-client', 'requests'],
     classifiers=[
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
