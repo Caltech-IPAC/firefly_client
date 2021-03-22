@@ -78,14 +78,9 @@ def main():
     printurl = args.printurl
     recursion = not args.norecursion
 
-    fc = firefly_client.FireflyClient('{}:{}'.format(host, port),
-                                      basedir=basedir,
-                                      channel=channel,
-                                      html_file='slate.html')
+    fc = FireflyClient.make_client(url='{}:{}'.format(host, port), channel_override=channel, html_file='slate.html')
     if printurl:
         print('Firefly url is {}'.format(fc.get_firefly_url()))
-    else:
-        fc.launch_browser()
 
     tbl_val, metainfo = filetable_to_firefly(fc, topdir, pattern,
                                              recursive=recursion)
