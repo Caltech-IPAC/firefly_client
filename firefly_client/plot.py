@@ -45,7 +45,7 @@ if fc is None:
     for url in try_urls:
         try:
             logger.debug('attempting to connect to {}'.format(url))
-            fc = FireflyClient(url, html_file=html_file)
+            fc = FireflyClient.make_client(url=url, html_file=html_file)
             break
         except Exception:
             logger.debug('connection failed to {}'.format(url))
@@ -101,8 +101,7 @@ def reset_server(url, channel=None, html_file=html_file):
     html_file : `str`
         landing page for the web viewer. Defaults to module default
     """
-    fc = FireflyClient(url, channel=channel, html_file=html_file,
-                       make_default=True)
+    fc = FireflyClient.make_client(url, channel_override=channel, html_file=html_file)
     use_client(fc)
 
 def display_url():
