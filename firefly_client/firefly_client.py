@@ -4,59 +4,42 @@ Module of firefly_client.py
 This module defines class 'FireflyClient' and methods to remotely communicate to Firefly viewer
 by dispatching remote actions.
 """
-import os
 import requests
 import webbrowser
 import json
 import time
 import socket
-import urllib.parse
 from urllib.parse import urljoin
-import uuid
 import math
-import mimetypes
-import base64
-import datetime
 import weakref
-import logging
-import traceback
-import _thread
-from copy import copy, deepcopy
-import websocket
-from functools import reduce
+from copy import copy
+
+try:
+    from .ffws import FFWs
+except ImportError:
+    from ffws import FFWs
+try:
+    from .env import Env
+except ImportError:
+    from env import Env
+try:
+    from .range_values import RangeValues
+except ImportError:
+    from range_values import RangeValues
+try:
+    from .fc_utils import debug, warn, dict_to_str, create_image_url, ensure3, \
+        DebugMarker, ALL, ACTION_DICT, LO_VIEW_DICT
+except ImportError:
+    from fc_utils import debug, warn, dict_to_str, create_image_url, ensure3, \
+        DebugMarker, ALL, ACTION_DICT, LO_VIEW_DICT
 
 __docformat__ = 'restructuredtext'
+_def_html_file = Env.find_default_firefly_html()
+_default_url = Env.find_default_firefly_url()
 
-ALL = 'ALL_EVENTS_ENABLED'
-MAX_CHANNELS = 3
-_my_html_file = os.environ.get('FIREFLY_HTML', '')
-_firefly_client_debug = False
-
-if 'fireflyLabExtension' in os.environ:
-    _my_url = os.environ['fireflyURLLab']
-elif 'FIREFLY_URL' in os.environ:
-    _my_url = os.environ['FIREFLY_URL']
-else:
-    _my_url = 'http://localhost:8080/firefly'
-
-
-def debug(s): _firefly_client_debug and print('DEBUG: %s' % s)
-def warn(s): print('WARNING: %s' % s)
-def dict_to_str(in_dict): return json.dumps(in_dict, indent=2, default=str)
-def _make_key(channel, location): return channel+'---'+location
-
-
-def make_fail_network_message(location, status_code=-1):
-    s_str = 'with status: %s' % status_code if (status_code > -1) else ''
-    check = 'You may want to check the URL with your web browser.\n'
-    err_message = 'Connection fail to URL %s %s\n%s' % (location, s_str, check)
-    if ('fireflyLabExtension' in os.environ) and ('fireflyURLLab' in os.environ):
-        err_message += ('\nCheck the Firefly URL in ~/.jupyter/jupyter_notebook_config.py' +
-                        ' or ~/.jupyter/jupyter_notebook_config.json')
-    elif 'FIREFLY_URL' in os.environ:
-        err_message += ('Check setting of FIREFLY_URL environment variable: {}'
-                        .format(os.environ['FIREFLY_URL']))
-    return err_message
+BROWSER = 'browser'
+LAB = 'lab'
+UNKNOWN = 'UNKNOWN'
 
 
 class FireflyClient:
@@ -90,71 +73,18 @@ class FireflyClient:
         in the sessions attribute.
     """
 
-    _instance_cnt = 0
     _debug = False
+    # Keep track of instances.
+    instances = []
 
     """All events are enabled for the listener (`str`)."""
-
-    # for serializing the RangeValues object
-    STRETCH_TYPE_DICT = {'percent': 88, 'minmax': 89, 'absolute': 90,  'zscale': 91, 'sigma': 92}
-    """Definition of stretch type (`dict`)."""
-    INVERSE_STRETCH_TYPE = {v: k for k, v in STRETCH_TYPE_DICT.items()}
-
-    STRETCH_ALGORITHM_DICT = {'linear': 44, 'log': 45, 'loglog': 46, 'equal': 47, 'squared': 48, 'sqrt': 49,
-                              'asinh': 50, 'powerlaw_gamma': 51}
-    """Definition of stretch algorithm (`dict`)."""
-    INVERSE_STRETCH_ALGORITHM = {v: k for k, v in STRETCH_ALGORITHM_DICT.items()}
-
-    # extension type
-    EXTENSION_TYPE = ['AREA_SELECT', 'LINE_SELECT', 'POINT', 'table.highlight', 'table.select']
-    """Type of plot where the extension is added to (`list` of `str`)."""
-
-    # layout view type
-    LO_VIEW_DICT = {'table': 'tables',
-                    'image': 'images',
-                    'xyPlot': 'xyPlots',
-                    'imageMeta': 'tableImageMeta',
-                    'coverImage': 'coverageImage'}
-    """Definition of layout viewer (`dict`)."""
-
-    # actions from Firefly/
-    ACTION_DICT = {
-        'ShowFits': 'ImagePlotCntlr.PlotImage',
-        'AddExtension': 'ExternalAccessCntlr/extensionAdd',
-        'FetchTable': 'table.fetch',
-        'ShowTable': 'table.search',
-        'ShowXYPlot': 'charts.data/chartAdd',
-        'ShowPlot': 'charts.data/chartAdd',
-        'ZoomImage': 'ImagePlotCntlr.ZoomImage',
-        'PanImage': 'ImagePlotCntlr.recenter',
-        'StretchImage': 'ImagePlotCntlr.StretchChange',
-        'CreateRegionLayer': 'DrawLayerCntlr.RegionPlot.createLayer',
-        'DeleteRegionLayer': 'DrawLayerCntlr.RegionPlot.deleteLayer',
-        'AddRegionData': 'DrawLayerCntlr.RegionPlot.addRegion',
-        'RemoveRegionData': 'DrawLayerCntlr.RegionPlot.removeRegion',
-        'PlotMask': 'ImagePlotCntlr.plotMask',
-        'DeleteOverlayMask': 'ImagePlotCntlr.deleteOverlayPlot',
-        'AddCell': 'layout.addCell',
-        'ShowCoverage': 'layout.enableSpecialViewer',
-        'ShowImageMetaData': 'layout.enableSpecialViewer',
-        'ReinitViewer': 'app_data.reinitApp',
-        'ShowHiPS': 'ImagePlotCntlr.PlotHiPS',
-        'ShowImageOrHiPS': 'ImagePlotCntlr.plotHiPSOrImage',
-        'ImagelineBasedFootprint': 'DrawLayerCntlr.ImageLineBasedFP.imagelineBasedFPCreate',
-        'StartLabWindow': 'StartLabWindow',
-        'StartBrowserTab': 'StartBrowserTab'
-    }
-    """Definition of Firefly action (`dict`)."""
 
     # id for table, region layer, extension
     _item_id = {'Table': 0, 'RegionLayer': 0, 'Extension': 0, 'MaskLayer': 0, 'XYPlot': 0,
                 'Cell': 0, 'Histogram': 0, 'Plotly': 0, 'Image': 0, 'FootprintLayer': 0}
 
-    # Keep track of instances.
-    instances = []
-
-    @staticmethod
-    def make_lab_client(start_browser_tab=False, html_file=_my_html_file, start_tab=True,
+    @classmethod
+    def make_lab_client(cls, start_browser_tab=False, html_file=_def_html_file, start_tab=True,
                         verbose=False, token=None):
         """
         Factory method to create a Firefly client in the Jupyterlab environment.
@@ -191,34 +121,16 @@ class FireflyClient:
         out : `FireflyClient`
             A FireflyClient that works in the lab environment
         """
+        tab_type = BROWSER if (start_browser_tab and start_tab) else (LAB if start_tab else None)
+        url, channel = Env.validate_lab_client(tab_type == BROWSER)
+        fc = cls(url, channel, html_file, token)
+        if tab_type:
+            verbose and tab_type == BROWSER and Env.show_start_browser_tab_msg(fc.get_firefly_url())
+            fc._lab_env_tab_start(tab_type)
+        return fc
 
-        if 'fireflyLabExtension' not in os.environ:
-            if verbose:
-                print('could not find environment variable fireflyLabExtension')
-            raise RuntimeError('FireflyClient.makeLabClient can only be used in the Jupyterlab environment')
-        if 'fireflyChannelLab' not in os.environ:
-            if verbose:
-                print('could not find environment variable fireflyChannelLab')
-            raise RuntimeError('Could not find channel. jupyter_firefly_extensions appears' +
-                               ' to be installed incorrectly.')
-        if _my_url != os.environ['fireflyURLLab']:
-            if verbose:
-                print('could not find environment variable fireflyURLLab')
-            raise RuntimeError('Could not find url. jupyter_firefly_extensions appears' +
-                               ' to be installed incorrectly.')
-        if start_browser_tab:
-            if verbose:
-                print('To start a new tab you you will have to disable popup blocking for this site.')
-                print('     Chrome: look at the right side of the address bar')
-                print('     Firefox: a preference bar appears at the top')
-                print('     Safari: shows an animation to follow on left side bar')
-        return FireflyClient(url=_my_url, html_file=html_file,
-                             use_lab_env=True, start_tab=start_tab,
-                             start_browser_tab=start_browser_tab,
-                             token=token)
-
-    @staticmethod
-    def make_client(url=_my_url, html_file=_my_html_file, launch_browser=True,
+    @classmethod
+    def make_client(cls, url=_default_url, html_file=_def_html_file, launch_browser=True,
                     channel_override=None, verbose=False, token=None):
         """
         Factory method to create a Firefly client in a plain Python, IPython, or
@@ -259,119 +171,78 @@ class FireflyClient:
         fc : `FireflyClient`
             A FireflyClient that works in the lab environment
         """
-        if channel_override is not None:
-            channel = channel_override
-        else:
-            if 'FIREFLY_CHANNEL' in os.environ:
-                channel = os.environ['FIREFLY_CHANNEL']
-            else:
-                channel = base64.urlsafe_b64encode(
-                                (os.environ.get('USER', '') +
-                                 datetime.datetime.today().strftime('%Y-%m-%d')
-                                 ).encode()
-                           ).decode().replace('=', '')
-
-        fc = FireflyClient(url=url, html_file=html_file, channel=channel,
-                           use_lab_env=False, start_tab=False,
-                           start_browser_tab=False, token=token)
-        if verbose:
-            print('Firefly URL is {}'.format(fc.get_firefly_url()))
-        if launch_browser:
-            fc.launch_browser()
+        fc = cls(url, Env.resolve_client_channel(channel_override), html_file, token)
+        verbose and Env.show_start_browser_tab_msg(fc.get_firefly_url())
+        launch_browser and fc.launch_browser()
         return fc
 
-    def __init__(self, url=_my_url, channel=None, html_file=_my_html_file,
-                 make_default=False, use_lab_env=False, start_tab=False,
-                 start_browser_tab=False, token=None):
+    def __init__(self, url, channel, html_file=_def_html_file, token=None):
+        DebugMarker.firefly_client_debug = FireflyClient._debug
+        FireflyClient.instances.append(weakref.ref(self))
 
-        global _firefly_client_debug
-        _firefly_client_debug = FireflyClient._debug
-        debug('new instance: %s' % url)
-        FireflyClient._instance_cnt += 1
         ssl = url.startswith('https://')
-        protocol = 'https' if ssl else 'http'
         self.wsproto = 'wss' if ssl else 'ws'
         self.location = url[8:] if ssl else url[7:]
         self.location = self.location[:-1] if self.location.endswith('/') else self.location
-        self.session = requests.Session()
         self.url = url
-
-        if token is not None:
-            if ssl:
-                self.auth_headers = {'Authorization': 'Bearer {}'.format(token)}
-                self.session.headers.update(self.auth_headers)
-            else:
-                print('token ignore: should be None when url starts with http://')
-        else:
-            self.auth_headers = None
-
-        # auto-generate unique channel if not provided
-        channel_matches = False
-
-        if channel is None:
-            if 'fireflyLabExtension' in os.environ:
-                channel = os.environ['fireflyChannelLab']
-                channel_matches = True
-                if start_browser_tab:
-                    channel += '__lab-external'
-            else:
-                channel = str(uuid.uuid1())
-                channel_matches = channel == os.environ.get('fireflyChannelLab')
-
         self.channel = channel
-        # url for dispatching actions
-        self.url_root = urljoin('{}://{}/'.format(protocol, self.location),
-                                'sticky/CmdSrv')
+        self.render_tree_id = None
+        self.auth_headers = {'Authorization': 'Bearer {}'.format(token)} if token and ssl else None
+        self.header_from_ws = {'FF-channel': channel}
+        self.lab_env_tab_type = UNKNOWN
+        # urls for cmd service and browser
+        protocol = 'https' if ssl else 'http'
+        self.url_cmd_service = urljoin('{}://{}/'.format(protocol, self.location), 'sticky/CmdSrv')
+        self.url_browser = urljoin(urljoin('{}://{}/'.format(protocol, self.location), html_file), '?__wsch=')
+        self.url_bw = self.url_browser  # keep around for backward compatibility
+        self.session = requests.Session()
+        token and ssl and self.session.headers.update(self.auth_headers)
+        not ssl and token and warn('token ignored: should be None when url starts with http://')
+        debug('new instance: %s' % url)
 
-        # url for user's web browser
-        self.url_bw = urljoin(urljoin('{}://{}/'.format(protocol, self.location), html_file), '?__wsch=')
-        url_matches = url == _my_url
+    def _lab_env_tab_start(self, tab_type):
+        """start a tab in the lab environment, tab_type must be 'lab' or 'browser' """
+        self.lab_env_tab_type = tab_type
+        if tab_type == BROWSER:
+            idx = self.channel.find('__viewer')
+            c = self.channel[0:idx] if idx > -1 else self.channel  # the ext will add '__viewer' so I have to remove it
+            self.dispatch(ACTION_DICT['StartBrowserTab'], {'channel': c}, Env.firefly_channel_lab)
+        elif tab_type == LAB:
+            if not self.render_tree_id:
+                self.render_tree_id = 'slateClient-%s-%s' % (len(self.instances), round(time.time()))
+            self.show_lab_tab()
 
-        if ('fireflyLabExtension' in os.environ) and use_lab_env and (not channel_matches or not url_matches):
-            print('Cannot use Jupyter lab environment: channel or url differ from default lab environment setup.')
-            if not url_matches:
-                print('>>> Default URL: %s, Passed URL, %s' % (_my_url, url))
-            if not channel_matches:
-                print('>>> Default channel: %s, Passed channel, %s' % (os.environ['fireflyChannelLab'], channel))
-            print('To disable this message pass False to use_lab_env')
-            use_lab_env = False
-            start_tab = False
-
-        if ('fireflyLabExtension' in os.environ) and use_lab_env:
-            self.render_tree_id = 'slateClient-%s-%s' % (FireflyClient._instance_cnt, round(time.time()))
-            if start_tab:
-                if start_browser_tab:
-                    self.render_tree_id = None
-                    self.dispatch(FireflyClient.ACTION_DICT['StartBrowserTab'], {'channel': channel},
-                                  os.environ['fireflyChannelLab'])
-                else:
-                    self.dispatch(FireflyClient.ACTION_DICT['StartLabWindow'], {})
-        else:
-            self.render_tree_id = None
-
-        if make_default:
-            FireflyClient.instances.insert(0, weakref.ref(self))
-        else:
-            FireflyClient.instances.append(weakref.ref(self))
+    def show_lab_tab(self):
+        """If using a jupyter lab tab- show it or reopen it. If not using a lab tab then noop"""
+        self.lab_env_tab_type = LAB and self.dispatch(ACTION_DICT['StartLabWindow'], {})
 
     def _send_url_as_get(self, url):
-        return self.call_response(self.session.get(url, headers=FFWs.head(self.channel, self.location)))
+        return self.call_response(self.session.get(url, headers=self.header_from_ws))
 
     def _send_url_as_post(self, data):
-        return self.call_response(self.session.post(self.url_root, data=data,
-                                                    headers=FFWs.head(self.channel, self.location)))
+        return self.call_response(self.session.post(self.url_cmd_service, data=data, headers=self.header_from_ws))
     
     def call_response(self, response):
         if response.status_code != 200:
-            raise ValueError(make_fail_network_message(self.url, response.status_code))
-        status = json.loads(response.text)
-        return status[0]
+            raise ValueError(Env.failed_net_message(self.url, response.status_code))
+        try:
+            status = json.loads(response.text)
+            return status[0]
+        except ValueError as err:
+            warn('JSON parsing Error:')
+            if len(response.text) > 300:
+                warn('Response string (first 300 characters):\n' + response.text[0:300])
+                debug('Full Response:\n' + response.text)
+            else:
+                warn('Response string:\n' + response.text[0:300])
+
+            raise err
 
     def _is_page_connected(self):
         """Check if the page is connected.
         """
         ip = socket.gethostbyname(socket.gethostname())
-        url = self.url_root + '?cmd=pushAliveCheck&ipAddress=%s' % ip
+        url = self.url_cmd_service + '?cmd=pushAliveCheck&ipAddress=%s' % ip
         retval = self._send_url_as_get(url)
         return retval['active']
 
@@ -401,8 +272,8 @@ class FireflyClient:
 
         """
         try:
-            FFWs.open_ws_connection(self.channel, self.wsproto, self.location, self.auth_headers)
-            FFWs.add_listener(self.channel, self.location, callback, name)
+            def header_cb(headers): self.header_from_ws = headers
+            FFWs.add_listener(self.wsproto, self.auth_headers, self.channel, self.location, callback, name, header_cb)
         except ConnectionRefusedError as err:
             raise ValueError(err_message) from err
 
@@ -437,6 +308,11 @@ class FireflyClient:
         """
         FFWs.wait_for_events(self.channel, self.location)
 
+    def disconnect(self):
+        """DEPRECATED. Now just remove the listeners. Disconnect the WebSocket.
+        """
+        FFWs.close_ws_connection(self.channel, self.location)
+
     def get_firefly_url(self, channel=None):
         """
         Get URL to Firefly Tools viewer and the channel set.
@@ -452,12 +328,7 @@ class FireflyClient:
         out : `str`
             url string.
         """
-        if channel is None:
-            channel = self.channel
-
-        url = self.url_bw
-
-        return url + channel
+        return self.url_browser + (self.channel if channel is None else channel)
 
     def display_url(self, url=None):
         """
@@ -476,9 +347,7 @@ class FireflyClient:
             ipy_str = ''
         if 'zmqshell' in ipy_str:
             from IPython.display import display, HTML
-            display(
-                HTML('Open your web browser to <a href="{}"" target="_blank">this link</a>'
-                     .format(url)))
+            display( HTML('Open your web browser to <a href="{}"" target="_blank">this link</a>'.format(url)))
         else:
             print('Open your web browser to {}'.format(url))
 
@@ -523,16 +392,6 @@ class FireflyClient:
 
         return open_success, url
 
-    def stay_connected(self):
-        """Keep WebSocket connected.
-        """
-        self.run()
-
-    def disconnect(self):
-        """Disconnect the WebSocket.
-        """
-        FFWs.close_ws_connection(self.channel, self.location)
-
     @classmethod
     def get_instances(cls):
         """Get all current instances
@@ -542,22 +401,7 @@ class FireflyClient:
         `list`
             list of instances
         """
-        return list(FireflyClient.instances)
-
-    @classmethod
-    def get_default_instance(cls):
-        """ Return the default instance
-
-        Returns
-        -------
-        `FireflyClient` or None
-            Return the first FireflyClient instance, or None if there are none
-        """
-        instances = FireflyClient.get_instances()
-        if len(instances) > 0:
-            return instances[0]
-        else:
-            return
+        return list(cls.instances)
 
     def upload_file(self, path):
         """
@@ -576,9 +420,9 @@ class FireflyClient:
         .. note:: 'pre_load' is not implemented in the server (will be removed later).
         """
 
-        url = self.url_root + '?cmd=upload'
+        url = self.url_cmd_service + '?cmd=upload'
         files = {'file': open(path, 'rb')}
-        result = self.session.post(url, files=files, headers=FFWs.head(self.channel, self.location))
+        result = self.session.post(url, files=files, headers=self.header_from_ws)
         if result.status_code == 200:
             index = result.text.find('$')
             return result.text[index:]
@@ -638,11 +482,11 @@ class FireflyClient:
             Status, like {'success': True}.
         """
 
-        url = self.url_root + '?cmd=upload&preload='
+        url = self.url_cmd_service + '?cmd=upload&preload='
         url += 'true&type=FITS' if data_type.upper() == 'FITS' else 'false&type=UNKNOWN'
         stream.seek(0, 0)
         data_pack = {'data': stream}
-        result = self.session.post(url, files=data_pack, headers=FFWs.head(self.channel, self.location))
+        result = self.session.post(url, files=data_pack, headers=self.header_from_ws)
         if result.status_code == 200:
             index = result.text.find('$')
             return result.text[index:]
@@ -663,18 +507,7 @@ class FireflyClient:
          out : `str`
             Data URI or image url.
         """
-
-        def is_url(url):
-            return urllib.parse.urlparse(url).scheme != ''
-
-        if not image_source.startswith('data:image') and not is_url(image_source):
-            mime, _ = mimetypes.guess_type(image_source)
-            with open(image_source, 'rb') as fp:
-                data = fp.read()
-                data_uri = b''.join(base64.encodestring(data).splitlines())
-                return 'data:%s;base64,%s' % (mime, data_uri)
-
-        return image_source
+        return create_image_url(image_source)
 
     def dispatch(self, action_type, payload, override_channel=None):
         """
@@ -702,6 +535,7 @@ class FireflyClient:
         channel = self.channel if override_channel is None else override_channel
         action = {'type': action_type, 'payload': payload}
         data = {'channelID': channel, 'cmd': 'pushAction', 'action': json.dumps(action)}
+        debug('dispatch: type: %s, channel: %s \n%s' % (action_type, channel, dict_to_str(action)))
 
         return self._send_url_as_post(data)
 
@@ -740,7 +574,7 @@ class FireflyClient:
         """
 
         # force the cell_id to be 'main' for table's case
-        if element_type == FireflyClient.LO_VIEW_DICT['table']:
+        if element_type == LO_VIEW_DICT['table']:
             if not cell_id or cell_id != 'main':
                 cell_id = 'main'
         else:
@@ -754,7 +588,7 @@ class FireflyClient:
                    'type': element_type,
                    'cellId': cell_id}
 
-        r = self.dispatch(FireflyClient.ACTION_DICT['AddCell'], payload)
+        r = self.dispatch(ACTION_DICT['AddCell'], payload)
         r.update({'cell_id': cell_id})
         return r
 
@@ -767,8 +601,7 @@ class FireflyClient:
          out : `dict`
             Status of the request, like {'success': True}.
         """
-
-        return self.dispatch(FireflyClient.ACTION_DICT['ReinitViewer'], {})
+        return self.dispatch(ACTION_DICT['ReinitViewer'], {})
 
     def show_fits(self, file_on_server=None, plot_id=None, viewer_id=None, **additional_params):
         """
@@ -819,14 +652,11 @@ class FireflyClient:
                 viewer_id += '_' + self.render_tree_id
 
         payload.update({'viewerId': viewer_id})
-        if plot_id:
-            payload['wpRequest'].update({'plotId': plot_id})
-        if file_on_server:
-            payload['wpRequest'].update({'file': file_on_server})
-        if additional_params:
-            payload['wpRequest'].update(additional_params)
+        plot_id and payload['wpRequest'].update({'plotId': plot_id})
+        file_on_server and payload['wpRequest'].update({'file': file_on_server})
+        additional_params and payload['wpRequest'].update(additional_params)
 
-        return self.dispatch(FireflyClient.ACTION_DICT['ShowFits'], payload)
+        return self.dispatch(ACTION_DICT['ShowFits'], payload)
 
     def show_fits_3color(self, three_color_params, plot_id=None, viewer_id=None):
         """
@@ -866,7 +696,7 @@ class FireflyClient:
                 viewer_id += '_' + self.render_tree_id
         payload.update({'viewerId': viewer_id})
 
-        return self.dispatch(FireflyClient.ACTION_DICT['ShowFits'], payload)
+        return self.dispatch(ACTION_DICT['ShowFits'], payload)
 
     def show_table(self, file_on_server=None, tbl_id=None, title=None, page_size=100, is_catalog=True,
                    meta=None, target_search_info=None, options=None, table_index=None,
@@ -953,16 +783,14 @@ class FireflyClient:
             title = tbl_id if file_on_server else target_search_info.get('catalog', tbl_id)
 
         meta_info = {'title': title, 'tbl_id': tbl_id}
-        if meta:
-            meta_info.update(meta)
+        meta and meta_info.update(meta)
 
         tbl_req = {'startIdx': 0, 'pageSize': page_size, 'tbl_id': tbl_id}
         if file_on_server:
             tbl_type = 'table' if not is_catalog else 'catalog'
             tbl_req.update({'source': file_on_server, 'tblType': tbl_type,
                             'id': 'IpacTableFromSource'})
-            if table_index:
-                tbl_req.update({'tbl_index': table_index})
+            table_index and tbl_req.update({'tbl_index': table_index})
         elif target_search_info:
             target_search_info.update(
                     {'use': target_search_info.get('use') if 'use' in target_search_info else 'catalog_overlay'})
@@ -971,15 +799,12 @@ class FireflyClient:
             tbl_req.update(target_search_info)
 
         tbl_req.update({'META_INFO': meta_info})
-        if options:
-            tbl_req.update({'options': options})
-        if column_spec:
-            tbl_req.update({'inclCols': column_spec})
-        if filters:
-            tbl_req.update({'filters': filters})
+        options and tbl_req.update({'options': options})
+        column_spec and tbl_req.update({'inclCols': column_spec})
+        filters and tbl_req.update({'filters': filters})
 
         payload = {'request': tbl_req}
-        action_type = FireflyClient.ACTION_DICT['ShowTable'] if visible else FireflyClient.ACTION_DICT['FetchTable']
+        action_type = ACTION_DICT['ShowTable'] if visible else ACTION_DICT['FetchTable']
 
         return self.dispatch(action_type, payload)
 
@@ -1022,11 +847,10 @@ class FireflyClient:
             tbl_req.update({'tbl_index': table_index})
 
         meta_info = {'title': title, 'tbl_id': tbl_id}
-        if meta:
-            meta_info.update(meta)
+        meta and meta_info.update(meta)
         tbl_req.update({'META_INFO': meta_info})
         payload = {'request': tbl_req, 'hlRowIdx': 0}
-        return self.dispatch(FireflyClient.ACTION_DICT['FetchTable'], payload)
+        return self.dispatch(ACTION_DICT['FetchTable'], payload)
 
     def show_xyplot(self, tbl_id, standalone=False, group_id=None, **chart_params):
         """
@@ -1101,18 +925,15 @@ class FireflyClient:
         cid = FireflyClient._gen_item_id('XYPlot')
 
         if not group_id:
-            if standalone:
-                group_id = 'default'
-            else:
-                group_id = tbl_id
+            group_id = 'default' if standalone else tbl_id
 
         payload = {'chartId': cid, 'chartType': 'scatter',
                    'groupId': group_id, 'viewerId': group_id,
                    'chartDataElements': chart_data_elements}
 
-        return self.dispatch(FireflyClient.ACTION_DICT['ShowXYPlot'], payload)
+        return self.dispatch(ACTION_DICT['ShowXYPlot'], payload)
 
-    def show_histogram(self, tbl_id, group_id=None, **histogram_params):
+    def show_histogram(self, tbl_id, group_id='default', **histogram_params):
         """
         Show a histogram
 
@@ -1170,18 +991,15 @@ class FireflyClient:
                                     'binWidth': histogram_params.get('binWidth')})
             chart_data_elements.update({'options': options})
 
-        if not group_id:
-            group_id = 'default'
-
         cid = FireflyClient._gen_item_id('Histogram')
         payload = {'chartId': cid, 'chartType': 'histogram',
                    'groupId': group_id,
                    'viewerId': group_id,
                    'chartDataElements': [chart_data_elements]}
 
-        return self.dispatch(FireflyClient.ACTION_DICT['ShowXYPlot'], payload)
+        return self.dispatch(ACTION_DICT['ShowXYPlot'], payload)
 
-    def show_chart(self, group_id=None, **chart_params):
+    def show_chart(self, group_id='default', **chart_params):
         """
         Show a plot.ly chart
 
@@ -1216,9 +1034,6 @@ class FireflyClient:
             Status of the request, like {'success': True}.
 
         """
-
-        if not group_id:
-            group_id = 'default'
         chart_id = chart_params.get('chartId') if 'chartId' in chart_params else FireflyClient._gen_item_id('Plotly')
         payload = {'chartId': chart_id,
                    'groupId': group_id,
@@ -1227,10 +1042,9 @@ class FireflyClient:
                    'closable': True}
 
         for item in ['data', 'layout']:
-            if item in chart_params:
-                payload.update({item: chart_params.get(item)})
+            (item in chart_param) and payload.update({item: chart_params.get(item)})
 
-        return self.dispatch(FireflyClient.ACTION_DICT['ShowPlot'], payload)
+        return self.dispatch(ACTION_DICT['ShowPlot'], payload)
 
     def show_coverage(self, viewer_id=None, table_group='main'):
         """
@@ -1250,11 +1064,9 @@ class FireflyClient:
         """
 
         view_type = 'coverImage'
-        cid = viewer_id if viewer_id else ("%s-%s" % (FireflyClient.LO_VIEW_DICT[view_type], table_group))
-        payload = {'viewerType': FireflyClient.LO_VIEW_DICT[view_type],
-                   'cellId': cid}
-
-        return self.dispatch(FireflyClient.ACTION_DICT['ShowCoverage'], payload)
+        cid = viewer_id if viewer_id else ("%s-%s" % (LO_VIEW_DICT[view_type], table_group))
+        payload = {'viewerType': LO_VIEW_DICT[view_type], 'cellId': cid}
+        return self.dispatch(ACTION_DICT['ShowCoverage'], payload)
 
     def show_image_metadata(self, viewer_id=None, table_group='main'):
         """
@@ -1272,16 +1084,14 @@ class FireflyClient:
         out : `dict`
             Status of the request, like {'success': True}
         """
-
         view_type = 'imageMeta'
-        cid = viewer_id if viewer_id else ("%s-%s" % (FireflyClient.LO_VIEW_DICT[view_type], table_group))
-        payload = {'viewerType': FireflyClient.LO_VIEW_DICT[view_type],
-                   'cellId': cid}
+        cid = viewer_id if viewer_id else ("%s-%s" % (LO_VIEW_DICT[view_type], table_group))
+        payload = {'viewerType': LO_VIEW_DICT[view_type], 'cellId': cid}
 
-        return self.dispatch(FireflyClient.ACTION_DICT['ShowImageMetaData'],
-                             payload)
+        return self.dispatch(ACTION_DICT['ShowImageMetaData'], payload)
 
-    def add_extension(self, ext_type, plot_id=None, title='', tool_tip='', extension_id=None, image_src=None):
+    def add_extension(self, ext_type, plot_id=None, title='', tool_tip='',
+                      shortcut_key='', extension_id=None, image_src=None):
         """
         Add an extension to the plot.
         Extensions are context menus that allows you to extend what Firefly can do when certain actions happen.
@@ -1300,6 +1110,8 @@ class FireflyClient:
             Tooltip for the extension.
         extension_id : `str`, optional
             Extension ID. It will be created automatically if not specified.
+        shortcut_key : `str`, optional
+            use a letter for or a prefix it with 'meta' or 'ctrl' for example 'a', 'm', 'meta-m', 'ctrl-m'
         image_src : `str`, optional
             Image source of an icon to be displayed on the toolbar instead of the title.
             Image source could be an image path or an image url.
@@ -1314,13 +1126,13 @@ class FireflyClient:
 
         if not extension_id:
             extension_id = FireflyClient._gen_item_id('Extension')
-
-        image_url = FireflyClient.create_image_url(image_src) if image_src else None
-
-        extension = {'id': extension_id, 'plotId': plot_id, 'imageUrl': image_url,
-                     'title': title, 'extType': ext_type, 'toolTip': tool_tip}
-        payload = {'extension': extension}
-        return self.dispatch(FireflyClient.ACTION_DICT['AddExtension'], payload)
+        payload = {'extension': {
+                'id': extension_id, 'plotId': plot_id,
+                'imageUrl': create_image_url(image_src) if image_src else None,
+                'title': title, 'extType': ext_type,
+                'toolTip': tool_tip, 'shortcutKey': shortcut_key}
+             }
+        return self.dispatch(ACTION_DICT['AddExtension'], payload)
 
     def table_highlight_callback(self, func, columns):
         """ Set a user-defined callback for table highlights
@@ -1401,10 +1213,8 @@ class FireflyClient:
         if not hips_root_url:
             return
 
-        wp_request = {'plotGroupId': 'groupFromPython',
-                      'hipsRootUrl': hips_root_url}
-        if additional_params:
-            wp_request.update(additional_params)
+        wp_request = {'plotGroupId': 'groupFromPython', 'hipsRootUrl': hips_root_url}
+        additional_params and wp_request.update(additional_params)
 
         payload = {'wpRequest': wp_request}
 
@@ -1424,11 +1234,10 @@ class FireflyClient:
         if hips_image_conversion and type(hips_image_conversion) is dict:
             payload.update({'hipsImageConversion': hips_image_conversion})
 
-        return self.dispatch(FireflyClient.ACTION_DICT['ShowHiPS'], payload)
+        return self.dispatch(ACTION_DICT['ShowHiPS'], payload)
 
     def show_image_or_hips(self, plot_id=None, viewer_id=None, image_request=None, hips_request=None,
                            fov_deg_fallover=0.12, allsky_request=None, plot_allsky_first=False):
-
         """
         Show a FiTS or HiPS image.
 
@@ -1477,14 +1286,11 @@ class FireflyClient:
             elif image_request:
                 image_request.update({pg_key: 'groupFromPython'})
 
-        if image_request:
-            payload.update({'imageRequest': image_request})
-        if hips_request:
-            payload.update({'hipsRequest': hips_request})
-        if allsky_request:
-            payload.update({'allSkyRequest': allsky_request})
+        image_request and payload.update({'imageRequest': image_request})
+        hips_request and payload.update({'hipsRequest': hips_request})
+        allsky_request and payload.update({'allSkyRequest': allsky_request})
 
-        return self.dispatch(FireflyClient.ACTION_DICT['ShowImageOrHiPS'], payload)
+        return self.dispatch(ACTION_DICT['ShowImageOrHiPS'], payload)
 
     # ----------------------------
     # actions on image
@@ -1510,7 +1316,7 @@ class FireflyClient:
 
         def zoom_oneplot(one_plot_id, f):
             payload = {'plotId': one_plot_id, 'userZoomType': 'LEVEL', 'level': f, 'actionScope': 'SINGLE'}
-            return self.dispatch(FireflyClient.ACTION_DICT['ZoomImage'], payload)
+            return self.dispatch(ACTION_DICT['ZoomImage'], payload)
 
         if isinstance(plot_id, tuple) or isinstance(plot_id, list):
             return [zoom_oneplot(x, factor) for x in plot_id]
@@ -1539,13 +1345,13 @@ class FireflyClient:
         """
 
         payload = {'plotId': plot_id}
-        if x is not None and y is not None:
+        if x and y:
             if coord.startswith('image'):
                 payload.update({'centerPt': {'x': x, 'y': y, 'type': 'ImagePt'}})
             else:
                 payload.update({'centerPt': {'x': x, 'y': y, 'type': 'J2000'}})
 
-        return self.dispatch(FireflyClient.ACTION_DICT['PanImage'], payload)
+        return self.dispatch(ACTION_DICT['PanImage'], payload)
 
     def set_stretch(self, plot_id, stype=None, algorithm=None, band=None, **additional_params):
         """
@@ -1593,15 +1399,7 @@ class FireflyClient:
                   `stype` is 'zscale', and `lower_value` and `upper_value` are used when `stype` is not 'zscale'.
         """
 
-        if stype and stype.lower() == 'zscale':
-            serialized_rv = self._create_rangevalues_zscale(algorithm, **additional_params)
-        elif stype and (stype.lower() in ['minmax', 'maxmin']):
-            # 'maxmin' retained for backwards compatibility
-            serialized_rv = self._create_rangevalues_standard(algorithm, 'percent', 
-                                                              lower_value=0, upper_value=100, **additional_params)
-        else:
-            serialized_rv = self._create_rangevalues_standard(algorithm, stype, **additional_params)
-
+        serialized_rv = RangeValues.create_rv_by_stretch_type(algorithm, stype, **additional_params)
         bands_3color = ['RED', 'GREEN', 'BLUE', 'ALL']
         if not band:
             band_list = ['NO_BAND']
@@ -1616,7 +1414,7 @@ class FireflyClient:
 
         payload = {'stretchData': st_data, 'plotId': plot_id}
 
-        return_val = self.dispatch(FireflyClient.ACTION_DICT['StretchImage'], payload)
+        return_val = self.dispatch(ACTION_DICT['StretchImage'], payload)
         return_val['rv_string'] = serialized_rv
         return return_val
 
@@ -1651,30 +1449,29 @@ class FireflyClient:
         .. note:: `pedestal_value` is used when `pedestal_type` is not 'zscale'.
         """
 
-        scaling_k = self._ensure3(scaling_k, 'scaling_k')
-        pedestal_type = self._ensure3(pedestal_type, 'pedestal_type')
-        pedestal_value = self._ensure3(pedestal_value, 'pedestal_value')
+        scaling_k = ensure3(scaling_k, 'scaling_k')
+        pedestal_type = ensure3(pedestal_type, 'pedestal_type')
+        pedestal_value = ensure3(pedestal_value, 'pedestal_value')
 
         st_data = []
         bands = ['RED', 'GREEN', 'BLUE']
         for i, band in enumerate(bands):
-            serialized_rv = self._create_rv(stretch_type=pedestal_type[i],
-                                            lower_value=pedestal_value[i],
-                                            upper_value=99.0,
-                                            algorithm='asinh',
-                                            asinh_q_value=asinh_q_value,
-                                            rgb_preserve_hue=1,
-                                            scaling_k=scaling_k[i])
+            serialized_rv = RangeValues.create_rv(stretch_type=pedestal_type[i],
+                                                  lower_value=pedestal_value[i],
+                                                  upper_value=99.0,
+                                                  algorithm='asinh',
+                                                  asinh_q_value=asinh_q_value,
+                                                  rgb_preserve_hue=1,
+                                                  scaling_k=scaling_k[i])
             st_data.append({'band': band, 'rv': serialized_rv, 'bandVisible': True})
 
         payload = {'stretchData': st_data, 'plotId': plot_id}
-
-        return_val = self.dispatch_remote_action_by_post(self.channel,
-                                                         FireflyClient.ACTION_DICT['StretchImage'], payload)
+        return_val = self.dispatch_remote_action_by_post(self.channel, ACTION_DICT['StretchImage'], payload)
         return_val['rv_lst'] = [d['rv'] for d in st_data]
         return return_val
 
-    def parse_rvstring(self, rvstring):
+    @staticmethod
+    def parse_rvstring(rvstring):
         """parse a Firefly RangeValues string into a dictionary
 
         Parameters
@@ -1687,26 +1484,10 @@ class FireflyClient:
         outdict : `dict`
             dictionary of the inputs
         """
-        vals = rvstring.split(',')
-        assert 10 <= len(vals) <= 13
-        outdict = dict(lower_type=self.INVERSE_STRETCH_TYPE[int(vals[0])],
-                       lower_value=float(vals[1]),
-                       upper_type=self.INVERSE_STRETCH_TYPE[int(vals[2])],
-                       upper_value=float(vals[3]),
-                       asinh_q_value=float(vals[4]),
-                       gamma_value=float(vals[5]),
-                       algorithm=self.INVERSE_STRETCH_ALGORITHM[int(vals[6])],
-                       zscale_contrast=int(vals[7]),
-                       zscale_samples=int(vals[8]),
-                       zscale_samples_perline=int(vals[9]))
-        if len(vals) > 10:
-            outdict['rgb_preserve_hue'] = int(vals[10])
-            outdict['asinh_stretch'] = float(vals[11])
-            outdict['scaling_k'] = float(vals[12])
+        return RangeValues.parse_rvstring(rvstring)
 
-        return outdict
-
-    def rvstring_from_dict(self, rvdict):
+    @staticmethod
+    def rvstring_from_dict(rvdict):
         """create an rvstring from a dictionary
 
         Parameters
@@ -1719,27 +1500,7 @@ class FireflyClient:
         rvstring : `str`
             RangeValues string that can be passed to the show_fits methods
         """
-
-        argnames = ['lower_value', 'upper_value', 'upper_value', 'algorithm',
-                    'zscale_contrast', 'zscale_samples', 'zscale_samples_perline',
-                    'asinh_q_value', 'gamma_value',
-                    'rgb_preserve_hue', 'asinh_stretch', 'scaling_k']
-        kw = dict((k, rvdict[k]) for k in argnames)
-        rvstring = self._create_rv(stretch_type=rvdict['lower_type'], **kw)
-
-        # rvstring = self._create_rv(stretch_type=rvdict['lower_type'],
-        #                       lower_value = rvdict['lower_value'],
-        #                       upper_value = rvdict['upper_value'],
-        #                       algorithm = rvdict['algorithm'],
-        #                       zscale_contrast = rvdict['zscale_contrast'],
-        #                       zscale_samples = rvdict['zscale_samples'],
-        #                       zscale_samples_perline = rvdict['zscale_samples_perline'],
-        #                       asinh_q_value = rvdict['asinh_q_value'],
-        #                       gamma_value = rvdict['gamma_value'],
-        #                       rgb_preserve_hue = rvdict['rgb_preserve_hue'],
-        #                       asinh_stretch = rvdict['asinh_stretch'],
-        #                       scaling_k = rvdict['scaling_k'])
-        return rvstring
+        return RangeValues.rvstring_from_dict(rvdict)
 
     # -----------------------------------------------------------------
     # image line based footprint overlay
@@ -1792,21 +1553,13 @@ class FireflyClient:
             footprint_layer_id = FireflyClient._gen_item_id('FootprintLayer')
         payload = {'drawLayerId': footprint_layer_id}
 
-        if title:
-            payload.update({'title': title})
-        if plot_id:
-            payload.update({'plotId': plot_id})
-        if footprint_file:
-            payload.update({'footprintFile': footprint_file})
-        if footprint_image:
-            payload.update({'footprintImageFile': footprint_image})
-        if table_index:
-            payload.update({'tbl_index': table_index})
-
-        if additional_params:
-            payload.update(additional_params)
-
-        return self.dispatch(FireflyClient.ACTION_DICT['ImagelineBasedFootprint'], payload)
+        title and payload.update({'title': title})
+        plot_id and payload.update({'plotId': plot_id})
+        footprint_file and payload.update({'footprintFile': footprint_file})
+        footprint_image and payload.update({'footprintImageFile': footprint_image})
+        table_index and payload.update({'tbl_index': table_index})
+        additional_params and payload.update(additional_params)
+        return self.dispatch(ACTION_DICT['ImagelineBasedFootprint'], payload)
 
     # -----------------------------------------------------------------
     # Region Stuff
@@ -1848,17 +1601,14 @@ class FireflyClient:
             region_layer_id = FireflyClient._gen_item_id('RegionLayer')
         payload = {'drawLayerId': region_layer_id}
 
-        if title:
-            payload.update({'layerTitle': title})
-        if plot_id:
-            payload.update({'plotId': plot_id})
-
+        title and payload.update({'layerTitle': title})
+        plot_id and payload.update({'plotId': plot_id})
         if file_on_server:
             payload.update({'fileOnServer': file_on_server})
         elif region_data:
             payload.update({'regionAry': region_data})
 
-        return self.dispatch(FireflyClient.ACTION_DICT['CreateRegionLayer'], payload)
+        return self.dispatch(ACTION_DICT['CreateRegionLayer'], payload)
 
     def delete_region_layer(self, region_layer_id, plot_id=None):
         """
@@ -1879,10 +1629,8 @@ class FireflyClient:
         """
 
         payload = {'drawLayerId': region_layer_id}
-        if plot_id:
-            payload.update({'plotId': plot_id})
-
-        return self.dispatch(FireflyClient.ACTION_DICT['DeleteRegionLayer'], payload)
+        plot_id and payload.update({'plotId': plot_id})
+        return self.dispatch(ACTION_DICT['DeleteRegionLayer'], payload)
 
     def add_region_data(self, region_data, region_layer_id, title=None, plot_id=None):
         """
@@ -1912,12 +1660,9 @@ class FireflyClient:
         """
 
         payload = {'regionChanges': region_data, 'drawLayerId': region_layer_id}
-        if plot_id:
-            payload.update({'plotId': plot_id})
-        if title:
-            payload.update({'layerTitle': title})
-
-        return self.dispatch(FireflyClient.ACTION_DICT['AddRegionData'], payload)
+        plot_id and payload.update({'plotId': plot_id})
+        title and payload.update({'layerTitle': title})
+        return self.dispatch(ACTION_DICT['AddRegionData'], payload)
 
     def remove_region_data(self, region_data, region_layer_id):
         """
@@ -1937,7 +1682,7 @@ class FireflyClient:
         """
         payload = {'regionChanges': region_data, 'drawLayerId': region_layer_id}
 
-        return self.dispatch(FireflyClient.ACTION_DICT['RemoveRegionData'], payload)
+        return self.dispatch(ACTION_DICT['RemoveRegionData'], payload)
 
     def add_mask(self,  bit_number, image_number, plot_id, mask_id=None, color=None, title=None,
                  file_on_server=None):
@@ -1975,12 +1720,9 @@ class FireflyClient:
 
         payload = {'plotId': plot_id, 'imageOverlayId': mask_id, 'imageNumber': image_number,
                    'maskNumber': bit_number, 'maskValue': int(math.pow(2, bit_number)), 'title': title}
-        if color:
-            payload.update({'color': color})
-        if file_on_server:
-            payload.update({'fileKey': file_on_server})
-
-        return self.dispatch(FireflyClient.ACTION_DICT['PlotMask'], payload)
+        color and payload.update({'color': color})
+        file_on_server and payload.update({'fileKey': file_on_server})
+        return self.dispatch(ACTION_DICT['PlotMask'], payload)
 
     def remove_mask(self, plot_id, mask_id):
         """
@@ -2000,128 +1742,11 @@ class FireflyClient:
         """
 
         payload = {'plotId': plot_id, 'imageOverlayId': mask_id}
-        return self.dispatch(FireflyClient.ACTION_DICT['DeleteOverlayMask'], payload)
+        return self.dispatch(ACTION_DICT['DeleteOverlayMask'], payload)
 
     # -----------------------------------------------------------------
     # Range Values
     # -----------------------------------------------------------------
-
-    @staticmethod
-    def _create_rv(stretch_type, lower_value, upper_value, algorithm,
-                   zscale_contrast=25, zscale_samples=600, zscale_samples_perline=120,
-                   asinh_q_value=None, gamma_value=2.0,
-                   rgb_preserve_hue=0, asinh_stretch=None, scaling_k=1.0):
-        retval = None
-        st = stretch_type.lower()
-        a = algorithm.lower()
-
-        # when q is NaN (case-sensitive), Firefly will calculate q using range
-        if asinh_q_value is None or math.isnan(asinh_q_value):
-            qstr = 'NaN'
-        elif math.isinf(asinh_q_value):
-            raise ValueError('invalid asinh_q_value: %f' % asinh_q_value)
-        else:
-            qstr = '%f' % asinh_q_value
-
-        # when asinh_stretch is NaN (case-sensitive), Firefly will calculate asinh_stretch
-        # for hue-preserving rgb using z-scale range of intensity
-        if asinh_stretch is None or math.isnan(asinh_stretch):
-            asinh_stretch_str = 'NaN'
-        elif math.isinf(asinh_stretch) or asinh_stretch < 0:
-            raise ValueError('invalid asinh_stretch for hue-preserving rgb: %f' % asinh_stretch)
-        else:
-            asinh_stretch_str = '%f' % asinh_stretch
-
-        if rgb_preserve_hue is None:
-            rgb_preserve_hue = 0
-
-        if st in FireflyClient.STRETCH_TYPE_DICT and a in FireflyClient.STRETCH_ALGORITHM_DICT:
-            retval = '%d,%f,%d,%f,%s,%f,%d,%d,%d,%d,%d,%s,%f' % \
-                   (FireflyClient.STRETCH_TYPE_DICT[st], lower_value,
-                    FireflyClient.STRETCH_TYPE_DICT[st], upper_value,
-                    qstr, gamma_value,
-                    FireflyClient.STRETCH_ALGORITHM_DICT[a],
-                    zscale_contrast, zscale_samples, zscale_samples_perline,
-                    rgb_preserve_hue, asinh_stretch_str, scaling_k)
-        return retval
-
-    def _create_rangevalues_standard(self, algorithm, stretch_type='Percent',
-                                     lower_value=1, upper_value=99, **additional_params):
-        """
-        Create range values for non-zscale cases.
-
-        Parameters
-        -----------
-        algorithm : {'Linear', 'Log', 'LogLog', 'Equal', 'Squared', 'Sqrt'}
-            Stretch algorithm.
-        stretch_type : {'Percent', 'Absolute', 'Sigma'}
-            Stretch type.
-        lower_value: `int` or  `float`
-            Lower end of stretch.
-        upper_value: `int` or  `float`
-            Upper end of stretch
-
-        **additional_params : optional keyword arguments
-            Algorithm specific parameters for changing the stretch. The options are shown as below:
-
-            **asinh_q_value** : `float`, optional
-                The asinh softening parameter for Asinh stretch.
-                Use Q=0 for linear stretch, increase Q to make brighter features visible.
-                When not specified, Q is calculated by Firefly to use full color range.
-            **gamma_value**
-                The gamma value for Power Law Gamma stretch
-
-        Returns
-        -------
-        out : `str`
-            a serialized range values string
-        """
-
-        retval = self._create_rv(stretch_type, lower_value, upper_value, algorithm, **additional_params)
-        if not retval:
-            t = stretch_type if stretch_type.lower() in FireflyClient.STRETCH_TYPE_DICT else 'percent'
-            a = algorithm if algorithm.lower() in FireflyClient.STRETCH_ALGORITHM_DICT else 'linear'
-            retval = self._create_rv(t, 1, 99, a, **additional_params)
-        return retval
-
-    def _create_rangevalues_zscale(self, algorithm, zscale_contrast=25,
-                                   zscale_samples=600, zscale_samples_perline=120, **additional_params):
-        """
-        Create range values for zscale case.
-
-        Parameters
-        ----------
-        algorithm: {'Linear', 'Log', 'LogLog', 'Equal', 'Squared', 'Sqrt'}
-            Stretch algorithm.
-        zscale_contrast: `int`
-            Zscale contrast.
-        zscale_samples: `int`
-            Zscale samples
-        zscale_samples_perline: `int`
-            Zscale samples per line
-
-        **additional_params : optional keyword arguments
-            Algorithm specific parameters for changing the stretch. The options are shown as below:
-
-            **asinh_q_value** : `float`, optional
-                The asinh softening parameter for Asinh stretch.
-                Use Q=0 for linear stretch, increase Q to make brighter features visible.
-                When not specified, Q is calculated by Firefly to use full color range.
-            **gamma_value**
-                The gamma value for Power Law Gamma stretch
-
-        Returns
-        -------
-        out : `str`
-            a serialized range values string
-        """
-
-        retval = self._create_rv('zscale', 1, 1, algorithm,
-                                 zscale_contrast, zscale_samples, zscale_samples_perline, **additional_params)
-        if not retval:
-            a = algorithm if algorithm.lower() in FireflyClient.STRETCH_ALGORITHM_DICT else 'linear'
-            retval = self._create_rv('zscale', 1, 2, a, 25, 600, 120, **additional_params)
-        return retval
 
     @classmethod
     def _gen_item_id(cls, item):
@@ -2144,204 +1769,3 @@ class FireflyClient:
             return item + '-' + str(cls._item_id[item])
         else:
             return None
-
-    @staticmethod
-    def _ensure3(val, name):
-        """
-        Make sure that the value is a scalar or a list with 3 values.
-        If the number of items is less than 3, raise an error.
-
-        Parameters
-        ----------
-        val : `str` or `float` or `int`
-            Scalar value or a list with 3 items.
-        name : `str`
-            Name associated with the value (for error traceability).
-
-        Returns
-        -------
-        out : `list`
-            List with 3 items.
-        """
-
-        ret = val if type(val) == list else [val, val, val]
-        if not len(ret) == 3:
-            raise ValueError('%s list should have 3 items' % name)
-        return ret
-
-
-class FFWs:
-    """
-    For use only by FireflyClient to manage web sockets and channel connections. This class should never be instantiated
-    directly. It should only be used though the static methods
-    """
-
-    connections = {}
-
-    @classmethod
-    def has(cls, channel, location): return _make_key(channel, location) in cls.connections
-
-    @classmethod
-    def get(cls, channel, location):
-        key = _make_key(channel, location)
-        return cls.connections[key] if key in cls.connections else None
-
-    @classmethod
-    def open_ws_connection(cls, channel, wsproto, location, auth_headers):
-        key = _make_key(channel, location)
-        if key not in cls.connections:
-            if len(cls.connections) > MAX_CHANNELS:
-                err_msg = 'You may only use %s channels for a python session' % MAX_CHANNELS
-                raise ConnectionRefusedError(err_msg)
-            cls.connections[key] = cls(channel, wsproto, location, auth_headers)
-            debug('starting chan: %s %s url:%s' % (channel, wsproto, location))
-        return cls.connections[key]
-
-    @classmethod
-    def close_ws_connection(cls, channel, location):
-        if cls.has(channel, location):
-            cls.get(channel, location).disconnect()
-            cls.connections.pop(_make_key(channel, location), None)
-
-    @classmethod
-    def head(cls, channel, location):
-        return cls.get(channel, location).channel_headers if cls.has(channel, location) else {'FF-channel': channel}
-
-    @classmethod
-    def add_listener(cls, channel, location, callback, name=ALL):
-        cls.has(channel, location) and cls.get(channel, location).do_add_listener(callback, name)
-
-    @classmethod
-    def remove_listener(cls, channel, location, callback, name=ALL):
-        cls.has(channel, location) and cls.get(channel, location).do_remove_listener(callback, name)
-
-    @classmethod
-    def wait_for_events(cls, channel, location):
-        cls.has(channel, location) and cls.get(channel, location).do_run_forever()
-
-    def __init__(self, channel, wsproto, location, auth_headers):
-
-        self.ws_url = urljoin('{}://{}/'.format(wsproto, location), 'sticky/firefly/events?channelID={}'.format(channel))
-        self.channel = channel
-        self.location = location
-        self.channel_headers = {'FF-channel': channel}
-        self.listeners = {}
-        self.forever_loop = True
-
-        def on_message(wsapp, ev):
-            try:
-                self.received_message(ev)
-            except Exception as on_mess_ex:
-                print(traceback.format_exc())
-                raise on_mess_ex
-
-        def on_open(wsapp):
-            if not _firefly_client_debug:
-                return
-            try:
-                debug('on open: Status: %d' % wsapp.sock.handshake_response.status)
-                debug('response headers: \n%s' % dict_to_str(wsapp.sock.handshake_response.headers))
-            except Exception as open_ex:
-                print(traceback.format_exc())
-                raise open_ex
-
-        def on_error(wsapp, exception_from_socket):
-            warn('Error: Websocket connection failed')
-            print(exception_from_socket)
-            warn('Websocket Status: %d' % wsapp.sock.handshake_response.status)
-            warn('Websocket response headers: \n%s' % dict_to_str(wsapp.sock.handshake_response.headers))
-            raise exception_from_socket
-
-        def threaded_connect():
-            try:
-                socket_headers = self.channel_headers.copy()
-                if auth_headers is not None:
-                    socket_headers.update(auth_headers)
-                self.websocket = websocket.WebSocketApp(url=self.ws_url, header=socket_headers, on_message=on_message,
-                                                        on_open=on_open, on_error=on_error)
-                self.debug_show_env(socket_headers)
-                self.websocket.run_forever(ping_interval=10)
-                self.forever_loop = False
-                debug('websocket thread ended')
-            except Exception:
-                print(traceback.format_exc())
-
-        try:
-            _thread.start_new_thread(threaded_connect, ())
-        except Exception as err:
-            raise ValueError(make_fail_network_message(location)) from err
-
-    def debug_show_env(self, socket_headers):
-        if not _firefly_client_debug:
-            return
-        debug('Attempting to connect\n    %s\n    %s\n    channel: %s' % (self.location, self.ws_url, self.channel))
-        debug('Header sent to websocket connections: %s' % dict_to_str(socket_headers))
-
-    def debug_header_event_message(self, ev):
-        if not _firefly_client_debug:
-            return
-        debug('Event: %s' % ev['name'])
-        log_ev = deepcopy(ev)
-        try:
-            log_ev['data']['plotState']['bandStateAry'] = '<<<<<truncated>>>>>'
-        except KeyError:
-            pass
-        debug('JSON Data:\n%s' % json.dumps(log_ev, indent=2, default=str))
-        debug('All Listeners for channel: %s, location: %s' % (self.channel, self.location))
-        for callback, eventIDList in self.listeners.items():
-            debug("          %s" % eventIDList)
-        self.execute_callbacks(ev, do_callback=False)
-
-    def execute_callbacks(self, ev, do_callback=True):
-        name = ev['name']
-        for callback, eventIDList in self.listeners.items():
-            if name in eventIDList or ALL in eventIDList:
-                callback(ev) if do_callback else debug('callback: %s' % name)
-
-    def received_message(self, message):
-        try:
-            ev = json.loads(message)
-        except JSONDecodeError as err:
-            warn('Error with JSON input - event string could not be parsed')
-            warn(message)
-            warn(err)
-            return
-
-        if ev['name'] == 'EVT_CONN_EST':
-            try:
-                conn_info = ev['data']
-                debug('Connection established:\n    %s' % message)
-                if self.channel is None:
-                    self.channel = conn_info['channel']
-                conn_id = conn_info['connID'] if 'connID' in conn_info else None
-                self.channel_headers = {'FF-channel': self.channel, 'FF-connID': conn_id}
-            except Exception as err:
-                print(message)
-                raise err
-        else:
-            self.debug_header_event_message(ev)
-            self.execute_callbacks(ev)
-
-    def disconnect(self):
-        """Disconnect the WebSocket.
-        """
-        self.websocket.close()
-
-    def do_add_listener(self, callback, name=ALL):
-        debug('adding listener to %s, %s' % (self.channel, self.ws_url))
-        if callback not in self.listeners.keys():
-            self.listeners[callback] = []
-        if name not in self.listeners[callback]:
-            self.listeners[callback].append(name)
-
-    def do_remove_listener(self, callback, name=ALL):
-        debug('removing listener to %s, %s' % (self.channel, self.ws_url))
-        if callback in self.listeners.keys():
-            if name in self.listeners[callback]:
-                self.listeners[callback].remove(name)
-            if len(self.listeners[callback]) == 0:
-                self.listeners.pop(callback)
-
-    def do_run_forever(self):
-        while self.forever_loop:
-            time.sleep(10)
