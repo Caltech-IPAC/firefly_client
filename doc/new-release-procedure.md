@@ -23,6 +23,8 @@
    - `git push --tags`
 1. After this you can install 
    - `pip install firefly_client`
+1. Make is release with github, using the tag above
+   - https://github.com/Caltech-IPAC/firefly_client/releases
 
 ### PYPI 
 
