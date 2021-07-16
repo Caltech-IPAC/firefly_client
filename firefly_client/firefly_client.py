@@ -1042,7 +1042,7 @@ class FireflyClient:
                    'closable': True}
 
         for item in ['data', 'layout']:
-            (item in chart_param) and payload.update({item: chart_params.get(item)})
+            (item in chart_params) and payload.update({item: chart_params.get(item)})
 
         return self.dispatch(ACTION_DICT['ShowPlot'], payload)
 
