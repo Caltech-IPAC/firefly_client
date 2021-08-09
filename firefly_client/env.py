@@ -1,6 +1,7 @@
 import base64
 import os
 import uuid
+import datetime
 
 try:
     from .fc_utils import str_2_bool
@@ -65,8 +66,8 @@ class Env:
         elif cls.firefly_channel_from_env:
             return cls.firefly_channel_from_env
         else:
-            return base64.urlsafe_b64encode((cls, cls.user + datetime.datetime.today().strftime('%Y-%m-%d')).encode()
-                                            ).decode().replace('=', '')
+            start_str = cls.user + datetime.datetime.today().strftime('%Y-%m-%d')
+            return base64.urlsafe_b64encode(start_str.encode()).decode().replace('=', '')
 
     @classmethod
     def resolve_lab_channel(cls, generate_lab_ext_channel):

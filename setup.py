@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='firefly_client',
-    version='2.7.1',
+    version='2.7.2',
     description='Python API for Firefly',
     author='IPAC LSST SUIT',
     license='BSD',

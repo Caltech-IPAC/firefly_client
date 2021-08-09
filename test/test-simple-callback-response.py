@@ -15,7 +15,8 @@ v_str = firefly_client.__dict__['__version__'] if '__version__' in firefly_clien
 print('Version: %s' % v_str)
 FireflyClient._debug = False
 token = None
-fc = FireflyClient.make_client(host, channel_override=channel1, launch_browser=True, token=token)
+# fc = FireflyClient.make_client(host, channel_override=channel1, launch_browser=True, token=token)
+fc = FireflyClient.make_client(host, launch_browser=True, token=token)
 print(fc.get_firefly_url())
 fc.show_fits(url="http://web.ipac.caltech.edu.s3-us-west-2.amazonaws.com/staff/roby/demo/wise-00.fits")
 
