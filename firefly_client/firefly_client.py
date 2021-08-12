@@ -14,6 +14,7 @@ import math
 import weakref
 from copy import copy
 
+
 try:
     from .ffws import FFWs
 except ImportError:
@@ -27,10 +28,10 @@ try:
 except ImportError:
     from range_values import RangeValues
 try:
-    from .fc_utils import debug, warn, dict_to_str, create_image_url, ensure3, \
+    from .fc_utils import debug, warn, dict_to_str, create_image_url, ensure3, gen_item_id,\
         DebugMarker, ALL, ACTION_DICT, LO_VIEW_DICT
 except ImportError:
-    from fc_utils import debug, warn, dict_to_str, create_image_url, ensure3, \
+    from fc_utils import debug, warn, dict_to_str, create_image_url, ensure3, gen_item_id,\
         DebugMarker, ALL, ACTION_DICT, LO_VIEW_DICT
 
 __docformat__ = 'restructuredtext'
@@ -579,7 +580,7 @@ class FireflyClient:
                 cell_id = 'main'
         else:
             if not cell_id:
-                cell_id = FireflyClient._gen_item_id('Cell')
+                cell_id = gen_item_id('Cell')
 
         payload = {'row': row,
                    'col': col,
@@ -778,7 +779,7 @@ class FireflyClient:
         """
 
         if not tbl_id:
-            tbl_id = FireflyClient._gen_item_id('Table')
+            tbl_id = gen_item_id('Table')
         if not title:
             title = tbl_id if file_on_server else target_search_info.get('catalog', tbl_id)
 
@@ -838,7 +839,7 @@ class FireflyClient:
         """
 
         if not tbl_id:
-            tbl_id = FireflyClient._gen_item_id('Table')
+            tbl_id = gen_item_id('Table')
         if not title:
             title = tbl_id
         tbl_req = {'startIdx': 0, 'pageSize': page_size, 'source': file_on_server,
@@ -922,7 +923,7 @@ class FireflyClient:
 
         chart_data_elements = [{'type': 'xycols', 'options': options, 'tblId': tbl_id}]
 
-        cid = FireflyClient._gen_item_id('XYPlot')
+        cid = gen_item_id('XYPlot')
 
         if not group_id:
             group_id = 'default' if standalone else tbl_id
@@ -991,7 +992,7 @@ class FireflyClient:
                                     'binWidth': histogram_params.get('binWidth')})
             chart_data_elements.update({'options': options})
 
-        cid = FireflyClient._gen_item_id('Histogram')
+        cid = gen_item_id('Histogram')
         payload = {'chartId': cid, 'chartType': 'histogram',
                    'groupId': group_id,
                    'viewerId': group_id,
@@ -1034,7 +1035,7 @@ class FireflyClient:
             Status of the request, like {'success': True}.
 
         """
-        chart_id = chart_params.get('chartId') if 'chartId' in chart_params else FireflyClient._gen_item_id('Plotly')
+        chart_id = chart_params.get('chartId') if 'chartId' in chart_params else gen_item_id('Plotly')
         payload = {'chartId': chart_id,
                    'groupId': group_id,
                    'viewerId': group_id,
@@ -1125,7 +1126,7 @@ class FireflyClient:
         """
 
         if not extension_id:
-            extension_id = FireflyClient._gen_item_id('Extension')
+            extension_id = gen_item_id('Extension')
         payload = {'extension': {
                 'id': extension_id, 'plotId': plot_id,
                 'imageUrl': create_image_url(image_src) if image_src else None,
@@ -1219,7 +1220,7 @@ class FireflyClient:
         payload = {'wpRequest': wp_request}
 
         if not plot_id:
-            plot_id = FireflyClient._gen_item_id('Image')
+            plot_id = gen_item_id('Image')
 
         payload.update({'plotId': plot_id})
         wp_request.update({'plotId': plot_id})
@@ -1270,7 +1271,7 @@ class FireflyClient:
             return
 
         if not plot_id:
-            plot_id = FireflyClient._gen_item_id('Image')
+            plot_id = gen_item_id('Image')
         if not viewer_id:
             viewer_id = 'DEFAULT_FITS_VIEWER_ID'
             if self.render_tree_id:
@@ -1550,7 +1551,7 @@ class FireflyClient:
         """
 
         if not footprint_layer_id:
-            footprint_layer_id = FireflyClient._gen_item_id('FootprintLayer')
+            footprint_layer_id = gen_item_id('FootprintLayer')
         payload = {'drawLayerId': footprint_layer_id}
 
         title and payload.update({'title': title})
@@ -1598,7 +1599,7 @@ class FireflyClient:
         """
 
         if not region_layer_id:
-            region_layer_id = FireflyClient._gen_item_id('RegionLayer')
+            region_layer_id = gen_item_id('RegionLayer')
         payload = {'drawLayerId': region_layer_id}
 
         title and payload.update({'layerTitle': title})
@@ -1714,7 +1715,7 @@ class FireflyClient:
         """
 
         if not mask_id:
-            mask_id = FireflyClient._gen_item_id('MaskLayer')
+            mask_id = gen_item_id('MaskLayer')
         if not title:
             title = 'bit %23 ' + str(bit_number)
 
@@ -1743,29 +1744,3 @@ class FireflyClient:
 
         payload = {'plotId': plot_id, 'imageOverlayId': mask_id}
         return self.dispatch(ACTION_DICT['DeleteOverlayMask'], payload)
-
-    # -----------------------------------------------------------------
-    # Range Values
-    # -----------------------------------------------------------------
-
-    @classmethod
-    def _gen_item_id(cls, item):
-        """
-        Generate an ID for table, region layer, or extension entity.
-
-        Parameters
-        ----------
-        item : {'Table', 'RegionLayer', 'Extension', 'XYPlot', 'Cell', 'FootprintLayer'}
-            Entity type.
-
-        Returns
-        -------
-        out : `str`
-            ID string.
-        """
-
-        if item in cls._item_id:
-            cls._item_id[item] += 1
-            return item + '-' + str(cls._item_id[item])
-        else:
-            return None

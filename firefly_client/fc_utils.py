@@ -15,7 +15,33 @@ def warn(s): print('WARNING: %s' % s)
 def dict_to_str(in_dict): return json.dumps(in_dict, indent=2, default=str)
 
 
+# id for table, region layer, extension
+_item_id = {'Table': 0, 'RegionLayer': 0, 'Extension': 0, 'MaskLayer': 0, 'XYPlot': 0,
+            'Cell': 0, 'Histogram': 0, 'Plotly': 0, 'Image': 0, 'FootprintLayer': 0}
+
 ALL = 'ALL_EVENTS_ENABLED'
+
+
+def gen_item_id(item):
+    """
+    Generate an ID for table, region layer, or extension entity.
+
+    Parameters
+    ----------
+    item : {'Table', 'RegionLayer', 'Extension', 'XYPlot', 'Cell', 'FootprintLayer'}
+        Entity type.
+
+    Returns
+    -------
+    out : `str`
+        ID string.
+    """
+
+    if item in _item_id:
+        _item_id[item] += 1
+        return item + '-' + str(_item_id[item])
+    else:
+        return None
 
 
 def create_image_url(image_source):
