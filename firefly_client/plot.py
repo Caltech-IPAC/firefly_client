@@ -1,4 +1,3 @@
-
 """
 `firefly_client.plot` is a state-base interface to firefly_client,
 inspired by `matplotlib.pyplot`.
@@ -13,52 +12,18 @@ import os
 import tempfile
 import time
 from .firefly_client import FireflyClient
+from .fc_utils import gen_item_id
 
 logger = logging.getLogger(__name__)
 
 fc = None
-
-for c in FireflyClient.get_instances():
-    _ = c()
-    if _ and _._is_page_connected():
-        fc = _
-        break
-
-public_urls = ['https://lsst-demo.ncsa.illinois.edu/firefly',
-               'https://irsa.ipac.caltech.edu/irsaviewer']
-
-try_urls = []
-html_file = 'slate.html'
 last_tblid = None
-
-if 'FIREFLY_URL' in os.environ:
-    try_urls.append(os.environ['FIREFLY_URL'])
-if 'FIREFLY_HTML' in os.environ:
-    html_file = os.environ['FIREFLY_HTML']
-
-try_urls.append('http://localhost:8080/firefly')
-try_urls.append('http://127.0.0.1:8080/firefly')
-
-try_urls += public_urls
-
-if fc is None:
-    for url in try_urls:
-        try:
-            logger.debug('attempting to connect to {}'.format(url))
-            fc = FireflyClient.make_client(url=url, html_file=html_file)
-            break
-        except Exception:
-            logger.debug('connection failed to {}'.format(url))
-
-if fc is None:
-    raise RuntimeError('Cannot find existing FireflyClient or valid server URL')
-
-
+last_imageid = None
 # Set up default cells
-time.sleep(2)
 table_cellid = 'tables'
 plots_cellid = 'plots'
 images_cellid = 'images'
+
 
 def use_client(ffclient):
     """Use the provided FireflyClient instance.
@@ -73,8 +38,12 @@ def use_client(ffclient):
     """
     global fc
     fc = ffclient
-    if not fc._is_page_connected():
-        open_browser()
+
+
+def _confirm_fc():
+    if fc is None:
+        raise ValueError('a FireflyClient instance has not been defined, define it first with use_client()')
+
 
 def reset_layout():
     """Reset to the default layout
@@ -82,32 +51,18 @@ def reset_layout():
     The default layout is a table spanning the first row, and a second
     row containing plots in the first column and images in the second column.
     """
-    fc.add_cell(row=0, col=0, width=2, height=2, element_type='tables',
-            cell_id=table_cellid)
-    fc.add_cell(row=2, col=0, width=1, height=2, element_type='xyPlots',
-            cell_id=plots_cellid)
-    fc.add_cell(row=2, col=1, width=1, height=2, element_type='images',
-            cell_id=images_cellid)
+    _confirm_fc()
+    fc.add_cell(row=0, col=0, width=2, height=2, element_type='tables', cell_id=table_cellid)
+    fc.add_cell(row=2, col=0, width=1, height=2, element_type='xyPlots', cell_id=plots_cellid)
+    fc.add_cell(row=2, col=1, width=1, height=2, element_type='images', cell_id=images_cellid)
 
-def reset_server(url, channel=None, html_file=html_file):
-    """Construct and use a FireflyClient from parameters
-
-    Parameters:
-    -----------
-    url : `str`
-        URL for the Firefly server
-    channel : `str` or None
-        a string for the channel. If None, will be auto-generated
-    html_file : `str`
-        landing page for the web viewer. Defaults to module default
-    """
-    fc = FireflyClient.make_client(url, channel_override=channel, html_file=html_file)
-    use_client(fc)
 
 def display_url():
     """Display the web viewer URL, if possible as a clickable link
     """
+    _confirm_fc()
     fc.display_url()
+
 
 def open_browser(force=False):
     """open a browser tab or window to the web viewer
@@ -117,14 +72,14 @@ def open_browser(force=False):
     force : `bool`
         if True, open the browser even if one is already connected. Default False
     """
-    if (fc._is_page_connected() is True) and (force is False):
-        print('Browser page is already connected')
-        return
+    _confirm_fc()
     fc.launch_browser(force=force)
+
 
 def clear():
     """Clear the web viewer
     """
+    _confirm_fc()
     fc.reinit_viewer()
 
 
@@ -158,6 +113,7 @@ def scatter(x_col, y_col, tbl_id='', size=4, color=None, alpha=1.0,
 
 
     """
+    _confirm_fc()
     layout = dict(xaxis=dict(title=xlabel if xlabel else x_col),
                   yaxis=dict(title=ylabel if ylabel else y_col))
     if title is not None:
@@ -168,12 +124,8 @@ def scatter(x_col, y_col, tbl_id='', size=4, color=None, alpha=1.0,
     marker_dict = dict(size=size, opacity=alpha)
     if color:
         marker_dict['color'] = color
-    trace = dict(tbl_id=tbl_id,
-                x = 'tables::' + x_col,
-                y = 'tables::' + y_col,
-                mode = 'markers',
-                type = 'scatter',
-                marker = marker_dict)
+    trace = dict(tbl_id=tbl_id, x='tables::' + x_col, y='tables::' + y_col,
+                 mode='markers', type='scatter', marker=marker_dict)
     trace.update(kwargs)
     fc.show_chart(layout=layout, data=[trace], group_id=cell_id)
 
@@ -197,6 +149,7 @@ def hist(data_col, tbl_id='', nbins=30, title='', xlabel=None,
     cell_id: `str`
         ID of Slate cell from add_cell, defaults to table_cellid
     """
+    _confirm_fc()
     layout = dict(xaxis=dict(title=xlabel if xlabel else data_col),
                   yaxis=dict(title=ylabel if ylabel else 'Number'))
     if title is not None:
@@ -219,8 +172,9 @@ def hist(data_col, tbl_id='', nbins=30, title='', xlabel=None,
         )
     )
     hist_data.update(kwargs)
-    fc.show_chart(group_id=cell_id, layout=layout, data=[hist_data] )
+    fc.show_chart(group_id=cell_id, layout=layout, data=[hist_data])
     return
+
 
 def upload_table(table, title=None, show=True, write_func="auto", tbl_index=1, page_size=200,
                  view_coverage=False):
@@ -247,6 +201,7 @@ def upload_table(table, title=None, show=True, write_func="auto", tbl_index=1, p
     tbl_id: `str`
         Table ID on the Firefly server
     """
+    _confirm_fc()
     if isinstance(table, str):
         tval = fc.upload_file(table)
     else:
@@ -259,7 +214,6 @@ def upload_table(table, title=None, show=True, write_func="auto", tbl_index=1, p
                     for c in atable.colnames:
                         if len(c) > 68:
                             atable.rename_column(c, c[:68])
-                    #atable.remove_columns([c for c in table.colnames if len(c) > 68])
                     import warnings
                     from astropy.utils.exceptions import AstropyWarning
                     with warnings.catch_warnings():
@@ -274,7 +228,7 @@ def upload_table(table, title=None, show=True, write_func="auto", tbl_index=1, p
         logger.debug('Image name is {}'.format(fd.name))
         os.remove(fd.name)
     if title is None:
-        tbl_id = FireflyClient._gen_item_id('Table')
+        tbl_id = gen_item_id('Table')
     else:
         tbl_id = title
     if view_coverage:
@@ -289,6 +243,7 @@ def upload_table(table, title=None, show=True, write_func="auto", tbl_index=1, p
         return tbl_id
     else:
         raise RuntimeError('table upload unsuccessful')
+
 
 def upload_image(image, title=None, write_func='auto', cell_id=images_cellid):
     """display an array or astropy.io.fits HDU or HDUList
@@ -307,6 +262,7 @@ def upload_image(image, title=None, write_func='auto', cell_id=images_cellid):
     image_id: `str`
         Image ID on the Firefly server
     """
+    _confirm_fc()
     if isinstance(image, str):
         fval = fc.upload_file(image)
     else:
@@ -333,8 +289,8 @@ def upload_image(image, title=None, write_func='auto', cell_id=images_cellid):
         logger.debug('Image name is {}'.format(fd.name))
         os.remove(fd.name)
     if title is None:
-        image_id = FireflyClient._gen_item_id('Image')
-        title=image_id
+        image_id = gen_item_id('Image')
+        title = image_id
     else:
         image_id = title
     status = fc.show_fits(fval, plot_id=image_id, title=title, viewer_id=cell_id)
@@ -345,6 +301,7 @@ def upload_image(image, title=None, write_func='auto', cell_id=images_cellid):
     else:
         raise RuntimeError('image upload and display unsuccessful')
 
+
 def coverage(cell_id=images_cellid):
     """Show a coverage image for the current table
 
@@ -353,4 +310,5 @@ def coverage(cell_id=images_cellid):
     cell_id: `str`
         cell id for the image. Defaults to the images cell default.
     """
+    _confirm_fc()
     fc.show_coverage(viewer_id=cell_id)
