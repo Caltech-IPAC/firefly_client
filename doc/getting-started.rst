@@ -31,7 +31,7 @@ please start the Python session in the directory from which you downloaded the s
     :name: gs-start
 
     from firefly_client import FireflyClient
-    fc = FireflyClient('https://irsa.ipac.caltech.edu/irsaviewer')
+    fc = FireflyClient.make_client('https://irsa.ipac.caltech.edu/irsaviewer')
 
 Third, open a new browser tab using the :meth:`FireflyClient.launch_browser` method. If
 a browser cannot be opened, a URL will be displayed for your web browser.
