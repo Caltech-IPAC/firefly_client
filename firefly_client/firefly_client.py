@@ -1335,9 +1335,11 @@ class FireflyClient:
             ID of the plot to be panned. If plot_id is a list or tuple, then each plot in the list
             or the tuple is panned in order.
         x, y : `int` or  `float`, optional
-            New center of x and y position to scroll to.
-        coord : {'image', 'J2000'}, optional
-            Coordinate system (the default is 'image').
+            New center of x and y position to scroll to. Not required if coord is set 'image'
+            because it will center on the image.
+        coord : str, optional
+            Coordinate system to use if x and y is specified like J2000, EQB2000, GAL, etc.
+            The default is 'image' which will center on the image.
 
         Returns
         -------
@@ -1346,11 +1348,10 @@ class FireflyClient:
         """
 
         payload = {'plotId': plot_id}
-        if x and y:
-            if coord.startswith('image'):
-                payload.update({'centerPt': {'x': x, 'y': y, 'type': 'ImagePt'}})
-            else:
-                payload.update({'centerPt': {'x': x, 'y': y, 'type': 'J2000'}})
+        if coord.startswith('image'):
+            payload.update({'centerOnImage': 'true'})
+        elif x and y:
+            payload.update({'centerPt': {'x': x, 'y': y, 'type': 'WorldPt', 'cSys': coord}})
 
         return self.dispatch(ACTION_DICT['PanImage'], payload)
 
@@ -1467,7 +1468,7 @@ class FireflyClient:
             st_data.append({'band': band, 'rv': serialized_rv, 'bandVisible': True})
 
         payload = {'stretchData': st_data, 'plotId': plot_id}
-        return_val = self.dispatch_remote_action_by_post(self.channel, ACTION_DICT['StretchImage'], payload)
+        return_val = self.dispatch(ACTION_DICT['StretchImage'], payload)
         return_val['rv_lst'] = [d['rv'] for d in st_data]
         return return_val
 
