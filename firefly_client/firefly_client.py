@@ -57,7 +57,7 @@ class FireflyClient:
         WebSocket channel ID. Default is None which auto-generates a unique string.
     html_file : `str`
         HTML file that is the 'landing page' for users, appended to the URL.
-        e.g. 'slate.html'. Defaults to None which is an empty string.
+        Defaults to 'slate.html'.
     make_default : `bool`
         If True, make this the default FireflyClient instance. Default False.
     use_lab_env : `bool`
@@ -148,7 +148,7 @@ class FireflyClient:
         html_file : `str`, optional
             HTML file that is the 'landing page' for users, appended to the URL.
             The default is the value of the environment variable 'FIREFLY_HTML'
-            if it is defined; otherwise None.
+            if it is defined; otherwise 'slate.html'.
         launch_browser : `bool`, optional
             If True, attempt to launch a browser tab for the Firefly viewer.
             If that attempt is unsuccessful, a link for the Firefly viewer is
