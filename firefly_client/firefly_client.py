@@ -1316,7 +1316,7 @@ class FireflyClient:
         if coord.startswith('image'):
             payload.update({'centerOnImage': 'true'})
         elif x and y:
-            payload.update({'centerPt': {'x': x, 'y': y, 'type': 'WorldPt', 'cSys': coord}})
+            payload.update({'centerPt': f'{x};{y};{coord}'})
 
         return self.dispatch(ACTION_DICT['PanImage'], payload)
 
