@@ -884,6 +884,10 @@ class FireflyClient:
                 Aspect ratio (must be between 1 and 10).
             **stretch** : {'fit', 'fill'}
                 Stretch method.
+            **plotStyle** : {'points', 'line', 'linepoints'}
+                Style of XY plot.
+            **chartTitle** : `str`
+                Title of the chart.
             **xLabel** : `str`
                 Label to use with x axis.
             **yLabel** : `str`
@@ -906,23 +910,6 @@ class FireflyClient:
                   parameters are valid.
         """
 
-        x_all = {'columnOrExpr': chart_params.get('xCol'), 'error': chart_params.get('xError'),
-                 'label': chart_params.get('xLabel'), 'unit': chart_params.get('xUnit'),
-                 'options': chart_params.get('xOptions')}
-        x = {k: v for k, v in x_all.items() if v}  # remove None values
-
-        y_all = {'columnOrExpr': chart_params.get('yCol'), 'error': chart_params.get('yError'),
-                 'label': chart_params.get('yLabel'), 'unit': chart_params.get('yUnit'),
-                 'options': chart_params.get('yOptions')}
-        y = {k: v for k, v in y_all.items() if v}  # remove None values
-
-        options_all = {'x': x, 'y': y, 'plotStyle': chart_params.get('plotStyle'),
-                       'sortColOrExpr': chart_params.get('sortColOrExpr'),
-                       'xyRatio': chart_params.get('xyRatio'), 'stretch': chart_params.get('stretch')}
-        options = {k: v for k, v in options_all.items() if v}  # remove None values
-
-        chart_data_elements = [{'type': 'xycols', 'options': options, 'tblId': tbl_id}]
-
         cid = gen_item_id('XYPlot')
 
         if not group_id:
@@ -930,7 +917,7 @@ class FireflyClient:
 
         payload = {'chartId': cid, 'chartType': 'scatter',
                    'groupId': group_id, 'viewerId': group_id,
-                   'chartDataElements': chart_data_elements}
+                   'params': {'tbl_id': tbl_id, **chart_params}}
 
         return self.dispatch(ACTION_DICT['ShowXYPlot'], payload)
 
@@ -970,33 +957,11 @@ class FireflyClient:
         .. note:: For the histogram parameters, `col` is required.
         """
 
-        chart_data_elements = {'type': 'histogram', 'tblId': tbl_id}
-
-        if 'col' in histogram_params:
-            options = {'columnOrExpr': histogram_params.get('col'),
-                       'x': histogram_params.get('xOptions', ''),
-                       'y': histogram_params.get('yOptions', '')}
-
-            if 'falsePositiveRate' in histogram_params:
-                options.update({'falsePositiveRate': histogram_params.get('falsePositiveRate')})
-                options.update({'algorithm': 'bayesianBlocks'})
-            else:
-                options.update({'algorithm': 'fixedSizeBins'})
-                if histogram_params.get('numBins', 0) > 0 or histogram_params.get('binWidth', 0) <= 0:
-                    num = histogram_params.get('numBins', 50)
-                    num = 50 if num <= 0 else num
-                    options.update({'fixedBinSizeSelection': histogram_params.get('fixedBinSizeSelection', 'numBins'),
-                                    'numBins': num})
-                else:
-                    options.update({'fixedBinSizeSelection': histogram_params.get('fixedBinSizeSelection', 'binWidth'),
-                                    'binWidth': histogram_params.get('binWidth')})
-            chart_data_elements.update({'options': options})
-
         cid = gen_item_id('Histogram')
         payload = {'chartId': cid, 'chartType': 'histogram',
                    'groupId': group_id,
                    'viewerId': group_id,
-                   'chartDataElements': [chart_data_elements]}
+                   'params': {'tbl_id': tbl_id, **histogram_params}}
 
         return self.dispatch(ACTION_DICT['ShowXYPlot'], payload)
 
@@ -1335,9 +1300,11 @@ class FireflyClient:
             ID of the plot to be panned. If plot_id is a list or tuple, then each plot in the list
             or the tuple is panned in order.
         x, y : `int` or  `float`, optional
-            New center of x and y position to scroll to.
-        coord : {'image', 'J2000'}, optional
-            Coordinate system (the default is 'image').
+            New center of x and y position to scroll to. Not required if coord is set 'image'
+            because it will center on the image.
+        coord : str, optional
+            Coordinate system to use if x and y is specified like J2000, EQB2000, GAL, etc.
+            The default is 'image' which will center on the image.
 
         Returns
         -------
@@ -1346,11 +1313,10 @@ class FireflyClient:
         """
 
         payload = {'plotId': plot_id}
-        if x and y:
-            if coord.startswith('image'):
-                payload.update({'centerPt': {'x': x, 'y': y, 'type': 'ImagePt'}})
-            else:
-                payload.update({'centerPt': {'x': x, 'y': y, 'type': 'J2000'}})
+        if coord.startswith('image'):
+            payload.update({'centerOnImage': 'true'})
+        elif x and y:
+            payload.update({'centerPt': f'{x};{y};{coord}'})
 
         return self.dispatch(ACTION_DICT['PanImage'], payload)
 
@@ -1467,7 +1433,7 @@ class FireflyClient:
             st_data.append({'band': band, 'rv': serialized_rv, 'bandVisible': True})
 
         payload = {'stretchData': st_data, 'plotId': plot_id}
-        return_val = self.dispatch_remote_action_by_post(self.channel, ACTION_DICT['StretchImage'], payload)
+        return_val = self.dispatch(ACTION_DICT['StretchImage'], payload)
         return_val['rv_lst'] = [d['rv'] for d in st_data]
         return return_val
 
