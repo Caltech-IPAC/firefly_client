@@ -75,6 +75,7 @@ ACTION_DICT = {
     'ZoomImage': 'ImagePlotCntlr.ZoomImage',
     'PanImage': 'ImagePlotCntlr.recenter',
     'StretchImage': 'ImagePlotCntlr.StretchChange',
+    'ColorImage': 'ImagePlotCntlr.ColorChange',
     'CreateRegionLayer': 'DrawLayerCntlr.RegionPlot.createLayer',
     'DeleteRegionLayer': 'DrawLayerCntlr.RegionPlot.deleteLayer',
     'AddRegionData': 'DrawLayerCntlr.RegionPlot.addRegion',
