@@ -1437,6 +1437,72 @@ class FireflyClient:
         return_val['rv_lst'] = [d['rv'] for d in st_data]
         return return_val
 
+    def set_color(self, plot_id, colormap_id=0, bias=.5, contrast=1):
+        """
+        Change the color attributes (color map, bias, constrast) of an image plot.
+
+        Parameters
+        ----------
+        plot_id : `str` or `list` of `str`
+            ID of the image plot to be colored.
+        colormap_id : `int`, optional
+            ID of the colormap or color-table to use, ranging from 0 to 21.
+            (the default is 0 i.e. grayscale). For HiPS image, -1 can be used
+            to set the default hips image colors.
+            Refer to the color dropdown on the image toolbar to see how IDs are mapped.
+        bias : `float`, optional
+            Bias to use, between 0 and 1 (the default is 0.5)
+        contrast : `float`, optional
+            Contrast to use, between 0 and 10 (the default is 1)
+
+        Returns
+        -------
+        out : `dict`
+            Status of the request, like {'success': True}.
+
+        .. note:: when `colormap_id` is -1 for HiPS image, `contrast` and `bias` have no effect.
+        """
+        payload = {'plotId': plot_id,
+                   'cbarId': colormap_id,
+                   'bias': bias,
+                   'contrast': contrast
+                   }        
+        return self.dispatch(ACTION_DICT['ColorImage'], payload)
+    
+    def set_rgb_colors(self, plot_id, use_red=True, use_green=True, use_blue=True,
+                       bias=[.5,.5,.5], contrast=[1,1,1]):
+        """
+        Change the color attributes of a 3-color fits image plot.
+
+        Parameters
+        ----------
+        plot_id : `str` or `list` of `str`
+            ID of the image plot to be colored.
+        use_red : `bool`, optional
+            Whether to use red band in coloring the image (default is True)
+        use_green : `bool`, optional
+            Whether to use green band in coloring the image (default is True)
+        use_blue : `bool`, optional
+            Whether to use blue band in coloring the image (default is True)
+        bias : `list` of `float`, optional
+            Bias to use for each band, between 0 and 1 (the default is [0.5, 0.5, 0.5])
+        contrast : `list` of `float`, optional
+            Contrast to use for each band, between 0 and 10 (the default is [1, 1, 1])
+
+        Returns
+        -------
+        out : `dict`
+            Status of the request, like {'success': True}.
+        """
+        payload = {'plotId': plot_id, 
+                   'useRed': use_red,
+                   'useGreen': use_green,
+                   'useBlue': use_blue,
+                   'bias': bias,
+                   'contrast': contrast
+                   }
+        return self.dispatch(ACTION_DICT['ColorImage'], payload)
+
     @staticmethod
     def parse_rvstring(rvstring):
         """parse a Firefly RangeValues string into a dictionary
