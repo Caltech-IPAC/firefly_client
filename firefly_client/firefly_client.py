@@ -1437,59 +1437,70 @@ class FireflyClient:
         return_val['rv_lst'] = [d['rv'] for d in st_data]
         return return_val
 
-    def set_color(self, plot_id, image_type, **color_params):
+    def set_color(self, plot_id, colormap_id=0, bias=.5, contrast=1):
         """
-        Change the color attributes (color bar, bias, constrast) of an image plot.
+        Change the color attributes (color map, bias, constrast) of an image plot.
 
         Parameters
         ----------
         plot_id : `str` or `list` of `str`
             ID of the image plot to be colored.
-        image_type : {'fits', 'fits_3color', 'hips'}
-            Type of the image plot.
-        **color_params : optional keyword arguments
-            Parameters for changing the color. The options are shown as below:
-
-            **colormap_id** : `int`, optional
-                ID of the colormap or color-table to use, ranging from 0 to 21.
-                For 'fits', the default is 0 (grayscale). For 'hips', the default is -1
-                (default colormap of image). For 'fits_3color', this parameter isn't used.
-                Refer to the color dropdown on the image toolbar to see how IDs are mapped.
-            **bias** : `float` or `list` of `float`, optional
-                Bias to use, between 0 and 1 (the default is 0.5 for 'fits' and 'hips',
-                and [0.5, 0.5, 0.5] for 'fits_3color')
-            **contrast** : `float` or `list` of `float`, optional
-                Contrast to use, between 0 and 10 (the default is 1 for 'fits' and 'hips',
-                and [1, 1, 1] for 'fits_3color')
-            **use_rgb_bands** : `list` of `bool`, optional
-                Whether to use red, green, and blue band in coloring the image
-                (the default is [True, True, True]). This parameter is only used
-                for 'fits_3color'.
+        colormap_id : `int`, optional
+            ID of the colormap or color-table to use, ranging from 0 to 21.
+            (the default is 0 i.e. grayscale). For HiPS image, -1 can be used
+            to set the default hips image colors.
+            Refer to the color dropdown on the image toolbar to see how IDs are mapped.
+        bias : `float`, optional
+            Bias to use, between 0 and 1 (the default is 0.5)
+        contrast : `float`, optional
+            Contrast to use, between 0 and 10 (the default is 1)
 
         Returns
         -------
         out : `dict`
             Status of the request, like {'success': True}.
 
-        .. note:: when `colormap_id` is -1 for 'hips', `contrast` and `bias` have no effect.
+        .. note:: when `colormap_id` is -1 for HiPS image, `contrast` and `bias` have no effect.
         """
-        payload = {'plotId': plot_id}
-        
-        if image_type not in ['fits', 'fits_3color', 'hips']:
-            raise ValueError('Invalid image_type, only "fits", "fits_3color", or "hips" is allowed.')
-        
-        if 'colormap_id' in color_params and color_params['colormap_id'] is not None:
-            payload['cbarId'] = color_params['colormap_id']
-        else:  # otherwise firefly won't be able to handle undefined values
-            payload['cbarId'] = -1 if image_type=='hips' else 0
+        payload = {'plotId': plot_id,
+                   'cbarId': colormap_id,
+                   'bias': bias,
+                   'contrast': contrast
+                   }        
+        return self.dispatch(ACTION_DICT['ColorImage'], payload)
+    
+    def set_rgb_colors(self, plot_id, use_red=True, use_green=True, use_blue=True,
+                       bias=[.5,.5,.5], contrast=[1,1,1]):
+        """
+        Change the color attributes of a 3-color fits image plot.
 
-        if 'use_rgb_bands' in color_params and image_type=='fits_3color' and len(color_params['use_rgb_bands']) == 3:
-            payload['useRed'], payload['useGreen'], payload['useBlue'] = color_params['use_rgb_bands']
+        Parameters
+        ----------
+        plot_id : `str` or `list` of `str`
+            ID of the image plot to be colored.
+        use_red : `bool`, optional
+            Whether to use red band in coloring the image (default is True)
+        use_green : `bool`, optional
+            Whether to use green band in coloring the image (default is True)
+        use_blue : `bool`, optional
+            Whether to use blue band in coloring the image (default is True)
+        bias : `list` of `float`, optional
+            Bias to use for each band, between 0 and 1 (the default is [0.5, 0.5, 0.5])
+        contrast : `list` of `float`, optional
+            Contrast to use for each band, between 0 and 10 (the default is [1, 1, 1])
 
-        # firefly is able to handle invalid bias and contrast values for any image type
-        # so they can be added to payload without validation of type and values
-        payload.update({k: v for k, v in color_params.items() if v is not None and k in {'bias', 'contrast'}})
-        
+        Returns
+        -------
+        out : `dict`
+            Status of the request, like {'success': True}.
+        """
+        payload = {'plotId': plot_id, 
+                   'useRed': use_red,
+                   'useGreen': use_green,
+                   'useBlue': use_blue,
+                   'bias': bias,
+                   'contrast': contrast
+                   }
         return self.dispatch(ACTION_DICT['ColorImage'], payload)
 
     @staticmethod
