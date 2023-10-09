@@ -2,28 +2,36 @@
 
 ### Procedure
 1. To push a new release you must be a maintainer in pypi ([see pypi below](#pypi))
-1. Bump version in setup.py  (this step is might be done in the PR)
-1. Clean out old distribution 
+2. Bump version in setup.py  (this step is might be done in the PR)
+3. Clean out old distribution 
    - `rm dist/*`
-1. Create the distribution
+4. Create the distribution
    - Create a tar/gzip file with the correct directory structure
-      - `python setup.py sdist` 
+      ```bash
+      python setup.py sdist
+      ```
    - Create the wheel file
-      - `python setup.py bdist_wheel`
+      ```bash
+      pip install --upgrade wheel
+      python setup.py bdist_wheel
+      ```
    - check it: `ls dist` should show two files a `.tar.gz` file and a `.whl` file
-1. _Optional_ - At this point you could do an optional test installation ([see below](#optional-test-installation))
-1. Upload to PYPI  
-   - `twine upload  dist/*`
-1. Tag
-   -  `git tag -a 2.5.0`  (replace version number with the current version from setup.py)
-1. If any files were edited (i.e `setup.py`) 
+5. _Optional_ - At this point you could do an optional test installation ([see below](#optional-test-installation))
+6. Upload to PYPI  
+      ```bash
+      pip install --upgrade twine
+      twine upload dist/*
+      ```
+7. If any files were edited (i.e `setup.py`) 
    - `git commit - a`
    - `git push origin master`
-1. Push tags
+8. Tag
+   -  `git tag -a 2.5.0`  (replace version number with the current version from setup.py)
+9. Push tags
    - `git push --tags`
-1. After this you can install 
+10. After this you can install 
    - `pip install firefly_client`
-1. Make is release with github, using the tag above
+11. Make is release with github, using the tag above
    - https://github.com/Caltech-IPAC/firefly_client/releases
 
 ### PYPI 
@@ -35,10 +43,10 @@
 ### Optional Test installation
 
 1. To create a test release you must be a mainainer on testpypi
-1. Create the distribution (see above)
-1. `twine upload --repository-url https://test.pypi.org/legacy/ dist/*`
-1. `pip uninstall firefly_client`
-1. `pip install --verbose --index-url https://testpypi.python.org/pypi firefly_client`
+2. Create the distribution (see above)
+3. `twine upload --repository-url https://test.pypi.org/legacy/ dist/*`
+4. `pip uninstall firefly_client`
+5. `pip install --verbose --index-url https://testpypi.python.org/pypi firefly_client`
 
 ### Conda and conda-forge
 
