@@ -34,7 +34,7 @@ def filetable_to_firefly(ffclient, topdir, pattern, recursive=True):
         Dictionary of metadata items
 
     """
-    filelist = glob(topdir + "/**/" + pattern, recursive=recursive)
+    filelist = sorted(glob(topdir + "/**/" + pattern, recursive=recursive))
     metadict = {"datasource": "path"}
     with tempfile.NamedTemporaryFile(mode="w+t", delete=False, suffix=".csv") as fd:
         csv_writer = csv.writer(fd)
