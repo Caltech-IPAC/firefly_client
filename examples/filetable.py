@@ -40,7 +40,10 @@ def filetable_to_firefly(ffclient, topdir, pattern, recursive=True):
         csv_writer = csv.writer(fd)
         csv_writer.writerow(["number", "name", "path"])
         for i, path in enumerate(filelist):
-            csv_writer.writerow([i, os.path.basename(path), "file://" + path])
+            # Docker Firefly allows uploads from /external
+            csv_writer.writerow([i,
+                                 os.path.basename(path),
+                                 "file:///external" + path])
 
     tbl_val = ffclient.upload_file(fd.name)
     os.remove(fd.name)
