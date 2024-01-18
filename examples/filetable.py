@@ -83,6 +83,8 @@ def main():
         
         Note that you must be running a Firefly server that is
         local to the data.
+        """,
+        epilog="""
         If running Firefly via Docker, note that you can mount your
         disk area onto /external.
         
