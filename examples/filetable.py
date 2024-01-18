@@ -1,11 +1,24 @@
 #!/usr/bin/env python
 
+from argparse import ArgumentParser, HelpFormatter
 import csv
 from glob import glob
 import os
 import tempfile
+import textwrap
 
 import firefly_client
+
+
+# From https://stackoverflow.com/a/64102901
+class RawFormatter(HelpFormatter):
+    def _fill_text(self, text, width, indent):
+        return "\n".join(
+            [
+                textwrap.fill(line, width)
+                for line in textwrap.indent(textwrap.dedent(text), indent).splitlines()
+            ]
+        )
 
 
 def filetable_to_firefly(
@@ -64,19 +77,30 @@ def filetable_to_firefly(
 
 # Sample application
 def main():
-    import argparse
-
-    parser = argparse.ArgumentParser(
+    parser = ArgumentParser(
         description="""
-        Display a table of files in a Firefly window
-        """
+        Display a table of files in a Firefly window.
+        
+        Note that you must be running a Firefly server that is
+        local to the data.
+        If running Firefly via Docker, note that you can mount your
+        disk area onto /external.
+        
+        Sample command for running the Firefly server:
+            docker run -p 8090:8080  -e "MAX_JVM_SIZE=64G"  \\
+            -e "LOG_FILE_TO_CONSOLE=firefly.log" --rm --name ncmds_firefly \\
+            -v /neoswork:/external/neoswork ipac/firefly:latest
+        """,
+        formatter_class=RawFormatter,
     )
     parser.add_argument("topdir", help="top-level directory to search")
     parser.add_argument("pattern", help="filename pattern for search")
     parser.add_argument(
         "--path_prefix",
-        help="string to prepend to file paths\n"
-        + "e.g. specify '/external' for Firefly-in-Docker",
+        help=textwrap.dedent(
+            """string to prepend to file paths,
+        e.g. specify '/external' for Firefly-in-Docker"""
+        ),
         default="",
     )
     parser.add_argument(
