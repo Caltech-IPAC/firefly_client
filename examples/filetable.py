@@ -80,9 +80,7 @@ def main():
     firefly_url = args.firefly_url
     channel = args.channel
     printurl = args.printurl
-    launch_browser = True
-    if printurl:
-        launch_browser = False
+    launch_browser = False if printurl else True
     recursion = not args.norecursion
 
     fc = firefly_client.FireflyClient.make_client(
@@ -99,7 +97,7 @@ def main():
     print("done.")
 
     if printurl:
-        input("Press Enter after your browser is open to the Firefly URL...")
+        input("Press Enter after you have opened the Firefly URL printed above...")
 
     r = fc.add_cell(0, 0, 1, 2, "tables", "main")
     fc.show_table(tbl_val, meta=metainfo)
