@@ -114,6 +114,11 @@ def main():
     )
     parser.add_argument("--channel", help="channel name for websocket", default=None)
     parser.add_argument(
+        "--html_file",
+        help="Firefly landing page (default 'firefly.html')",
+        default="firefly.html",
+    )
+    parser.add_argument(
         "--printurl",
         help="print browser url instead of" + " attempting to launch browser",
         action="store_true",
@@ -129,11 +134,12 @@ def main():
     recursion = not args.norecursion
     sort = args.sort
     path_prefix = args.path_prefix
+    html_file = args.html_file
 
     fc = firefly_client.FireflyClient.make_client(
         url=firefly_url,
         channel_override=channel,
-        html_file="slate.html",
+        html_file=html_file,
         launch_browser=launch_browser,
     )
     if printurl:
