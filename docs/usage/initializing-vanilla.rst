@@ -1,5 +1,6 @@
+#####################################
 Initializing a FireflyClient instance
--------------------------------------
+#####################################
 
 Once a Firefly server has been identified, the connection parameters can be
 used to initialize a :class:`FireflyClient` instance. By default, the value
