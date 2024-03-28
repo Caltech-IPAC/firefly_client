@@ -1,0 +1,121 @@
+FireflyClient
+=============
+
+.. currentmodule:: firefly_client
+
+.. autoclass:: FireflyClient
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~FireflyClient.instances
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~FireflyClient.add_cell
+      ~FireflyClient.add_extension
+      ~FireflyClient.add_listener
+      ~FireflyClient.add_mask
+      ~FireflyClient.add_region_data
+      ~FireflyClient.call_response
+      ~FireflyClient.create_image_url
+      ~FireflyClient.delete_region_layer
+      ~FireflyClient.disconnect
+      ~FireflyClient.dispatch
+      ~FireflyClient.display_url
+      ~FireflyClient.fetch_table
+      ~FireflyClient.get_firefly_url
+      ~FireflyClient.get_instances
+      ~FireflyClient.launch_browser
+      ~FireflyClient.make_client
+      ~FireflyClient.make_lab_client
+      ~FireflyClient.overlay_footprints
+      ~FireflyClient.overlay_region_layer
+      ~FireflyClient.parse_rvstring
+      ~FireflyClient.reinit_viewer
+      ~FireflyClient.remove_listener
+      ~FireflyClient.remove_mask
+      ~FireflyClient.remove_region_data
+      ~FireflyClient.rvstring_from_dict
+      ~FireflyClient.set_color
+      ~FireflyClient.set_pan
+      ~FireflyClient.set_rgb_colors
+      ~FireflyClient.set_stretch
+      ~FireflyClient.set_stretch_hprgb
+      ~FireflyClient.set_zoom
+      ~FireflyClient.show_chart
+      ~FireflyClient.show_coverage
+      ~FireflyClient.show_fits
+      ~FireflyClient.show_fits_3color
+      ~FireflyClient.show_hips
+      ~FireflyClient.show_histogram
+      ~FireflyClient.show_image_metadata
+      ~FireflyClient.show_image_or_hips
+      ~FireflyClient.show_lab_tab
+      ~FireflyClient.show_table
+      ~FireflyClient.show_xyplot
+      ~FireflyClient.table_highlight_callback
+      ~FireflyClient.upload_data
+      ~FireflyClient.upload_file
+      ~FireflyClient.upload_fits_data
+      ~FireflyClient.upload_text_data
+      ~FireflyClient.wait_for_events
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: instances
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: add_cell
+   .. automethod:: add_extension
+   .. automethod:: add_listener
+   .. automethod:: add_mask
+   .. automethod:: add_region_data
+   .. automethod:: call_response
+   .. automethod:: create_image_url
+   .. automethod:: delete_region_layer
+   .. automethod:: disconnect
+   .. automethod:: dispatch
+   .. automethod:: display_url
+   .. automethod:: fetch_table
+   .. automethod:: get_firefly_url
+   .. automethod:: get_instances
+   .. automethod:: launch_browser
+   .. automethod:: make_client
+   .. automethod:: make_lab_client
+   .. automethod:: overlay_footprints
+   .. automethod:: overlay_region_layer
+   .. automethod:: parse_rvstring
+   .. automethod:: reinit_viewer
+   .. automethod:: remove_listener
+   .. automethod:: remove_mask
+   .. automethod:: remove_region_data
+   .. automethod:: rvstring_from_dict
+   .. automethod:: set_color
+   .. automethod:: set_pan
+   .. automethod:: set_rgb_colors
+   .. automethod:: set_stretch
+   .. automethod:: set_stretch_hprgb
+   .. automethod:: set_zoom
+   .. automethod:: show_chart
+   .. automethod:: show_coverage
+   .. automethod:: show_fits
+   .. automethod:: show_fits_3color
+   .. automethod:: show_hips
+   .. automethod:: show_histogram
+   .. automethod:: show_image_metadata
+   .. automethod:: show_image_or_hips
+   .. automethod:: show_lab_tab
+   .. automethod:: show_table
+   .. automethod:: show_xyplot
+   .. automethod:: table_highlight_callback
+   .. automethod:: upload_data
+   .. automethod:: upload_file
+   .. automethod:: upload_fits_data
+   .. automethod:: upload_text_data
+   .. automethod:: wait_for_events

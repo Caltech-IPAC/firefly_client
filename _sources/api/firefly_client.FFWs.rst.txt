@@ -1,0 +1,55 @@
+FFWs
+====
+
+.. currentmodule:: firefly_client
+
+.. autoclass:: FFWs
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~FFWs.connections
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~FFWs.add_listener
+      ~FFWs.close_ws_connection
+      ~FFWs.debug_header_event_message
+      ~FFWs.debug_show_env
+      ~FFWs.disconnect
+      ~FFWs.do_add_listener
+      ~FFWs.do_remove_listener
+      ~FFWs.do_run_forever
+      ~FFWs.execute_callbacks
+      ~FFWs.get
+      ~FFWs.get_listener_cnt
+      ~FFWs.has
+      ~FFWs.received_message
+      ~FFWs.remove_listener
+      ~FFWs.wait_for_events
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: connections
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: add_listener
+   .. automethod:: close_ws_connection
+   .. automethod:: debug_header_event_message
+   .. automethod:: debug_show_env
+   .. automethod:: disconnect
+   .. automethod:: do_add_listener
+   .. automethod:: do_remove_listener
+   .. automethod:: do_run_forever
+   .. automethod:: execute_callbacks
+   .. automethod:: get
+   .. automethod:: get_listener_cnt
+   .. automethod:: has
+   .. automethod:: received_message
+   .. automethod:: remove_listener
+   .. automethod:: wait_for_events

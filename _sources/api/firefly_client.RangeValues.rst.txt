@@ -1,0 +1,43 @@
+RangeValues
+===========
+
+.. currentmodule:: firefly_client
+
+.. autoclass:: RangeValues
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~RangeValues.INVERSE_STRETCH_ALGORITHM
+      ~RangeValues.INVERSE_STRETCH_TYPE
+      ~RangeValues.STRETCH_ALGORITHM_DICT
+      ~RangeValues.STRETCH_TYPE_DICT
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~RangeValues.create_rv
+      ~RangeValues.create_rv_by_stretch_type
+      ~RangeValues.create_rv_standard
+      ~RangeValues.create_rv_zscale
+      ~RangeValues.parse_rvstring
+      ~RangeValues.rvstring_from_dict
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: INVERSE_STRETCH_ALGORITHM
+   .. autoattribute:: INVERSE_STRETCH_TYPE
+   .. autoattribute:: STRETCH_ALGORITHM_DICT
+   .. autoattribute:: STRETCH_TYPE_DICT
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: create_rv
+   .. automethod:: create_rv_by_stretch_type
+   .. automethod:: create_rv_standard
+   .. automethod:: create_rv_zscale
+   .. automethod:: parse_rvstring
+   .. automethod:: rvstring_from_dict

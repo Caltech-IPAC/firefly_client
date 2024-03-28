@@ -1,6 +1,0 @@
-# Documentation dependencies
-documenteer[pipelines]>=0.5.0,<0.6.0
-
-requests~=2.22.0
-setuptools~=41.0.1
-websocket-client~=0.58.0
