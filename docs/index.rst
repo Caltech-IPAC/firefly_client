@@ -3,7 +3,7 @@
 .. _firefly_client:
 
 #####################################################
-firefly\_client - Python API to Firefly visualization
+firefly_client - Python API to Firefly visualization
 #####################################################
 
 `firefly_client`  provides a Python API to the Firefly visualization framework.
@@ -30,38 +30,33 @@ to upload and display astronomical images, tables and catalogs.
 
 .. _firefly_client-using:
 
-
 Using firefly_client
 ====================
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
-    getting-started
-    initializing-vanilla
-    initializing-jupyterlab
-    displaying-images
-    overlaying-regions
-    viewing-tables
-    charting
-    slate-layout
-    plot-interface
-    callbacks-extensions
-    firefly-server
+    Usage <usage/index>
 
 
-.. _firefly_client-contributing
+.. _firefly_client-contributing:
 
-Contributing
-============
+Developer Guide
+===============
 
-``firefly_client`` is developed at https://github.com/Caltech-IPAC/firefly_client.
+.. toctree::
+    :maxdepth: 2
+
+    Development <development/index>
+
 
 .. _firefly_client-pyapi:
 
 Python API reference
 ====================
 
-.. automodapi:: firefly_client
-	 :no-inheritance-diagram:
+.. toctree::
+    :maxdepth: 3
+
+    API <reference>
 

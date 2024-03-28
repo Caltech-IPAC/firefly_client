@@ -9,8 +9,7 @@ repository is located at http://github.com/Caltech-IPAC/firefly.
 Standalone Firefly servers may be obtained from
 [this Dockerhub repository](https://hub.docker.com/r/ipac/firefly/).
 
-For detailed explanation on the usage, see [the online documentation](https://firefly-client.lsst.io),
-or [the documentation source file](doc/index.rst). Following is a very simple example:
+For detailed explanation on the usage, see [the online documentation](https://caltech-ipac.github.io/firefly_client). Following is a very simple example:
 
 ```
 from firefly_client import FireflyClient

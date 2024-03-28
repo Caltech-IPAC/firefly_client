@@ -1,5 +1,6 @@
+#################
 Displaying Images
------------------
+#################
 
 Since Firefly was originally developed to visualize data products from
 astronomical archives, displaying an image is a two-step process of
@@ -156,8 +157,8 @@ To search the survey:
 
 Displaying HiPS Images
 ----------------------
-
+TBD
 
 Displaying 3-color Images
 -------------------------
-
+TBD

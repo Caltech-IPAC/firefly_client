@@ -1,6 +1,6 @@
-## How to create a firefly_client release
+# Making a release
 
-### Procedure
+## Procedure
 1. To push a new release you must be a maintainer in pypi ([see pypi below](#pypi))
 2. Bump version in setup.py  (this step is might be done in the PR)
 3. Clean out old distribution 
@@ -34,13 +34,13 @@
 11. Make is release with github, using the tag above
    - https://github.com/Caltech-IPAC/firefly_client/releases
 
-### PYPI 
+## PYPI 
 
 - https://pypi.org/project/firefly-client/
 - Currently two maintainers
 - Testing site: https://test.pypi.org/project/firefly-client/
 
-### Optional Test installation
+## Optional Test installation
 
 1. To create a test release you must be a mainainer on testpypi
 2. Create the distribution (see above)
@@ -48,7 +48,7 @@
 4. `pip uninstall firefly_client`
 5. `pip install --verbose --index-url https://testpypi.python.org/pypi firefly_client`
 
-### Conda and conda-forge
+## Conda and conda-forge
 
 Anytime the version tag is updated conda-forge it set up to do a pull and add `firefly_client` to its distribution.
 
