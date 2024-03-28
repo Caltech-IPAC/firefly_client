@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'firefly_client'
-copyright = '2024, IPAC Firefly Developers'
+copyright = '2024, Caltech/IPAC Firefly Developers'
 author = 'Caltech/IPAC Firefly Developers'
 
 # -- General configuration ---------------------------------------------------
@@ -27,6 +27,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 html_theme = 'pydata_sphinx_theme'
 html_static_path = ['_static']
+html_js_files = ["custom-icon.js"]
 
 html_last_updated_fmt = ''
 
