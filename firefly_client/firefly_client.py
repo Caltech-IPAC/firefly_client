@@ -57,7 +57,7 @@ class FireflyClient:
         WebSocket channel ID. Default is None which auto-generates a unique string.
     html_file : `str`
         HTML file that is the 'landing page' for users, appended to the URL.
-        Defaults to 'slate.html'.
+        Defaults to ''. If the landing page in 'slate.html' it puts FireflyClient into slate mode.
     make_default : `bool`
         If True, make this the default FireflyClient instance. Default False.
     use_lab_env : `bool`
@@ -73,6 +73,41 @@ class FireflyClient:
         string "Bearer " to form the value of the "Authorization" header
         in the sessions attribute.
     """
+
+    TAB_ID = 'firefly-viewer-tab-id'
+    TRIVIEW_ICov_Ch_T = 'TRIVIEW_ICov_Ch_T'
+    TRIVIEW_I_ChCov_T = 'TRIVIEW_I_ChCov_T'
+    BIVIEW_ICov_Ch = 'BIVIEW_ICov_Ch'
+    BIVIEW_I_ChCov = 'BIVIEW_I_ChCov'
+    BIVIEW_T_IChCov = 'BIVIEW_T_IChCov'
+    BIVIEW_IChCov_T = 'BIVIEW_IChCov_T'
+    tri_view_types_list = [
+        TRIVIEW_ICov_Ch_T,
+        TRIVIEW_I_ChCov_T,
+        BIVIEW_ICov_Ch,
+        BIVIEW_I_ChCov,
+        BIVIEW_T_IChCov,
+        BIVIEW_IChCov_T
+    ]
+
+    tri_view_layout_desc = {
+        TRIVIEW_ICov_Ch_T: 'top left: image/cov, top right: charts, bottom: tables',
+        TRIVIEW_I_ChCov_T: 'top left: image, top right: charts/cov, bottom: tables',
+        BIVIEW_ICov_Ch: 'left: image/cov, right: charts',
+        BIVIEW_I_ChCov: 'left: image, right: charts/cov',
+        BIVIEW_T_IChCov: 'left: tables, right: image/charts/cov',
+        BIVIEW_IChCov_T: 'left: image/charts/cov, right: tables',
+    }
+
+    # viewer modes
+    TRIVIEW_VIEWER = 'FireflyViewer'
+    SLATE_VIEWER = 'FireflySlate'
+    NO_VIEWER = 'NO_VIEWER'
+    _viewer_modes = [TRIVIEW_VIEWER,SLATE_VIEWER,NO_VIEWER]
+
+    # viewer ids
+    PINNED_CHART_VIEWER_ID = 'PINNED_CHART_VIEWER_ID'
+    PINNED_IMAGE_VIEWER_ID = 'DEFAULT_FITS_VIEWER_ID'
 
     _debug = False
     # Keep track of instances.
@@ -102,12 +137,12 @@ class FireflyClient:
                 Chrome: look at the right side of the address bar
                 Firefox: a preference bar appears at the top
                 Safari: shows an animation to follow on the left side bar
-        html_file : `str`, optional
+        html_file: `str`, optional
             HTML file that is the 'landing page' for users, appended to the URL.
-            You should almost always take the default, e.g. 'slate.html'.
             Defaults to the value of the environment variable 'FIREFLY_URL' if
-            it is defined: otherwise defaults to None.
-        start_tab : `bool`, optional
+            it is defined: otherwise defaults to ''.
+            If the landing page in 'slate.html' it puts FireflyClient into slate mode.
+        start_tab: `bool`, optional
             If True, bring up a Jupyterlab or a browser tab for Firefly. You should almost always take the default.
         token: `str` or None
             A token for connecting to a Firefly server that requires
@@ -127,12 +162,12 @@ class FireflyClient:
         fc = cls(url, channel, html_file, token)
         if tab_type:
             verbose and tab_type == BROWSER and Env.show_start_browser_tab_msg(fc.get_firefly_url())
-            fc._lab_env_tab_start(tab_type)
+            fc._lab_env_tab_start(tab_type, html_file)
         return fc
 
     @classmethod
     def make_client(cls, url=_default_url, html_file=_def_html_file, launch_browser=True,
-                    channel_override=None, verbose=False, token=None):
+                    channel_override=None, verbose=False, token=None, viewer_override=None):
         """
         Factory method to create a Firefly client in a plain Python, IPython, or
         notebook session, and attempt to open a display.  If a display cannot be
@@ -140,16 +175,17 @@ class FireflyClient:
 
         Parameters
         ----------
-        url : `str`, optional
+        url: `str`, optional
             URL of the Firefly server. The default is determined by checking
             environment variables 'fireflyURLLab' and 'FIREFLY_URL'; if these
             are undefined, then the default is 'http://localhost:8080/firefly'
             for the case of a user running a Firefly server on their desktop.
-        html_file : `str`, optional
+        html_file: `str`, optional
             HTML file that is the 'landing page' for users, appended to the URL.
-            The default is the value of the environment variable 'FIREFLY_HTML'
-            if it is defined; otherwise 'slate.html'.
-        launch_browser : `bool`, optional
+            Defaults to the value of the environment variable 'FIREFLY_URL' if
+            it is defined: otherwise defaults to ''.
+            If the landing page in 'slate.html' it puts FireflyClient into slate mode.
+        launch_browser: `bool`, optional
             If True, attempt to launch a browser tab for the Firefly viewer.
             If that attempt is unsuccessful, a link for the Firefly viewer is
             displayed.
@@ -166,18 +202,23 @@ class FireflyClient:
             authentication. The provided token will be appended to the
             string "Bearer " to form the value of the "Authorization" header
             in the sessions attribute.
+        viewer_override: `str`
+            This parameter is almost never used, default to None.
+            It is only for those special circumstances that you would use
+            firefly_client to control a custom created interface that is not a triview ora slate view.
+            maybe one of FireflyClient.TRIVIEW_VIEWER, FireflyClient.SLATE_VIEWER, FireflyClient.NO_VIEWER,
 
         Returns
         -------
         fc : `FireflyClient`
             A FireflyClient that works in the lab environment
         """
-        fc = cls(url, Env.resolve_client_channel(channel_override), html_file, token)
+        fc = cls(url, Env.resolve_client_channel(channel_override), html_file, token, viewer_override)
         verbose and Env.show_start_browser_tab_msg(fc.get_firefly_url())
         launch_browser and fc.launch_browser()
         return fc
 
-    def __init__(self, url, channel, html_file=_def_html_file, token=None):
+    def __init__(self, url, channel, html_file=_def_html_file, token=None, viewer_override=None):
         DebugMarker.firefly_client_debug = FireflyClient._debug
         FireflyClient.instances.append(weakref.ref(self))
 
@@ -199,30 +240,46 @@ class FireflyClient:
         self.session = requests.Session()
         token and ssl and self.session.headers.update(self.auth_headers)
         not ssl and token and warn('token ignored: should be None when url starts with http://')
+        self.firefly_viewer = FireflyClient.get_viewer_mode(html_file,viewer_override)
         debug('new instance: %s' % url)
 
-    def _lab_env_tab_start(self, tab_type):
+    def _lab_env_tab_start(self, tab_type, html_file):
         """start a tab in the lab environment, tab_type must be 'lab' or 'browser' """
         self.lab_env_tab_type = tab_type
         if tab_type == BROWSER:
             idx = self.channel.find('__viewer')
             c = self.channel[0:idx] if idx > -1 else self.channel  # the ext will add '__viewer' so I have to remove it
-            self.dispatch(ACTION_DICT['StartBrowserTab'], {'channel': c}, Env.firefly_channel_lab)
+            self.dispatch(ACTION_DICT['StartBrowserTab'],
+                          {'channel': c, 'fireflyHtmlFile': _def_html_file}, Env.firefly_channel_lab)
         elif tab_type == LAB:
             if not self.render_tree_id:
-                self.render_tree_id = 'slateClient-%s-%s' % (len(self.instances), round(time.time()))
-            self.show_lab_tab()
+                self.render_tree_id = FireflyClient.TAB_ID  # no longer generating redner_tree_id
+                # self.render_tree_id = 'slateClient-%s-%s' % (len(self.instances), round(time.time()))
+            self.show_lab_tab(html_file)
 
-    def show_lab_tab(self):
+    def show_lab_tab(self, html_file):
         """If using a jupyter lab tab- show it or reopen it. If not using a lab tab then noop"""
-        self.lab_env_tab_type = LAB and self.dispatch(ACTION_DICT['StartLabWindow'], {})
+        self.lab_env_tab_type = (LAB and
+                                 self.dispatch(ACTION_DICT['StartLabWindow'],
+                                               {'fireflyHtmlFile': html_file}))
+
+    @staticmethod
+    def get_viewer_mode(html_file, viewer_override):
+        if viewer_override:
+            if viewer_override in _viewer_modes:
+                return viewer_override
+            else:
+                warn('viewer_override mode: {} is not a recognized mode, using {}'.format(viewer_override, UNKNOWN))
+                return UNKNOWN
+        else:
+            return FireflyClient.SLATE_VIEWER if html_file == 'slate.html' else FireflyClient.TRIVIEW_VIEWER
 
     def _send_url_as_get(self, url):
         return self.call_response(self.session.get(url, headers=self.header_from_ws))
 
     def _send_url_as_post(self, data):
         return self.call_response(self.session.post(self.url_cmd_service, data=data, headers=self.header_from_ws))
-    
+
     def call_response(self, response):
         if response.status_code != 200:
             raise ValueError(Env.failed_net_message(self.url, response.status_code))
@@ -246,6 +303,10 @@ class FireflyClient:
         url = self.url_cmd_service + '?cmd=pushAliveCheck&ipAddress=%s' % ip
         retval = self._send_url_as_get(url)
         return retval['active']
+
+    def is_triview(self): return self.firefly_viewer == FireflyClient.TRIVIEW_VIEWER
+
+    def is_slate(self): return self.firefly_viewer == FireflyClient.SLATE_VIEWER
 
     @staticmethod
     def _make_pid_param(plot_id):
@@ -294,7 +355,7 @@ class FireflyClient:
         -------
         out : none
 
-        .. note:: `callback` in listener list is removed if all events are removed from the callback.
+        .. note:: `callback` in the listener list is removed if all events are removed from the callback.
         """
         FFWs.remove_listener(self.channel, self.location, callback, name)
 
@@ -348,7 +409,7 @@ class FireflyClient:
             ipy_str = ''
         if 'zmqshell' in ipy_str:
             from IPython.display import display, HTML
-            display( HTML('Open your web browser to <a href="{}"" target="_blank">this link</a>'.format(url)))
+            display(HTML('Open your web browser to <a href="{}"" target="_blank">this link</a>'.format(url)))
         else:
             print('Open your web browser to {}'.format(url))
 
@@ -517,7 +578,7 @@ class FireflyClient:
         Parameters
         ----------
         action_type : `str`
-            Action type, one of actions from FireflyClient's attribute, `ACTION_DICT`.
+            Action type, one of the actions from FireflyClient's attribute, `ACTION_DICT`.
         payload : `dict`
             Payload, the content varies based on the value of `action_type`.
         override_channel : `str`
@@ -526,7 +587,7 @@ class FireflyClient:
         Returns
         -------
         out : `dict`
-            Status of remotely dispatch, like {'success': True}.
+            Status of the remote dispatch, like {'success': True}.
         """
 
         if payload is None:
@@ -548,6 +609,31 @@ class FireflyClient:
     # action on adding cell for slate viewer,
     #           showing fits, tables, XYPlot, adding extension, and adding mask
     # -------------------------------------------------------------------------
+
+    def change_triview_layout(self, layout):
+        """
+        Change the tri view layout
+
+        Parameters
+        ----------
+        layout : `str`
+            should be one of
+            FireflyClient.TRIVIEW_ICov_Ch_T - top left: image/cov, top right: charts, bottom: tables
+            FireflyClient.TRIVIEW_I_ChCov_T - top left: image, top right: charts/cov, bottom: tables
+            FireflyClient.BIVIEW_ICov_Ch - left: image/cov, right: charts
+            FireflyClient.BIVIEW_I_ChCov - left: image, right: charts/cov
+            FireflyClient.BIVIEW_T_IChCov- left: tables, right: image/charts/cov
+            FireflyClient.BIVIEW_IChCov_T- left: image/charts/cov, right: tables
+        """
+
+        if not self.is_triview():
+            return {'success': True, 'warning': 'change_triview_layout ignored when not in triview mode'}
+        if layout not in FireflyClient.tri_view_types_list:
+            warning = '{} is an unknown layout type, valid types: {}'.format(layout, FireflyClient.tri_view_types_list)
+            return {'success': False, 'warning': warning}
+
+        self.dispatch(ACTION_DICT['TriviewLayout'], {'triviewLayout': layout})
+        return {'success': True, 'description': FireflyClient.tri_view_layout_desc[layout]}
 
     def add_cell(self, row, col, width, height, element_type, cell_id=None):
         """
@@ -573,6 +659,9 @@ class FireflyClient:
         out : `dict`
             Status of the request, like {'success': True, 'cell_id': 'Cell-1'}.
         """
+        if not self.is_slate():
+            return {'success': True, 'cell_id': cell_id if cell_id else 'noop',
+                    'warning': 'add_cell ignored when not in slate mode'}
 
         # force the cell_id to be 'main' for table's case
         if element_type == LO_VIEW_DICT['table']:
@@ -647,17 +736,19 @@ class FireflyClient:
         payload = {'wpRequest': wp_request,
                    'useContextModifications': True}
 
-        if not viewer_id:
-            viewer_id = 'DEFAULT_FITS_VIEWER_ID'
-            if self.render_tree_id:
-                viewer_id += '_' + self.render_tree_id
+        warning = None
+        if not viewer_id or self.is_triview():
+            warning = 'viewer_id unnecessary and ignored in triview mode' if self.is_triview() and viewer_id else None
+            viewer_id = FireflyClient.PINNED_IMAGE_VIEWER_ID
 
         payload.update({'viewerId': viewer_id})
         plot_id and payload['wpRequest'].update({'plotId': plot_id})
         file_on_server and payload['wpRequest'].update({'file': file_on_server})
         additional_params and payload['wpRequest'].update(additional_params)
 
-        return self.dispatch(ACTION_DICT['ShowFits'], payload)
+        r = self.dispatch(ACTION_DICT['ShowFits'], payload)
+        warning and r.update({'warning': warning})
+        return r
 
     def show_fits_3color(self, three_color_params, plot_id=None, viewer_id=None):
         """
@@ -691,13 +782,15 @@ class FireflyClient:
                 item.update({'plotId': plot_id})
 
         payload = {'wpRequest': three_color, 'threeColor': True, 'useContextModifications': True}
-        if not viewer_id:
-            viewer_id = 'DEFAULT_FITS_VIEWER_ID'
-            if self.render_tree_id:
-                viewer_id += '_' + self.render_tree_id
+        warning = None
+        if not viewer_id or self.is_triview():
+            warning = 'viewer_id unnecessary and ignored in triview mode' if self.is_triview() and viewer_id else None
+            viewer_id = FireflyClient.PINNED_IMAGE_VIEWER_ID
         payload.update({'viewerId': viewer_id})
 
-        return self.dispatch(ACTION_DICT['ShowFits'], payload)
+        r = self.dispatch(ACTION_DICT['ShowFits'], payload)
+        warning and r.update({'warning': warning})
+        return r
 
     def show_table(self, file_on_server=None, tbl_id=None, title=None, page_size=100, is_catalog=True,
                    meta=None, target_search_info=None, options=None, table_index=None,
@@ -912,16 +1005,22 @@ class FireflyClient:
 
         cid = gen_item_id('XYPlot')
 
-        if not group_id:
+        warning = None
+        if self.is_triview():
+            warning = 'group_id unnecessary and ignored in triview mode' if group_id else None
+            group_id = FireflyClient.PINNED_CHART_VIEWER_ID
+        elif not group_id:
             group_id = 'default' if standalone else tbl_id
 
         payload = {'chartId': cid, 'chartType': 'scatter',
                    'groupId': group_id, 'viewerId': group_id,
                    'params': {'tbl_id': tbl_id, **chart_params}}
 
-        return self.dispatch(ACTION_DICT['ShowXYPlot'], payload)
+        r = self.dispatch(ACTION_DICT['ShowXYPlot'], payload)
+        warning and r.update({'warning': warning})
+        return r
 
-    def show_histogram(self, tbl_id, group_id='default', **histogram_params):
+    def show_histogram(self, tbl_id, group_id=PINNED_CHART_VIEWER_ID, **histogram_params):
         """
         Show a histogram
 
@@ -957,15 +1056,22 @@ class FireflyClient:
         .. note:: For the histogram parameters, `col` is required.
         """
 
+        warning = None
+        if self.is_triview():
+            warning = 'group_id unnecessary and ignored in triview mode' if group_id else None
+            group_id = FireflyClient.PINNED_CHART_VIEWER_ID
+
         cid = gen_item_id('Histogram')
         payload = {'chartId': cid, 'chartType': 'histogram',
                    'groupId': group_id,
                    'viewerId': group_id,
                    'params': {'tbl_id': tbl_id, **histogram_params}}
 
-        return self.dispatch(ACTION_DICT['ShowXYPlot'], payload)
+        r = self.dispatch(ACTION_DICT['ShowXYPlot'], payload)
+        warning and r.update({'warning': warning})
+        return r
 
-    def show_chart(self, group_id='default', **chart_params):
+    def show_chart(self, group_id=PINNED_CHART_VIEWER_ID, **chart_params):
         """
         Show a plot.ly chart
 
@@ -1001,6 +1107,10 @@ class FireflyClient:
 
         """
         chart_id = chart_params.get('chartId') if 'chartId' in chart_params else gen_item_id('Plotly')
+        warning = None
+        if self.is_triview():
+            warning = 'group_id unnecessary and ignored in triview mode' if group_id else None
+            group_id = FireflyClient.PINNED_CHART_VIEWER_ID
         payload = {'chartId': chart_id,
                    'groupId': group_id,
                    'viewerId': group_id,
@@ -1010,7 +1120,9 @@ class FireflyClient:
         for item in ['data', 'layout']:
             (item in chart_params) and payload.update({item: chart_params.get(item)})
 
-        return self.dispatch(ACTION_DICT['ShowPlot'], payload)
+        r = self.dispatch(ACTION_DICT['ShowPlot'], payload)
+        warning and r.update({'warning': warning})
+        return r
 
     def show_coverage(self, viewer_id=None, table_group='main'):
         """
@@ -1028,6 +1140,8 @@ class FireflyClient:
         out : `dict`
             Status of the request, like {'success': True}
         """
+        if self.is_triview():
+            return {'success': True, 'warning': 'show_coverage ignored in triview mode'}
 
         view_type = 'coverImage'
         cid = viewer_id if viewer_id else ("%s-%s" % (LO_VIEW_DICT[view_type], table_group))
@@ -1050,6 +1164,9 @@ class FireflyClient:
         out : `dict`
             Status of the request, like {'success': True}
         """
+        if self.is_triview():
+            return {'success': True, 'warning': 'show_image_metadata ignored in triview mode'}
+
         view_type = 'imageMeta'
         cid = viewer_id if viewer_id else ("%s-%s" % (LO_VIEW_DICT[view_type], table_group))
         payload = {'viewerType': LO_VIEW_DICT[view_type], 'cellId': cid}
@@ -1190,17 +1307,19 @@ class FireflyClient:
         payload.update({'plotId': plot_id})
         wp_request.update({'plotId': plot_id})
 
-        if not viewer_id:
-            viewer_id = 'DEFAULT_FITS_VIEWER_ID'
-            if self.render_tree_id:
-                viewer_id += '_' + self.render_tree_id
+        warning = None
+        if not viewer_id or self.is_triview():
+            warning = 'viewer_id unnecessary and ignored in triview mode' if self.is_triview() and viewer_id else None
+            viewer_id = FireflyClient.PINNED_IMAGE_VIEWER_ID
 
         payload.update({'viewerId': viewer_id})
 
         if hips_image_conversion and type(hips_image_conversion) is dict:
             payload.update({'hipsImageConversion': hips_image_conversion})
 
-        return self.dispatch(ACTION_DICT['ShowHiPS'], payload)
+        r = self.dispatch(ACTION_DICT['ShowHiPS'], payload)
+        warning and r.update({'warning': warning})
+        return r
 
     def show_image_or_hips(self, plot_id=None, viewer_id=None, image_request=None, hips_request=None,
                            fov_deg_fallover=0.12, allsky_request=None, plot_allsky_first=False):
@@ -1237,10 +1356,10 @@ class FireflyClient:
 
         if not plot_id:
             plot_id = gen_item_id('Image')
-        if not viewer_id:
-            viewer_id = 'DEFAULT_FITS_VIEWER_ID'
-            if self.render_tree_id:
-                viewer_id += '_' + self.render_tree_id
+        warning = None
+        if not viewer_id or self.is_triview():
+            warning = 'viewer_id unnecessary and ignored in triview mode' if self.is_triview() and viewer_id else None
+            viewer_id = FireflyClient.PINNED_IMAGE_VIEWER_ID
 
         payload = {'fovDegFallOver': fov_deg_fallover, 'plotAllSkyFirst': plot_allsky_first,
                    'plotId': plot_id, 'viewerId': viewer_id}
@@ -1256,7 +1375,9 @@ class FireflyClient:
         hips_request and payload.update({'hipsRequest': hips_request})
         allsky_request and payload.update({'allSkyRequest': allsky_request})
 
-        return self.dispatch(ACTION_DICT['ShowImageOrHiPS'], payload)
+        r = self.dispatch(ACTION_DICT['ShowImageOrHiPS'], payload)
+        warning and r.update({'warning': warning})
+        return r
 
     # ----------------------------
     # actions on image
