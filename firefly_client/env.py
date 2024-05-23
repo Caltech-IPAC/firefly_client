@@ -29,7 +29,7 @@ class Env:
     firefly_url_lab = os.environ.get(ENV_FF_URL_LAB)
     firefly_url = os.environ.get(ENV_FF_URL)
     firefly_channel_from_env = os.environ.get(ENV_FF_CHANNEL)
-    firefly_html = os.environ.get(ENV_FF_HTML, 'slate.html')
+    firefly_html = os.environ.get(ENV_FF_HTML, '')
     user = os.environ.get(ENV_USER, '')
 
     @classmethod
