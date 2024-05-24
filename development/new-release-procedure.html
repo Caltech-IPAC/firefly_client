@@ -47,7 +47,7 @@
     <link rel="prev" title="Local development" href="guide.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="May 23, 2024"/>
+    <meta name="docbuild:last-update" content="May 24, 2024"/>
   </head>
   
   
@@ -430,10 +430,26 @@ python<span class="w"> </span>setup.py<span class="w"> </span>bdist_wheel
 </li>
 <li><p><em>Optional</em> - At this point you could do an optional test installation (<a class="reference internal" href="#optional-test-installation">see below</a>)</p></li>
 <li><p>Upload to PYPI</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>twine
-twine<span class="w"> </span>upload<span class="w"> </span>dist/*
+<ol class="arabic">
+<li><p><em>One-time-only auth setup:</em> Login to pypi and then in your account settings, go to the API tokens section and select “Add API token”. Give it any name and select scope to project:firefly-client and create token. To save this token for later uses, make sure to create a <code class="docutils literal notranslate"><span class="pre">$HOME/.pypirc</span></code> file (or update it if you already have it) with the following:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[distutils]</span>
+<span class="na">index-servers</span><span class="w"> </span><span class="o">=</span>
+<span class="w">   </span><span class="na">firefly-client #note the values here are newline-separated </span>
+
+<span class="k">[firefly-client]</span>
+<span class="na">repository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">https://upload.pypi.org/legacy/</span>
+<span class="na">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">__token__</span>
+<span class="na">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">pypi-token-you-created</span>
 </pre></div>
 </div>
+</li>
+<li><p>Upload dist to pypi using twine (with the auth setup in previous step)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>twine
+twine<span class="w"> </span>upload<span class="w"> </span>dist/*<span class="w"> </span>--repository<span class="w"> </span>firefly-client
+</pre></div>
+</div>
+</li>
+</ol>
 </li>
 <li><p>If any files were edited (i.e <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>)</p>
 <ul class="simple">
@@ -586,7 +602,7 @@ twine<span class="w"> </span>upload<span class="w"> </span>dist/*
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on May 23, 2024.
+  Last updated on May 24, 2024.
   <br/>
 </p></div>
       
