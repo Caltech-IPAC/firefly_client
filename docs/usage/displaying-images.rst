@@ -157,8 +157,67 @@ To search the survey:
 
 Displaying HiPS Images
 ----------------------
-TBD
 
-Displaying 3-color Images
+While the above examples involve displaying FITS images, it's also possible to view a HiPS image using a different method that involves specifying the base URL where the target search is performed. 
+To search the survey:
+
+.. code-block:: py
+
+    hips_url = 'https://irsa.ipac.caltech.edu/data/hips/CDS/2MASS/Color/'
+    size_in_deg = 0.2
+    ra = 274.700727
+    dec = -13.807228
+    target = '{};{};EQ_J2000'.format(ra, dec)
+    fc.show_hips(viewer_id='hipspc1',
+                 plot_id='HipsID1-1',
+                 hips_root_url = hips_url,
+                 Title='HiPS-2m',
+                 WorldPt=target,
+                 SizeInDeg=size_in_deg)
+
+
+Displaying 3-Color Images
 -------------------------
-TBD
+
+It is possible to create a 3-color composite image using a list of dictionaries containing included parameters on all given bands (or simply one dictionary for that band). For example: 
+
+.. code-block:: py
+
+    rv = '92,-2,92,8,NaN,2,44,25,600,120'
+    ra = 210.80227
+    dec = 54.34895
+    target = '{};{};EQ_J2000'.format(ra, dec)
+    threeC= [
+         {
+             'Type'      : 'SERVICE',
+             'Service'   : 'WISE',
+             'Title'     : '3 color',
+             'SurveyKey'  : '3a',
+             'SurveyKeyBand': '3',
+             'WorldPt'    : target,
+             'RangeValues': rv,
+             'SizeInDeg'  : '.14'
+         },
+         {
+             'Type'      : 'SERVICE',
+             'Service'   : 'WISE',
+             'Title'     : '3 color',
+             'SurveyKey'  : '3a',
+             'SurveyKeyBand': '2',
+             'WorldPt'    : target,
+             'RangeValues': rv,
+             'SizeInDeg'  : '.14'
+         },
+         {
+             'Type'      : 'SERVICE',
+             'Service'   : 'WISE',
+             'Title'     : '3 color',
+             'SurveyKey'  : '3a',
+             'SurveyKeyBand': '1',
+             'WorldPt'    : target,
+             'RangeValues': rv,
+             'SizeInDeg'  : '.14'
+         }]
+    fc.show_fits_3color(threeC,
+    plot_id='wise_m101',
+    viewer_id='3C')
