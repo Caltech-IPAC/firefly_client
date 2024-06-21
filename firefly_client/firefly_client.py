@@ -257,8 +257,8 @@ class FireflyClient:
                 # self.render_tree_id = 'slateClient-%s-%s' % (len(self.instances), round(time.time()))
             self.show_lab_tab(html_file)
 
-    def show_lab_tab(self, html_file):
-        """If using a jupyter lab tab- show it or reopen it. If not using a lab tab then noop"""
+    def show_lab_tab(self, html_file=_def_html_file):
+        """If using a jupyter lab tab - show it or reopen it. If not using a lab tab then noop"""
         self.lab_env_tab_type = (LAB and
                                  self.dispatch(ACTION_DICT['StartLabWindow'],
                                                {'fireflyHtmlFile': html_file}))
