@@ -295,12 +295,23 @@ class FireflyClient:
                 warn('Response string:\n' + response.text[0:300])
 
             raise err
+    
+    @staticmethod
+    def _get_ip():
+        """Find local IP address, based on https://stackoverflow.com/q/166506/8252556."""
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        try:
+            s.connect(('8.8.8.8', 1)) # doesn't even have to be reachable
+            ip = s.getsockname()[0]
+        except Exception:
+            ip = '127.0.0.1'
+        finally:
+            s.close()
+        return ip
 
     def _is_page_connected(self):
-        """Check if the page is connected.
-        """
-        ip = socket.gethostbyname(socket.gethostname())
-        url = self.url_cmd_service + '?cmd=pushAliveCheck&ipAddress=%s' % ip
+        """Check if the page is connected."""
+        url = f'{self.url_cmd_service}?cmd=pushAliveCheck&ipAddress={self._get_ip()}'
         retval = self._send_url_as_get(url)
         return retval['active']
 
