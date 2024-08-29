@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools >= 64.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "firefly_client"
+version = "3.0.2"
+description = "Python API for Firefly: displaying tables, images, & charts"
+authors = [
+    {name = "IPAC LSST SUIT"}
+]
+readme = "README.md"
+license = {file = "License.txt"}
+requires-python = ">=3.8"
+dependencies = [
+    "websocket-client",
+    "requests"
+]
+keywords = [
+    "jupyter",
+    "firefly",
+    "caltech",
+    "ipac",
+    "astronomy",
+    "visualization",
+    "images",
+    "charts",
+    "tables"
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Framework :: Jupyter",
+    "Framework :: Jupyter :: JupyterLab",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3"
+]
+
+[project.urls]
+Homepage = "https://github.com/Caltech-IPAC/firefly_client"
+Documentation = "https://caltech-ipac.github.io/firefly_client"
+Repository = "http://github.com/Caltech-IPAC/firefly_client.git"
