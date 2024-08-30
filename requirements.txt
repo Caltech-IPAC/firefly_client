@@ -1,9 +1,0 @@
-requests~=2.30.0
-setuptools~=41.0.1
-websocket-client~=0.58.0
-
-# Documentation dependencies
-Sphinx~=7.1.0
-sphinx-automodapi
-pydata-sphinx-theme
-myst-parser

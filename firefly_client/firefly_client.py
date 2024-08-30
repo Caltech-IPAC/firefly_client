@@ -266,7 +266,7 @@ class FireflyClient:
     @staticmethod
     def get_viewer_mode(html_file, viewer_override):
         if viewer_override:
-            if viewer_override in _viewer_modes:
+            if viewer_override in FireflyClient._viewer_modes:
                 return viewer_override
             else:
                 warn('viewer_override mode: {} is not a recognized mode, using {}'.format(viewer_override, UNKNOWN))
@@ -348,7 +348,7 @@ class FireflyClient:
             def header_cb(headers): self.header_from_ws = headers
             FFWs.add_listener(self.wsproto, self.auth_headers, self.channel, self.location, callback, name, header_cb)
         except ConnectionRefusedError as err:
-            raise ValueError(err_message) from err
+            raise ValueError(f"Couldn't add listener: {err}") from err
 
     def remove_listener(self, callback, name=ALL):
         """

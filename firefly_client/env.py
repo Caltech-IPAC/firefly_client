@@ -46,7 +46,7 @@ class Env:
         if not cls.firefly_channel_lab:
             raise RuntimeError(COULD_NO_FIND_ENV + ENV_FF_CHANNEL_LAB + '. ' + EXT_INCORRECT + ' ' + SUGGESTION)
         if not cls.firefly_url_lab:
-            raise RuntimeError(COULD_NO_FIND_ENV + ENV_FF_URL_LAB_LAB + '. ' + EXT_INCORRECT + ' ' + SUGGESTION)
+            raise RuntimeError(COULD_NO_FIND_ENV + ENV_FF_URL_LAB + '. ' + EXT_INCORRECT + ' ' + SUGGESTION)
 
     @classmethod
     def show_start_browser_tab_msg(cls, url):
@@ -99,6 +99,6 @@ class Env:
         if cls.firefly_lab_extension and cls.firefly_url_lab:
             err_message += ('\nCheck the Firefly URL in ~/.jupyter/jupyter_notebook_config.py' +
                             ' or ~/.jupyter/jupyter_notebook_config.json')
-        elif firefly_url:
+        elif cls.firefly_url:
             err_message += 'Check setting of FIREFLY_URL environment variable: %s' % cls.firefly_url
         return err_message
