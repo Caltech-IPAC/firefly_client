@@ -42,3 +42,11 @@ classifiers = [
 Homepage = "https://github.com/Caltech-IPAC/firefly_client"
 Documentation = "https://caltech-ipac.github.io/firefly_client"
 Repository = "http://github.com/Caltech-IPAC/firefly_client.git"
+
+[project.optional-dependencies]
+docs = [
+    "Sphinx~=7.1.0",
+    "sphinx-automodapi",
+    "pydata-sphinx-theme",
+    "myst-parser"
+]
