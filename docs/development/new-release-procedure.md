@@ -13,6 +13,8 @@
       python -m build
       ```
    - Check it: `ls dist` should show two files a `.tar.gz` file and a `.whl` file
+   and both file names should contain correct version number that you intend to
+   release.
 5. _Optional_ - At this point you could do an optional test installation ([see below](#optional-test-installation))
 6. Upload to PYPI  
    1. _One-time-only auth setup:_ Login to pypi and then in your account settings, go to the API tokens section and select "Add API token". Give it any name and select scope to project:firefly-client and create token. To save this token for later uses, make sure to create a `$HOME/.pypirc` file (or update it if you already have it) with the following:

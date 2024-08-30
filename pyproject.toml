@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "firefly_client"
-version = "3.0.2"
+version = "3.1.0"
 description = "Python API for Firefly: display astronomical data as tables, images, charts, and more!"
 authors = [
     {name = "IPAC LSST SUIT"}
