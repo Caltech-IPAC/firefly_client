@@ -47,7 +47,7 @@
     <link rel="prev" title="Local development" href="guide.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Aug 21, 2024"/>
+    <meta name="docbuild:last-update" content="Aug 30, 2024"/>
   </head>
   
   
@@ -412,7 +412,7 @@ document.write(`
 <h2>Procedure<a class="headerlink" href="#procedure" title="Permalink to this heading">#</a></h2>
 <ol class="arabic">
 <li><p>To push a new release you must be a maintainer in pypi (<a class="reference internal" href="#pypi">see pypi below</a>)</p></li>
-<li><p>Bump version in setup.py  (this step is might be done in the PR)</p></li>
+<li><p>Bump version in pyproject.toml  (this step might be done in the PR)</p></li>
 <li><p>Clean out old distribution</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">dist/*</span></code></p></li>
@@ -420,18 +420,14 @@ document.write(`
 </li>
 <li><p>Create the distribution</p>
 <ul>
-<li><p>Create a tar/gzip file with the correct directory structure</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>setup.py<span class="w"> </span>sdist
+<li><p>Create a tar/gzip file (unbuilt source distibution) and a wheel file
+(built package) together using the <code class="docutils literal notranslate"><span class="pre">build</span></code> package:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>build
+python<span class="w"> </span>-m<span class="w"> </span>build
 </pre></div>
 </div>
 </li>
-<li><p>Create the wheel file</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>wheel
-python<span class="w"> </span>setup.py<span class="w"> </span>bdist_wheel
-</pre></div>
-</div>
-</li>
-<li><p>check it: <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">dist</span></code> should show two files a <code class="docutils literal notranslate"><span class="pre">.tar.gz</span></code> file and a <code class="docutils literal notranslate"><span class="pre">.whl</span></code> file</p></li>
+<li><p>Check it: <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">dist</span></code> should show two files a <code class="docutils literal notranslate"><span class="pre">.tar.gz</span></code> file and a <code class="docutils literal notranslate"><span class="pre">.whl</span></code> file</p></li>
 </ul>
 </li>
 <li><p><em>Optional</em> - At this point you could do an optional test installation (<a class="reference internal" href="#optional-test-installation">see below</a>)</p></li>
@@ -457,7 +453,7 @@ twine<span class="w"> </span>upload<span class="w"> </span>dist/*<span class="w"
 </li>
 </ol>
 </li>
-<li><p>If any files were edited (i.e <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>)</p>
+<li><p>If any files were edited (i.e <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>)</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-</span> <span class="pre">a</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">master</span></code></p></li>
@@ -465,7 +461,7 @@ twine<span class="w"> </span>upload<span class="w"> </span>dist/*<span class="w"
 </li>
 <li><p>Tag</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span> <span class="pre">-a</span> <span class="pre">2.5.0</span></code>  (replace version number with the current version from setup.py)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span> <span class="pre">-a</span> <span class="pre">2.5.0</span></code>  (replace version number with the current version from pyproject.toml)</p></li>
 </ul>
 </li>
 <li><p>Push tags</p>
@@ -479,7 +475,7 @@ twine<span class="w"> </span>upload<span class="w"> </span>dist/*<span class="w"
 <li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">firefly_client</span></code></p></li>
 </ul>
 <ol class="arabic simple" start="11">
-<li><p>Make is release with github, using the tag above</p></li>
+<li><p>Make a release with github, using the tag above</p></li>
 </ol>
 <ul class="simple">
 <li><p>https://github.com/Caltech-IPAC/firefly_client/releases</p></li>
@@ -488,8 +484,7 @@ twine<span class="w"> </span>upload<span class="w"> </span>dist/*<span class="w"
 <section id="pypi">
 <h2>PYPI<a class="headerlink" href="#pypi" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>https://pypi.org/project/firefly-client/</p></li>
-<li><p>Currently two maintainers</p></li>
+<li><p>Must be maintainer at https://pypi.org/project/firefly-client/</p></li>
 <li><p>Testing site: https://test.pypi.org/project/firefly-client/</p></li>
 </ul>
 </section>
@@ -505,7 +500,7 @@ twine<span class="w"> </span>upload<span class="w"> </span>dist/*<span class="w"
 </section>
 <section id="conda-and-conda-forge">
 <h2>Conda and conda-forge<a class="headerlink" href="#conda-and-conda-forge" title="Permalink to this heading">#</a></h2>
-<p>Anytime the version tag is updated conda-forge it set up to do a pull and add <code class="docutils literal notranslate"><span class="pre">firefly_client</span></code> to its distribution.</p>
+<p>Anytime the version tag is updated, conda-forge is set up to do a pull and add <code class="docutils literal notranslate"><span class="pre">firefly_client</span></code> to its distribution.</p>
 <p>See the following sites:</p>
 <ul class="simple">
 <li><p>https://github.com/conda-forge/firefly-client-feedstock/</p></li>
@@ -608,7 +603,7 @@ twine<span class="w"> </span>upload<span class="w"> </span>dist/*<span class="w"
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Aug 21, 2024.
+  Last updated on Aug 30, 2024.
   <br/>
 </p></div>
       
