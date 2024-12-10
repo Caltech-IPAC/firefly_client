@@ -732,6 +732,8 @@ class FireflyClient:
                 Display only a particular image extension from the file (zero-based index).
             **Title** : `str`, optional
                 Title to display with the image.
+            **url** : `str`, optional
+                URL of the fits image file, if it's not a local file you can upload.
 
         Returns
         -------
@@ -803,7 +805,7 @@ class FireflyClient:
         warning and r.update({'warning': warning})
         return r
 
-    def show_table(self, file_on_server=None, tbl_id=None, title=None, page_size=100, is_catalog=True,
+    def show_table(self, file_on_server=None, url=None, tbl_id=None, title=None, page_size=100, is_catalog=True,
                    meta=None, target_search_info=None, options=None, table_index=None,
                    column_spec=None, filters=None, visible=True):
         """
@@ -811,10 +813,12 @@ class FireflyClient:
 
         Parameters
         ----------
-        file_on_server : `str`
+        file_on_server : `str`, optional
             The name of the file on the server.
             If you use `upload_file()`, then it is the return value of the method. Otherwise it is a file that
             Firefly has direct access to.
+        url : `str`, optional
+            URL of the table file, if it's not a local file you can upload.
         tbl_id : `str`, optional
             A table ID. It will be created automatically if not specified.
         title : `str`, optional
@@ -872,28 +876,32 @@ class FireflyClient:
             A string specifying filters. Column names must be quoted.
             For example, '("coord_dec" > -0.478) and ("parent" > 0)'.
         visible: `bool`, optional
-            If false, only load the table to Firefly but don't show it in the UI
+            If false, only load the table to Firefly but don't show it in the UI.
+            Similar to `fetch_table()`
 
         Returns
         -------
         out : `dict`
             Status of the request, like {'success': True}.
 
-        .. note:: `file_on_server` and `target_search_info` are exclusively required.
+        .. note:: `url`, `file_on_server`, and `target_search_info` are exclusively required.
+            If more than one of these 3 parameters are passed, precedence order is:
+            `url` > `file_on_server` > `target_search_info`
         """
 
         if not tbl_id:
             tbl_id = gen_item_id('Table')
         if not title:
-            title = tbl_id if file_on_server else target_search_info.get('catalog', tbl_id)
+            title = tbl_id if file_on_server or url else target_search_info.get('catalog', tbl_id)
 
         meta_info = {'title': title, 'tbl_id': tbl_id}
         meta and meta_info.update(meta)
 
         tbl_req = {'startIdx': 0, 'pageSize': page_size, 'tbl_id': tbl_id}
-        if file_on_server:
+        if file_on_server or url:
             tbl_type = 'table' if not is_catalog else 'catalog'
-            tbl_req.update({'source': file_on_server, 'tblType': tbl_type,
+            source = url if url else file_on_server
+            tbl_req.update({'source': source, 'tblType': tbl_type,
                             'id': 'IpacTableFromSource'})
             table_index and tbl_req.update({'tbl_index': table_index})
         elif target_search_info:
@@ -941,7 +949,6 @@ class FireflyClient:
         out : `dict`
             Status of the request, like {'success': True}.
         """
-
         if not tbl_id:
             tbl_id = gen_item_id('Table')
         if not title:

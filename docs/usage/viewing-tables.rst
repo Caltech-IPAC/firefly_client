@@ -26,3 +26,10 @@ the table overlaid on the image, `is_catalog=False` can be specified:
 
     fc.show_table(file_on_server=tval, tbl_id='2mass-tbl', is_catalog=False)
 
+If you have the URL of a table, you can pass it directly instead of 
+downloading it and then uploading it to firefly:
+
+.. code-block:: py
+
+    table_url = "http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT('J2000',ra,dec),CIRCLE('J2000',70.0,20.0,0.1))=1"
+    fc.show_table(url=table_url, tbl_id='2mass-point-source-catalog')
