@@ -70,6 +70,8 @@ ACTION_DICT = {
     'AddExtension': 'ExternalAccessCntlr/extensionAdd',
     'FetchTable': 'table.fetch',
     'ShowTable': 'table.search',
+    'TableFilter': 'table.filter',
+    'TableSort': 'table.sort',
     'ShowXYPlot': 'charts.data/chartAdd',
     'ShowPlot': 'charts.data/chartAdd',
     'ZoomImage': 'ImagePlotCntlr.ZoomImage',

@@ -1915,3 +1915,55 @@ class FireflyClient:
 
         payload = {'plotId': plot_id, 'imageOverlayId': mask_id}
         return self.dispatch(ACTION_DICT['DeleteOverlayMask'], payload)
+
+    # ----------------------------
+    # actions on table
+    # ----------------------------
+
+    def apply_table_filters(self, tbl_id, filters):
+        """
+        Apply filters to a loaded table.
+
+        Parameters
+        ----------
+        plot_id : `str`
+            ID of the table where you want to apply filters
+        filters : `str`
+            SQL WHERE clause-like string specifying filters. Column names must be quoted.
+            For e.g. '("ra" > 185 AND "ra" < 185.1) OR ("dec" > 15 AND "dec" < 15.1) AND "band" IN (1,2)'.
+
+        Returns
+        --------
+        out : `dict`
+            Status of the request, like {'success': True}
+        """
+        tbl_req = {'tbl_id': tbl_id, 'filters': filters}
+        payload = {'request': tbl_req}
+        return self.dispatch(ACTION_DICT['TableFilter'], payload)
+    
+    def sort_table_column(self, tbl_id, column_name, sort_direction=''):
+        """
+        Sort a loaded table by a given column name.
+
+        Parameters
+        ----------
+        plot_id : `str`
+            ID of the table where you want to apply sort
+        column_name : `str`
+            Name of the table column to sort
+        sort_direction : {'', 'ASC', 'DESC'}, optional
+            Direction of sort: '' for unsorted, 'ASC' for ascending, and 'DESC'
+            for descending. Default is ''.
+
+        Returns
+        --------
+        out : `dict`
+            Status of the request, like {'success': True}
+        """
+        sort_directions = ['', 'ASC', 'DESC']
+        if sort_direction not in sort_directions:
+            raise ValueError(f'Invalid sort_direction. Valid values are {sort_directions}')
+        
+        tbl_req = {'tbl_id': tbl_id, 'sortInfo': f'{sort_direction},{column_name}'}
+        payload = {'request': tbl_req}
+        return self.dispatch(ACTION_DICT['TableSort'], payload)
