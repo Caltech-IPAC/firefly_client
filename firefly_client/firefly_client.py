@@ -1952,8 +1952,8 @@ class FireflyClient:
         column_name : `str`
             Name of the table column to sort
         sort_direction : {'', 'ASC', 'DESC'}, optional
-            Direction of sort: '' for unsorted, 'ASC' for ascending, and 'DESC'
-            for descending. Default is ''.
+            Direction of sort: '' for unsorted (or for removing the sort), 
+            'ASC' for ascending, and 'DESC' for descending. Default is ''.
 
         Returns
         --------

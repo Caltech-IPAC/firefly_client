@@ -22,7 +22,7 @@ without showing the table in the viewer, use :meth:`FireflyClient.fetch_table`:
 
     fc.fetch_table(file_on_server=tval, tbl_id='invisible-table')
 
-Alternatively, you can turn off the `visible` parameter in :meth:`FireflyClient.fetch_table`:
+Alternatively, you can turn off the `visible` parameter in :meth:`FireflyClient.show_table`:
 
 .. code-block:: py
 
@@ -67,3 +67,5 @@ order:
 .. code-block:: py
     
     fc.sort_table_column(tbl_id=tbl_id_2mass_psc, column_name='j_m', sort_direction='ASC')
+
+If a column has sorting, it can be removed by specifying `sort_direction=''`.
