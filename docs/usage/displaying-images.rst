@@ -221,3 +221,15 @@ It is possible to create a 3-color composite image using a list of dictionaries 
     fc.show_fits_3color(threeC,
     plot_id='wise_m101',
     viewer_id='3C')
+
+
+Displaying Image from a URL
+---------------------------
+
+If you have the URL of an image, you can pass it directly instead of 
+downloading it and then uploading it to firefly:
+
+.. code-block:: py
+
+    image_url = 'http://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/6a/02206a/149/02206a149-w1-int-1b.fits?center=70,20&size=200pix'
+    fc.show_fits(url=image_url, plot_id='wise-allsky', title='WISE all-sky')

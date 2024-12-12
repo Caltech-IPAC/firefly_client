@@ -4,5 +4,4 @@ API reference
 
 .. automodapi:: firefly_client
    :no-inheritance-diagram:
-   :no-heading:
-
+   :skip: PackageNotFoundError, Env, FFWs, RangeValues
