@@ -35,6 +35,7 @@ FireflyClient
       ~FireflyClient.add_listener
       ~FireflyClient.add_mask
       ~FireflyClient.add_region_data
+      ~FireflyClient.align_images
       ~FireflyClient.apply_table_filters
       ~FireflyClient.call_response
       ~FireflyClient.change_triview_layout
@@ -110,6 +111,7 @@ FireflyClient
    .. automethod:: add_listener
    .. automethod:: add_mask
    .. automethod:: add_region_data
+   .. automethod:: align_images
    .. automethod:: apply_table_filters
    .. automethod:: call_response
    .. automethod:: change_triview_layout

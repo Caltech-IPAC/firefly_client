@@ -103,14 +103,11 @@ Turning On WCS Locking
 ----------------------
 
 When multiple images covering the same sky location are displayed, you can
-align and lock by sky coordinates. A dedicated method is not available, but
-the following action can be dispatched to lock and align by world coordinates:
+align and lock by sky coordinates. To lock and align by world coordinates:
 
 .. code-block:: py
 
-        fc.dispatch('ImagePlotCntlr.wcsMatch',
-                    payload=dict(matchType='Standard',
-                                 lockMatch=True))
+    fc.align_images(lock_match=True)
 
 Retrieving Images Using IRSA-Specific Searches
 ----------------------------------------------
