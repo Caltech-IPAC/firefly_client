@@ -76,6 +76,7 @@ ACTION_DICT = {
     'ShowPlot': 'charts.data/chartAdd',
     'ZoomImage': 'ImagePlotCntlr.ZoomImage',
     'PanImage': 'ImagePlotCntlr.recenter',
+    'AlignImages': 'ImagePlotCntlr.wcsMatch',
     'StretchImage': 'ImagePlotCntlr.StretchChange',
     'ColorImage': 'ImagePlotCntlr.ColorChange',
     'CreateRegionLayer': 'DrawLayerCntlr.RegionPlot.createLayer',

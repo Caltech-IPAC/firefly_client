@@ -1458,6 +1458,29 @@ class FireflyClient:
             payload.update({'centerPt': f'{x};{y};{coord}'})
 
         return self.dispatch(ACTION_DICT['PanImage'], payload)
+    
+    def align_images(self, match_type='Standard', lock_match=False):
+        """
+        Align the images being displayed.
+
+        Parameters
+        ----------
+        match_type : {'Standard', 'Target', 'Pixel', 'PixelCenter'}, optional
+            Match type to use to align the images: align by WCS ('Standard'),
+            by target ('Target'), by pixel prigins ('Pixel'), and by pixel at
+            image centers ('PixelCenter').
+        lock_match : bool, optional
+            Whether to lock the alignment. Panning/zooming in one image will
+            preserve the alignment in other images. Default is False.
+
+        Returns
+        -------
+        out : `dict`
+            Status of the request, like {'success': True}.
+        
+        """
+        payload = dict(matchType=match_type, lockMatch=lock_match)
+        return self.dispatch(ACTION_DICT['AlignImages'], payload)
 
     def set_stretch(self, plot_id, stype=None, algorithm=None, band=None, **additional_params):
         """
@@ -1926,7 +1949,7 @@ class FireflyClient:
 
         Parameters
         ----------
-        plot_id : `str`
+        tbl_id : `str`
             ID of the table where you want to apply filters
         filters : `str`
             SQL WHERE clause-like string specifying filters. Column names must be quoted.
@@ -1947,7 +1970,7 @@ class FireflyClient:
 
         Parameters
         ----------
-        plot_id : `str`
+        tbl_id : `str`
             ID of the table where you want to apply sort
         column_name : `str`
             Name of the table column to sort
