@@ -10,9 +10,9 @@ variable FIREFLY_URL.
 import logging
 import os
 import tempfile
-import time
-from .firefly_client import FireflyClient
+
 from .fc_utils import gen_item_id
+from .firefly_client import FireflyClient
 
 logger = logging.getLogger(__name__)
 
@@ -20,9 +20,9 @@ fc = None
 last_tblid = None
 last_imageid = None
 # Set up default cells
-table_cellid = 'tables'
-plots_cellid = 'plots'
-images_cellid = 'images'
+table_cellid = "tables"
+plots_cellid = "plots"
+images_cellid = "images"
 
 
 def use_client(ffclient):
@@ -42,7 +42,9 @@ def use_client(ffclient):
 
 def _confirm_fc():
     if fc is None:
-        raise ValueError('a FireflyClient instance has not been defined, define it first with use_client()')
+        raise ValueError(
+            "a FireflyClient instance has not been defined, define it first with use_client()"
+        )
 
 
 def reset_layout():
@@ -52,15 +54,22 @@ def reset_layout():
     row containing plots in the first column and images in the second column.
     """
     _confirm_fc()
-    fc.add_cell(row=0, col=0, width=2, height=2, element_type='tables', cell_id=table_cellid)
-    fc.add_cell(row=2, col=0, width=1, height=2, element_type='xyPlots', cell_id=plots_cellid)
-    fc.add_cell(row=2, col=1, width=1, height=2, element_type='images', cell_id=images_cellid)
+    assert isinstance(fc, FireflyClient)
+    fc.add_cell(
+        row=0, col=0, width=2, height=2, element_type="tables", cell_id=table_cellid
+    )
+    fc.add_cell(
+        row=2, col=0, width=1, height=2, element_type="xyPlots", cell_id=plots_cellid
+    )
+    fc.add_cell(
+        row=2, col=1, width=1, height=2, element_type="images", cell_id=images_cellid
+    )
 
 
 def display_url():
-    """Display the web viewer URL, if possible as a clickable link
-    """
+    """Display the web viewer URL, if possible as a clickable link"""
     _confirm_fc()
+    assert isinstance(fc, FireflyClient)
     fc.display_url()
 
 
@@ -73,18 +82,30 @@ def open_browser(force=False):
         if True, open the browser even if one is already connected. Default False
     """
     _confirm_fc()
+    assert isinstance(fc, FireflyClient)
     fc.launch_browser(force=force)
 
 
 def clear():
-    """Clear the web viewer
-    """
+    """Clear the web viewer"""
     _confirm_fc()
+    assert isinstance(fc, FireflyClient)
     fc.reinit_viewer()
 
 
-def scatter(x_col, y_col, tbl_id='', size=4, color=None, alpha=1.0,
-            title='', xlabel=None, ylabel=None, cell_id=plots_cellid, **kwargs):
+def scatter(
+    x_col,
+    y_col,
+    tbl_id="",
+    size=4,
+    color=None,
+    alpha=1.0,
+    title="",
+    xlabel=None,
+    ylabel=None,
+    cell_id=plots_cellid,
+    **kwargs,
+):
     """Make a scatter plot from a table uploaded to Firefly
 
     Parameters:
@@ -114,24 +135,41 @@ def scatter(x_col, y_col, tbl_id='', size=4, color=None, alpha=1.0,
 
     """
     _confirm_fc()
-    layout = dict(xaxis=dict(title=xlabel if xlabel else x_col),
-                  yaxis=dict(title=ylabel if ylabel else y_col))
+    assert isinstance(fc, FireflyClient)
+    layout: dict[str, dict[str, str | int] | str] = dict(
+        xaxis=dict(title=xlabel if xlabel else x_col),
+        yaxis=dict(title=ylabel if ylabel else y_col),
+    )
     if title is not None:
-        layout['title'] = title
+        layout["title"] = title
     if len(tbl_id) == 0:
-        logger.debug('Using last_tblid: {}'.format(last_tblid))
+        logger.debug("Using last_tblid: {}".format(last_tblid))
         tbl_id = last_tblid
     marker_dict = dict(size=size, opacity=alpha)
     if color:
-        marker_dict['color'] = color
-    trace = dict(tbl_id=tbl_id, x='tables::' + x_col, y='tables::' + y_col,
-                 mode='markers', type='scatter', marker=marker_dict)
+        marker_dict["color"] = color
+    trace = dict(
+        tbl_id=tbl_id,
+        x="tables::" + x_col,
+        y="tables::" + y_col,
+        mode="markers",
+        type="scatter",
+        marker=marker_dict,
+    )
     trace.update(kwargs)
     fc.show_chart(layout=layout, data=[trace], group_id=cell_id)
 
 
-def hist(data_col, tbl_id='', nbins=30, title='', xlabel=None,
-         ylabel=None, cell_id=plots_cellid, **kwargs):
+def hist(
+    data_col,
+    tbl_id="",
+    nbins=30,
+    title="",
+    xlabel=None,
+    ylabel=None,
+    cell_id=plots_cellid,
+    **kwargs,
+):
     """Make a histogram from a table uploaded to Firefly
 
     data_col: `str`
@@ -150,34 +188,44 @@ def hist(data_col, tbl_id='', nbins=30, title='', xlabel=None,
         ID of Slate cell from add_cell, defaults to table_cellid
     """
     _confirm_fc()
-    layout = dict(xaxis=dict(title=xlabel if xlabel else data_col),
-                  yaxis=dict(title=ylabel if ylabel else 'Number'))
+    assert isinstance(fc, FireflyClient)
+    layout: dict[str, dict[str, str | int] | str] = dict(
+        xaxis=dict(title=xlabel if xlabel else data_col),
+        yaxis=dict(title=ylabel if ylabel else "Number"),
+    )
     if title is not None:
-        layout['title'] = title
+        layout["title"] = title
     if len(tbl_id) == 0:
-        logger.debug('Using last_tblid: {}'.format(last_tblid))
+        logger.debug("Using last_tblid: {}".format(last_tblid))
         tbl_id = last_tblid
     hist_data = dict(
-        type='fireflyHistogram',
+        type="fireflyHistogram",
         name=data_col,
-        marker={'color': 'rgba(153, 51, 153, 0.8)'},
+        marker={"color": "rgba(153, 51, 153, 0.8)"},
         firefly=dict(
             tbl_id=tbl_id,
             options=dict(
-                algorithm='fixedSizeBins',
-                fixedBinSizeSelection='numBins',
+                algorithm="fixedSizeBins",
+                fixedBinSizeSelection="numBins",
                 numBins=nbins,
-                columnOrExpr=data_col
-            )
-        )
+                columnOrExpr=data_col,
+            ),
+        ),
     )
     hist_data.update(kwargs)
     fc.show_chart(group_id=cell_id, layout=layout, data=[hist_data])
     return
 
 
-def upload_table(table, title=None, show=True, write_func="auto", tbl_index=1, page_size=200,
-                 view_coverage=False):
+def upload_table(
+    table,
+    title=None,
+    show=True,
+    write_func="auto",
+    tbl_index=1,
+    page_size=200,
+    view_coverage=False,
+):
     """upload a table object to Firefly
 
     Parameters:
@@ -202,50 +250,61 @@ def upload_table(table, title=None, show=True, write_func="auto", tbl_index=1, p
         Table ID on the Firefly server
     """
     _confirm_fc()
+    assert isinstance(fc, FireflyClient)
     if isinstance(table, str):
         tval = fc.upload_file(table)
     else:
-        if write_func == 'auto':
-            if 'lsst.afw.table' in str(type(table)):
+        if write_func == "auto":
+            if "lsst.afw.table" in str(type(table)):
                 write_func = table.writeFits
-            elif 'astropy.table.table.Table' in str(type(table)):
+            elif "astropy.table.table.Table" in str(type(table)):
+
                 def write_astropy(fname):
                     atable = table.copy()
                     for c in atable.colnames:
                         if len(c) > 68:
                             atable.rename_column(c, c[:68])
                     import warnings
+
                     from astropy.utils.exceptions import AstropyWarning
+
                     with warnings.catch_warnings():
-                        warnings.simplefilter('ignore', AstropyWarning)
-                        atable.write(fname, format='fits', overwrite=True)
+                        warnings.simplefilter("ignore", AstropyWarning)
+                        atable.write(fname, format="fits", overwrite=True)
+
                 write_func = write_astropy
             else:
-                raise RuntimeError('Unable to auto-discover output method for ' + str(type(table)))
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.fits') as fd:
+                raise RuntimeError(
+                    "Unable to auto-discover output method for " + str(type(table))
+                )
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".fits") as fd:
             write_func(fd.name)
         tval = fc.upload_file(fd.name)
-        logger.debug('Image name is {}'.format(fd.name))
+        logger.debug("Image name is {}".format(fd.name))
         os.remove(fd.name)
     if title is None:
-        tbl_id = gen_item_id('Table')
+        tbl_id = gen_item_id("Table")
     else:
         tbl_id = title
     if view_coverage:
         coverage()
     if show:
-        status = fc.show_table(tval, tbl_id=tbl_id, title=title, table_index=tbl_index, page_size=page_size)
+        status = fc.show_table(
+            tval, tbl_id=tbl_id, title=title, table_index=tbl_index, page_size=page_size
+        )
     else:
-        status = fc.fetch_table(tval, tbl_id=tbl_id, table_index=tbl_index, page_size=page_size)
-    if status['success']:
+        status = fc.fetch_table(
+            tval, tbl_id=tbl_id, table_index=tbl_index, page_size=page_size
+        )
+    if status["success"]:
         global last_tblid
         last_tblid = tbl_id
         return tbl_id
     else:
-        raise RuntimeError('table upload unsuccessful')
+        raise RuntimeError("table upload unsuccessful")
 
 
-def upload_image(image, title=None, write_func='auto', cell_id=images_cellid):
+def upload_image(image, title=None, write_func="auto", cell_id=images_cellid):
     """display an array or astropy.io.fits HDU or HDUList
 
     Parameters:
@@ -266,40 +325,47 @@ def upload_image(image, title=None, write_func='auto', cell_id=images_cellid):
     if isinstance(image, str):
         fval = fc.upload_file(image)
     else:
-        if write_func == 'auto':
-            if 'lsst.afw.image' in str(type(image)):
+        if write_func == "auto":
+            if "lsst.afw.image" in str(type(image)):
                 write_func = image.writeFits
-            elif 'astropy.io.fits' in str(type(image)):
+            elif "astropy.io.fits" in str(type(image)):
+
                 def write_astropy_image(fname):
                     import warnings
+
                     from astropy.utils.exceptions import AstropyWarning
+
                     with warnings.catch_warnings():
-                        warnings.simplefilter('ignore', AstropyWarning)
+                        warnings.simplefilter("ignore", AstropyWarning)
                         image.writeto(fname, overwrite=True)
+
                 write_func = write_astropy_image
-            elif 'numpy.ndarray' in str(type(image)):
+            elif "numpy.ndarray" in str(type(image)):
                 import astropy.io.fits
+
                 hdu = astropy.io.fits.PrimaryHDU(data=image)
                 write_func = lambda fname: hdu.writeto(fname, overwrite=True)
             else:
-                raise RuntimeError('Unable to auto-discover output method for ' + str(type(table)))
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.fits') as fd:
+                raise RuntimeError(
+                    "Unable to auto-discover output method for " + str(type(table))
+                )
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".fits") as fd:
             write_func(fd.name)
         fval = fc.upload_file(fd.name)
-        logger.debug('Image name is {}'.format(fd.name))
+        logger.debug("Image name is {}".format(fd.name))
         os.remove(fd.name)
     if title is None:
-        image_id = gen_item_id('Image')
+        image_id = gen_item_id("Image")
         title = image_id
     else:
         image_id = title
     status = fc.show_fits(fval, plot_id=image_id, title=title, viewer_id=cell_id)
-    if status['success']:
+    if status["success"]:
         global last_imageid
         last_imageid = image_id
         return image_id
     else:
-        raise RuntimeError('image upload and display unsuccessful')
+        raise RuntimeError("image upload and display unsuccessful")
 
 
 def coverage(cell_id=images_cellid):

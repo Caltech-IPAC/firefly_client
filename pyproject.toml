@@ -10,7 +10,11 @@ authors = [{ name = "IPAC LSST SUIT" }]
 readme = "README.md"
 license = { file = "License.txt" }
 requires-python = ">=3.10"
-dependencies = ["websocket-client", "requests"]
+dependencies = [
+    "websocket-client",
+ "requests",
+ "astropy>=6.1.7",
+]
 keywords = [
     "jupyter",
     "firefly",
