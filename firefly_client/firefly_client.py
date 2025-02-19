@@ -12,6 +12,7 @@ import time
 import weakref
 import webbrowser
 from copy import copy
+from typing import Literal, Optional
 from urllib.parse import urljoin
 
 import requests
@@ -1831,11 +1832,24 @@ class FireflyClient:
 
     def set_stretch_hprgb(
         self,
-        plot_id,
-        asinh_q_value=None,
-        scaling_k=1.0,
-        pedestal_value=1,
-        pedestal_type="percent",
+        plot_id: str | list[str],
+        asinh_q_value: Optional[float] = None,
+        scaling_k: float | list[float] = 1.0,
+        pedestal_value: float | list[float] = 1,
+        pedestal_type: (
+            Literal["percent"]
+            | Literal["minmax"]
+            | Literal["absolute"]
+            | Literal["zscale"]
+            | Literal["sigma"]
+            | list[
+                Literal["percent"]
+                | Literal["minmax"]
+                | Literal["absolute"]
+                | Literal["zscale"]
+                | Literal["sigma"]
+            ]
+        ) = "percent",
     ):
         """
         Change the stretch of RGB image (hue-preserving rgb case). When a parameter is a list,
@@ -1889,9 +1903,15 @@ class FireflyClient:
         return_val["rv_lst"] = [d["rv"] for d in st_data]
         return return_val
 
-    def set_color(self, plot_id, colormap_id=0, bias=0.5, contrast=1):
+    def set_color(
+        self,
+        plot_id: str | list[str],
+        colormap_id: int = 0,
+        bias: float = 0.5,
+        contrast: float = 1,
+    ):
         """
-        Change the color attributes (color map, bias, constrast) of an image plot.
+        Change the color attributes (color map, bias, contrast) of an image plot.
 
         Parameters
         ----------

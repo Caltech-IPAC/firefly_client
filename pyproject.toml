@@ -56,7 +56,7 @@ test = [
 testpaths = ["firefly_client", "docs", "test"]
 doctest_plus = "enabled"
 text_file_format = "rst"
-addopts = "--doctest-rst -n 4"
+addopts = ["--doctest-rst", "-n 4", "--import-mode=importlib"]
 
 [tool.coverage.run]
 omit = [
