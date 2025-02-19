@@ -1,17 +1,18 @@
+import time
+import random
 from firefly_client import FireflyClient
 from pytest_container.container import Container, ContainerData, EntrypointSelection
 from pytest_container.inspect import NetworkProtocol, PortForwarding
 
 FIREFLY_CONTAINER = Container(
-    url="docker.io/irsa/firefly:latest",
+    url="docker.io/ipac/firefly:latest",
     extra_launch_args=["--memory=4g"],
-    singleton=True,
     entry_point=EntrypointSelection.AUTO,
     forwarded_ports=[
         PortForwarding(
             container_port=8080,
             protocol=NetworkProtocol.TCP,
-            host_port=8080,
+            host_port=random.randint(8000,65534),
             bind_ip="127.0.0.1",
         )
     ],
@@ -21,7 +22,12 @@ CONTAINER_IMAGES = [FIREFLY_CONTAINER]
 
 
 def test_5_instances_3_channels(auto_container: ContainerData):
-    assert auto_container.forwarded_ports[0].host_port == 8080
+    assert auto_container.forwarded_ports[0].host_port >= 8000
+    assert auto_container.forwarded_ports[0].host_port <= 65534
+    assert auto_container.forwarded_ports[0].container_port == 8080
+    assert auto_container.forwarded_ports[0].bind_ip == "127.0.0.1"
+
+    time.sleep(5)
 
     def listener1(ev):
         print("l1")
@@ -59,7 +65,7 @@ def test_5_instances_3_channels(auto_container: ContainerData):
     )
 
     fc1_c1 = FireflyClient.make_client(
-        host, channel_override=channel1, launch_browser=True
+        host, channel_override=channel1, launch_browser=False
     )
     fc1_c1.add_extension(ext_type="POINT", title="a point")
     # fc.add_extension(ext_type='LINE_SELECT', title='a line')
@@ -70,11 +76,11 @@ def test_5_instances_3_channels(auto_container: ContainerData):
         host, channel_override=channel1, launch_browser=False
     )
     fc1_c2 = FireflyClient.make_client(
-        host, channel_override=channel2, launch_browser=True
+        host, channel_override=channel2, launch_browser=False
     )
     fc1_c2.add_extension(ext_type="POINT", title="a point")
     fc1_c3 = FireflyClient.make_client(
-        host, channel_override=channel3, launch_browser=True
+        host, channel_override=channel3, launch_browser=False
     )
     print(f">>>>>> channel: {channel1}, firefly url: {fc1_c1.get_firefly_url()}")
     print(f">>>>>> channel: {channel2}, firefly url: {fc1_c2.get_firefly_url()}")
@@ -92,7 +98,3 @@ def test_5_instances_3_channels(auto_container: ContainerData):
     fc2_c1.add_listener(listener2)
     fc3_c1.add_listener(listener3)
     fc1_c2.add_listener(listener4)  # one web socket should be made for channel2
-
-    # note - no listener added for channel3, so no websocket made
-
-    fc1_c1.wait_for_events()
