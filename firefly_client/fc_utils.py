@@ -2,6 +2,7 @@ import base64
 import json
 import mimetypes
 import urllib.parse
+from typing import TypeVar
 
 
 class DebugMarker:
@@ -80,7 +81,11 @@ def create_image_url(image_source):
     return image_source
 
 
-def ensure3[T](val: list[T] | set[T] | tuple[T] | T, name: str) -> list[T]:
+# Generic type for ensure3
+T = TypeVar("T")
+
+
+def ensure3(val: list[T] | set[T] | tuple[T] | T, name: str) -> list[T]:
     """Make sure that the value is a scalar or a list with 3 values otherwise raise ValueError"""
     ret: list[T] = (
         list(val)
