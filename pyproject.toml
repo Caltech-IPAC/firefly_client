@@ -6,16 +6,11 @@ build-backend = "setuptools.build_meta"
 name = "firefly_client"
 version = "3.3.0"
 description = "Python API for Firefly: display astronomical data as tables, images, charts, and more!"
-authors = [
-    {name = "IPAC LSST SUIT"}
-]
+authors = [{ name = "IPAC LSST SUIT" }]
 readme = "README.md"
-license = {file = "License.txt"}
+license = { file = "License.txt" }
 requires-python = ">=3.10"
-dependencies = [
-    "websocket-client",
-    "requests"
-]
+dependencies = ["websocket-client", "requests"]
 keywords = [
     "jupyter",
     "firefly",
@@ -25,7 +20,7 @@ keywords = [
     "visualization",
     "images",
     "charts",
-    "tables"
+    "tables",
 ]
 classifiers = [
     "Intended Audience :: Developers",
@@ -35,7 +30,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Astronomy",
     "Topic :: Scientific/Engineering :: Visualization",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3"
+    "Programming Language :: Python :: 3",
 ]
 
 [project.urls]
@@ -48,5 +43,70 @@ docs = [
     "Sphinx~=7.1.0",
     "sphinx-automodapi",
     "pydata-sphinx-theme",
-    "myst-parser"
+    "myst-parser",
+]
+test = [
+    "pytest>=8.3.4",
+    "pytest-container>=0.4.3",
+    "pytest-cov>=6.0.0",
+    "pytest-doctestplus>=1.4.0",
+    "pytest-mock>=3.14.0",
+    "pytest-xdist>=3.6.1",
+]
+astropy = ["astropy>=6"]
+
+[tool.setuptools]
+packages = ["firefly_client"]
+
+[tool.pytest.ini_options]
+testpaths = ["firefly_client", "docs", "test"]
+doctest_plus = "enabled"
+text_file_format = "rst"
+addopts = [
+    "--doctest-rst",
+    "--numprocesses=4",
+    "--import-mode=importlib",
+    "--cov=firefly_client",
+    "--cov-append",
+    "--cov-report=term-missing",
+    "--cov-report=xml:coverage.xml",
+    "--cov-report=html:coverage",
+    "--doctest-modules",
+]
+
+[tool.coverage.run]
+omit = [
+    "firefly_client/conftest.py",
+    "firefly_client/*setup_package*",
+    "firefly_client/tests/*",
+    "firefly_client/*/tests/*",
+    "firefly_client/extern/*",
+    "firefly_client/version*",
+    "*/firefly_client/conftest.py",
+    "*/firefly_client/*setup_package*",
+    "*/firefly_client/tests/*",
+    "*/firefly_client/*/tests/*",
+    "*/firefly_client/extern/*",
+    "*/firefly_client/version*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    # Have to re-enable the standard pragma
+    "pragma: no cover",
+    # Don't complain about packages we have installed
+    "except ImportError",
+    # Don't complain if tests don't hit assertions
+    "raise AssertionError",
+    "raise NotImplementedError",
+    # Don't complain about script hooks
+    "def main(.*):",
+    # Ignore branches that don't pertain to this version of Python
+    "pragma: py{ignore_python_version}",
+    # Don't complain about IPython completion helper
+    "def _ipython_key_completions_",
+    # typing.TYPE_CHECKING is False at runtime
+    "if TYPE_CHECKING:",
+    # Ignore typing overloads
+    "@overload",
 ]
