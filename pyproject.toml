@@ -52,6 +52,8 @@ test = [
     "pytest-doctestplus>=1.4.0",
     "pytest-mock>=3.14.0",
     "pytest-xdist>=3.6.1",
+    "tox>=4.0",
+    "tox-uv>=1.20",
 ]
 
 [tool.setuptools]
@@ -109,3 +111,47 @@ exclude_lines = [
     # Ignore typing overloads
     "@overload",
 ]
+
+[tool.tox]
+env_list = ["clean", "3.10", "3.11", "3.12", "3.13", "3.14", "build_docs"]
+requires = ["tox>=4.0", "tox-uv>=1.20"]
+
+[tool.tox.env_run_base]
+commands = [
+    [
+        "pytest",
+        "--doctest-rst",
+        "--numprocesses=4",
+        "--import-mode=importlib",
+        "--cov=firefly_client",
+        "--cov-append",
+        "--cov-report=term-missing",
+        "--cov-report=xml:coverage.xml",
+        "--cov-report=html:coverage",
+        "--doctest-modules",
+        "{posargs}",
+    ],
+]
+runner = "uv-venv-lock-runner"
+description = "run tests with the oldest supported version of key dependencies on {base_python}"
+pass_env = ["TOXENV", "CI", "CC", "LOCALE_ARCHIVE", "LC_ALL"]
+set_env = { MPLBACKEND = "agg" }
+dependency_groups = ["test"]
+uv_python_preference = "only-managed"
+allowlist_externals = ["python"]
+
+[tool.tox.env.clean]
+description = "Clean artifacts before testing"
+commands = [["coverage", "erase"]]
+runner = "uv-venv-lock-runner"
+dependency_groups = ["test"]
+uv_python_preference = "only-managed"
+allowlist_externals = ["python"]
+
+[tool.tox.env.build_docs]
+description = "invoke sphinx-build to build the HTML docs"
+change_dir = "docs"
+dependency_groups = ["docs"]
+commands = [["make", "html"]]
+uv_python_preference = "only-managed"
+allowlist_externals = ["python", "make", "uv"]
