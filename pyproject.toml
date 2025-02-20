@@ -137,7 +137,7 @@ runner = "uv-venv-lock-runner"
 description = "run tests with the oldest supported version of key dependencies on {base_python}"
 pass_env = ["TOXENV", "CI", "CC", "LOCALE_ARCHIVE", "LC_ALL"]
 set_env = { MPLBACKEND = "agg" }
-dependency_groups = ["test"]
+dependency_groups = ["test", "astropy"]
 uv_python_preference = "only-managed"
 allowlist_externals = ["python"]
 
@@ -145,7 +145,7 @@ allowlist_externals = ["python"]
 description = "Clean artifacts before testing"
 commands = [["coverage", "erase"]]
 runner = "uv-venv-lock-runner"
-dependency_groups = ["test"]
+dependency_groups = ["test", "astropy"]
 uv_python_preference = "only-managed"
 allowlist_externals = ["python"]
 
