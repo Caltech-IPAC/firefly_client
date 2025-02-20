@@ -148,25 +148,9 @@ allowlist_externals = ["python"]
 description = "invoke sphinx-build to build the HTML docs"
 change_dir = "docs"
 dependency_groups = ["docs"]
-commands = [
-    [
-        "sphinx-build",
-        "-j",
-        "auto",
-        "--color",
-        "-W",
-        "--keep-going",
-        "-b",
-        "html",
-        "-d",
-        "_build/.doctrees",
-        ".",
-        "_build/html",
-        "{posargs}",
-    ],
-]
+commands = [["make", "html"]]
 uv_python_preference = "only-managed"
-allowlist_externals = ["python"]
+allowlist_externals = ["python", "make", "uv"]
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
