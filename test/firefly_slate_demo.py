@@ -194,6 +194,7 @@ def load_histogram(row, col, width, height, fc, cell_id=None):
             "yaxis": {"title": ""},
         }
         result = fc.show_chart(group_id=r["cell_id"], layout=layout_hist, data=histData)
+        assert result is not None
 
 
 def load_first_image_in_random(fc):
