@@ -2,8 +2,6 @@ import base64
 import json
 import mimetypes
 import urllib.parse
-from collections.abc import Iterable
-from typing import Sequence
 
 
 class DebugMarker:
@@ -82,9 +80,13 @@ def create_image_url(image_source):
     return image_source
 
 
-def ensure3[T](val: Sequence[T] | T, name: str) -> list[T]:
+def ensure3[T](val: list[T] | set[T] | tuple[T] | T, name: str) -> list[T]:
     """Make sure that the value is a scalar or a list with 3 values otherwise raise ValueError"""
-    ret: list[T] = list(val) if isinstance(val, Sequence) else [val, val, val]
+    ret: list[T] = (
+        list(val)
+        if isinstance(val, list) or isinstance(val, set) or isinstance(val, tuple)
+        else [val, val, val]
+    )
     if not len(ret) == 3:
         raise ValueError("%s list should have 3 items" % name)
     return ret

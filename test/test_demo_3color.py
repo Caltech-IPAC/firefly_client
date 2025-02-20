@@ -1,19 +1,20 @@
 import time
-from test.container import FIREFLY_CONTAINER
 
 import pytest
-from pytest_container.container import ContainerData
 
 from firefly_client import FireflyClient
+from pytest_container.container import ContainerData
+from pytest_mock import MockerFixture
+from test.container import FIREFLY_CONTAINER
 
 
 @pytest.mark.parametrize("container", [FIREFLY_CONTAINER], indirect=["container"])
-def test_3color(container: ContainerData):
+def test_3color(container: ContainerData, mocker: MockerFixture):
     assert container.forwarded_ports[0].host_port >= 8000
     assert container.forwarded_ports[0].host_port <= 65534
     assert container.forwarded_ports[0].container_port == 8080
     assert container.forwarded_ports[0].bind_ip == "127.0.0.1"
-
+    mocker.patch("webbrowser.open")
     time.sleep(5)
 
     host = f"http://{container.forwarded_ports[0].bind_ip}:{container.forwarded_ports[0].host_port}/firefly"
@@ -59,28 +60,13 @@ def test_3color(container: ContainerData):
         ]
 
         fc.show_fits_3color(threeC, plot_id="wise_m101", viewer_id=viewer_id)
-
-    # In[3]:
-
     # Set stretch using hue-preserving algorithm with scaling coefficients .15 for RED, 1.0 for GREEN, and .4 for BLUE.
     fc.set_stretch_hprgb(
         plot_id="wise_m101", asinh_q_value=4.2, scaling_k=[0.15, 1, 0.4]
     )
-
-    # In[4]:
-
     # Set per-band stretch
     fc.set_stretch(plot_id="wise_m101", stype="ztype", algorithm="asinh", band="ALL")
-
-    # In[5]:
-
     # Set contrast and bias for each band
     fc.set_rgb_colors(plot_id="wise_m101", bias=[0.4, 0.6, 0.5], contrast=[1.5, 1, 2])
-
-    # In[6]:
-
     # Set to use red and blue band only, with default bias and contrast
     fc.set_rgb_colors(plot_id="wise_m101", use_green=False)
-
-
-# In[ ]:

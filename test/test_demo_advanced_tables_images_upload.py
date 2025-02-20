@@ -1,15 +1,16 @@
 import time
+
+import pytest
+
+from firefly_client import FireflyClient
+from pytest_container.container import ContainerData
+from pytest_mock import MockerFixture
 from test import firefly_slate_demo as fs
 from test.container import FIREFLY_CONTAINER
 
-import pytest
-from pytest_container.container import ContainerData
-
-from firefly_client import FireflyClient
-
 
 @pytest.mark.parametrize("container", [FIREFLY_CONTAINER], indirect=["container"])
-def test_adv_table_imgs_upload(container: ContainerData):
+def test_adv_table_imgs_upload(container: ContainerData, mocker: MockerFixture):
     assert container.forwarded_ports[0].host_port >= 8000
     assert container.forwarded_ports[0].host_port <= 65534
     assert container.forwarded_ports[0].container_port == 8080
@@ -19,7 +20,9 @@ def test_adv_table_imgs_upload(container: ContainerData):
 
     host = f"http://{container.forwarded_ports[0].bind_ip}:{container.forwarded_ports[0].host_port}/firefly"
 
+    mocker.patch("webbrowser.open")
     fc = FireflyClient.make_client(url=host, launch_browser=False)
+
     # ## Display tables, images, XY charts, and Histograms in Window/Grid like layout
     #
     # Each rendered unit on Firefly.
@@ -35,7 +38,7 @@ def test_adv_table_imgs_upload(container: ContainerData):
     fs.add_simple_image_table(fc)
     # add table in cell 'main'
     fs.add_simple_m31_image_table(fc)
-    f = "/Users/roby/fits/2mass-m31-2412rows.tbl"
+    f = "/Users/roby/fits/2mass-m31-2412rows.tbl"  # FIX: This needs to be either a URL download or a file included in the repo
     file = fc.upload_file(f)
     fc.show_table(file)
     fc.show_table("${cache-dir}/upload_2482826742890803252.fits")

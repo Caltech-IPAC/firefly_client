@@ -7,7 +7,6 @@ FIREFLY_CONTAINER = Container(
     url="docker.io/ipac/firefly:latest",
     extra_launch_args=["--memory=4g"],
     entry_point=EntrypointSelection.AUTO,
-    singleton=True,
     forwarded_ports=[
         PortForwarding(
             container_port=8080,

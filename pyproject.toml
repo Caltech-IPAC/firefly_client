@@ -237,6 +237,7 @@ test = [
     "pytest-container>=0.4.3",
     "pytest-cov>=6.0.0",
     "pytest-doctestplus>=1.4.0",
+    "pytest-mock>=3.14.0",
     "pytest-xdist>=3.6.1",
     "tox>=4.24.1",
 ]

@@ -533,7 +533,9 @@ class FireflyClient:
         else:
             print("Open your web browser to {}".format(url))
 
-    def launch_browser(self, channel=None, force=False, verbose=True):
+    def launch_browser(
+        self, channel=None, force=False, verbose=True
+    ) -> tuple[bool, str]:
         """
         Launch a browser with the Firefly Tools viewer and the channel set.
 
@@ -1008,14 +1010,14 @@ class FireflyClient:
                 Usage of the table search, such as *'catalog_overlay'*.
             **position** : `str`
                 Target position, such as *'10.68479;41.26906;EQ_J2000'*.
-            **SearchMethod** : {'Cone', 'Eliptical', 'Box', 'Polygon', 'Table', 'AllSky'}
+            **SearchMethod** : {'Cone', 'Elliptical', 'Box', 'Polygon', 'Table', 'AllSky'}
                 Target search method.
             **radius** : `float`
-                The radius for *'Cone'* or the semi-major axis for *'Eliptical'* search in terms of unit *arcsec*.
+                The radius for *'Cone'* or the semi-major axis for *'Elliptical'* search in terms of unit *arcsec*.
             **posang** : `float`
-                Position angle for *'Eliptical'* search in terms of unit *arcsec*.
+                Position angle for *'Elliptical'* search in terms of unit *arcsec*.
             **ratio** : `float`
-                Axial ratio for *'Eliptical'* search.
+                Axial ratio for *'Elliptical'* search.
             **size** : `float`
                 Side size for *'Box'* search in terms of unit *arcsec*.
             **polygon** : `str`

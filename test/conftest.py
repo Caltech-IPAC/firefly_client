@@ -1,5 +1,4 @@
-from pytest_container import (add_logging_level_options,
-                              set_logging_level_from_cli_args)
+from pytest_container import add_logging_level_options, set_logging_level_from_cli_args
 
 
 def pytest_addoption(parser):

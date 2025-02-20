@@ -1,19 +1,23 @@
 import time
-from test.container import FIREFLY_CONTAINER
 
 import pytest
-from pytest_container.container import ContainerData
 
 from firefly_client import FireflyClient
+from pytest_container.container import ContainerData
+
+from pytest_mock import MockerFixture
+from test.container import FIREFLY_CONTAINER
 
 
 @pytest.mark.parametrize("container", [FIREFLY_CONTAINER], indirect=["container"])
-def test_socket_not_added_until_listener(container: ContainerData):
+def test_socket_not_added_until_listener(
+    container: ContainerData, mocker: MockerFixture
+):
     assert container.forwarded_ports[0].host_port >= 8000
     assert container.forwarded_ports[0].host_port <= 65534
     assert container.forwarded_ports[0].container_port == 8080
     assert container.forwarded_ports[0].bind_ip == "127.0.0.1"
-
+    mocker.patch("webbrowser.open")
     time.sleep(5)
 
     host = f"http://{container.forwarded_ports[0].bind_ip}:{container.forwarded_ports[0].host_port}/firefly"
