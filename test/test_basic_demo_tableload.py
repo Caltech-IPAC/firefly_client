@@ -1,15 +1,16 @@
 import os
 import time
 from pathlib import Path
+from test.container import FIREFLY_CONTAINER
 from urllib import request
 
 import pytest
-from firefly_client import FireflyClient
 from pytest_container.container import ContainerData
-from test.container import FIREFLY_CONTAINER
+
+from firefly_client import FireflyClient
 
 
-@pytest.mark.parametrize("container", [FIREFLY_CONTAINER])
+@pytest.mark.parametrize("container", [FIREFLY_CONTAINER], indirect=["container"])
 def test_basic_tableload(container: ContainerData):
     assert container.forwarded_ports[0].host_port >= 8000
     assert container.forwarded_ports[0].host_port <= 65534

@@ -10,7 +10,7 @@ authors = [{ name = "IPAC LSST SUIT" }]
 readme = "README.md"
 license = { file = "License.txt" }
 requires-python = ">=3.10"
-dependencies = ["websocket-client", "requests", "astropy>=6.1.7"]
+dependencies = ["websocket-client", "requests", "astropy>=6"]
 keywords = [
     "jupyter",
     "firefly",
@@ -96,8 +96,8 @@ exclude_lines = [
 ]
 
 [tool.tox]
-env_list = ["3.10", "3.11", "3.12", "3.13", "build_docs"]
-requires = ["tox>=4.0", "tox-uv>=1.20", "pytest-container>=0.4.3"]
+env_list = ["3.10", "3.11", "3.12", "3.13", "3.14", "build_docs"]
+requires = ["tox>=4.0", "tox-uv>=1.20"]
 
 [tool.tox.env_run_base]
 runner = "uv-venv-lock-runner"

@@ -1,12 +1,13 @@
 import time
-
-import pytest
-from firefly_client import FireflyClient
-from pytest_container.container import ContainerData
 from test.container import FIREFLY_CONTAINER
 
+import pytest
+from pytest_container.container import ContainerData
 
-@pytest.mark.parametrize("container", [FIREFLY_CONTAINER])
+from firefly_client import FireflyClient
+
+
+@pytest.mark.parametrize("container", [FIREFLY_CONTAINER], indirect=["container"])
 def test_adv(container: ContainerData):
     assert container.forwarded_ports[0].host_port >= 8000
     assert container.forwarded_ports[0].host_port <= 65534

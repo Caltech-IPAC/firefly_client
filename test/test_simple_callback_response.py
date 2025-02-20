@@ -1,39 +1,24 @@
-import random
 import time
+from test.container import FIREFLY_CONTAINER
+
+import pytest
+from pytest_container.container import ContainerData
 
 from firefly_client import FireflyClient
-from pytest_container.container import Container, ContainerData, EntrypointSelection
-from pytest_container.inspect import NetworkProtocol, PortForwarding
 
 
-FIREFLY_CONTAINER = Container(
-    url="docker.io/ipac/firefly:latest",
-    extra_launch_args=["--memory=4g"],
-    entry_point=EntrypointSelection.AUTO,
-    forwarded_ports=[
-        PortForwarding(
-            container_port=8080,
-            protocol=NetworkProtocol.TCP,
-            host_port=random.randint(8000, 65534),
-            bind_ip="127.0.0.1",
-        )
-    ],
-)
-
-CONTAINER_IMAGES = [FIREFLY_CONTAINER]
-
-
-def test_simple_callback_response(auto_container: ContainerData):
-    assert auto_container.forwarded_ports[0].host_port >= 8000
-    assert auto_container.forwarded_ports[0].host_port <= 65534
-    assert auto_container.forwarded_ports[0].container_port == 8080
-    assert auto_container.forwarded_ports[0].bind_ip == "127.0.0.1"
+@pytest.mark.parametrize("container", [FIREFLY_CONTAINER], indirect=["container"])
+def test_simple_callback_response(container: ContainerData):
+    assert container.forwarded_ports[0].host_port >= 8000
+    assert container.forwarded_ports[0].host_port <= 65534
+    assert container.forwarded_ports[0].container_port == 8080
+    assert container.forwarded_ports[0].bind_ip == "127.0.0.1"
 
     time.sleep(5)
 
     FireflyClient._debug = False
     token = None
-    host = f"http://{auto_container.forwarded_ports[0].bind_ip}:{auto_container.forwarded_ports[0].host_port}/firefly"
+    host = f"http://{container.forwarded_ports[0].bind_ip}:{container.forwarded_ports[0].host_port}/firefly"
     # fc = FireflyClient.make_client(host, channel_override=channel1, launch_browser=True, token=token)
     fc = FireflyClient.make_client(host, launch_browser=False, token=token)
     print(fc.get_firefly_url())

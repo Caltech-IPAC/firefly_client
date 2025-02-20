@@ -642,7 +642,7 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "astropy", specifier = ">=6.1.7" },
+    { name = "astropy", specifier = ">=6" },
     { name = "myst-parser", marker = "extra == 'docs'" },
     { name = "pydata-sphinx-theme", marker = "extra == 'docs'" },
     { name = "pytest", marker = "extra == 'test'", specifier = ">=8.3.4" },
