@@ -6,16 +6,11 @@ build-backend = "setuptools.build_meta"
 name = "firefly_client"
 version = "3.3.0"
 description = "Python API for Firefly: display astronomical data as tables, images, charts, and more!"
-authors = [
-    {name = "IPAC LSST SUIT"}
-]
+authors = [{ name = "IPAC LSST SUIT" }]
 readme = "README.md"
-license = {file = "License.txt"}
+license = { file = "License.txt" }
 requires-python = ">=3.10"
-dependencies = [
-    "websocket-client",
-    "requests"
-]
+dependencies = ["websocket-client", "requests", "astropy>=6"]
 keywords = [
     "jupyter",
     "firefly",
@@ -25,7 +20,7 @@ keywords = [
     "visualization",
     "images",
     "charts",
-    "tables"
+    "tables",
 ]
 classifiers = [
     "Intended Audience :: Developers",
@@ -35,7 +30,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Astronomy",
     "Topic :: Scientific/Engineering :: Visualization",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3"
+    "Programming Language :: Python :: 3",
 ]
 
 [project.urls]
@@ -48,5 +43,5 @@ docs = [
     "Sphinx~=7.1.0",
     "sphinx-automodapi",
     "pydata-sphinx-theme",
-    "myst-parser"
+    "myst-parser",
 ]
