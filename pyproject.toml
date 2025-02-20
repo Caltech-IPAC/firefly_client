@@ -10,7 +10,7 @@ authors = [{ name = "IPAC LSST SUIT" }]
 readme = "README.md"
 license = { file = "License.txt" }
 requires-python = ">=3.10"
-dependencies = ["websocket-client", "requests", "astropy>=6"]
+dependencies = ["websocket-client", "requests"]
 keywords = [
     "jupyter",
     "firefly",
@@ -53,6 +53,7 @@ test = [
     "pytest-mock>=3.14.0",
     "pytest-xdist>=3.6.1",
 ]
+astropy = ["astropy>=6"]
 
 [tool.setuptools]
 packages = ["firefly_client"]
