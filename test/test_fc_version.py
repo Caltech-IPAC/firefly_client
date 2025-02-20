@@ -1,5 +1,4 @@
 import firefly_client
-from firefly_client import FireflyClient
 
 
 def test_version():

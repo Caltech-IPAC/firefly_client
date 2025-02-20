@@ -1,16 +1,18 @@
 import time
 
-from pytest_mock import MockerFixture
-from test.container import FIREFLY_CONTAINER
-
 import pytest
 from astropy.io import fits
+from pytest_mock import MockerFixture
 from astropy.table import Table
 from astropy.utils.data import download_file
 from pytest_container.container import ContainerData
 
-from firefly_client import FireflyClient
-from firefly_client import plot as ffplt
+from test.container import FIREFLY_CONTAINER
+
+from firefly_client import (
+    FireflyClient,
+    plot as ffplt,
+)
 
 
 @pytest.mark.parametrize("container", [FIREFLY_CONTAINER], indirect=["container"])

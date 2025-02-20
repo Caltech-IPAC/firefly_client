@@ -1,7 +1,8 @@
 import random
 
+from pytest_container.inspect import PortForwarding, NetworkProtocol
 from pytest_container.container import Container, EntrypointSelection
-from pytest_container.inspect import NetworkProtocol, PortForwarding
+
 
 FIREFLY_CONTAINER = Container(
     url="docker.io/ipac/firefly:latest",

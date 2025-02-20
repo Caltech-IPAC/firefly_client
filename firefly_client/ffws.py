@@ -1,9 +1,10 @@
-import _thread
 import json
 import time
+import _thread
 import traceback
 from copy import deepcopy
 from urllib.parse import urljoin
+
 
 try:
     from .env import Env
@@ -11,9 +12,9 @@ except ImportError:
     from env import Env
 
 try:
-    from .fc_utils import ALL, debug, DebugMarker, dict_to_str, warn
+    from .fc_utils import ALL, DebugMarker, warn, debug, dict_to_str
 except ImportError:
-    from fc_utils import ALL, debug, DebugMarker, dict_to_str, warn
+    from fc_utils import ALL, DebugMarker, warn, debug, dict_to_str
 
 
 MAX_CHANNELS = 3

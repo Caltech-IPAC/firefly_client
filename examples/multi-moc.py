@@ -1,5 +1,7 @@
 import astropy.utils.data
+
 from firefly_client import FireflyClient
+
 
 fc = FireflyClient.make_client(
     "http://127.0.0.1:8080/firefly", channel_override="moc-channel"

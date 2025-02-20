@@ -1,12 +1,12 @@
 import time
 
 import pytest
-
-from firefly_client import FireflyClient
+from pytest_mock import MockerFixture
 from pytest_container.container import ContainerData
 
-from pytest_mock import MockerFixture
 from test.container import FIREFLY_CONTAINER
+
+from firefly_client import FireflyClient
 
 
 @pytest.mark.parametrize("container", [FIREFLY_CONTAINER], indirect=["container"])

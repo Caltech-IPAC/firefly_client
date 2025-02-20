@@ -7,12 +7,13 @@ Firefly server URLs will be tried, starting with the value of the environment
 variable FIREFLY_URL.
 """
 
-import logging
 import os
+import logging
 import tempfile
 
 from .fc_utils import gen_item_id
 from .firefly_client import FireflyClient
+
 
 logger = logging.getLogger(__name__)
 

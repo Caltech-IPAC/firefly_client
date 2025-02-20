@@ -1,5 +1,5 @@
-import base64
 import json
+import base64
 import mimetypes
 import urllib.parse
 from typing import TypeVar

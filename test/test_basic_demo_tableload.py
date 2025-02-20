@@ -1,13 +1,15 @@
 import os
 import time
-from pathlib import Path
 from urllib import request
+from pathlib import Path
 
 import pytest
-from firefly_client import FireflyClient
-from pytest_container.container import ContainerData
 from pytest_mock import MockerFixture
+from pytest_container.container import ContainerData
+
 from test.container import FIREFLY_CONTAINER
+
+from firefly_client import FireflyClient
 
 
 @pytest.mark.parametrize("container", [FIREFLY_CONTAINER], indirect=["container"])

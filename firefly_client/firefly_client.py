@@ -7,8 +7,8 @@ by dispatching remote actions.
 
 import json
 import math
-import socket
 import time
+import socket
 import weakref
 import webbrowser
 from copy import copy
@@ -32,29 +32,29 @@ except ImportError:
     from range_values import RangeValues
 try:
     from .fc_utils import (
-        ACTION_DICT,
         ALL,
-        create_image_url,
-        debug,
-        DebugMarker,
-        dict_to_str,
-        ensure3,
-        gen_item_id,
+        ACTION_DICT,
         LO_VIEW_DICT,
+        DebugMarker,
         warn,
+        debug,
+        ensure3,
+        dict_to_str,
+        gen_item_id,
+        create_image_url,
     )
 except ImportError:
     from fc_utils import (
-        ACTION_DICT,
         ALL,
-        create_image_url,
-        debug,
-        DebugMarker,
-        dict_to_str,
-        ensure3,
-        gen_item_id,
+        ACTION_DICT,
         LO_VIEW_DICT,
+        DebugMarker,
         warn,
+        debug,
+        ensure3,
+        dict_to_str,
+        gen_item_id,
+        create_image_url,
     )
 
 __docformat__ = "restructuredtext"
@@ -521,7 +521,7 @@ class FireflyClient:
         except NameError:
             ipy_str = ""
         if "zmqshell" in ipy_str:
-            from IPython.display import display, HTML
+            from IPython.display import HTML, display
 
             display(
                 HTML(
