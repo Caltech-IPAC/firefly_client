@@ -10,7 +10,7 @@ authors = [{ name = "IPAC LSST SUIT" }]
 readme = "README.md"
 license = { file = "License.txt" }
 requires-python = ">=3.10"
-dependencies = ["websocket-client", "requests", "astropy>=6"]
+dependencies = ["websocket-client", "requests"]
 keywords = [
     "jupyter",
     "firefly",
@@ -55,6 +55,7 @@ test = [
     "tox>=4.0",
     "tox-uv>=1.20",
 ]
+astropy = ["astropy>=6"]
 
 [tool.setuptools]
 packages = ["firefly_client"]
@@ -136,7 +137,7 @@ runner = "uv-venv-lock-runner"
 description = "run tests with the oldest supported version of key dependencies on {base_python}"
 pass_env = ["TOXENV", "CI", "CC", "LOCALE_ARCHIVE", "LC_ALL"]
 set_env = { MPLBACKEND = "agg" }
-dependency_groups = ["test"]
+dependency_groups = ["test", "astropy"]
 uv_python_preference = "only-managed"
 allowlist_externals = ["python"]
 
@@ -144,7 +145,7 @@ allowlist_externals = ["python"]
 description = "Clean artifacts before testing"
 commands = [["coverage", "erase"]]
 runner = "uv-venv-lock-runner"
-dependency_groups = ["test"]
+dependency_groups = ["test", "astropy"]
 uv_python_preference = "only-managed"
 allowlist_externals = ["python"]
 
