@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-from argparse import ArgumentParser, HelpFormatter
-import csv
-from glob import glob
 import os
+import csv
 import tempfile
 import textwrap
+from glob import glob
+from argparse import HelpFormatter, ArgumentParser
 
 import firefly_client
 
