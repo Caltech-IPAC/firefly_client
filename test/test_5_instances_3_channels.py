@@ -1,10 +1,9 @@
 import time
+from test.container import FIREFLY_CONTAINER
 
 import pytest
-from pytest_mock import MockerFixture
 from pytest_container.container import ContainerData
-
-from test.container import FIREFLY_CONTAINER
+from pytest_mock import MockerFixture
 
 from firefly_client import FireflyClient
 
