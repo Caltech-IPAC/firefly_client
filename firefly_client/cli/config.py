@@ -3,7 +3,6 @@
 This module handles all configuration objects for the Firefly CLI.
 """
 
-
 ###############################################################################
 # The following code leaves the the convention of using NumpyDoc long         #
 # docstrings for the module and classes, and uses the NumpyDoc short          #
@@ -18,24 +17,24 @@ This module handles all configuration objects for the Firefly CLI.
 
 import base64
 import datetime
-from functools import cached_property
 import json
 import os
-from enum import StrEnum
-from pathlib import Path
 import socket
-from typing import Dict, Optional
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Dict, Optional
+
+from firefly_client.cli.utils import error
 
 from firefly_client.firefly_client import FireflyClient
 
 try:
     import rich_click as click
-    import tomlkit
     from appdirs import AppDirs
     from dotenv import load_dotenv
-    from mashumaro.mixins.toml import DataClassTOMLMixin
+    from git import exc, Repo
     from mashumaro.mixins.json import DataClassJSONMixin
+    from mashumaro.mixins.toml import DataClassTOMLMixin
 except ImportError:
     raise ImportError(
         "The Firefly CLI optional packages have not been installed."
@@ -127,9 +126,9 @@ class FireflyToken(DataClassJSONMixin):
 
     Attributes
     ----------
-        host: The hostname the token was generated on.
-        user: The username of the current user.
-        expiry: The expiration time for the token.
+    host: The hostname the token was generated on.
+    user: The username of the current user.
+    expiry: The expiration time for the token.
     """
 
     host: str
@@ -174,10 +173,10 @@ class FireflyCliState(DataClassTOMLMixin):
 
     Attributes
     ----------
-        last_server: The last server used.
-        last_url: The last URL used.
-        token: The last token used.
-        expires: The token expiration time.
+    last_server: The last server used.
+    last_url: The last URL used.
+    token: The last token used.
+    expires: The token expiration time.
     """
 
     last_server: str
@@ -197,12 +196,15 @@ class FireflyCliState(DataClassTOMLMixin):
         """
         load_dotenv()
         token = FireflyToken.default()
-        if config is not None:
+        if config is not None and last_server is not None:
+            last_url = config.servers[last_server]
+        elif config is not None:
             last_server = config.default_server
             last_url = str(config.servers[config.default_server])
         elif last_server is None or last_url is None:
-            raise AttributeError("Unable to load state. Unknown configuration.")
-        return FireflyCliState(
+            error("Unable to load the session state. Unknown configuration.")
+            raise click.Abort()
+        return cls(
             last_server=last_server,
             last_url=last_url,
             token=str(token),
@@ -238,9 +240,8 @@ class FireflyCliState(DataClassTOMLMixin):
             if config is None:
                 config = FireflyCliConfig.create_default(path)
             if config.servers[config.default_server] is None:
-                raise AttributeError(
-                    "The default server url is not defined in the config file."
-                )
+                error("The default server url is not defined in the config file.")
+                raise click.Abort()
             token = FireflyToken.default()
             state: FireflyCliState = cls(
                 last_server=config.default_server,
@@ -248,8 +249,70 @@ class FireflyCliState(DataClassTOMLMixin):
                 token=str(token),
                 expires=token.expiry,
             )
+            state.save(path)
 
         return state
+
+
+@dataclass
+class FireflyCliSession(DataClassTOMLMixin):
+    """
+    Firefly CLI session class.
+
+    This holds the state of the most recent CLI session.
+    """
+
+    uploaded_files: list[str]
+
+    @classmethod
+    def default(cls) -> "FireflyCliSession":
+        return cls(uploaded_files=[])
+
+    def save(self, path: Optional[Path]):
+        path = path if path is not None else self.dir
+        with open(path, "w") as f:
+            f.write(self.to_toml())
+
+    @classmethod
+    def load(cls, path: Optional[Path]) -> "FireflyCliSession":
+        """
+        Loads the session data.
+        """
+        if path is None:
+            try:
+                dir = Repo(
+                    os.getcwd(), search_parent_directories=True, expand_vars=True
+                ).git_dir
+                path = Path(dir)
+            except exc.InvalidGitRepositoryError:
+                path = Path.home()
+            path = path / ".firefly.toml"
+        if not path.exists():
+            session = cls.default()
+            session.dir = path
+            session.save(None)
+        else:
+            with open(path, "r") as f:
+                session_str = f.read()
+            session = cls.from_toml(session_str)
+            session.dir = path
+        return session
+
+    @property
+    def dir(self):
+        if self._dir is None:
+            try:
+                dir = Repo(
+                    os.getcwd(), search_parent_directories=True, expand_vars=True
+                ).git_dir
+                self._dir = Path(dir)
+            except exc.InvalidGitRepositoryError:
+                self._dir = Path.home()
+        return self._dir
+
+    @dir.setter
+    def dir(self, dir: Path):
+        self._dir = dir
 
 
 class FireflyCliContext:
@@ -262,11 +325,11 @@ class FireflyCliContext:
 
     Attributes
     ----------
-        config_file: The path specified by the environment variable FIREFLY_CLI_CONFIG_FILE, if present.
-        state_file: The path specified by the environment variable FIREFLY_CLI_STATE_FILE, if present.
-        files: The application directories.
-        config: The current configuration.
-        state: The current state, if any.
+    config_file: The path specified by the environment variable FIREFLY_CLI_CONFIG_FILE, if present.
+    state_file: The path specified by the environment variable FIREFLY_CLI_STATE_FILE, if present.
+    files: The application directories.
+    config: The current configuration.
+    state: The current state, if any.
     """
 
     files: AppDirs
@@ -286,27 +349,37 @@ class FireflyCliContext:
         self._state: FireflyCliState | None = state
         self._state_file: Path | None = None
         if channel is not None:
-            self._override = channel
-        else:
-            self._override = self.state.token
+            self._override = str(channel)
         self._html_file = html_file
         self._print_url = print_url
         self._fc = None
 
-    @cached_property
+    @property
     def fc(self) -> FireflyClient:
         if self._fc is None:
+            self._channel = (
+                self._override if self._override is not None else self.state.token
+            )
             self._fc = FireflyClient.make_client(
                 url=self.state.last_url,
-                token=self.state.token,
-                channel_override=self._override,
+                channel_override=self._channel,
                 html_file=self._html_file,
-                launch_browser=not self._print_url,
-                verbose=self._print_url,
+                launch_browser=False,
+                verbose=False,
             )
+            if self._print_url:
+                click.echo(
+                    f"{click.style('You can access your session with the Firefly server at', fg='white', bold=False)}: {click.style(self._fc.get_firefly_url(self._channel), fg='cyan', bold=True, underline=True)}"
+                )
+            else:
+                click.launch(self._fc.get_firefly_url(self._channel))
         return self._fc
 
-    @cached_property
+    @property
+    def channel(self) -> str:
+        return self._channel
+
+    @property
     def config(self) -> FireflyCliConfig:
         if self._config is None:
             if self.config_file.parent.exists(
@@ -321,7 +394,7 @@ class FireflyCliContext:
             self._config = config
         return self._config
 
-    @cached_property
+    @property
     def state(self) -> FireflyCliState:
         if self._state is None:
             if self.state_file.parent.exists(
@@ -336,15 +409,14 @@ class FireflyCliContext:
             self._state = state
         return self._state
 
-    @cached_property
+    @property
     def config_file(self) -> Path:
         if self._config_file is None:
             if os.environ.get("FIREFLY_CLI_CONFIG_FILE"):
                 config_file = Path(os.environ["FIREFLY_CLI_CONFIG_FILE"])
                 if config_file.suffix != ".toml":
-                    click.echo(
-                        f"{click.style('ERROR', fg='red', bold=True)}: Unable to parse the CLI configuration file."
-                        "Please specify a valid TOML file path in the 'FIREFLY_CLI_CONFIG_FILE' environment variable."
+                    error(
+                        "Unable to parse the CLI configuration file. Please specify a valid TOML file path in the 'FIREFLY_CLI_CONFIG_FILE' environment variable."
                     )
                     raise click.Abort()
                 self._config_file = config_file
@@ -353,15 +425,14 @@ class FireflyCliContext:
                 self._config_file = config_file
         return self._config_file
 
-    @cached_property
+    @property
     def state_file(self) -> Path:
         if self._state_file is None:
             if os.environ.get("FIREFLY_CLI_STATE_FILE"):
                 state_file = Path(os.environ["FIREFLY_CLI_STATE_FILE"])
                 if state_file.suffix != ".json":
-                    click.echo(
-                        f"{click.style('ERROR', fg='red', bold=True)}: Unable to parse the CLI state file."
-                        "Please specify a valid JSON file path in the 'FIREFLY_CLI_STATE_FILE' environment variable."
+                    error(
+                        "Unable to parse the CLI state file. Please specify a valid JSON file path in the 'FIREFLY_CLI_STATE_FILE' environment variable."
                     )
                     raise click.Abort()
                 self._state_file = state_file
@@ -382,4 +453,26 @@ class FireflyCliContext:
     def save(self):
         """Save the configuration and state files"""
         self.save_config()
+        self.save_state()
+
+    def connect(self, server: str):
+        """Connect to a server"""
+        if not server.startswith("http") and server not in self.config.servers:
+            error(f"Unknown server {server}")
+            raise click.Abort()
+        self._fc = None
+        if server.startswith("http"):
+            last_server = "temp-session"
+            last_url = server
+            for s, u in self.config.servers.items():
+                if server == u:
+                    last_server = s
+                    last_url = u
+            self._state = FireflyCliState.default(
+                self.config,
+                last_server,
+                last_url,
+            )
+        else:
+            self._state = FireflyCliState.default(self.config, server, None)
         self.save_state()
