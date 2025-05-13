@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 import uuid
 import base64
 import datetime
@@ -36,9 +37,10 @@ class Env:
     user = os.environ.get(ENV_USER, "")
 
     @classmethod
-    def validate_lab_client(cls, generate_lab_ext_channel):
+    def validate_lab_client(cls, generate_lab_ext_channel: bool) -> tuple[str, str]:
         """return the url and channel or raise an Error"""
         not cls.lab_ext_valid() and cls.raise_invalid_lab_error()
+        assert cls.firefly_url_lab is not None
         return cls.firefly_url_lab, cls.resolve_lab_channel(generate_lab_ext_channel)
 
     @classmethod
@@ -78,7 +80,7 @@ class Env:
         print("     Safari: shows an animation to follow on left side bar")
 
     @classmethod
-    def lab_ext_valid(cls):
+    def lab_ext_valid(cls) -> bool:
         return bool(
             cls.firefly_lab_extension
             and cls.firefly_channel_lab
@@ -86,7 +88,7 @@ class Env:
         )
 
     @classmethod
-    def resolve_client_channel(cls, in_channel):
+    def resolve_client_channel(cls, in_channel: Optional[str]) -> str:
         if in_channel is not None:
             return in_channel
         elif cls.firefly_channel_from_env:
@@ -98,18 +100,21 @@ class Env:
             )
 
     @classmethod
-    def resolve_lab_channel(cls, generate_lab_ext_channel):
+    def resolve_lab_channel(cls, generate_lab_ext_channel: bool) -> str:
         if cls.lab_ext_valid():
             if generate_lab_ext_channel:
+                assert cls.firefly_channel_lab is not None
                 return cls.firefly_channel_lab + "__lab-external__viewer"
             else:
+                assert cls.firefly_channel_lab is not None
                 return cls.firefly_channel_lab
         else:
             return str(uuid.uuid1())
 
     @classmethod
-    def find_default_firefly_url(cls):
+    def find_default_firefly_url(cls) -> str:
         if cls.firefly_lab_extension:
+            assert cls.firefly_url_lab is not None
             return cls.firefly_url_lab
         elif cls.firefly_url:
             return cls.firefly_url
@@ -117,11 +122,11 @@ class Env:
             return "http://localhost:8080/firefly"
 
     @classmethod
-    def find_default_firefly_html(cls):
+    def find_default_firefly_html(cls) -> str:
         return cls.firefly_html
 
     @classmethod
-    def failed_net_message(cls, location, status_code=-1):
+    def failed_net_message(cls, location: str, status_code: int = -1) -> str:
         s_str = "with status: %s" % status_code if (status_code > -1) else ""
         check = "You may want to check the URL with your web browser.\n"
         err_message = "Connection fail to URL %s %s\n%s" % (location, s_str, check)

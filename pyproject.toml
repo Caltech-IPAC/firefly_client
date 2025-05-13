@@ -57,13 +57,14 @@ test = [
 astropy = ["astropy>=6"]
 cli = [
     "appdirs>=1.4.4",
-    "pydanclick[griffe]>=0.5.0",
-    "pydantic>=2.10.6",
-    "pydantic-settings>=2.8.0",
+    "mashumaro[toml]>=3.15",
     "python-dotenv>=1.0.1",
     "rich-click>=1.8.6",
     "tomlkit>=0.13.2",
 ]
+
+[project.scripts]
+firefly = "firefly_client.cli.entrypoint:firefly"
 
 [tool.setuptools]
 packages = ["firefly_client"]
