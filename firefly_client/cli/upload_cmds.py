@@ -2,11 +2,12 @@ import os
 from glob import iglob
 from pathlib import Path
 from tempfile import TemporaryFile
-from typing import Optional
+from typing import Iterable, Optional
 
 from firefly_client.cli.entrypoint import firefly
 
 from firefly_client.cli.utils import context, filetable
+from firefly_client.firefly_client import FireflyClient
 
 try:
     import rich_click as click
@@ -84,48 +85,72 @@ def open(
     parsed and uploaded as is.
     """
     ctx = context(ctx)
-    files: set[Path] | list[Path] = set()
     if len(file) == 1 and file[0] == "-":
-        with click.open_file(file[0], mode="rb") as f:
-            d = os.dup(f.fileno())
-            os.lseek(d, 0, 0)
-            head = os.read(d, 6)
-            os.close(d)
-            if head == b"SIMPLE":
-                rmt = ctx.obj.fc.upload_data(f, "FITS")
-            else:
-                rmt = ctx.obj.fc.upload_data(f, "UNKNOWN")
+        rmt = open_file(str(file[0]), ctx.obj.fc)
     else:
-        for f in file:
-            if "*" in file:
-                for g in iglob(f, recursive=recursive):
-                    p = Path(g)
-                    if p.is_file():
-                        files.add(p)
-            elif Path(f).is_dir():
-                for g in iglob("**", root_dir=f, recursive=recursive):
-                    p = Path(g)
-                    if p.is_file():
-                        files.add(p)
-            elif Path(f).is_file():
-                p = Path(f)
-                files.add(p)
-            else:
-                click.echo(
-                    f"Unable to parse path '{file}'. Could not determine whether it is a file, dir, or glob pattern.",
-                    err=True,
-                    color=True,
-                )
-                raise click.Abort()
-        if len(files) != 1:
-            if sort:
-                files = sorted(files)
+        rmt = open_files(ctx.obj.fc, file, sort, recursive, local_path, remote_path)
+    ctx.obj.session.uploaded_files.append(rmt)
 
-            files_data = filetable(files, local_path, remote_path)
-            click.secho("Uploading files:", bold=True)
-            print(files_data)
-            with TemporaryFile(mode="w+t", suffix=".csv") as temp:
-                files_data.write_csv(temp)
-                rmt = ctx.obj.fc.upload_file(temp)
+
+def open_file(file: str, fc: FireflyClient) -> str:
+    with click.open_file(file, mode="rb") as f:
+        d = os.dup(f.fileno())
+        os.lseek(d, 0, 0)
+        head = os.read(d, 6)
+        os.close(d)
+        if head == b"SIMPLE":
+            rmt = fc.upload_data(f, "FITS")
         else:
-            rmt = ctx.obj.fc.upload_file(files.pop())
+            rmt = fc.upload_data(f, "UNKNOWN")
+    return rmt
+
+
+def open_files(
+    fc: FireflyClient,
+    files: Iterable[str],
+    sort: bool,
+    recursive: bool,
+    local_path: Optional[str],
+    remote_path: Optional[str],
+) -> str:
+    files_set: set[Path] | list[Path] = set()
+    for f in files:
+        files_set.update(parse_file(f, recursive))
+    if len(files_set) != 1:
+        if sort:
+            files_set = sorted(files_set)
+
+        files_data = filetable(files_set, local_path, remote_path)
+        click.secho("Uploading files:", bold=True)
+        print(files_data)
+        with TemporaryFile(mode="w+t", suffix=".csv") as temp:
+            files_data.write_csv(temp)
+            rmt = fc.upload_file(temp)
+    else:
+        rmt = fc.upload_file(files_set.pop())
+    return rmt
+
+
+def parse_file(f: str, recursive: bool) -> set[Path]:
+    files: set[Path] = set()
+    if "*" in f:
+        for g in iglob(f, recursive=recursive):
+            p = Path(g)
+            if p.is_file():
+                files.add(p)
+    elif Path(f).is_dir():
+        for g in iglob("**", root_dir=f, recursive=recursive):
+            p = Path(g)
+            if p.is_file():
+                files.add(p)
+    elif Path(f).is_file():
+        p = Path(f)
+        files.add(p)
+    else:
+        click.echo(
+            f"Unable to parse path '{f}'. Could not determine whether it is a file, dir, or glob pattern.",
+            err=True,
+            color=True,
+        )
+        raise click.Abort()
+    return files

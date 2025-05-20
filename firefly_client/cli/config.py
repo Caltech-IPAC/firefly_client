@@ -330,9 +330,12 @@ class FireflyCliContext:
     files: The application directories.
     config: The current configuration.
     state: The current state, if any.
+    session: The saved session, if any.
+    print_url: Whether the url should be printed to the terminal or automatically opened in the browser.
     """
 
     files: AppDirs
+    session: FireflyCliSession
 
     def __init__(
         self,
@@ -351,8 +354,9 @@ class FireflyCliContext:
         if channel is not None:
             self._override = str(channel)
         self._html_file = html_file
-        self._print_url = print_url
+        self.print_url = print_url
         self._fc = None
+        self.session = FireflyCliSession.load(None)
 
     @property
     def fc(self) -> FireflyClient:
@@ -367,13 +371,16 @@ class FireflyCliContext:
                 launch_browser=False,
                 verbose=False,
             )
-            if self._print_url:
-                click.echo(
-                    f"{click.style('You can access your session with the Firefly server at', fg='white', bold=False)}: {click.style(self._fc.get_firefly_url(self._channel), fg='cyan', bold=True, underline=True)}"
-                )
-            else:
-                click.launch(self._fc.get_firefly_url(self._channel))
+            self.open(self._fc.get_firefly_url(self._channel))
         return self._fc
+
+    def open(self, url: str):
+        if self.print_url:
+            click.echo(
+                f"{click.style('You can access your session with the Firefly server at', fg='white', bold=False)}: {click.style(url, fg='cyan', bold=True, underline=True)}"
+            )
+        else:
+            click.launch(url)
 
     @property
     def channel(self) -> str:
