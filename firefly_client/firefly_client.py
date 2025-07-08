@@ -241,6 +241,7 @@ class FireflyClient:
         token and ssl and self.session.headers.update(self.auth_headers)
         not ssl and token and warn('token ignored: should be None when url starts with http://')
         self.firefly_viewer = FireflyClient.get_viewer_mode(html_file,viewer_override)
+        FireflyClient.confirm_access(url, token)
         debug('new instance: %s' % url)
 
     def _lab_env_tab_start(self, tab_type, html_file):
@@ -273,6 +274,19 @@ class FireflyClient:
                 return UNKNOWN
         else:
             return FireflyClient.SLATE_VIEWER if html_file == 'slate.html' else FireflyClient.TRIVIEW_VIEWER
+        
+    @staticmethod
+    def confirm_access(url, token):
+        headers = {'Authorization': f'Bearer {token}'} if token else None
+        healthz_url = url + ('healthz' if url.endswith('/') else '/healthz')
+        response = requests.get(healthz_url, headers=headers, allow_redirects=False)
+        if response.status_code == 200:
+            return True
+        else:
+            raise ValueError(
+                f"Access to {url} failed with status code {response.status_code}.\n"
+                f"GET Headers: {response.headers}"
+            )
 
     def _send_url_as_get(self, url):
         return self.call_response(self.session.get(url, headers=self.header_from_ws))
