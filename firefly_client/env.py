@@ -93,12 +93,20 @@ class Env:
 
     @classmethod
     def failed_net_message(cls, location, status_code=-1):
-        s_str = 'with status: %s' % status_code if (status_code > -1) else ''
-        check = 'You may want to check the URL with your web browser.\n'
-        err_message = 'Connection fail to URL %s %s\n%s' % (location, s_str, check)
-        if cls.firefly_lab_extension and cls.firefly_url_lab:
-            err_message += ('\nCheck the Firefly URL in ~/.jupyter/jupyter_notebook_config.py' +
-                            ' or ~/.jupyter/jupyter_notebook_config.json')
-        elif cls.firefly_url:
-            err_message += 'Check setting of FIREFLY_URL environment variable: %s' % cls.firefly_url
+        status_str = f'with status: {status_code}' if status_code > -1 else ''
+        check_msg = 'You may want to check the URL with your web browser.\n'
+        err_message = f'Connection failed to URL {location} {status_str}\n{check_msg}'
+        
+        # url sources in order of precedence
+        url_sources = []
+        if cls.firefly_url: # any environment
+            url_sources.append(f'environment variable "{ENV_FF_URL}"')
+        if cls.firefly_lab_extension and cls.firefly_url_lab: # lab environment
+            url_sources += [
+                '~/.jupyter/jupyter_notebook_config.json',
+                '~/.jupyter/jupyter_notebook_config.py',
+            ]
+        err_message += (f'\nCheck if the Firefly URL is correct, which is '
+                        f'passed as a parameter, or is set via {" or ".join(url_sources)}.')
+
         return err_message
