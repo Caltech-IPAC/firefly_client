@@ -106,7 +106,7 @@ class Env:
                 '~/.jupyter/jupyter_notebook_config.json',
                 '~/.jupyter/jupyter_notebook_config.py',
             ]
+        url_sources_msg = f', or is set via {" or ".join(url_sources)}' if url_sources else ''
         err_message += (f'\nCheck if the Firefly URL is correct, which is '
-                        f'passed as a parameter, or is set via {" or ".join(url_sources)}.')
-
+                        f'passed as a parameter{url_sources_msg}.')
         return err_message
