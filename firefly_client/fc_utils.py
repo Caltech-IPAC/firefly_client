@@ -64,8 +64,8 @@ def ensure3(val, name):
     return ret
 
 
-# actions from Firefly
 ACTION_DICT = {
+    # actions from Firefly JS
     'ShowFits': 'ImagePlotCntlr.PlotImage',
     'AddExtension': 'ExternalAccessCntlr/extensionAdd',
     'FetchTable': 'table.fetch',
@@ -95,6 +95,8 @@ ACTION_DICT = {
     'ShowHiPS': 'ImagePlotCntlr.PlotHiPS',
     'ShowImageOrHiPS': 'ImagePlotCntlr.plotHiPSOrImage',
     'ImagelineBasedFootprint': 'DrawLayerCntlr.ImageLineBasedFP.imagelineBasedFPCreate',
+
+    # actions from jupyter_firefly_extensions
     'StartLabWindow': 'StartLabWindow',
     'StartBrowserTab': 'StartBrowserTab'
 }

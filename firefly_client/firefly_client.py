@@ -232,16 +232,34 @@ class FireflyClient:
         self.auth_headers = {'Authorization': 'Bearer {}'.format(token)} if token and ssl else None
         self.header_from_ws = {'FF-channel': channel}
         self.lab_env_tab_type = UNKNOWN
+
         # urls for cmd service and browser
         protocol = 'https' if ssl else 'http'
         self.url_cmd_service = urljoin('{}://{}/'.format(protocol, self.location), 'sticky/CmdSrv')
         self.url_browser = urljoin(urljoin('{}://{}/'.format(protocol, self.location), html_file), '?__wsch=')
         self.url_bw = self.url_browser  # keep around for backward compatibility
+
         self.session = requests.Session()
         token and ssl and self.session.headers.update(self.auth_headers)
         not ssl and token and warn('token ignored: should be None when url starts with http://')
         self.firefly_viewer = FireflyClient.get_viewer_mode(html_file,viewer_override)
-        debug('new instance: %s' % url)
+
+        access = FireflyClient.confirm_access(url, token)
+        if not access['success']:
+            debug(f'Failed to access url: {url}, with token: {token}\n'
+                  f'Response status: {access["response"].status_code} ({access["response"].reason})\n'
+                  f'Response headers: {dict_to_str(access["response"].headers)}\n'
+                  f'Response text: {access["response"].text}')
+            url_err_msg = Env.failed_net_message(url, access['response'].status_code)
+            token_err_msg = (
+                'Check if the passed `token` is valid and has the necessary '
+                'authorization to access the above URL.'
+                if token else
+                'If an authorization token is required to access the above URL, '
+                'the `token` parameter must be passed.'
+            )
+            raise ValueError(f'{url_err_msg}\n\n{token_err_msg}')
+        debug(f'new instance: {url}')
 
     def _lab_env_tab_start(self, tab_type, html_file):
         """start a tab in the lab environment, tab_type must be 'lab' or 'browser' """
@@ -273,6 +291,14 @@ class FireflyClient:
                 return UNKNOWN
         else:
             return FireflyClient.SLATE_VIEWER if html_file == 'slate.html' else FireflyClient.TRIVIEW_VIEWER
+        
+    @staticmethod
+    def confirm_access(url, token=None):
+        headers = {'Authorization': f'Bearer {token}'} if token else None
+        healthz_url = url + ('healthz' if url.endswith('/') else '/healthz')
+        # disable redirects that may happen in the absence of a token
+        response = requests.get(healthz_url, headers=headers, allow_redirects=False)
+        return {'success': response.status_code == 200, 'response': response}
 
     def _send_url_as_get(self, url):
         return self.call_response(self.session.get(url, headers=self.header_from_ws))
