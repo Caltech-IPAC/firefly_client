@@ -39,6 +39,7 @@ FireflyClient
       ~FireflyClient.apply_table_filters
       ~FireflyClient.call_response
       ~FireflyClient.change_triview_layout
+      ~FireflyClient.confirm_access
       ~FireflyClient.create_image_url
       ~FireflyClient.delete_region_layer
       ~FireflyClient.disconnect
@@ -115,6 +116,7 @@ FireflyClient
    .. automethod:: apply_table_filters
    .. automethod:: call_response
    .. automethod:: change_triview_layout
+   .. automethod:: confirm_access
    .. automethod:: create_image_url
    .. automethod:: delete_region_layer
    .. automethod:: disconnect
