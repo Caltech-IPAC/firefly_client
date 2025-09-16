@@ -730,9 +730,11 @@ class FireflyClient:
         """
         return self.dispatch(ACTION_DICT['ReinitViewer'], {})
 
-    def show_fits(self, file_on_server=None, plot_id=None, viewer_id=None, **additional_params):
+    def show_fits_image(self, file_on_server=None, plot_id=None, viewer_id=None, **additional_params):
         """
-        Show a FITS image.
+        Show a FITS image. If the FITS file has multiple extensions/HDUs (for 
+        images, tables, etc.), all the image extensions are displayed by default
+        within the image plot.
 
         Parameters
         ----------
@@ -785,9 +787,16 @@ class FireflyClient:
         file_on_server and payload['wpRequest'].update({'file': file_on_server})
         additional_params and payload['wpRequest'].update(additional_params)
 
-        r = self.dispatch(ACTION_DICT['ShowFits'], payload)
+        r = self.dispatch(ACTION_DICT['ShowImage'], payload)
         warning and r.update({'warning': warning})
         return r
+    
+    def show_fits(self, *args, **kwargs):
+        """
+        DEPRECATED: Use show_fits_image() instead.
+        """
+        warn("show_fits() is deprecated. Use show_fits_image() instead.")
+        return self.show_fits_image(*args, **kwargs)
 
     def show_fits_3color(self, three_color_params, plot_id=None, viewer_id=None):
         """
@@ -827,7 +836,7 @@ class FireflyClient:
             viewer_id = FireflyClient.PINNED_IMAGE_VIEWER_ID
         payload.update({'viewerId': viewer_id})
 
-        r = self.dispatch(ACTION_DICT['ShowFits'], payload)
+        r = self.dispatch(ACTION_DICT['ShowImage'], payload)
         warning and r.update({'warning': warning})
         return r
 

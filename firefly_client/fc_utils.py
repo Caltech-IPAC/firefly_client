@@ -66,7 +66,7 @@ def ensure3(val, name):
 
 ACTION_DICT = {
     # actions from Firefly JS
-    'ShowFits': 'ImagePlotCntlr.PlotImage',
+    'ShowImage': 'ImagePlotCntlr.PlotImage',
     'AddExtension': 'ExternalAccessCntlr/extensionAdd',
     'FetchTable': 'table.fetch',
     'ShowTable': 'table.search',
