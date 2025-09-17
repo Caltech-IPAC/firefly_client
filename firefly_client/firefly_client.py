@@ -4,6 +4,8 @@ Module of firefly_client.py
 This module defines class 'FireflyClient' and methods to remotely communicate to Firefly viewer
 by dispatching remote actions.
 """
+import io
+import re
 import requests
 import webbrowser
 import json
@@ -12,6 +14,7 @@ import socket
 from urllib.parse import urljoin
 import math
 import weakref
+import os
 from copy import copy
 
 
@@ -729,6 +732,55 @@ class FireflyClient:
             Status of the request, like {'success': True}.
         """
         return self.dispatch(ACTION_DICT['ReinitViewer'], {})
+    
+    def get_file_payload(self, file_input):
+        # TODO: debug displayName not appearing in some cases
+        if isinstance(file_input, str):
+            if file_input.startswith('$'):
+                return {'fileOnServer': file_input}
+            elif os.path.isfile(file_input):
+                return {'fileOnServer': self.upload_file(file_input),
+                        'displayName': os.path.basename(file_input)}
+            elif re.match(r'^https?://', file_input):
+                return {'url': file_input,
+                        'displayName': os.path.basename(file_input)}
+        elif isinstance(file_input, io.IOBase) and hasattr(file_input, 'seek'): # file-like object
+            return {'fileOnServer': self.upload_data(file_input, 'UNKNOWN')}
+        raise ValueError('file_input must be a valid file path string or a file-like object')
+
+    def show_data(self, file_input, preview_metadata=False,
+                  **data_view_options):
+        """
+        Show any data file of the type that Firefly supports:
+        - Custom catalog or table in IPAC, CSV, TSV, VOTABLE, Parquet, or FITS table format
+        - A ds9 region file
+        - Images in FITS format, including multi-extension FITS files with images, tables, or a mixture of both
+        - A Multi-Order Coverage Map (MOC) in FITS format
+        - A Data Link Table file
+        - A UWS job file
+        
+        Parameters
+        ----------
+        file_input : `str` or `file-like object`
+            If `str`, it can be a local file path, a URL to a remote file, or
+            name of a file on the server (return value of `upload_file()`).
+            Else it can be a file stream object (file-like object) opened in Python.
+        preview_metadata : `bool`, optional
+            If True, preview the metadata of the file before loading the data.
+            This allows you to select FITS extensions, table columns, etc. and 
+            then you can click "Load" button in the UI to load your selections.
+            Default is False.
+        **data_view_options : optional keyword arguments
+            Additional options for the view of this data file in the UI, such as:
+            **displayName** : `str`, optional
+                A name to display in the UI for the data file loaded.
+        """
+        payload = {
+            **self.get_file_payload(file_input),
+            'immediate': not preview_metadata,
+            **data_view_options # TODO: pass data_view_id -> didn't work
+            }
+        return self.dispatch(ACTION_DICT['ShowAnyData'], payload)
 
     def show_fits_image(self, file_on_server=None, plot_id=None, viewer_id=None, **additional_params):
         """

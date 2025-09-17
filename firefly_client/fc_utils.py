@@ -95,6 +95,7 @@ ACTION_DICT = {
     'ShowHiPS': 'ImagePlotCntlr.PlotHiPS',
     'ShowImageOrHiPS': 'ImagePlotCntlr.plotHiPSOrImage',
     'ImagelineBasedFootprint': 'DrawLayerCntlr.ImageLineBasedFP.imagelineBasedFPCreate',
+    'ShowAnyData': 'app_data.externalUpload',
 
     # actions from jupyter_firefly_extensions
     'StartLabWindow': 'StartLabWindow',
