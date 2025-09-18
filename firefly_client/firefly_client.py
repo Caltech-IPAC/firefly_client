@@ -859,7 +859,7 @@ class FireflyClient:
         three_color_params : `list` of `dict` or `dict`
             A list or objects contains image viewer plotting parameters for either all bands or one single band.
             For valid image viewer plotting parameter, please see the details in `FITS plotting parameters`_ or
-            the description of **additional_params** in function `show_fits`.
+            the description of **additional_params** in function `show_fits_image`.
 
         plot_id : `str`, optional
             The ID you assign to the image plot. This is necessary to further control the plot.
@@ -1440,7 +1440,7 @@ class FireflyClient:
             used for display, the viewer id is the cell id of the cell which contains the image plot.
         image_request : `dict`, optional
             Request with fits plotting parameters. For valid fits viewer plotting parameter, please see the
-            the description of `show_fits` or `show_fits_3color`.
+            the description of `show_fits_image` or `show_fits_3color`.
         hips_request : `dict`, optional
             Request with hips plotting parameters. For valid HiPS viewer plotting parameter, please see the
             description of `show_hips`.
@@ -1780,7 +1780,7 @@ class FireflyClient:
         Returns
         -------
         rvstring : `str`
-            RangeValues string that can be passed to the show_fits methods
+            RangeValues string that can be passed to the show_fits_* methods
         """
         return RangeValues.rvstring_from_dict(rvdict)
 
