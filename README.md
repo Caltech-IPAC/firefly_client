@@ -1,26 +1,12 @@
 # firefly_client
 
-Python API for Firefly, IPAC's Advanced Astronomy Web UI Framework
+Python API for [Firefly](http://github.com/Caltech-IPAC/firefly), IPAC's Advanced Astronomy Web UI Framework. This allows users to leverage Firefly in their Python notebooks for interactive exploration of astronomical data (images, catalogs, charts, regions, and more) with just a couple of lines of code.
 
-## Usage
 
-The client must be connected to a Firefly server. The Firefly
-repository is located at http://github.com/Caltech-IPAC/firefly.
-Standalone Firefly servers may be obtained from
-[this Dockerhub repository](https://hub.docker.com/r/ipac/firefly/).
+## Documentation
 
-For detailed explanation on the usage, see [the online documentation](https://caltech-ipac.github.io/firefly_client). Following is a very simple example:
+You can find the documentation at https://caltech-ipac.github.io/firefly_client.
 
-```
-from firefly_client import FireflyClient
-fc = FireflyClient.make_client()  # can also explictly pass url of a firefly server; default is http://localhost:8080/firefly
-```
+NOTE: Many parts of this documentation are a work in progress because the firefly_client API and its use cases evolved since it was written.
+Please report any issues or suggestions on the [GitHub issues](https://github.com/Caltech-IPAC/firefly_client/issues).
 
-A FITS image may be uploaded and displayed:
-
-```
-fval = fc.upload_file('image.fits')
-fc.show_fits(fval, 'myimage')
-```
-
-For more examples, check notebooks & python files in the [examples](examples/) and [test](test/) directories.
