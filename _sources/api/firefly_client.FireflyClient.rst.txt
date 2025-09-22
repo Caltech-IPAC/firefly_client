@@ -48,6 +48,8 @@ FireflyClient
       ~FireflyClient.fetch_table
       ~FireflyClient.get_firefly_url
       ~FireflyClient.get_instances
+      ~FireflyClient.get_payload_from_file
+      ~FireflyClient.get_title_from_file
       ~FireflyClient.get_viewer_mode
       ~FireflyClient.is_slate
       ~FireflyClient.is_triview
@@ -70,8 +72,10 @@ FireflyClient
       ~FireflyClient.set_zoom
       ~FireflyClient.show_chart
       ~FireflyClient.show_coverage
+      ~FireflyClient.show_data
       ~FireflyClient.show_fits
       ~FireflyClient.show_fits_3color
+      ~FireflyClient.show_fits_image
       ~FireflyClient.show_hips
       ~FireflyClient.show_histogram
       ~FireflyClient.show_image_metadata
@@ -125,6 +129,8 @@ FireflyClient
    .. automethod:: fetch_table
    .. automethod:: get_firefly_url
    .. automethod:: get_instances
+   .. automethod:: get_payload_from_file
+   .. automethod:: get_title_from_file
    .. automethod:: get_viewer_mode
    .. automethod:: is_slate
    .. automethod:: is_triview
@@ -147,8 +153,10 @@ FireflyClient
    .. automethod:: set_zoom
    .. automethod:: show_chart
    .. automethod:: show_coverage
+   .. automethod:: show_data
    .. automethod:: show_fits
    .. automethod:: show_fits_3color
+   .. automethod:: show_fits_image
    .. automethod:: show_hips
    .. automethod:: show_histogram
    .. automethod:: show_image_metadata

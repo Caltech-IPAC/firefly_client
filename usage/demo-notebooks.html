@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Visualizing Regions &#8212; firefly_client  documentation</title>
+    <title>Demo Notebooks &#8212; firefly_client  documentation</title>
   
   
   
@@ -42,12 +42,12 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'usage/overlaying-regions';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'usage/demo-notebooks';</script>
     <script src="../_static/custom-icon.js?v=a18babe4"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Visualizing Tables and Catalogs" href="viewing-tables.html" />
-    <link rel="prev" title="Displaying Images" href="displaying-images.html" />
+    <link rel="next" title="Developer Guide" href="../development/index.html" />
+    <link rel="prev" title="Advanced: Callbacks and Extensions" href="callbacks-extensions.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -327,11 +327,11 @@
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="initializing-vanilla.html">Initializing a FireflyClient instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="displaying-images.html">Displaying Images</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Visualizing Regions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overlaying-regions.html">Visualizing Regions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewing-tables.html">Visualizing Tables and Catalogs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="charting.html">Making Plots and Histograms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="callbacks-extensions.html">Advanced: Callbacks and Extensions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="demo-notebooks.html">Demo Notebooks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Demo Notebooks</a></li>
 </ul>
 </div>
 </nav></div>
@@ -375,7 +375,7 @@
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Using firefly_client</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Visualizing Regions</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Demo Notebooks</span></li>
   </ul>
 </nav>
 </div>
@@ -392,38 +392,33 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="visualizing-regions">
-<h1>Visualizing Regions<a class="headerlink" href="#visualizing-regions" title="Permalink to this heading">#</a></h1>
-<p>The API includes detailed support for ds9-style regions. A list of strings
-containing region commands can be added to an overlay layer on an image.</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">region_data</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;J2000&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;text 10.6845417 41.2689167{M31 Nucleus} #color=red&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;point 10.7035000 41.2535833 # point=circle 20&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;image;line(249.5 164.1 283.8 206.6) # color=blue width=5&#39;</span><span class="p">]</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">add_region_data</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">region_data</span><span class="p">,</span> <span class="n">region_layer_id</span><span class="o">=</span><span class="s1">&#39;layer1&#39;</span><span class="p">,</span>
-                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;my_marks&#39;</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;m31-green&#39;</span><span class="p">)</span>
-</pre></div>
+  <section id="demo-notebooks">
+<h1>Demo Notebooks<a class="headerlink" href="#demo-notebooks" title="Permalink to this heading">#</a></h1>
+<section id="reference-guide">
+<h2>Reference Guide<a class="headerlink" href="#reference-guide" title="Permalink to this heading">#</a></h2>
+<p>For a high-level overview of the Firefly Python client API and important methods, refer to this <a class="reference external" href="https://nbviewer.org/github/Caltech-IPAC/firefly_client/tree/master/examples/reference-guide.ipynb">reference guide notebook</a>.</p>
+</section>
+<section id="science-use-cases">
+<h2>Science Use-cases<a class="headerlink" href="#science-use-cases" title="Permalink to this heading">#</a></h2>
+<p>IRSA Tutorials is collection of multiple notebooks that demonstrate the use of IRSA data services and tools for science use-cases.
+The following tutorial notebooks demonstrates the use of Firefly Python client:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://caltech-ipac.github.io/irsa-tutorials/tutorials/firefly/SEDs_in_Firefly.html">Using Firefly visualization tools in Python to vet SEDs</a></p></li>
+<li><p><a class="reference external" href="https://caltech-ipac.github.io/irsa-tutorials/tutorials/firefly/NEOWISE_light_curve_demo.html">Using Firefly visualization tools to understand the light curves of Solar System objects</a></p></li>
+<li><p><a class="reference external" href="https://caltech-ipac.github.io/irsa-tutorials/tutorials/firefly/OpenUniverse2024Preview_Firefly.html">Using Firefly to Explore OpenUniverse2024 Data Preview Simulated Roman and Rubin Images</a></p></li>
+<li><p><a class="reference external" href="https://caltech-ipac.github.io/irsa-tutorials/tutorials/euclid_access/4_Euclid_intro_PHZ_catalog.html#vizualize-the-image-with-firefly">Euclid Q1: PHZ catalogs — Visualize with Firefly section</a></p></li>
+</ul>
+</section>
+<section id="other-examples">
+<h2>Other Examples<a class="headerlink" href="#other-examples" title="Permalink to this heading">#</a></h2>
+<p>For a full list of notebooks/scripts that demonstrate the use of
+Firefly Python client, refer to <a href="https://nbviewer.org/github/Caltech-IPAC/firefly_client/tree/master/examples/"
+target="_blank">this examples directory</a> (rendered in nbviewer).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Several of the notebooks in the examples directory use deprecated API (or discouraged API that is about to be deprecated) and will be updated soon.</p>
 </div>
-<p>An individual region command can be removed using
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">FireflyClient.remove_region_data()</span></code>. To remove the blue line:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">remove_region_data</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">region_data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                      <span class="n">region_layer_id</span><span class="o">=</span><span class="s1">&#39;layer1&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>An entire region layer can be deleted with <code class="xref py py-meth docutils literal notranslate"><span class="pre">FireflyClient.delete_region_layer()</span></code>:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">delete_region_layer</span><span class="p">(</span><span class="n">region_layer_id</span><span class="o">=</span><span class="s1">&#39;layer1&#39;</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;m31-green&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>A region layer can be uploaded from a file and overlaid on an image by
-using <code class="xref py py-meth docutils literal notranslate"><span class="pre">FireflyClient.upload_file()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">FireflyClient.overlay_region_layer()</span></code>:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;myreg.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
-    <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">region_data</span><span class="p">))</span>
-<span class="n">rval</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="s1">&#39;myreg.txt&#39;</span><span class="p">)</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">overlay_region_layer</span><span class="p">(</span><span class="n">file_on_server</span><span class="o">=</span><span class="n">rval</span><span class="p">,</span>
-                        <span class="n">region_layer_id</span><span class="o">=</span><span class="s1">&#39;layer2&#39;</span><span class="p">,</span>
-                        <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;m31-green&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
+</section>
 </section>
 
 
@@ -437,20 +432,20 @@ using <code class="xref py py-meth docutils literal notranslate"><span class="pr
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="displaying-images.html"
+       href="callbacks-extensions.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Displaying Images</p>
+        <p class="prev-next-title">Advanced: Callbacks and Extensions</p>
       </div>
     </a>
     <a class="right-next"
-       href="viewing-tables.html"
+       href="../development/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Visualizing Tables and Catalogs</p>
+        <p class="prev-next-title">Developer Guide</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -466,10 +461,24 @@ using <code class="xref py py-meth docutils literal notranslate"><span class="pr
 
 
   <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-guide">Reference Guide</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#science-use-cases">Science Use-cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-examples">Other Examples</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/usage/overlaying-regions.rst.txt"
+      <li><a href="../_sources/usage/demo-notebooks.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>
