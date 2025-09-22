@@ -658,6 +658,7 @@ class FireflyClient:
         out : `dict` 
             A dict that can be used as part of payload. The returned dict will 
             have one of the following keys:
+            
             - 'fileOnServer': `str` (server file reference for the uploaded file/stream)
             - 'url': `str` (for a remote file)
         """
@@ -779,6 +780,7 @@ class FireflyClient:
     def show_data(self, file_input, preview_metadata=False, title=None):
         """
         Show any data file of the type that Firefly supports:
+
         - Custom catalog or table in IPAC, CSV, TSV, VOTABLE, Parquet, or FITS table format
         - A ds9 region file
         - Images in FITS format, including multi-extension FITS files with images, tables, or a mixture of both
@@ -831,13 +833,18 @@ class FireflyClient:
             If you use `upload_file()`, then it is the return value of the method. Otherwise it is a file that
             Firefly has direct access to.
 
-            .. note:: Ignored if `file_input` is provided, which can automatically
-                      upload a local file and use its name on the server.
+            .. deprecated:: 3.4.0
+                Use `file_input` instead, which can automatically
+                upload a local file and use its name on the server.
+                If this parameter is passed, it will be ignored if
+                `file_input` is also passed.
         url : `str`, optional
             URL of the FITS image file, if it's not a local file you can upload.
 
-            .. note:: Ignored if `file_input` is provided, which can automatically
-                      infer if a URL is passed to it.
+            .. deprecated:: 3.4.0 
+                Use `file_input` instead, which can automatically
+                infer if a URL is passed to it. If this parameter is passed,
+                it will be ignored if `file_input` is also passed.
         plot_id : `str`, optional
             The ID you assign to the image plot. This is necessary to further control the plot.
         viewer_id : `str`, optional
@@ -870,9 +877,9 @@ class FireflyClient:
         out : `dict`
             Status of the request, like {'success': True}.
 
-        .. note:: `file_input`, `url`, `file_on_server`, and service specific `additional_params` are exclusively required.
-            If more than one of these 4 parameters are passed, precedence order is:
-            service specific `additional_params` > (`file_input` > `file_on_server` > `url`).
+        .. note:: `file_input` (previously `url` and `file_on_server`), and service specific `additional_params` are exclusively required.
+            If more than one of these parameters are passed, precedence order is:
+            service specific `additional_params` > `file_input` (> `file_on_server` > `url`).
         """
         # WebPlotRequest parameters
         wp_request = {'plotGroupId': 'groupFromPython',
@@ -882,15 +889,19 @@ class FireflyClient:
 
         warning = None
         if not viewer_id or self.is_triview():
-            warning = 'viewer_id unnecessary and ignored in triview mode' if self.is_triview() and viewer_id else None
+            warning = 'viewer_id is unnecessary and ignored in triview mode' if self.is_triview() and viewer_id else None
             viewer_id = FireflyClient.PINNED_IMAGE_VIEWER_ID
 
         payload.update({'viewerId': viewer_id})
         plot_id and payload['wpRequest'].update({'plotId': plot_id})
 
         # Handle different params of file input
-        file_on_server and payload['wpRequest'].update({'file': file_on_server})
-        url and payload['wpRequest'].update({'url': url})
+        if file_on_server:
+            warn('file_on_server is deprecated, use file_input parameter instead')
+            payload['wpRequest'].update({'file': file_on_server})
+        if url:
+            warn('url is deprecated, use file_input parameter instead')
+            payload['wpRequest'].update({'url': url})
         if file_input:
             file_payload = self.get_payload_from_file(file_input)
             if 'fileOnServer' in file_payload:
@@ -908,7 +919,8 @@ class FireflyClient:
     
     def show_fits(self, *args, **kwargs):
         """
-        DEPRECATED: Use show_fits_image() instead.
+        .. deprecated:: 3.4.0
+            Use show_fits_image() instead.
         """
         warn("show_fits() is deprecated. Use show_fits_image() instead.")
         return self.show_fits_image(*args, **kwargs)
@@ -973,13 +985,18 @@ class FireflyClient:
             If you use `upload_file()`, then it is the return value of the method. Otherwise it is a file that
             Firefly has direct access to.
 
-            .. note:: Ignored if `file_input` is provided, which can automatically
-                      upload a local file and use its name on the server.
+            .. deprecated:: 3.4.0
+                Use `file_input` instead, which can automatically
+                upload a local file and use its name on the server.
+                If this parameter is passed, it will be ignored if
+                `file_input` is also passed.
         url : `str`, optional
             URL of the table file, if it's not a local file you can upload.
 
-            .. note:: Ignored if `file_input` is provided, which can automatically
-                      infer if a URL is passed to it.
+            .. deprecated:: 3.4.0 
+                Use `file_input` instead, which can automatically
+                infer if a URL is passed to it. If this parameter is passed,
+                it will be ignored if `file_input` is also passed.
         tbl_id : `str`, optional
             A table ID. It will be created automatically if not specified.
         title : `str`, optional
@@ -1026,7 +1043,7 @@ class FireflyClient:
             - **showFilters** : `bool`
                 if table shows filter button
         table_index : `int`, optional
-            The table to be shown in case `file_on_server` contains multiple tables. It is the extension number for
+            The table to be shown in case file input contains multiple tables. It is the extension number for
             a FITS file or the table index for a VOTable file. In unspecified, the server will fetch extension 1 from
             a FITS file or the table at index 0 from a VOTable file.
         column_spec : `str`, optional
@@ -1045,9 +1062,9 @@ class FireflyClient:
         out : `dict`
             Status of the request, like {'success': True}.
 
-        .. note:: `file_input`, `url`, `file_on_server`, and `target_search_info` are exclusively required.
-            If more than one of these 4 parameters are passed, precedence order is:
-            (`file_input` > `file_on_server` > `url`) > `target_search_info`
+        .. note:: `file_input` (previously `url` and `file_on_server`) and `target_search_info` are exclusively required.
+            If more than one of these parameters are passed, precedence order is:
+            `file_input` (> `file_on_server` > `url`) > `target_search_info`
         """
         has_file_input = bool(file_on_server) or bool(url) or bool(file_input)
 
@@ -1073,8 +1090,10 @@ class FireflyClient:
                 file_payload = self.get_payload_from_file(file_input)
                 source = file_payload.get('fileOnServer') or file_payload.get('url')
             elif file_on_server:
+                warn('file_on_server is deprecated, use file_input parameter instead')
                 source = file_on_server
             elif url:
+                warn('url is deprecated, use file_input parameter instead')
                 source = url
 
             tbl_req.update({'source': source, 'tblType': tbl_type,
