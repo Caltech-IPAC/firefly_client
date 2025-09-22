@@ -4,6 +4,8 @@ Module of firefly_client.py
 This module defines class 'FireflyClient' and methods to remotely communicate to Firefly viewer
 by dispatching remote actions.
 """
+import io
+import re
 import requests
 import webbrowser
 import json
@@ -12,6 +14,7 @@ import socket
 from urllib.parse import urljoin
 import math
 import weakref
+import os
 from copy import copy
 
 
@@ -540,8 +543,8 @@ class FireflyClient:
 
         Returns
         -------
-        out : `dict`
-            Status, like {'success': True}.
+        out: `str`
+            Path of file after the upload.
         """
         return self.upload_data(stream, 'FITS')
 
@@ -558,8 +561,8 @@ class FireflyClient:
 
         Returns
         -------
-        out : `dict`
-            Status, like {'success': True}.
+        out: `str`
+            Path of file after the upload.
         """
         return self.upload_data(stream, 'UNKNOWN')
 
@@ -577,8 +580,8 @@ class FireflyClient:
 
         Returns
         -------
-        out : `dict`
-            Status, like {'success': True}.
+        out: `str`
+            Path of file after the upload.
         """
 
         url = self.url_cmd_service + '?cmd=upload&preload='
@@ -637,6 +640,50 @@ class FireflyClient:
         debug('dispatch: type: %s, channel: %s \n%s' % (action_type, channel, dict_to_str(action)))
 
         return self._send_url_as_post(data)
+    
+    def get_payload_from_file(self, file_input):
+        """Get payload for actions dispatched to Firefly server from the file input.
+
+        It does all guesswork to determine file type and uploads it to the server if needed.
+
+        Parameters
+        ----------
+        file_input : `str` or `file-like object`
+            The input file to show. It can be a local file path, a URL to a
+            remote file, name of a file on the server (return value of
+            `upload_file()`), or a file-like object (such as an open IO stream).
+        
+        Returns
+        -------
+        out : `dict` 
+            A dict that can be used as part of payload. The returned dict will 
+            have one of the following keys:
+            
+            - 'fileOnServer': `str` (server file reference for the uploaded file/stream)
+            - 'url': `str` (for a remote file)
+        """
+        if isinstance(file_input, str):
+            if file_input.startswith('${'): # already a server file reference
+                return {'fileOnServer': file_input}
+            elif os.path.isfile(file_input): # local file path
+                return {'fileOnServer': self.upload_file(file_input)}
+            elif re.match(r'^https?://', file_input): # remote file url
+                return {'url': file_input}
+        elif isinstance(file_input, io.IOBase) and hasattr(file_input, 'seek'): # file-like object
+            return {'fileOnServer': self.upload_data(file_input, 'UNKNOWN')}
+        # invalid input
+        raise ValueError('file_input must be a valid file path string or a file-like object')
+    
+    def get_title_from_file(self, file_input):
+        """Get a title from a file input if possible."""
+        if isinstance(file_input, str):
+            if os.path.isfile(file_input):
+                return os.path.basename(file_input)
+            elif re.match(r'^https?://', file_input):
+                url_basename = os.path.basename(file_input.split('?', 1)[0]) # remove query parameters
+                _, ext = os.path.splitext(url_basename)
+                return url_basename if ext else None
+        return None
 
     # -------------------------
     # dispatch actions
@@ -730,46 +777,111 @@ class FireflyClient:
         """
         return self.dispatch(ACTION_DICT['ReinitViewer'], {})
 
-    def show_fits(self, file_on_server=None, plot_id=None, viewer_id=None, **additional_params):
+    def show_data(self, file_input, preview_metadata=False, title=None):
         """
-        Show a FITS image.
+        Show any data file of the type that Firefly supports:
+
+        - Custom catalog or table in IPAC, CSV, TSV, VOTABLE, Parquet, or FITS table format
+        - A ds9 region file
+        - Images in FITS format, including multi-extension FITS files with images, tables, or a mixture of both
+        - A Multi-Order Coverage Map (MOC) in FITS format
+        - A Data Link Table file
+        - A UWS job file
+        
+        Parameters
+        ----------
+        file_input : `str` or `file-like object`
+            The input file to show. It can be a local file path, a URL to a
+            remote file, name of a file on the server (return value of
+            `upload_file()`), or a file-like object (such as an open IO stream).
+        preview_metadata : `bool`, optional
+            If True, preview the metadata of the file before loading the data.
+            This allows you to select FITS extensions, table columns, etc. and 
+            then you can click "Load" button in the UI to load your selections.
+            Default is False.
+        title : `str`, optional
+            Title to display with the data view in the UI. If not provided,
+            will be derived from the file name if possible.
+        """
+        payload = {
+            **self.get_payload_from_file(file_input),
+            'immediate': not preview_metadata,
+            'displayName': self.get_title_from_file(file_input) if not title else title,
+            # TODO: support optional keyword arguments like data_view_id, image/table/region options, etc.
+            # **data_view_options
+            }
+        return self.dispatch(ACTION_DICT['ShowAnyData'], payload)
+
+    def show_fits_image(self, file_input=None, file_on_server=None, url=None, 
+                        plot_id=None, viewer_id=None, **additional_params):
+        """
+        Show a FITS image. 
+        
+        If the FITS file has multiple extensions/HDUs (for 
+        images, tables, etc.), all the image extensions are displayed by default
+        within the image plot. You can use the `multiImageIdx` parameter
+        to display only a particular image extension from the file.
 
         Parameters
         ----------
+        file_input : `str` or `file-like object`, optional
+            The input file to show. It can be a local file path, a URL to a
+            remote file, name of a file on the server (return value of
+            `upload_file()`), or a file-like object (such as an open IO stream).
         file_on_server : `str`, optional
             The is the name of the file on the server.
             If you use `upload_file()`, then it is the return value of the method. Otherwise it is a file that
             Firefly has direct access to.
+
+            .. deprecated:: 3.4.0
+                Use `file_input` instead, which can automatically
+                upload a local file and use its name on the server.
+                If this parameter is passed, it will be ignored if
+                `file_input` is also passed.
+        url : `str`, optional
+            URL of the FITS image file, if it's not a local file you can upload.
+
+            .. deprecated:: 3.4.0 
+                Use `file_input` instead, which can automatically
+                infer if a URL is passed to it. If this parameter is passed,
+                it will be ignored if `file_input` is also passed.
         plot_id : `str`, optional
             The ID you assign to the image plot. This is necessary to further control the plot.
         viewer_id : `str`, optional
             The ID you assign to the viewer (or cell) used to contain the image plot. If grid view is used for
             display, the viewer id is the cell id of the cell which contains the image plot.
 
+            .. note:: Not needed in triview mode of Firefly, which is also 
+                      the default view mode.
+
         **additional_params : optional keyword arguments
-            Any valid fits viewer plotting parameter, please see the details in `FITS plotting parameters`_.
+            Any valid fits viewer plotting parameter, please see the details in 
+            `FITS plotting parameters`_ (note that they are case-insensitive).
+            These also allow you to directly show an image retrieved from a 
+            data service rather than from a file input, as explained in `this section`.
 
             .. _`FITS plotting parameters`:
                 https://github.com/Caltech-IPAC/firefly/blob/dev/docs/fits-plotting-parameters.md
+            .. _`this section`:
+                https://github.com/Caltech-IPAC/firefly/blob/dev/docs/fits-plotting-parameters.md#parameters-for-specifying-fits-files-retrieved-from-a-service
 
             More options are shown as below:
 
-            **MultiImageIdx** : `int`, optional
+            **multiImageIdx** : `int`, optional
                 Display only a particular image extension from the file (zero-based index).
-            **Title** : `str`, optional
+            **title** : `str`, optional
                 Title to display with the image.
-            **url** : `str`, optional
-                URL of the fits image file, if it's not a local file you can upload.
 
         Returns
         -------
         out : `dict`
             Status of the request, like {'success': True}.
 
-        .. note:: Either `file_on_server` or the target information set by `additional_params`
-                  is used for image search.
+        .. note:: `file_input` (previously `url` and `file_on_server`), and service specific `additional_params` are exclusively required.
+            If more than one of these parameters are passed, precedence order is:
+            service specific `additional_params` > `file_input` (> `file_on_server` > `url`).
         """
-
+        # WebPlotRequest parameters
         wp_request = {'plotGroupId': 'groupFromPython',
                       'GroupLocked': False}
         payload = {'wpRequest': wp_request,
@@ -777,17 +889,41 @@ class FireflyClient:
 
         warning = None
         if not viewer_id or self.is_triview():
-            warning = 'viewer_id unnecessary and ignored in triview mode' if self.is_triview() and viewer_id else None
+            warning = 'viewer_id is unnecessary and ignored in triview mode' if self.is_triview() and viewer_id else None
             viewer_id = FireflyClient.PINNED_IMAGE_VIEWER_ID
 
         payload.update({'viewerId': viewer_id})
         plot_id and payload['wpRequest'].update({'plotId': plot_id})
-        file_on_server and payload['wpRequest'].update({'file': file_on_server})
+
+        # Handle different params of file input
+        if file_on_server:
+            warn('file_on_server is deprecated, use file_input parameter instead')
+            payload['wpRequest'].update({'file': file_on_server})
+        if url:
+            warn('url is deprecated, use file_input parameter instead')
+            payload['wpRequest'].update({'url': url})
+        if file_input:
+            file_payload = self.get_payload_from_file(file_input)
+            if 'fileOnServer' in file_payload:
+                # WebPlotRequest uses 'file' as the key for the file on server
+                file_payload['file'] = file_payload.pop('fileOnServer')
+            payload['wpRequest'].update(file_payload) # overrides url or file_on_server if any
+
+        # Add the additional params including the image view related options, and
+        # service specific options (which implicitly overrides the above file params if any, when WebPlotRequest is processed)
         additional_params and payload['wpRequest'].update(additional_params)
 
-        r = self.dispatch(ACTION_DICT['ShowFits'], payload)
+        r = self.dispatch(ACTION_DICT['ShowImage'], payload)
         warning and r.update({'warning': warning})
         return r
+    
+    def show_fits(self, *args, **kwargs):
+        """
+        .. deprecated:: 3.4.0
+            Use show_fits_image() instead.
+        """
+        warn("show_fits() is deprecated. Use show_fits_image() instead.")
+        return self.show_fits_image(*args, **kwargs)
 
     def show_fits_3color(self, three_color_params, plot_id=None, viewer_id=None):
         """
@@ -798,7 +934,7 @@ class FireflyClient:
         three_color_params : `list` of `dict` or `dict`
             A list or objects contains image viewer plotting parameters for either all bands or one single band.
             For valid image viewer plotting parameter, please see the details in `FITS plotting parameters`_ or
-            the description of **additional_params** in function `show_fits`.
+            the description of **additional_params** in function `show_fits_image`.
 
         plot_id : `str`, optional
             The ID you assign to the image plot. This is necessary to further control the plot.
@@ -827,11 +963,12 @@ class FireflyClient:
             viewer_id = FireflyClient.PINNED_IMAGE_VIEWER_ID
         payload.update({'viewerId': viewer_id})
 
-        r = self.dispatch(ACTION_DICT['ShowFits'], payload)
+        r = self.dispatch(ACTION_DICT['ShowImage'], payload)
         warning and r.update({'warning': warning})
         return r
 
-    def show_table(self, file_on_server=None, url=None, tbl_id=None, title=None, page_size=100, is_catalog=True,
+    def show_table(self, file_input=None, file_on_server=None, url=None, 
+                   tbl_id=None, title=None, page_size=100, is_catalog=True,
                    meta=None, target_search_info=None, options=None, table_index=None,
                    column_spec=None, filters=None, visible=True):
         """
@@ -839,12 +976,27 @@ class FireflyClient:
 
         Parameters
         ----------
+        file_input : `str` or `file-like object`, optional
+            The input file to show. It can be a local file path, a URL to a
+            remote file, name of a file on the server (return value of
+            `upload_file()`), or a file-like object (such as an open IO stream).
         file_on_server : `str`, optional
             The name of the file on the server.
             If you use `upload_file()`, then it is the return value of the method. Otherwise it is a file that
             Firefly has direct access to.
+
+            .. deprecated:: 3.4.0
+                Use `file_input` instead, which can automatically
+                upload a local file and use its name on the server.
+                If this parameter is passed, it will be ignored if
+                `file_input` is also passed.
         url : `str`, optional
             URL of the table file, if it's not a local file you can upload.
+
+            .. deprecated:: 3.4.0 
+                Use `file_input` instead, which can automatically
+                infer if a URL is passed to it. If this parameter is passed,
+                it will be ignored if `file_input` is also passed.
         tbl_id : `str`, optional
             A table ID. It will be created automatically if not specified.
         title : `str`, optional
@@ -858,40 +1010,40 @@ class FireflyClient:
         target_search_info : `dict`, optional
             The information for target search, it may contain the following fields:
 
-            **catalogProject** : `str`
+            - **catalogProject** : `str`
                 Catalog project, such as *'WISE'*.
-            **catalog** : `str`
+            - **catalog** : `str`
                 Table to be searched, such as *'allwise_p3as_psd'*.
-            **use** : `str`
+            - **use** : `str`
                 Usage of the table search, such as *'catalog_overlay'*.
-            **position** : `str`
+            - **position** : `str`
                 Target position, such as *'10.68479;41.26906;EQ_J2000'*.
-            **SearchMethod** : {'Cone', 'Eliptical', 'Box', 'Polygon', 'Table', 'AllSky'}
+            - **SearchMethod** : {'Cone', 'Eliptical', 'Box', 'Polygon', 'Table', 'AllSky'}
                 Target search method.
-            **radius** : `float`
+            - **radius** : `float`
                 The radius for *'Cone'* or the semi-major axis for *'Eliptical'* search in terms of unit *arcsec*.
-            **posang** : `float`
+            - **posang** : `float`
                 Position angle for *'Eliptical'* search in terms of unit *arcsec*.
-            **ratio** : `float`
+            - **ratio** : `float`
                 Axial ratio for *'Eliptical'* search.
-            **size** : `float`
+            - **size** : `float`
                 Side size for *'Box'* search in terms of unit *arcsec*.
-            **polygon** : `str`
+            - **polygon** : `str`
                 ra/dec of polygon corners, such as *'ra1, dec1, ra2, dec2,... raN, decN'*.
-            **filename** : `str`
+            - **filename** : `str`
                 The name of file on server on multi-objects for *'Table'* search.
 
         options : `dict`, optional
-            Containing parameters for table display, such as,
+            Containing parameters for table display, such as:
 
-            **removable** : `bool`
+            - **removable** : `bool`
                 if table is removable.
-            **showUnits** : `bool`
+            - **showUnits** : `bool`
                 if table shows units for the columns.
-            **showFilters** : `bool`
+            - **showFilters** : `bool`
                 if table shows filter button
         table_index : `int`, optional
-            The table to be shown in case `file_on_server` contains multiple tables. It is the extension number for
+            The table to be shown in case file input contains multiple tables. It is the extension number for
             a FITS file or the table index for a VOTable file. In unspecified, the server will fetch extension 1 from
             a FITS file or the table at index 0 from a VOTable file.
         column_spec : `str`, optional
@@ -910,23 +1062,40 @@ class FireflyClient:
         out : `dict`
             Status of the request, like {'success': True}.
 
-        .. note:: `url`, `file_on_server`, and `target_search_info` are exclusively required.
-            If more than one of these 3 parameters are passed, precedence order is:
-            `url` > `file_on_server` > `target_search_info`
+        .. note:: `file_input` (previously `url` and `file_on_server`) and `target_search_info` are exclusively required.
+            If more than one of these parameters are passed, precedence order is:
+            `file_input` (> `file_on_server` > `url`) > `target_search_info`
         """
+        has_file_input = bool(file_on_server) or bool(url) or bool(file_input)
 
         if not tbl_id:
             tbl_id = gen_item_id('Table')
         if not title:
-            title = tbl_id if file_on_server or url else target_search_info.get('catalog', tbl_id)
+            if has_file_input:
+                title_from_file = self.get_title_from_file(file_input)
+                title = title_from_file if title_from_file else tbl_id
+            else:
+                title = target_search_info.get('catalog', tbl_id)
 
         meta_info = {'title': title, 'tbl_id': tbl_id}
         meta and meta_info.update(meta)
 
         tbl_req = {'startIdx': 0, 'pageSize': page_size, 'tbl_id': tbl_id}
-        if file_on_server or url:
+        if has_file_input:
             tbl_type = 'table' if not is_catalog else 'catalog'
-            source = url if url else file_on_server
+            
+            # Handle different params of file input
+            source = None
+            if file_input:
+                file_payload = self.get_payload_from_file(file_input)
+                source = file_payload.get('fileOnServer') or file_payload.get('url')
+            elif file_on_server:
+                warn('file_on_server is deprecated, use file_input parameter instead')
+                source = file_on_server
+            elif url:
+                warn('url is deprecated, use file_input parameter instead')
+                source = url
+
             tbl_req.update({'source': source, 'tblType': tbl_type,
                             'id': 'IpacTableFromSource'})
             table_index and tbl_req.update({'tbl_index': table_index})
@@ -936,6 +1105,8 @@ class FireflyClient:
             tbl_req.update({'id': 'GatorQuery', 'UserTargetWorldPt': target_search_info.get('position')})
             target_search_info.pop('position', None)
             tbl_req.update(target_search_info)
+        else:
+            raise ValueError('Either file_input/file_on_server/url or target_search_info parameter is required.')
 
         tbl_req.update({'META_INFO': meta_info})
         options and tbl_req.update({'options': options})
@@ -1379,7 +1550,7 @@ class FireflyClient:
             used for display, the viewer id is the cell id of the cell which contains the image plot.
         image_request : `dict`, optional
             Request with fits plotting parameters. For valid fits viewer plotting parameter, please see the
-            the description of `show_fits` or `show_fits_3color`.
+            the description of `show_fits_image` or `show_fits_3color`.
         hips_request : `dict`, optional
             Request with hips plotting parameters. For valid HiPS viewer plotting parameter, please see the
             description of `show_hips`.
@@ -1719,7 +1890,7 @@ class FireflyClient:
         Returns
         -------
         rvstring : `str`
-            RangeValues string that can be passed to the show_fits methods
+            RangeValues string that can be passed to the show_fits_* methods
         """
         return RangeValues.rvstring_from_dict(rvdict)
 
