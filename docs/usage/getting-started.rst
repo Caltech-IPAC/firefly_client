@@ -28,7 +28,7 @@ First, download some data by using wget or curl:
    curl -o m31-2mass-2412-row.tbl http://web.ipac.caltech.edu/staff/roby/demo/m31-2mass-2412-row.tbl
 
 Second, start a Python session and connect an instance of :class:`firefly_client.FireflyClient`
-to a Firefly server. In this example, we use a public server. For ease of demonstration,
+to a Firefly server. In this example, we will use a public server. For ease of demonstration,
 please start the Python session in the directory from which you downloaded the sample files.
 
 .. code-block:: py
