@@ -1,3 +1,4 @@
+# Extensions and Callback via Terminal
 from firefly_client import FireflyClient
 import firefly_client
 

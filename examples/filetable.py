@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Load files as a table of data products
 
 from argparse import ArgumentParser, HelpFormatter
 import csv
@@ -57,7 +58,11 @@ def filetable_to_firefly(
         Dictionary of metadata items
 
     """
-    filelist = glob(topdir + "/**/" + pattern, recursive=recursive)
+    if recursive:
+        file_lookup_path = os.path.join(topdir, "**", pattern)
+    else:
+        file_lookup_path = os.path.join(topdir, pattern)
+    filelist = glob(file_lookup_path, recursive=recursive)
     if sort:
         filelist = sorted(filelist)
     metadict = {"datasource": "path"}
@@ -154,6 +159,10 @@ def main():
     if printurl:
         input("Press Enter after you have opened the Firefly URL printed above...")
 
+    # TODO: figure out how to activate data products (meta) tab in Bi-View
+    # if "slate" not in html_file:
+    #     fc.change_triview_layout(firefly_client.FireflyClient.BIVIEW_T_IChCov)
+    #     fc.dispatch('layout.updateLayout', {'images':{'selectedTab':'meta'}})
     r = fc.add_cell(0, 0, 1, 2, "tables", "main")
     fc.show_table(tbl_val, meta=metainfo)
     r = fc.add_cell(0, 1, 1, 2, "tableImageMeta", "image-meta")
