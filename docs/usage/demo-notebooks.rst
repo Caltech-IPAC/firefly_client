@@ -17,13 +17,13 @@ For a high-level overview of the Firefly Python client API and important methods
 Science Use-cases
 -----------------
 
-IRSA Tutorials is collection of multiple notebooks that demonstrate the use of IRSA data services and tools for science use-cases.
-The following tutorial notebooks demonstrates the use of Firefly Python client:
+IRSA Notebook Tutorials is collection of notebooks that demonstrate the use of IRSA data services and tools for science use-cases.
+The following notebook tutorials demonstrate the use of Firefly Python client:
 
-- `Using Firefly visualization tools in Python to vet SEDs <https://caltech-ipac.github.io/irsa-tutorials/tutorials/firefly/SEDs_in_Firefly.html>`_
-- `Using Firefly visualization tools to understand the light curves of Solar System objects <https://caltech-ipac.github.io/irsa-tutorials/tutorials/firefly/NEOWISE_light_curve_demo.html>`_
-- `Using Firefly to Explore OpenUniverse2024 Data Preview Simulated Roman and Rubin Images <https://caltech-ipac.github.io/irsa-tutorials/tutorials/firefly/OpenUniverse2024Preview_Firefly.html>`_
-- `Euclid Q1: PHZ catalogs — Visualize with Firefly section <https://caltech-ipac.github.io/irsa-tutorials/tutorials/euclid_access/4_Euclid_intro_PHZ_catalog.html#vizualize-the-image-with-firefly>`_
+- `Using Firefly visualization tools in Python to vet SEDs <https://caltech-ipac.github.io/irsa-tutorials/seds-in-firefly>`_
+- `Using Firefly visualization tools to understand the light curves of Solar System objects <https://caltech-ipac.github.io/irsa-tutorials/neowise-light-curve-demo>`_
+- `Using Firefly to Explore OpenUniverse2024 Data Preview Simulated Roman and Rubin Images <https://caltech-ipac.github.io/irsa-tutorials/openuniverse2024preview-firefly>`_
+- `Euclid Q1: PHZ catalogs — Visualize with Firefly section <https://caltech-ipac.github.io/irsa-tutorials/euclid-intro-phz-catalog/#vizualize-the-image-with-firefly>`_
 
 
 Other Examples
