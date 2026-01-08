@@ -12,7 +12,7 @@ import sys
 sys.path.insert(0, os.path.abspath('_ext'))
 
 project = 'firefly_client'
-copyright = '2024, Caltech/IPAC Firefly Developers'
+copyright = '2026, Caltech/IPAC Firefly Developers'
 author = 'Caltech/IPAC Firefly Developers'
 
 # -- General configuration ---------------------------------------------------
