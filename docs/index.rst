@@ -25,7 +25,7 @@ The ``firefly_client`` package provides a lightweight client class that includes
 a Python interface to Firefly's Javascript API.
 This document contains examples of how to start a ``FireflyClient`` instance
 with details about the server location, and how to use the instance
-to upload and display astronomical images, tables and catalogs.
+to upload and display astronomical images, tables and charts.
 
 
 .. _firefly_client-using:
