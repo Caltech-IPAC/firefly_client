@@ -8,6 +8,8 @@ Using firefly_client
    getting-started
    initializing-vanilla
    displaying-images
+   displaying-3color
+   displaying-hips
    overlaying-regions
    viewing-tables
    charting
