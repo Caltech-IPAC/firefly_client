@@ -50,4 +50,5 @@ docs = [
     "pydata-sphinx-theme",
     "myst-parser",
     "nbsphinx",
+    "ipython" # for syntax highlighting in notebooks html output
 ]
