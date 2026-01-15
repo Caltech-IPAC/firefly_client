@@ -368,6 +368,22 @@ This document contains examples of how to start a <code class="docutils literal 
 with details about the server location, and how to use the instance
 to upload and display astronomical images, tables and charts.</p>
 </section>
+<section id="what-to-expect">
+<h2>What to expect<a class="headerlink" href="#what-to-expect" title="Link to this heading">#</a></h2>
+<div style="margin-bottom: 1.15rem;"><img alt="Firefly in Python Flow Diagram" class="align-center" src="_images/firefly-in-python-flow.png" />
+</div><p>It’s important to note that Firefly visualization in Python notebooks is
+<strong>NOT a per-cell chart or widget</strong>, unlike common plotting libraries
+such as Plotly or Bokeh.</p>
+<p>Under the hood, Firefly is a dedicated web application running at a specific
+URL, rather than a plot produced as a notebook cell output.
+Your notebook’s Python session connects to a Firefly server, either a publicly
+hosted instance (such as the <a class="reference external" href="https://irsa.ipac.caltech.edu/irsaviewer/">IRSA Viewer</a>) or a local server running via <a class="reference external" href="https://hub.docker.com/r/ipac/firefly">Docker</a>.
+Using a server enables advanced, compute-intensive interactivity that is
+difficult to support directly within a notebook’s UI.</p>
+<p>Multiple notebook cells can then send commands to the same Firefly instance,
+which manages linked views of images, charts, and tables, similar to an
+<strong>interactive dashboard</strong>.</p>
+</section>
 <section id="using-firefly-client">
 <span id="firefly-client-using"></span><h2>Using firefly_client<a class="headerlink" href="#using-firefly-client" title="Link to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
@@ -455,6 +471,7 @@ to upload and display astronomical images, tables and charts.</p>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-expect">What to expect</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-firefly-client">Using firefly_client</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#developer-guide">Developer Guide</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-api-reference">Python API reference</a></li>
