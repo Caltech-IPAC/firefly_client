@@ -49,6 +49,10 @@ website.
 Each time you make a change in documentation source, build it using 
 above command and reload the above html file in browser.
 
+.. note::
+    The Sphinx docs include rendered Jupyter notebooks (via ``nbsphinx``), which can require **pandoc**.
+    If you see an error like ``PandocMissing``, install pandoc first (e.g., ``brew install pandoc`` on macOS).
+
 Development Tests/Examples
 --------------------------
 
