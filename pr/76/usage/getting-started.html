@@ -429,8 +429,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
-fc = FireflyClient.make_client(url=&#39;https://irsa.ipac.caltech.edu/irsaviewer&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://irsa.ipac.caltech.edu/irsaviewer&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -439,7 +439,7 @@ fc = FireflyClient.make_client(url=&#39;https://irsa.ipac.caltech.edu/irsaviewer
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># fc.launch_browser()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fc.launch_browser()</span>
 </pre></div>
 </div>
 </div>
@@ -451,12 +451,12 @@ fc = FireflyClient.make_client(url=&#39;https://irsa.ipac.caltech.edu/irsaviewer
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Image file can be a local path, URL, or file-like object - replace with your file
-image_fpath = (
-    &#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/&#39;
-    &#39;05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;
-)
-fc.show_fits_image(image_fpath)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Image file can be a local path, URL, or file-like object - replace with your file</span>
+<span class="n">image_fpath</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/&#39;</span>
+    <span class="s1">&#39;05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;</span>
+<span class="p">)</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">image_fpath</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -478,14 +478,14 @@ fc.show_fits_image(image_fpath)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Table file can be a local path, URL, or file-like object - replace with your file
-table_fpath = (
-    &quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=&quot;
-    &quot;SELECT+*+FROM+fp_psc+&quot;
-    &quot;WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),&quot;
-    &quot;CIRCLE(&#39;J2000&#39;,202.4841667,47.23055556,0.125))=1&quot;
-)
-fc.show_table(table_fpath)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Table file can be a local path, URL, or file-like object - replace with your file</span>
+<span class="n">table_fpath</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=&quot;</span>
+    <span class="s2">&quot;SELECT+*+FROM+fp_psc+&quot;</span>
+    <span class="s2">&quot;WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),&quot;</span>
+    <span class="s2">&quot;CIRCLE(&#39;J2000&#39;,202.4841667,47.23055556,0.125))=1&quot;</span>
+<span class="p">)</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">table_fpath</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

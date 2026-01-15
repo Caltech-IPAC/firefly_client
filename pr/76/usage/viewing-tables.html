@@ -422,20 +422,20 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
 
-# Following imports are just for example data fetching and processing (not needed always)
-from astropy.utils.data import download_file
-from astropy.table import Table
-import io
+<span class="c1"># Following imports are just for example data fetching and processing (not needed always)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">download_file</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
 
-# Initialize a FireflyClient instance
-fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;)
+<span class="c1"># Initialize a FireflyClient instance</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
 
-# Display a FITS image (from URL of WISE W2 cutout of M51 galaxy)
-cutout_image_url = &#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;
-plot_id = &#39;wise-cutout&#39;
-fc.show_fits_image(file_input=cutout_image_url, plot_id=plot_id, title=&#39;WISE Cutout&#39;)
+<span class="c1"># Display a FITS image (from URL of WISE W2 cutout of M51 galaxy)</span>
+<span class="n">cutout_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;</span>
+<span class="n">plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-cutout&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">cutout_image_url</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="n">plot_id</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -459,9 +459,9 @@ fc.show_fits_image(file_input=cutout_image_url, plot_id=plot_id, title=&#39;WISE
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>tbl_url_gaia = &quot;https://gea.esac.esa.int/tap-server/tap/sync?LANG=ADQL&amp;QUERY=SELECT+*+FROM+gaiadr3.gaia_source+WHERE+CONTAINS(POINT(&#39;ICRS&#39;,ra,dec),CIRCLE(&#39;ICRS&#39;,202.4841667,47.23055556,0.083333))=1&quot;
-tbl_fpath_gaia = download_file(tbl_url_gaia, cache=True, timeout=120)
-tbl_fpath_gaia
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_url_gaia</span> <span class="o">=</span> <span class="s2">&quot;https://gea.esac.esa.int/tap-server/tap/sync?LANG=ADQL&amp;QUERY=SELECT+*+FROM+gaiadr3.gaia_source+WHERE+CONTAINS(POINT(&#39;ICRS&#39;,ra,dec),CIRCLE(&#39;ICRS&#39;,202.4841667,47.23055556,0.083333))=1&quot;</span>
+<span class="n">tbl_fpath_gaia</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">tbl_url_gaia</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+<span class="n">tbl_fpath_gaia</span>
 </pre></div>
 </div>
 </div>
@@ -478,10 +478,10 @@ tbl_fpath_gaia
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>tbl_id_gaia = &#39;gaia-catalog&#39;
-fc.show_table(file_input=tbl_fpath_gaia,
-              tbl_id=tbl_id_gaia,
-              title=&#39;Gaia Catalog&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_id_gaia</span> <span class="o">=</span> <span class="s1">&#39;gaia-catalog&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">tbl_fpath_gaia</span><span class="p">,</span>
+              <span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_gaia</span><span class="p">,</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Gaia Catalog&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -502,9 +502,9 @@ fc.show_table(file_input=tbl_fpath_gaia,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>gaia_tbl = Table.read(tbl_fpath_gaia)
-gaia_galaxy_tbl = gaia_tbl[gaia_tbl[&#39;classprob_dsc_combmod_galaxy&#39;] &gt;= 0.95]
-gaia_galaxy_tbl[:5]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gaia_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">tbl_fpath_gaia</span><span class="p">)</span>
+<span class="n">gaia_galaxy_tbl</span> <span class="o">=</span> <span class="n">gaia_tbl</span><span class="p">[</span><span class="n">gaia_tbl</span><span class="p">[</span><span class="s1">&#39;classprob_dsc_combmod_galaxy&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">0.95</span><span class="p">]</span>
+<span class="n">gaia_galaxy_tbl</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -529,8 +529,8 @@ gaia_galaxy_tbl[:5]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>tbl_stream = io.BytesIO()
-gaia_galaxy_tbl.write(tbl_stream, format=&#39;votable&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_stream</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+<span class="n">gaia_galaxy_tbl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tbl_stream</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;votable&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -546,9 +546,9 @@ WARNING: W50: ?:?:?: W50: Invalid unit string &#39;log(cm.s**-2)&#39; [astropy.i
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.show_table(file_input=tbl_stream,
-              tbl_id=tbl_id_gaia+&#39;-galaxy&#39;,
-              title=&#39;Gaia Galaxy Catalog&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">tbl_stream</span><span class="p">,</span>
+              <span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_gaia</span><span class="o">+</span><span class="s1">&#39;-galaxy&#39;</span><span class="p">,</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Gaia Galaxy Catalog&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -569,7 +569,7 @@ WARNING: W50: ?:?:?: W50: Invalid unit string &#39;log(cm.s**-2)&#39; [astropy.i
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>tbl_url_2mass = &quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),CIRCLE(&#39;J2000&#39;,202.4841667,47.23055556,0.125))=1&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_url_2mass</span> <span class="o">=</span> <span class="s2">&quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),CIRCLE(&#39;J2000&#39;,202.4841667,47.23055556,0.125))=1&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -577,10 +577,10 @@ WARNING: W50: ?:?:?: W50: Invalid unit string &#39;log(cm.s**-2)&#39; [astropy.i
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>tbl_id_2mass = &#39;2mass-catalog&#39;
-fc.show_table(file_input=tbl_url_2mass,
-              tbl_id=tbl_id_2mass,
-              title=&#39;2MASS Catalog&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_id_2mass</span> <span class="o">=</span> <span class="s1">&#39;2mass-catalog&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">tbl_url_2mass</span><span class="p">,</span>
+              <span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_2mass</span><span class="p">,</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;2MASS Catalog&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -609,8 +609,8 @@ fc.show_table(file_input=tbl_url_2mass,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.sort_table_column(tbl_id=tbl_id_2mass,  # note: we use the table id we defined above
-                     column_name=&#39;j_m&#39;, sort_direction=&#39;ASC&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">sort_table_column</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_2mass</span><span class="p">,</span>  <span class="c1"># note: we use the table id we defined above</span>
+                     <span class="n">column_name</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span><span class="p">,</span> <span class="n">sort_direction</span><span class="o">=</span><span class="s1">&#39;ASC&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -631,8 +631,8 @@ fc.show_table(file_input=tbl_url_2mass,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.apply_table_filters(tbl_id=tbl_id_2mass,
-                       filters=&#39;&quot;j_m&quot;&lt;15 and &quot;j_cmsig&quot;&lt;0.05&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">apply_table_filters</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_2mass</span><span class="p">,</span>
+                       <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;&quot;j_m&quot;&lt;15 and &quot;j_cmsig&quot;&lt;0.05&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -654,7 +654,7 @@ fc.show_table(file_input=tbl_url_2mass,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.apply_table_filters(tbl_id=tbl_id_2mass, filters=&#39;&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">apply_table_filters</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_2mass</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -683,10 +683,10 @@ fc.show_table(file_input=tbl_url_2mass,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>tbl_url_spitzer = &quot;https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query?outfmt=1&amp;catalog=slphotdr4&amp;objstr=202.484167d+47.230556d+eq+j2000&amp;spatial=Cone&amp;radius=240&quot;
-fc.show_table(file_input=tbl_url_spitzer,
-              title=&#39;Spitzer catalog&#39;,
-              visible=False)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_url_spitzer</span> <span class="o">=</span> <span class="s2">&quot;https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query?outfmt=1&amp;catalog=slphotdr4&amp;objstr=202.484167d+47.230556d+eq+j2000&amp;spatial=Cone&amp;radius=240&quot;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">tbl_url_spitzer</span><span class="p">,</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Spitzer catalog&#39;</span><span class="p">,</span>
+              <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -711,10 +711,10 @@ fc.show_table(file_input=tbl_url_spitzer,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.show_table(file_input=tbl_url_spitzer,
-              title=&#39;Spitzer: no overlay&#39;,
-              is_catalog=False
-              )
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">tbl_url_spitzer</span><span class="p">,</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Spitzer: no overlay&#39;</span><span class="p">,</span>
+              <span class="n">is_catalog</span><span class="o">=</span><span class="kc">False</span>
+              <span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -426,11 +426,11 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
-import astropy.utils.data
-using_lab = False
-url = &#39;http://127.0.0.1:8080/firefly&#39;
-#FireflyClient._debug= True
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">astropy.utils.data</span>
+<span class="n">using_lab</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://127.0.0.1:8080/firefly&#39;</span>
+<span class="c1">#FireflyClient._debug= True</span>
 </pre></div>
 </div>
 </div>
@@ -440,7 +440,7 @@ url = &#39;http://127.0.0.1:8080/firefly&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc = FireflyClient.make_lab_client() if using_lab else FireflyClient.make_client(url)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_lab_client</span><span class="p">()</span> <span class="k">if</span> <span class="n">using_lab</span> <span class="k">else</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -452,9 +452,9 @@ url = &#39;http://127.0.0.1:8080/firefly&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>image_url = &#39;http://web.ipac.caltech.edu/staff/shupe/firefly_testdata/calexp-subset-HSC-R.fits&#39;
-filename = astropy.utils.data.download_file(image_url, cache=True, timeout=120)
-imval = fc.upload_file(filename)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_url</span> <span class="o">=</span> <span class="s1">&#39;http://web.ipac.caltech.edu/staff/shupe/firefly_testdata/calexp-subset-HSC-R.fits&#39;</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">image_url</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+<span class="n">imval</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -463,8 +463,8 @@ imval = fc.upload_file(filename)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plotid = &#39;footprinttest&#39;
-status = fc.show_fits(file_on_server=imval, plot_id=plotid, title=&#39;footprints HSC R-band&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotid</span> <span class="o">=</span> <span class="s1">&#39;footprinttest&#39;</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_fits</span><span class="p">(</span><span class="n">file_on_server</span><span class="o">=</span><span class="n">imval</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="n">plotid</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;footprints HSC R-band&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -476,9 +476,9 @@ status = fc.show_fits(file_on_server=imval, plot_id=plotid, title=&#39;footprint
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>table_url = &#39;http://web.ipac.caltech.edu/staff/shupe/firefly_testdata/footprints-subset-HSC-R.xml&#39;
-footprint_table = astropy.utils.data.download_file(table_url, cache=True, timeout=120)
-tableval = fc.upload_file(footprint_table)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_url</span> <span class="o">=</span> <span class="s1">&#39;http://web.ipac.caltech.edu/staff/shupe/firefly_testdata/footprints-subset-HSC-R.xml&#39;</span>
+<span class="n">footprint_table</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">table_url</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+<span class="n">tableval</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">footprint_table</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -487,13 +487,13 @@ tableval = fc.upload_file(footprint_table)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>status = fc.overlay_footprints(tableval,  title=&#39;footprints HSC R-band&#39;,
-                               footprint_layer_id=&#39;footprint_layer_1&#39;,
-                               plot_id=plotid,
-                               highlightColor=&#39;yellow&#39;,
-                               selectColor=&#39;cyan&#39;,
-                               style=&#39;fill&#39;,
-                               color=&#39;rgba(74,144,226,0.30)&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">overlay_footprints</span><span class="p">(</span><span class="n">tableval</span><span class="p">,</span>  <span class="n">title</span><span class="o">=</span><span class="s1">&#39;footprints HSC R-band&#39;</span><span class="p">,</span>
+                               <span class="n">footprint_layer_id</span><span class="o">=</span><span class="s1">&#39;footprint_layer_1&#39;</span><span class="p">,</span>
+                               <span class="n">plot_id</span><span class="o">=</span><span class="n">plotid</span><span class="p">,</span>
+                               <span class="n">highlightColor</span><span class="o">=</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span>
+                               <span class="n">selectColor</span><span class="o">=</span><span class="s1">&#39;cyan&#39;</span><span class="p">,</span>
+                               <span class="n">style</span><span class="o">=</span><span class="s1">&#39;fill&#39;</span><span class="p">,</span>
+                               <span class="n">color</span><span class="o">=</span><span class="s1">&#39;rgba(74,144,226,0.30)&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

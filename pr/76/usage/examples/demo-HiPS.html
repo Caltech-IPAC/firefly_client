@@ -426,10 +426,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
-using_lab = False
-url = &#39;http://127.0.0.1:8080/firefly&#39;
-#FireflyClient._debug= True
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
+<span class="n">using_lab</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://127.0.0.1:8080/firefly&#39;</span>
+<span class="c1">#FireflyClient._debug= True</span>
 </pre></div>
 </div>
 </div>
@@ -438,7 +438,7 @@ url = &#39;http://127.0.0.1:8080/firefly&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc = FireflyClient.make_lab_client() if using_lab else FireflyClient.make_client(url)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_lab_client</span><span class="p">()</span> <span class="k">if</span> <span class="n">using_lab</span> <span class="k">else</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 <br/></pre></div>
 </div>
 </div>
@@ -446,21 +446,21 @@ url = &#39;http://127.0.0.1:8080/firefly&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>target=&#39;148.892;69.0654;EQ_J2000&#39;
-fov_deg=0.5
-size=0.2
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target</span><span class="o">=</span><span class="s1">&#39;148.892;69.0654;EQ_J2000&#39;</span>
+<span class="n">fov_deg</span><span class="o">=</span><span class="mf">0.5</span>
+<span class="n">size</span><span class="o">=</span><span class="mf">0.2</span>
 
-image_basic_req = {
-    &#39;Service&#39;: &#39;WISE&#39;,
-    &#39;Title&#39;: &#39;Wise&#39;,
-    &#39;SurveyKey&#39;: &#39;3a&#39;,
-    &#39;SurveyKeyBand&#39;: &#39;2&#39;
-}
+<span class="n">image_basic_req</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Service&#39;</span><span class="p">:</span> <span class="s1">&#39;WISE&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Title&#39;</span><span class="p">:</span> <span class="s1">&#39;Wise&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SurveyKey&#39;</span><span class="p">:</span> <span class="s1">&#39;3a&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SurveyKeyBand&#39;</span><span class="p">:</span> <span class="s1">&#39;2&#39;</span>
+<span class="p">}</span>
 
-hips_basic_req = {
-    &#39;title&#39;: &#39;A HiPS - 0.2&#39;,
-    &#39;hipsRootUrl&#39;: &#39;http://alasky.u-strasbg.fr/AllWISE/RGB-W4-W2-W1&#39;
-}
+<span class="n">hips_basic_req</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;A HiPS - 0.2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;hipsRootUrl&#39;</span><span class="p">:</span> <span class="s1">&#39;http://alasky.u-strasbg.fr/AllWISE/RGB-W4-W2-W1&#39;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -472,12 +472,12 @@ hips_basic_req = {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>viewer_id = &#39;hipsDIV1&#39;
-r = fc.add_cell(0, 0, 4, 2, &#39;images&#39;, viewer_id)
-if r[&#39;success&#39;]:
-    hips_url = &#39;http://alasky.u-strasbg.fr/DSS/DSSColor&#39;;
-    status = fc.show_hips(viewer_id=viewer_id, plot_id=&#39;aHipsID1-1&#39;, hips_root_url = hips_url,
-                          Title=&#39;HiPS-DSS&#39;, WorldPt=target)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">viewer_id</span> <span class="o">=</span> <span class="s1">&#39;hipsDIV1&#39;</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">add_cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;images&#39;</span><span class="p">,</span> <span class="n">viewer_id</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;success&#39;</span><span class="p">]:</span>
+    <span class="n">hips_url</span> <span class="o">=</span> <span class="s1">&#39;http://alasky.u-strasbg.fr/DSS/DSSColor&#39;</span><span class="p">;</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">viewer_id</span><span class="o">=</span><span class="n">viewer_id</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;aHipsID1-1&#39;</span><span class="p">,</span> <span class="n">hips_root_url</span> <span class="o">=</span> <span class="n">hips_url</span><span class="p">,</span>
+                          <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;HiPS-DSS&#39;</span><span class="p">,</span> <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -486,7 +486,7 @@ if r[&#39;success&#39;]:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.set_color(&#39;aHipsID1-1&#39;, colormap_id=6, bias=0.6, contrast=1.5)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;aHipsID1-1&#39;</span><span class="p">,</span> <span class="n">colormap_id</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">contrast</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -495,9 +495,9 @@ if r[&#39;success&#39;]:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span>hips_url = &#39;http://alasky.u-strasbg.fr/DSS/DSS2Merged&#39;;
-status = fc.show_hips(plot_id=&#39;aHipsID1-2&#39;, hips_root_url = hips_url,
-                          Title=&#39;HiPS-DSS2&#39;, WorldPt=target)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">hips_url</span> <span class="o">=</span> <span class="s1">&#39;http://alasky.u-strasbg.fr/DSS/DSS2Merged&#39;</span><span class="p">;</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;aHipsID1-2&#39;</span><span class="p">,</span> <span class="n">hips_root_url</span> <span class="o">=</span> <span class="n">hips_url</span><span class="p">,</span>
+                          <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;HiPS-DSS2&#39;</span><span class="p">,</span> <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -505,8 +505,8 @@ status = fc.show_hips(plot_id=&#39;aHipsID1-2&#39;, hips_root_url = hips_url,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>hips_url = &#39;http://alasky.u-strasbg.fr/AllWISE/RGB-W4-W2-W1&#39;
-status = fc.show_hips(plot_id=&#39;aHipsID2&#39;, hips_root_url=hips_url)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hips_url</span> <span class="o">=</span> <span class="s1">&#39;http://alasky.u-strasbg.fr/AllWISE/RGB-W4-W2-W1&#39;</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;aHipsID2&#39;</span><span class="p">,</span> <span class="n">hips_root_url</span><span class="o">=</span><span class="n">hips_url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -421,8 +421,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import __version__ as v
-v
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">v</span>
+<span class="n">v</span>
 </pre></div>
 </div>
 </div>
@@ -439,8 +439,8 @@ v
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
-# FireflyClient._debug = True  # enable for debug logging
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
+<span class="c1"># FireflyClient._debug = True  # enable for debug logging</span>
 </pre></div>
 </div>
 </div>
@@ -448,16 +448,16 @@ v
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># pick some host
-local_host = &#39;http://127.0.0.1:8080/firefly&#39;
-irsa = &#39;https://irsa.ipac.caltech.edu/irsaviewer&#39;
-fd = &#39;https://fireflydev.ipac.caltech.edu/firefly&#39;
-data_lsst_host = &#39;https://data.lsst.cloud/portal/app/&#39;
-host = local_host
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pick some host</span>
+<span class="n">local_host</span> <span class="o">=</span> <span class="s1">&#39;http://127.0.0.1:8080/firefly&#39;</span>
+<span class="n">irsa</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/irsaviewer&#39;</span>
+<span class="n">fd</span> <span class="o">=</span> <span class="s1">&#39;https://fireflydev.ipac.caltech.edu/firefly&#39;</span>
+<span class="n">data_lsst_host</span> <span class="o">=</span> <span class="s1">&#39;https://data.lsst.cloud/portal/app/&#39;</span>
+<span class="n">host</span> <span class="o">=</span> <span class="n">local_host</span>
 
-using_lab = False
-fc = FireflyClient.make_lab_client() if using_lab else FireflyClient.make_client(host)
-fc.get_firefly_url()
+<span class="n">using_lab</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_lab_client</span><span class="p">()</span> <span class="k">if</span> <span class="n">using_lab</span> <span class="k">else</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">get_firefly_url</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -474,7 +474,7 @@ fc.get_firefly_url()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.show_fits_image(file_input=&quot;http://web.ipac.caltech.edu.s3-us-west-2.amazonaws.com/staff/roby/demo/wise-00.fits&quot;, plot_id=&#39;x2&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="s2">&quot;http://web.ipac.caltech.edu.s3-us-west-2.amazonaws.com/staff/roby/demo/wise-00.fits&quot;</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;x2&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -491,7 +491,7 @@ fc.get_firefly_url()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.set_stretch(&#39;x1&#39;, stype=&#39;zscale&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">&#39;zscale&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -509,11 +509,11 @@ fc.get_firefly_url()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Extensions can be made but there is no web socket connections until a listener is added
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extensions can be made but there is no web socket connections until a listener is added</span>
 
-fc.add_extension(ext_type=&#39;POINT&#39;, title=&#39;Output Selected Point&#39;, shortcut_key=&#39;ctrl-p&#39;)
-fc.add_extension(ext_type=&#39;LINE_SELECT&#39;, title=&#39;Output Selected line&#39;, shortcut_key=&#39;meta-b&#39;)
-fc.add_extension(ext_type=&#39;AREA_SELECT&#39;, title=&#39;Output Selected Area&#39;, shortcut_key=&#39;a&#39;)
+<span class="n">fc</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="n">ext_type</span><span class="o">=</span><span class="s1">&#39;POINT&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Output Selected Point&#39;</span><span class="p">,</span> <span class="n">shortcut_key</span><span class="o">=</span><span class="s1">&#39;ctrl-p&#39;</span><span class="p">)</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="n">ext_type</span><span class="o">=</span><span class="s1">&#39;LINE_SELECT&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Output Selected line&#39;</span><span class="p">,</span> <span class="n">shortcut_key</span><span class="o">=</span><span class="s1">&#39;meta-b&#39;</span><span class="p">)</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="n">ext_type</span><span class="o">=</span><span class="s1">&#39;AREA_SELECT&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Output Selected Area&#39;</span><span class="p">,</span> <span class="n">shortcut_key</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -530,28 +530,28 @@ fc.add_extension(ext_type=&#39;AREA_SELECT&#39;, title=&#39;Output Selected Area
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># A Web socket should not be made until this cell is executed
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A Web socket should not be made until this cell is executed</span>
 
-def example_listener(ev):
-    if False: # set to True to see all events
-        print(ev)
-    if &#39;data&#39; not in ev:
-        print(&#39;no data found in ev&#39;)
-        return
-    data = ev[&#39;data&#39;]
-    if &#39;payload&#39; in data:
-        print(data[&#39;payload&#39;])
-    if &#39;type&#39; in data:
-        print(data[&#39;type&#39;])
-        if data[&#39;type&#39;] == &#39;POINT&#39;:
-            print(&#39;   image point: %s&#39; % data[&#39;ipt&#39;])
-            print(&#39;   world point: %s&#39; % data[&#39;wpt&#39;])
-        if data[&#39;type&#39;] == &#39;LINE_SELECT&#39; or data[&#39;type&#39;] == &#39;AREA_SELECT&#39;:
-            print(&#39;   image points: %s to %s&#39; % (data[&#39;ipt0&#39;], data[&#39;ipt1&#39;]))
-            print(&#39;   world points: %s to %s&#39; % (data[&#39;wpt0&#39;], data[&#39;wpt1&#39;]))
+<span class="k">def</span><span class="w"> </span><span class="nf">example_listener</span><span class="p">(</span><span class="n">ev</span><span class="p">):</span>
+    <span class="k">if</span> <span class="kc">False</span><span class="p">:</span> <span class="c1"># set to True to see all events</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;data&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ev</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no data found in ev&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">ev</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s1">&#39;payload&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;payload&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s1">&#39;type&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;POINT&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   image point: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ipt&#39;</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   world point: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;wpt&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;LINE_SELECT&#39;</span> <span class="ow">or</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;AREA_SELECT&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   image points: </span><span class="si">%s</span><span class="s1"> to </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ipt0&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ipt1&#39;</span><span class="p">]))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   world points: </span><span class="si">%s</span><span class="s1"> to </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;wpt0&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;wpt1&#39;</span><span class="p">]))</span>
 
 
-fc.add_listener(example_listener)
+<span class="n">fc</span><span class="o">.</span><span class="n">add_listener</span><span class="p">(</span><span class="n">example_listener</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

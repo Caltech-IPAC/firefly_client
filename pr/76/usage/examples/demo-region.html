@@ -426,11 +426,11 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
-import astropy.utils.data
-using_lab = False
-url = &#39;http://127.0.0.1:8080/firefly&#39;
-#FireflyClient._debug= True
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">astropy.utils.data</span>
+<span class="n">using_lab</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://127.0.0.1:8080/firefly&#39;</span>
+<span class="c1">#FireflyClient._debug= True</span>
 </pre></div>
 </div>
 </div>
@@ -440,7 +440,7 @@ url = &#39;http://127.0.0.1:8080/firefly&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc = FireflyClient.make_lab_client() if using_lab else FireflyClient.make_client(url)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_lab_client</span><span class="p">()</span> <span class="k">if</span> <span class="n">using_lab</span> <span class="k">else</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -454,9 +454,9 @@ url = &#39;http://127.0.0.1:8080/firefly&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>image_url = (&#39;http://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/6a/02206a&#39; +
-            &#39;/149/02206a149-w1-int-1b.fits?center=70,20&amp;size=200pix&#39;)
-filename = astropy.utils.data.download_file(image_url, cache=True, timeout=120)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;http://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/6a/02206a&#39;</span> <span class="o">+</span>
+            <span class="s1">&#39;/149/02206a149-w1-int-1b.fits?center=70,20&amp;size=200pix&#39;</span><span class="p">)</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">image_url</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -468,7 +468,7 @@ filename = astropy.utils.data.download_file(image_url, cache=True, timeout=120)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># localbrowser, browser_url = fc.launch_browser()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># localbrowser, browser_url = fc.launch_browser()</span>
 </pre></div>
 </div>
 </div>
@@ -477,7 +477,7 @@ filename = astropy.utils.data.download_file(image_url, cache=True, timeout=120)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.display_url()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">display_url</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -486,8 +486,8 @@ filename = astropy.utils.data.download_file(image_url, cache=True, timeout=120)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>imval = fc.upload_file(filename)
-status = fc.show_fits(file_on_server=imval, plot_id=&quot;region test&quot;, title=&#39;text region test&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imval</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_fits</span><span class="p">(</span><span class="n">file_on_server</span><span class="o">=</span><span class="n">imval</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s2">&quot;region test&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;text region test&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -496,14 +496,14 @@ status = fc.show_fits(file_on_server=imval, plot_id=&quot;region test&quot;, tit
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>text_regions= [
-    &#39;image;text 100 150 # color=pink text={text angle is 30 deg } edit=0 highlite=0  font=&quot;Times 16 bold normal&quot; textangle=30&#39;,
-    &#39;image;text 100 25 # color=pink text={text angle is -20 deg } font=&quot;Times 16 bold italic&quot; textangle=-20&#39;,
-    &#39;circle  80.48446937 77.231180603 13.9268922 #  text={physical;circle ;; color=cyan } color=cyan&#39;,
-    &#39;image;box 100 150 60 30 30 # color=red text={box on # J2000 with size w=60 &amp; h=30}&#39;,
-    &#39;circle  80.484469p 77.231180p 3.002392 # color=#B8E986 text={This message has both a &quot; and \&#39; in it}&#39;]
-status = fc.add_region_data(region_data=text_regions, region_layer_id=&#39;layerTextRegion&#39;,
-                  plot_id=&#39;region test&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text_regions</span><span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;image;text 100 150 # color=pink text={text angle is 30 deg } edit=0 highlite=0  font=&quot;Times 16 bold normal&quot; textangle=30&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;image;text 100 25 # color=pink text={text angle is -20 deg } font=&quot;Times 16 bold italic&quot; textangle=-20&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;circle  80.48446937 77.231180603 13.9268922 #  text={physical;circle ;; color=cyan } color=cyan&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;image;box 100 150 60 30 30 # color=red text={box on # J2000 with size w=60 &amp; h=30}&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;circle  80.484469p 77.231180p 3.002392 # color=#B8E986 text={This message has both a &quot; and </span><span class="se">\&#39;</span><span class="s1"> in it}&#39;</span><span class="p">]</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">add_region_data</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">text_regions</span><span class="p">,</span> <span class="n">region_layer_id</span><span class="o">=</span><span class="s1">&#39;layerTextRegion&#39;</span><span class="p">,</span>
+                  <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;region test&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -426,7 +426,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
 </pre></div>
 </div>
 </div>
@@ -435,10 +435,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>url=&#39;https://irsa.ipac.caltech.edu/irsaviewer&#39;
-# url=http://127.0.0.1:8080/firefly  # if you have firefly server running locally
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://irsa.ipac.caltech.edu/irsaviewer&#39;</span>
+<span class="c1"># url=http://127.0.0.1:8080/firefly  # if you have firefly server running locally</span>
 
-fc = FireflyClient.make_client(url)
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -449,9 +449,9 @@ fc = FireflyClient.make_client(url)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-testdata_repo_path = &#39;/hydra/cm&#39;  # to be reset to where test files are located on your system
+<span class="n">testdata_repo_path</span> <span class="o">=</span> <span class="s1">&#39;/hydra/cm&#39;</span>  <span class="c1"># to be reset to where test files are located on your system</span>
 </pre></div>
 </div>
 </div>
@@ -463,10 +463,10 @@ testdata_repo_path = &#39;/hydra/cm&#39;  # to be reset to where test files are 
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>localfile = os.path.join(testdata_repo_path, &#39;MF.20210502.18830.fits&#39;)
-filename = fc.upload_file(localfile)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">localfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">testdata_repo_path</span><span class="p">,</span> <span class="s1">&#39;MF.20210502.18830.fits&#39;</span><span class="p">)</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">localfile</span><span class="p">)</span>
 
-fc.show_table(filename)
+<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -475,7 +475,7 @@ fc.show_table(filename)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.show_table(filename, table_index=2)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">table_index</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -487,10 +487,10 @@ fc.show_table(filename)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>localfile = os.path.join(testdata_repo_path, &#39;Mr31objsearch.xml&#39;)
-filename = fc.upload_file(localfile)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">localfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">testdata_repo_path</span><span class="p">,</span> <span class="s1">&#39;Mr31objsearch.xml&#39;</span><span class="p">)</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">localfile</span><span class="p">)</span>
 
-fc.show_table(filename, tbl_id=&#39;votable-0&#39;)
+<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">tbl_id</span><span class="o">=</span><span class="s1">&#39;votable-0&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -499,7 +499,7 @@ fc.show_table(filename, tbl_id=&#39;votable-0&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.show_table(filename, tbl_id=&#39;votable-1&#39;, table_index=1)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">tbl_id</span><span class="o">=</span><span class="s1">&#39;votable-1&#39;</span><span class="p">,</span> <span class="n">table_index</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

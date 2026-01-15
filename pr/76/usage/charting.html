@@ -422,15 +422,15 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
 
-# Initialize a FireflyClient instance
-fc = FireflyClient.make_client(url=&quot;http://localhost:8080/firefly&quot;)
+<span class="c1"># Initialize a FireflyClient instance</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;http://localhost:8080/firefly&quot;</span><span class="p">)</span>
 
-# Display a catalog table (from URL of 2MASS TAP query for M51)
-table_url = &quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),CIRCLE(&#39;J2000&#39;,202.4841667,47.23055556,0.125))=1&quot;
-table_id = &#39;2mass-catalog&#39;
-fc.show_table(file_input=table_url, tbl_id=table_id, title=&#39;2MASS Catalog&#39;)
+<span class="c1"># Display a catalog table (from URL of 2MASS TAP query for M51)</span>
+<span class="n">table_url</span> <span class="o">=</span> <span class="s2">&quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),CIRCLE(&#39;J2000&#39;,202.4841667,47.23055556,0.125))=1&quot;</span>
+<span class="n">table_id</span> <span class="o">=</span> <span class="s1">&#39;2mass-catalog&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">table_url</span><span class="p">,</span> <span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;2MASS Catalog&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -455,8 +455,8 @@ fc.show_table(file_input=table_url, tbl_id=table_id, title=&#39;2MASS Catalog&#3
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.show_xyplot(tbl_id=table_id, # specifies which table to plot from
-               xCol=&#39;j_m&#39;, yCol=&#39;h_m-k_m&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_xyplot</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="c1"># specifies which table to plot from</span>
+               <span class="n">xCol</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span><span class="p">,</span> <span class="n">yCol</span><span class="o">=</span><span class="s1">&#39;h_m-k_m&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -477,7 +477,7 @@ fc.show_table(file_input=table_url, tbl_id=table_id, title=&#39;2MASS Catalog&#3
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.show_histogram(tbl_id=table_id, col=&#39;j_m&#39;, numBins=30)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_histogram</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span><span class="p">,</span> <span class="n">numBins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -503,17 +503,17 @@ fc.show_table(file_input=table_url, tbl_id=table_id, title=&#39;2MASS Catalog&#3
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>trace0 = {
-    # Firefly-specific key and values
-    &#39;tbl_id&#39;: table_id, &#39;x&#39;: &quot;tables::j_m&quot;, &#39;y&#39;: &quot;tables::h_m-k_m&quot;,
-    # Plotly keys and values
-    &#39;type&#39;: &#39;scatter&#39;, &#39;mode&#39;: &#39;markers&#39;,
-    &#39;marker&#39;: dict(size=4, color=&#39;red&#39;, opacity=0.6)
-    }
-layout = {&#39;title&#39;: &#39;2MASS color-mag&#39;,
-          &#39;xaxis&#39;: dict(title=&#39;J&#39;), &#39;yaxis&#39;: dict(title=&#39;H - K&#39;)}
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trace0</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># Firefly-specific key and values</span>
+    <span class="s1">&#39;tbl_id&#39;</span><span class="p">:</span> <span class="n">table_id</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s2">&quot;tables::j_m&quot;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s2">&quot;tables::h_m-k_m&quot;</span><span class="p">,</span>
+    <span class="c1"># Plotly keys and values</span>
+    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="s1">&#39;markers&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;marker&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="n">layout</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;2MASS color-mag&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;xaxis&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;J&#39;</span><span class="p">),</span> <span class="s1">&#39;yaxis&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;H - K&#39;</span><span class="p">)}</span>
 
-fc.show_chart(data=[trace0], layout=layout)
+<span class="n">fc</span><span class="o">.</span><span class="n">show_chart</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">trace0</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -531,22 +531,22 @@ fc.show_chart(data=[trace0], layout=layout)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>trace0 = dict(type=&#39;fireflyHistogram&#39;,
-                marker=dict(color=&#39;rgba(153, 51, 153, 0.8)&#39;),
-                firefly=dict(
-                    tbl_id=table_id,
-                    options=dict(
-                        algorithm=&#39;fixedsizeBins&#39;,
-                        fixedBinSizeSelection=&#39;numBins&#39;,
-                        numBins=30,
-                        columnOrExpr=&#39;j_m&#39;
-                        )))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trace0</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;fireflyHistogram&#39;</span><span class="p">,</span>
+                <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;rgba(153, 51, 153, 0.8)&#39;</span><span class="p">),</span>
+                <span class="n">firefly</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span>
+                    <span class="n">options</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                        <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;fixedsizeBins&#39;</span><span class="p">,</span>
+                        <span class="n">fixedBinSizeSelection</span><span class="o">=</span><span class="s1">&#39;numBins&#39;</span><span class="p">,</span>
+                        <span class="n">numBins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+                        <span class="n">columnOrExpr</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span>
+                        <span class="p">)))</span>
 
-layout_hist = dict(title=&#39;Photometry histogram&#39;,
-                    xaxis=dict(title=&#39;J (mag)&#39;),
-                    yaxis=dict(title=&#39;Number&#39;))
+<span class="n">layout_hist</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Photometry histogram&#39;</span><span class="p">,</span>
+                    <span class="n">xaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;J (mag)&#39;</span><span class="p">),</span>
+                    <span class="n">yaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Number&#39;</span><span class="p">))</span>
 
-fc.show_chart(layout=layout_hist, data=[trace0])
+<span class="n">fc</span><span class="o">.</span><span class="n">show_chart</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="n">layout_hist</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">trace0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -567,9 +567,9 @@ fc.show_chart(layout=layout_hist, data=[trace0])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>euclid_spec_url = &#39;http://irsa.ipac.caltech.edu/api/spectrumdm/convert/euclid/q1/SIR/102159776/EUC_SIR_W-COMBSPEC_102159776_2024-11-05T16:21:17.235160Z.fits?dataset_id=euclid_combspec&amp;hdu=217&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">euclid_spec_url</span> <span class="o">=</span> <span class="s1">&#39;http://irsa.ipac.caltech.edu/api/spectrumdm/convert/euclid/q1/SIR/102159776/EUC_SIR_W-COMBSPEC_102159776_2024-11-05T16:21:17.235160Z.fits?dataset_id=euclid_combspec&amp;hdu=217&#39;</span>
 
-fc.show_table(euclid_spec_url, title=&#39;Euclid Spectrum&#39;)
+<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">euclid_spec_url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Euclid Spectrum&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

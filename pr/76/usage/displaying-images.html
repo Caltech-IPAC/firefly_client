@@ -424,16 +424,16 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
 
-# Following imports are just for example data fetching and processing (not needed always)
-from astropy.utils.data import download_file
-from astropy.io import fits
-from astropy.convolution import convolve, Gaussian2DKernel
-import io
+<span class="c1"># Following imports are just for example data fetching and processing (not needed always)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">download_file</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.convolution</span><span class="w"> </span><span class="kn">import</span> <span class="n">convolve</span><span class="p">,</span> <span class="n">Gaussian2DKernel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
 
-# Initialize a FireflyClient instance
-fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;)
+<span class="c1"># Initialize a FireflyClient instance</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -449,7 +449,7 @@ fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cutout_image_url = &#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -457,10 +457,10 @@ fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cutout_image_plot_id = &#39;wise-cutout&#39;
-fc.show_fits_image(file_input=cutout_image_url,
-                   plot_id=cutout_image_plot_id,
-                   title=&#39;WISE Cutout&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-cutout&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">cutout_image_url</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="n">cutout_image_plot_id</span><span class="p">,</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -481,9 +481,9 @@ fc.show_fits_image(file_input=cutout_image_url,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>full_image_url = &#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits&#39;
-full_image_fpath = download_file(full_image_url, cache=True, timeout=120)
-full_image_fpath
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits&#39;</span>
+<span class="n">full_image_fpath</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">full_image_url</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+<span class="n">full_image_fpath</span>
 </pre></div>
 </div>
 </div>
@@ -500,10 +500,10 @@ full_image_fpath
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>full_image_plot_id = &#39;wise-fullimage&#39;
-fc.show_fits_image(file_input=full_image_fpath,
-                   plot_id=full_image_plot_id, # using a different plot id to not overwrite previous plot
-                   title=&#39;WISE Full Image&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-fullimage&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">full_image_fpath</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="c1"># using a different plot id to not overwrite previous plot</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Full Image&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -524,17 +524,17 @@ fc.show_fits_image(file_input=full_image_fpath,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>processed_fits = io.BytesIO()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">processed_fits</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
 
-with fits.open(cutout_image_url) as hdul:
-    # Do some processing on FITS image data (like simple Gaussian smoothing here)
-    img_data = hdul[0].data
-    gaussian_kernel = Gaussian2DKernel(x_stddev=2)
-    img_data = convolve(img_data, gaussian_kernel)
+<span class="k">with</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">cutout_image_url</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdul</span><span class="p">:</span>
+    <span class="c1"># Do some processing on FITS image data (like simple Gaussian smoothing here)</span>
+    <span class="n">img_data</span> <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">gaussian_kernel</span> <span class="o">=</span> <span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">x_stddev</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">img_data</span> <span class="o">=</span> <span class="n">convolve</span><span class="p">(</span><span class="n">img_data</span><span class="p">,</span> <span class="n">gaussian_kernel</span><span class="p">)</span>
 
-    new_hdu = fits.PrimaryHDU(data=img_data, header=hdul[0].header)
-    new_hdu.writeto(processed_fits, overwrite=True)
-    processed_fits.seek(0) # to bring reading pointer to the beginning of file
+    <span class="n">new_hdu</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">img_data</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+    <span class="n">new_hdu</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="n">processed_fits</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">processed_fits</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># to bring reading pointer to the beginning of file</span>
 </pre></div>
 </div>
 </div>
@@ -542,9 +542,9 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.show_fits_image(file_input=processed_fits,
-                   plot_id=&#39;wise-processed&#39;,
-                   title=&#39;Processed WISE Cutout&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">processed_fits</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise-processed&#39;</span><span class="p">,</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Processed WISE Cutout&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -569,8 +569,8 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.set_pan(plot_id=full_image_plot_id, # note we use the plot id we defined above
-           x=202.4841667, y=47.23055556, coord=&#39;j2000&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_pan</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="c1"># note we use the plot id we defined above</span>
+           <span class="n">x</span><span class="o">=</span><span class="mf">202.4841667</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">47.23055556</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="s1">&#39;j2000&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -591,7 +591,7 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.set_zoom(plot_id=full_image_plot_id, factor=2)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_zoom</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -612,10 +612,10 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.set_stretch(plot_id=full_image_plot_id, stype=&#39;zscale&#39;, algorithm=&#39;linear&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">&#39;zscale&#39;</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
 
-# Or for a log stretch with sigma limits:
-# fc.set_stretch(plot_id=full_image_plot_id, stype=&#39;sigma&#39;, algorithm=&#39;log&#39;, lower_value=-2, upper_value=30)
+<span class="c1"># Or for a log stretch with sigma limits:</span>
+<span class="c1"># fc.set_stretch(plot_id=full_image_plot_id, stype=&#39;sigma&#39;, algorithm=&#39;log&#39;, lower_value=-2, upper_value=30)</span>
 </pre></div>
 </div>
 </div>
@@ -638,7 +638,7 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.align_images(lock_match=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">align_images</span><span class="p">(</span><span class="n">lock_match</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -663,11 +663,11 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.dispatch(action_type=&#39;ImagePlotCntlr.ColorChange&#39;,
-            payload={
-                &#39;plotId&#39;: full_image_plot_id,
-                &#39;cbarId&#39;: 24 # veridis color map
-                })
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">action_type</span><span class="o">=</span><span class="s1">&#39;ImagePlotCntlr.ColorChange&#39;</span><span class="p">,</span>
+            <span class="n">payload</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;plotId&#39;</span><span class="p">:</span> <span class="n">full_image_plot_id</span><span class="p">,</span>
+                <span class="s1">&#39;cbarId&#39;</span><span class="p">:</span> <span class="mi">24</span> <span class="c1"># veridis color map</span>
+                <span class="p">})</span>
 </pre></div>
 </div>
 </div>
@@ -689,10 +689,10 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import RangeValues
-rvstring = RangeValues.create_rv_standard(algorithm=&#39;asinh&#39;,
-                                          asinh_q_value=6,
-                                          upper_value=98.0)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">RangeValues</span>
+<span class="n">rvstring</span> <span class="o">=</span> <span class="n">RangeValues</span><span class="o">.</span><span class="n">create_rv_standard</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;asinh&#39;</span><span class="p">,</span>
+                                          <span class="n">asinh_q_value</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                                          <span class="n">upper_value</span><span class="o">=</span><span class="mf">98.0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -702,15 +702,15 @@ rvstring = RangeValues.create_rv_standard(algorithm=&#39;asinh&#39;,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.show_fits_image(file_input=cutout_image_url,
-                   plot_id=cutout_image_plot_id, # same plot id to replace the previous image
-                   title=&#39;WISE Cutout&#39;,
-                   # additional keyword arguments
-                   ColorTable=4,
-                   ZoomType=&#39;ARCSEC_PER_SCREEN_PIX&#39;,
-                   ZoomArcsecPerScreenPix=0.3,
-                   RangeValues=rvstring
-                   )
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">cutout_image_url</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="n">cutout_image_plot_id</span><span class="p">,</span> <span class="c1"># same plot id to replace the previous image</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">,</span>
+                   <span class="c1"># additional keyword arguments</span>
+                   <span class="n">ColorTable</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                   <span class="n">ZoomType</span><span class="o">=</span><span class="s1">&#39;ARCSEC_PER_SCREEN_PIX&#39;</span><span class="p">,</span>
+                   <span class="n">ZoomArcsecPerScreenPix</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                   <span class="n">RangeValues</span><span class="o">=</span><span class="n">rvstring</span>
+                   <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -732,9 +732,9 @@ rvstring = RangeValues.create_rv_standard(algorithm=&#39;asinh&#39;,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from astropy.table import Table
-surveys = Table.read(&#39;https://raw.githubusercontent.com/Caltech-IPAC/firefly/dev/src/firefly/java/edu/caltech/ipac/firefly/resources/irsa-image-master-table.csv&#39;,
-                    format=&#39;csv&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">astropy.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="n">surveys</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/Caltech-IPAC/firefly/dev/src/firefly/java/edu/caltech/ipac/firefly/resources/irsa-image-master-table.csv&#39;</span><span class="p">,</span>
+                    <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -743,8 +743,8 @@ surveys = Table.read(&#39;https://raw.githubusercontent.com/Caltech-IPAC/firefly
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>wise_surveys = surveys[surveys[&#39;missionId&#39;] == &#39;WISE&#39;]
-wise_surveys[[&#39;AllSky&#39; in project for project in wise_surveys[&#39;project&#39;]]]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wise_surveys</span> <span class="o">=</span> <span class="n">surveys</span><span class="p">[</span><span class="n">surveys</span><span class="p">[</span><span class="s1">&#39;missionId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;WISE&#39;</span><span class="p">]</span>
+<span class="n">wise_surveys</span><span class="p">[[</span><span class="s1">&#39;AllSky&#39;</span> <span class="ow">in</span> <span class="n">project</span> <span class="k">for</span> <span class="n">project</span> <span class="ow">in</span> <span class="n">wise_surveys</span><span class="p">[</span><span class="s1">&#39;project&#39;</span><span class="p">]]]</span>
 </pre></div>
 </div>
 </div>
@@ -768,22 +768,22 @@ wise_surveys[[&#39;AllSky&#39; in project for project in wise_surveys[&#39;proje
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>size_in_arcsec = 600
-ra = 202.4841667
-dec = 47.23055556
-target = f&#39;{ra};{dec};EQ_J2000&#39;
-fc.show_fits_image(plot_id=&#39;IRAC1&#39;,
-                    Title=&#39;WISE AllSky W1 Search&#39;,
-                    Type=&#39;SERVICE&#39;,
-                    Service=&#39;WISE&#39;, # apiType
-                    SurveyKey=&#39;1b&#39;, # surveyKey
-                    SurveyKeyBand=&#39;1&#39;, # wavebandId
-                    WorldPt=target,
-                    SizeInDeg=size_in_arcsec/3600,
-                    ColorTable=1,
-                    ZoomType=&#39;ARCSEC_PER_SCREEN_PIX&#39;,
-                    ZoomArcsecPerScreenPix=0.3,
-                    RangeValues=rvstring)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">size_in_arcsec</span> <span class="o">=</span> <span class="mi">600</span>
+<span class="n">ra</span> <span class="o">=</span> <span class="mf">202.4841667</span>
+<span class="n">dec</span> <span class="o">=</span> <span class="mf">47.23055556</span>
+<span class="n">target</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ra</span><span class="si">}</span><span class="s1">;</span><span class="si">{</span><span class="n">dec</span><span class="si">}</span><span class="s1">;EQ_J2000&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;IRAC1&#39;</span><span class="p">,</span>
+                    <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;WISE AllSky W1 Search&#39;</span><span class="p">,</span>
+                    <span class="n">Type</span><span class="o">=</span><span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
+                    <span class="n">Service</span><span class="o">=</span><span class="s1">&#39;WISE&#39;</span><span class="p">,</span> <span class="c1"># apiType</span>
+                    <span class="n">SurveyKey</span><span class="o">=</span><span class="s1">&#39;1b&#39;</span><span class="p">,</span> <span class="c1"># surveyKey</span>
+                    <span class="n">SurveyKeyBand</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="c1"># wavebandId</span>
+                    <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+                    <span class="n">SizeInDeg</span><span class="o">=</span><span class="n">size_in_arcsec</span><span class="o">/</span><span class="mi">3600</span><span class="p">,</span>
+                    <span class="n">ColorTable</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">ZoomType</span><span class="o">=</span><span class="s1">&#39;ARCSEC_PER_SCREEN_PIX&#39;</span><span class="p">,</span>
+                    <span class="n">ZoomArcsecPerScreenPix</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                    <span class="n">RangeValues</span><span class="o">=</span><span class="n">rvstring</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -801,7 +801,7 @@ fc.show_fits_image(plot_id=&#39;IRAC1&#39;,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.align_images(lock_match=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">align_images</span><span class="p">(</span><span class="n">lock_match</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

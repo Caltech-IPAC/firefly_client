@@ -424,10 +424,10 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
 
-# Initialize a FireflyClient instance
-fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;)
+<span class="c1"># Initialize a FireflyClient instance</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -447,9 +447,9 @@ fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># [W4, W3, W2] from WISE all-sky as [R, G, B]
-rgb_urls = [f&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-{band}-int-1b.fits&#39;
-            for band in [&#39;w4&#39;, &#39;w3&#39;, &#39;w2&#39;]]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [W4, W3, W2] from WISE all-sky as [R, G, B]</span>
+<span class="n">rgb_urls</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">-int-1b.fits&#39;</span>
+            <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;w4&#39;</span><span class="p">,</span> <span class="s1">&#39;w3&#39;</span><span class="p">,</span> <span class="s1">&#39;w2&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
@@ -457,15 +457,15 @@ rgb_urls = [f&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>three_color_params = [
-    {
-        &#39;url&#39;: url,
-        &#39;title&#39;: &#39;3 color image&#39;
-    } for url in rgb_urls
-]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">three_color_params</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span>
+        <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;3 color image&#39;</span>
+    <span class="p">}</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">rgb_urls</span>
+<span class="p">]</span>
 
-fc.show_fits_3color(three_color_params=three_color_params,
-                    plot_id=&#39;3color-img&#39;)
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_3color</span><span class="p">(</span><span class="n">three_color_params</span><span class="o">=</span><span class="n">three_color_params</span><span class="p">,</span>
+                    <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;3color-img&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -486,15 +486,15 @@ fc.show_fits_3color(three_color_params=three_color_params,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from astropy.utils.data import download_file
-rgb_local_paths = [download_file(url, cache=True, timeout=120) for url in rgb_urls]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">astropy.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">download_file</span>
+<span class="n">rgb_local_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">rgb_urls</span><span class="p">]</span>
 
-three_color_params = [
-    {
-        &#39;file&#39;: fc.upload_file(fpath),
-        &#39;title&#39;: &#39;3 color image&#39;
-    } for fpath in rgb_local_paths
-]
+<span class="n">three_color_params</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">fc</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">fpath</span><span class="p">),</span>
+        <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;3 color image&#39;</span>
+    <span class="p">}</span> <span class="k">for</span> <span class="n">fpath</span> <span class="ow">in</span> <span class="n">rgb_local_paths</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -502,9 +502,9 @@ three_color_params = [
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.show_fits_3color(three_color_params=three_color_params,
-                    plot_id=&#39;3color-img&#39; # same id to replace previous image plot
-                    )
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_fits_3color</span><span class="p">(</span><span class="n">three_color_params</span><span class="o">=</span><span class="n">three_color_params</span><span class="p">,</span>
+                    <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;3color-img&#39;</span> <span class="c1"># same id to replace previous image plot</span>
+                    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -524,47 +524,47 @@ three_color_params = [
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>rv = &#39;92,-2,92,8,NaN,2,44,25,600,120&#39;
-ra = 202.4841667
-dec = 47.23055556
-target = f&#39;{ra};{dec};EQ_J2000&#39;
-size_deg = 0.25
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rv</span> <span class="o">=</span> <span class="s1">&#39;92,-2,92,8,NaN,2,44,25,600,120&#39;</span>
+<span class="n">ra</span> <span class="o">=</span> <span class="mf">202.4841667</span>
+<span class="n">dec</span> <span class="o">=</span> <span class="mf">47.23055556</span>
+<span class="n">target</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ra</span><span class="si">}</span><span class="s1">;</span><span class="si">{</span><span class="n">dec</span><span class="si">}</span><span class="s1">;EQ_J2000&#39;</span>
+<span class="n">size_deg</span> <span class="o">=</span> <span class="mf">0.25</span>
 
-threeC = [
-    {
-        &#39;Type&#39;: &#39;SERVICE&#39;,
-        &#39;Service&#39;: &#39;WISE&#39;,
-        &#39;Title&#39;: &#39;3 color&#39;,
-        &#39;SurveyKey&#39;: &#39;3a&#39;,
-        &#39;SurveyKeyBand&#39;: &#39;4&#39;,
-        &#39;WorldPt&#39;: target,
-        &#39;RangeValues&#39;: rv,
-        &#39;SizeInDeg&#39;: size_deg
-    },
-    {
-        &#39;Type&#39;: &#39;SERVICE&#39;,
-        &#39;Service&#39;: &#39;WISE&#39;,
-        &#39;Title&#39;: &#39;3 color&#39;,
-        &#39;SurveyKey&#39;: &#39;3a&#39;,
-        &#39;SurveyKeyBand&#39;: &#39;2&#39;,
-        &#39;WorldPt&#39;: target,
-        &#39;RangeValues&#39;: rv,
-        &#39;SizeInDeg&#39;: size_deg
-    },
-    {
-        &#39;Type&#39;: &#39;SERVICE&#39;,
-        &#39;Service&#39;: &#39;WISE&#39;,
-        &#39;Title&#39;: &#39;3 color&#39;,
-        &#39;SurveyKey&#39;: &#39;3a&#39;,
-        &#39;SurveyKeyBand&#39;: &#39;1&#39;,
-        &#39;WorldPt&#39;: target,
-        &#39;RangeValues&#39;: rv,
-        &#39;SizeInDeg&#39;: size_deg
-    }
-]
+<span class="n">threeC</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;Type&#39;</span><span class="p">:</span> <span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Service&#39;</span><span class="p">:</span> <span class="s1">&#39;WISE&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Title&#39;</span><span class="p">:</span> <span class="s1">&#39;3 color&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;SurveyKey&#39;</span><span class="p">:</span> <span class="s1">&#39;3a&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;SurveyKeyBand&#39;</span><span class="p">:</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;WorldPt&#39;</span><span class="p">:</span> <span class="n">target</span><span class="p">,</span>
+        <span class="s1">&#39;RangeValues&#39;</span><span class="p">:</span> <span class="n">rv</span><span class="p">,</span>
+        <span class="s1">&#39;SizeInDeg&#39;</span><span class="p">:</span> <span class="n">size_deg</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;Type&#39;</span><span class="p">:</span> <span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Service&#39;</span><span class="p">:</span> <span class="s1">&#39;WISE&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Title&#39;</span><span class="p">:</span> <span class="s1">&#39;3 color&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;SurveyKey&#39;</span><span class="p">:</span> <span class="s1">&#39;3a&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;SurveyKeyBand&#39;</span><span class="p">:</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;WorldPt&#39;</span><span class="p">:</span> <span class="n">target</span><span class="p">,</span>
+        <span class="s1">&#39;RangeValues&#39;</span><span class="p">:</span> <span class="n">rv</span><span class="p">,</span>
+        <span class="s1">&#39;SizeInDeg&#39;</span><span class="p">:</span> <span class="n">size_deg</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;Type&#39;</span><span class="p">:</span> <span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Service&#39;</span><span class="p">:</span> <span class="s1">&#39;WISE&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Title&#39;</span><span class="p">:</span> <span class="s1">&#39;3 color&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;SurveyKey&#39;</span><span class="p">:</span> <span class="s1">&#39;3a&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;SurveyKeyBand&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;WorldPt&#39;</span><span class="p">:</span> <span class="n">target</span><span class="p">,</span>
+        <span class="s1">&#39;RangeValues&#39;</span><span class="p">:</span> <span class="n">rv</span><span class="p">,</span>
+        <span class="s1">&#39;SizeInDeg&#39;</span><span class="p">:</span> <span class="n">size_deg</span>
+    <span class="p">}</span>
+<span class="p">]</span>
 
-fc.show_fits_3color(three_color_params=threeC,
-                    plot_id=&#39;wise_m51&#39;)
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_3color</span><span class="p">(</span><span class="n">three_color_params</span><span class="o">=</span><span class="n">threeC</span><span class="p">,</span>
+                    <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise_m51&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

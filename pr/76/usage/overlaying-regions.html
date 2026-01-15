@@ -422,16 +422,16 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
-import tempfile
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 
-# Initialize a FireflyClient instance
-fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;)
+<span class="c1"># Initialize a FireflyClient instance</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
 
-# Display a FITS image (from URL of WISE W2 cutout of M51 galaxy)
-img_url = &#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;
-plot_id = &#39;wise-cutout&#39;
-fc.show_fits_image(file_input=img_url, plot_id=plot_id, title=&#39;WISE Cutout&#39;)
+<span class="c1"># Display a FITS image (from URL of WISE W2 cutout of M51 galaxy)</span>
+<span class="n">img_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;</span>
+<span class="n">plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-cutout&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">img_url</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="n">plot_id</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -455,15 +455,15 @@ fc.show_fits_image(file_input=img_url, plot_id=plot_id, title=&#39;WISE Cutout&#
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>region_data = [&quot;icrs&quot;,
-               &quot;circle 202.4841667d 47.23055556d 6&#39; # color=red&quot;,
-               &quot;text 202.5608556d 47.3021292d {M51} # color=red&quot;,
-               ]
-region_layer_id = &#39;wise-regions&#39;
-fc.overlay_region_layer(region_data=region_data,
-                        title=&#39;WISE Annotations&#39;,
-                        region_layer_id=region_layer_id,
-                        plot_id=plot_id)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">region_data</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;icrs&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;circle 202.4841667d 47.23055556d 6&#39; # color=red&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;text 202.5608556d 47.3021292d </span><span class="si">{M51}</span><span class="s2"> # color=red&quot;</span><span class="p">,</span>
+               <span class="p">]</span>
+<span class="n">region_layer_id</span> <span class="o">=</span> <span class="s1">&#39;wise-regions&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">overlay_region_layer</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">region_data</span><span class="p">,</span>
+                        <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Annotations&#39;</span><span class="p">,</span>
+                        <span class="n">region_layer_id</span><span class="o">=</span><span class="n">region_layer_id</span><span class="p">,</span>
+                        <span class="n">plot_id</span><span class="o">=</span><span class="n">plot_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -484,13 +484,13 @@ fc.overlay_region_layer(region_data=region_data,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set it to region file you have locally
-reg_fpath = None
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set it to region file you have locally</span>
+<span class="n">reg_fpath</span> <span class="o">=</span> <span class="kc">None</span>
 
-# Here we genrate a region file using region data defined above
-with tempfile.NamedTemporaryFile(mode=&#39;w+t&#39;, delete=False, suffix=&quot;.txt&quot;) as reg_file:
-    reg_file.write(&quot;\n&quot;.join(region_data))
-    reg_fpath = reg_file.name
+<span class="c1"># Here we genrate a region file using region data defined above</span>
+<span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w+t&#39;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reg_file</span><span class="p">:</span>
+    <span class="n">reg_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">region_data</span><span class="p">))</span>
+    <span class="n">reg_fpath</span> <span class="o">=</span> <span class="n">reg_file</span><span class="o">.</span><span class="n">name</span>
 </pre></div>
 </div>
 </div>
@@ -498,10 +498,10 @@ with tempfile.NamedTemporaryFile(mode=&#39;w+t&#39;, delete=False, suffix=&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.overlay_region_layer(file_on_server=fc.upload_file(reg_fpath),
-                        title=&#39;WISE Annotations&#39;,
-                        region_layer_id=region_layer_id, # same ID to replace previous one
-                        plot_id=plot_id)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">overlay_region_layer</span><span class="p">(</span><span class="n">file_on_server</span><span class="o">=</span><span class="n">fc</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">reg_fpath</span><span class="p">),</span>
+                        <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Annotations&#39;</span><span class="p">,</span>
+                        <span class="n">region_layer_id</span><span class="o">=</span><span class="n">region_layer_id</span><span class="p">,</span> <span class="c1"># same ID to replace previous one</span>
+                        <span class="n">plot_id</span><span class="o">=</span><span class="n">plot_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -523,10 +523,10 @@ with tempfile.NamedTemporaryFile(mode=&#39;w+t&#39;, delete=False, suffix=&quot;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ra, dec = 202.49808, 47.26617
-point_source = f&#39;icrs;point {ra}d {dec}d # point=cross 25 text={{NGC 5195}} color=cyan&#39;
-fc.add_region_data(region_data=point_source,
-                   region_layer_id=region_layer_id)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="mf">202.49808</span><span class="p">,</span> <span class="mf">47.26617</span>
+<span class="n">point_source</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;icrs;point </span><span class="si">{</span><span class="n">ra</span><span class="si">}</span><span class="s1">d </span><span class="si">{</span><span class="n">dec</span><span class="si">}</span><span class="s1">d # point=cross 25 text=</span><span class="se">{{</span><span class="s1">NGC 5195</span><span class="se">}}</span><span class="s1"> color=cyan&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">add_region_data</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">point_source</span><span class="p">,</span>
+                   <span class="n">region_layer_id</span><span class="o">=</span><span class="n">region_layer_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -547,7 +547,7 @@ fc.add_region_data(region_data=point_source,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.remove_region_data(region_data=point_source, region_layer_id=region_layer_id)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">remove_region_data</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">point_source</span><span class="p">,</span> <span class="n">region_layer_id</span><span class="o">=</span><span class="n">region_layer_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -568,7 +568,7 @@ fc.add_region_data(region_data=point_source,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.delete_region_layer(region_layer_id)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">delete_region_layer</span><span class="p">(</span><span class="n">region_layer_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

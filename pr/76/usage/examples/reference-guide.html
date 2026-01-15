@@ -422,13 +422,13 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
 
-# Following imports are just for example data fetching and processing (not needed always)
-from astropy.utils.data import download_file
-from astropy.io import fits
-from astropy.convolution import convolve, Gaussian2DKernel
-import io
+<span class="c1"># Following imports are just for example data fetching and processing (not needed always)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">download_file</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.convolution</span><span class="w"> </span><span class="kn">import</span> <span class="n">convolve</span><span class="p">,</span> <span class="n">Gaussian2DKernel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
 </pre></div>
 </div>
 </div>
@@ -444,7 +444,7 @@ import io
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># fc = FireflyClient.make_lab_client()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fc = FireflyClient.make_lab_client()</span>
 </pre></div>
 </div>
 </div>
@@ -456,10 +456,10 @@ import io
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># fc = FireflyClient.make_client() # URL is taken from FIREFLY_URL env variable
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fc = FireflyClient.make_client() # URL is taken from FIREFLY_URL env variable</span>
 
-# URL can be defined explicitly as a parameter
-fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;)
+<span class="c1"># URL can be defined explicitly as a parameter</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -472,7 +472,7 @@ fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.reinit_viewer()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">reinit_viewer</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -496,7 +496,7 @@ fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cutout_image_url = &#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -504,10 +504,10 @@ fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>cutout_image_plot_id = &#39;wise-cutout&#39;
-fc.show_fits_image(file_input=cutout_image_url,
-                   plot_id=cutout_image_plot_id,
-                   title=&#39;WISE Cutout&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-cutout&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">cutout_image_url</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="n">cutout_image_plot_id</span><span class="p">,</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -528,9 +528,9 @@ fc.show_fits_image(file_input=cutout_image_url,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>full_image_url = &#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits&#39;
-full_image_fpath = download_file(full_image_url, cache=True, timeout=120)
-full_image_fpath
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits&#39;</span>
+<span class="n">full_image_fpath</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">full_image_url</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+<span class="n">full_image_fpath</span>
 </pre></div>
 </div>
 </div>
@@ -547,10 +547,10 @@ full_image_fpath
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>full_image_plot_id = &#39;wise-fullimage&#39;
-fc.show_fits_image(file_input=full_image_fpath,
-                   plot_id=full_image_plot_id, # using a different plot id to not overwrite previous plot
-                   title=&#39;WISE Full Image&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-fullimage&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">full_image_fpath</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="c1"># using a different plot id to not overwrite previous plot</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Full Image&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -571,17 +571,17 @@ fc.show_fits_image(file_input=full_image_fpath,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>processed_fits = io.BytesIO()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">processed_fits</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
 
-with fits.open(cutout_image_url) as hdul:
-    # Do some processing on FITS image data (like simple Gaussian smoothing here)
-    img_data = hdul[0].data
-    gaussian_kernel = Gaussian2DKernel(x_stddev=2)
-    img_data = convolve(img_data, gaussian_kernel)
+<span class="k">with</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">cutout_image_url</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdul</span><span class="p">:</span>
+    <span class="c1"># Do some processing on FITS image data (like simple Gaussian smoothing here)</span>
+    <span class="n">img_data</span> <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">gaussian_kernel</span> <span class="o">=</span> <span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">x_stddev</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">img_data</span> <span class="o">=</span> <span class="n">convolve</span><span class="p">(</span><span class="n">img_data</span><span class="p">,</span> <span class="n">gaussian_kernel</span><span class="p">)</span>
 
-    new_hdu = fits.PrimaryHDU(data=img_data, header=hdul[0].header)
-    new_hdu.writeto(processed_fits, overwrite=True)
-    processed_fits.seek(0) # to bring reading pointer to the beginning of file
+    <span class="n">new_hdu</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">img_data</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+    <span class="n">new_hdu</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="n">processed_fits</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">processed_fits</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># to bring reading pointer to the beginning of file</span>
 </pre></div>
 </div>
 </div>
@@ -589,9 +589,9 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.show_fits_image(file_input=processed_fits,
-                   plot_id=&#39;wise-processed&#39;,
-                   title=&#39;Processed WISE Cutout&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">processed_fits</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise-processed&#39;</span><span class="p">,</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Processed WISE Cutout&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -615,8 +615,8 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.set_pan(plot_id=full_image_plot_id, # note we use the plot id we defined above
-           x=202.4841667, y=47.23055556, coord=&#39;j2000&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_pan</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="c1"># note we use the plot id we defined above</span>
+           <span class="n">x</span><span class="o">=</span><span class="mf">202.4841667</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">47.23055556</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="s1">&#39;j2000&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -637,7 +637,7 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.set_zoom(plot_id=full_image_plot_id, factor=2)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_zoom</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -658,7 +658,7 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.align_images(lock_match=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">align_images</span><span class="p">(</span><span class="n">lock_match</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -679,7 +679,7 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.set_stretch(plot_id=full_image_plot_id, stype=&#39;zscale&#39;, algorithm=&#39;linear&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">&#39;zscale&#39;</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -703,7 +703,7 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>table_url = &quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),CIRCLE(&#39;J2000&#39;,202.4841667,47.23055556,0.125))=1&quot;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_url</span> <span class="o">=</span> <span class="s2">&quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),CIRCLE(&#39;J2000&#39;,202.4841667,47.23055556,0.125))=1&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -711,10 +711,10 @@ with fits.open(cutout_image_url) as hdul:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>table_id = &#39;2mass-catalog&#39;
-fc.show_table(file_input=table_url, # can also be a local file path or file-like object
-              tbl_id=table_id,
-              title=&#39;2MASS Catalog&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_id</span> <span class="o">=</span> <span class="s1">&#39;2mass-catalog&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">table_url</span><span class="p">,</span> <span class="c1"># can also be a local file path or file-like object</span>
+              <span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;2MASS Catalog&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -738,8 +738,8 @@ fc.show_table(file_input=table_url, # can also be a local file path or file-like
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.sort_table_column(tbl_id=table_id,
-                     column_name=&#39;j_m&#39;, sort_direction=&#39;ASC&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">sort_table_column</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span>
+                     <span class="n">column_name</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span><span class="p">,</span> <span class="n">sort_direction</span><span class="o">=</span><span class="s1">&#39;ASC&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -760,8 +760,8 @@ fc.show_table(file_input=table_url, # can also be a local file path or file-like
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.apply_table_filters(tbl_id=table_id, # note: we use the table id we defined above
-                       filters=&#39;&quot;j_m&quot;&lt;15 and &quot;j_cmsig&quot;&lt;0.05&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">apply_table_filters</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="c1"># note: we use the table id we defined above</span>
+                       <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;&quot;j_m&quot;&lt;15 and &quot;j_cmsig&quot;&lt;0.05&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -779,7 +779,7 @@ fc.show_table(file_input=table_url, # can also be a local file path or file-like
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.apply_table_filters(tbl_id=table_id, filters=&#39;&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">apply_table_filters</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -801,7 +801,7 @@ fc.show_table(file_input=table_url, # can also be a local file path or file-like
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.show_xyplot(tbl_id=table_id, xCol=&#39;j_m&#39;, yCol=&#39;h_m-k_m&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_xyplot</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">xCol</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span><span class="p">,</span> <span class="n">yCol</span><span class="o">=</span><span class="s1">&#39;h_m-k_m&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -819,13 +819,13 @@ fc.show_table(file_input=table_url, # can also be a local file path or file-like
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>trace0 = {&#39;tbl_id&#39;: table_id, &#39;x&#39;: &quot;tables::j_m&quot;, &#39;y&#39;: &quot;tables::h_m-k_m&quot;,
-          &#39;type&#39; : &#39;scatter&#39;, &#39;mode&#39;: &#39;markers&#39;,
-          &#39;marker&#39;: dict(size=4, color=&#39;red&#39;, opacity=0.6)}
-layout = {&#39;title&#39;: &#39;2MASS color-mag&#39;,
-           &#39;xaxis&#39;: dict(title=&#39;J&#39;), &#39;yaxis&#39;: dict(title=&#39;H - K&#39;)}
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trace0</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tbl_id&#39;</span><span class="p">:</span> <span class="n">table_id</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s2">&quot;tables::j_m&quot;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s2">&quot;tables::h_m-k_m&quot;</span><span class="p">,</span>
+          <span class="s1">&#39;type&#39;</span> <span class="p">:</span> <span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="s1">&#39;markers&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;marker&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)}</span>
+<span class="n">layout</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;2MASS color-mag&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;xaxis&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;J&#39;</span><span class="p">),</span> <span class="s1">&#39;yaxis&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;H - K&#39;</span><span class="p">)}</span>
 
-status = fc.show_chart(data=[trace0], layout=layout)
+<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_chart</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">trace0</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -837,11 +837,11 @@ status = fc.show_chart(data=[trace0], layout=layout)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sources_box = &quot;icrs;box 202.4841667d 47.23055556d 15&#39; 15&#39; 0d # color=yellow&quot;
-image_regions_id = &#39;wise-regions&#39;
-fc.overlay_region_layer(region_data=sources_box,
-                        title=&#39;WISE all-sky Annotations&#39;,
-                        region_layer_id=image_regions_id)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sources_box</span> <span class="o">=</span> <span class="s2">&quot;icrs;box 202.4841667d 47.23055556d 15&#39; 15&#39; 0d # color=yellow&quot;</span>
+<span class="n">image_regions_id</span> <span class="o">=</span> <span class="s1">&#39;wise-regions&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">overlay_region_layer</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">sources_box</span><span class="p">,</span>
+                        <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE all-sky Annotations&#39;</span><span class="p">,</span>
+                        <span class="n">region_layer_id</span><span class="o">=</span><span class="n">image_regions_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -859,10 +859,10 @@ fc.overlay_region_layer(region_data=sources_box,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ra, dec = 202.49808, 47.26617
-point_source = f&#39;icrs;point {ra}d {dec}d # point=cross 25 text={{NGC 5195}} color=yellow&#39;
-fc.add_region_data(region_data=point_source,
-                   region_layer_id=image_regions_id) # note: we use same region_layer_id
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="mf">202.49808</span><span class="p">,</span> <span class="mf">47.26617</span>
+<span class="n">point_source</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;icrs;point </span><span class="si">{</span><span class="n">ra</span><span class="si">}</span><span class="s1">d </span><span class="si">{</span><span class="n">dec</span><span class="si">}</span><span class="s1">d # point=cross 25 text=</span><span class="se">{{</span><span class="s1">NGC 5195</span><span class="se">}}</span><span class="s1"> color=yellow&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">add_region_data</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">point_source</span><span class="p">,</span>
+                   <span class="n">region_layer_id</span><span class="o">=</span><span class="n">image_regions_id</span><span class="p">)</span> <span class="c1"># note: we use same region_layer_id</span>
 </pre></div>
 </div>
 </div>
@@ -880,7 +880,7 @@ fc.add_region_data(region_data=point_source,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.delete_region_layer(image_regions_id)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">delete_region_layer</span><span class="p">(</span><span class="n">image_regions_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -900,14 +900,14 @@ fc.add_region_data(region_data=point_source,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>hips_url = &#39;http://alasky.u-strasbg.fr/DSS/DSSColor&#39;
-hips_plot_id = &#39;hips-img-id&#39;
-target = &#39;202.4841667;47.23055556;EQ_J2000&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hips_url</span> <span class="o">=</span> <span class="s1">&#39;http://alasky.u-strasbg.fr/DSS/DSSColor&#39;</span>
+<span class="n">hips_plot_id</span> <span class="o">=</span> <span class="s1">&#39;hips-img-id&#39;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;202.4841667;47.23055556;EQ_J2000&#39;</span>
 
-fc.show_hips(plot_id=hips_plot_id,
-             hips_root_url=hips_url,
-             Title=&#39;HiPS-DSS&#39;,
-             WorldPt=target)
+<span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">hips_plot_id</span><span class="p">,</span>
+             <span class="n">hips_root_url</span><span class="o">=</span><span class="n">hips_url</span><span class="p">,</span>
+             <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;HiPS-DSS&#39;</span><span class="p">,</span>
+             <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -926,9 +926,9 @@ fc.show_hips(plot_id=hips_plot_id,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># [W4, W2, W1] from WISE all-sky as [R, G, B]
-rgb_urls = [f&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-{band}-int-1b.fits&#39;
-            for band in [&#39;w4&#39;, &#39;w3&#39;, &#39;w2&#39;]]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [W4, W2, W1] from WISE all-sky as [R, G, B]</span>
+<span class="n">rgb_urls</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">-int-1b.fits&#39;</span>
+            <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;w4&#39;</span><span class="p">,</span> <span class="s1">&#39;w3&#39;</span><span class="p">,</span> <span class="s1">&#39;w2&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
@@ -936,14 +936,14 @@ rgb_urls = [f&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>three_color_params = [
-    {
-        &#39;url&#39;: url,
-        &#39;Title&#39;: &quot;3 color image&quot;
-    } for url in rgb_urls]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">three_color_params</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span>
+        <span class="s1">&#39;Title&#39;</span><span class="p">:</span> <span class="s2">&quot;3 color image&quot;</span>
+    <span class="p">}</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">rgb_urls</span><span class="p">]</span>
 
-fc.show_fits_3color(three_color_params=three_color_params,
-                    plot_id=&#39;3color-img&#39;)
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_3color</span><span class="p">(</span><span class="n">three_color_params</span><span class="o">=</span><span class="n">three_color_params</span><span class="p">,</span>
+                    <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;3color-img&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -960,8 +960,8 @@ fc.show_fits_3color(three_color_params=three_color_params,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Because we added more images, align and lock them by WCS again
-fc.align_images(lock_match=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Because we added more images, align and lock them by WCS again</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">align_images</span><span class="p">(</span><span class="n">lock_match</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -985,9 +985,9 @@ fc.align_images(lock_match=True)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>spherex_l2_url = &#39;https://irsa.ipac.caltech.edu/ibe/data/spherex/qr/level2/2025W19_2B/l2b-v11-2025-163/6/level2_2025W19_2B_0336_3D6_spx_l2b-v11-2025-163.fits&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spherex_l2_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/spherex/qr/level2/2025W19_2B/l2b-v11-2025-163/6/level2_2025W19_2B_0336_3D6_spx_l2b-v11-2025-163.fits&#39;</span>
 
-fc.show_data(spherex_l2_url, preview_metadata=True) # first argument can also be a local file path or file-like object
+<span class="n">fc</span><span class="o">.</span><span class="n">show_data</span><span class="p">(</span><span class="n">spherex_l2_url</span><span class="p">,</span> <span class="n">preview_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># first argument can also be a local file path or file-like object</span>
 </pre></div>
 </div>
 </div>
@@ -1008,9 +1008,9 @@ fc.show_data(spherex_l2_url, preview_metadata=True) # first argument can also be
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>euclid_spec_url = &#39;http://irsa.ipac.caltech.edu/api/spectrumdm/convert/euclid/q1/SIR/102159776/EUC_SIR_W-COMBSPEC_102159776_2024-11-05T16:21:17.235160Z.fits?dataset_id=euclid_combspec&amp;hdu=217&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">euclid_spec_url</span> <span class="o">=</span> <span class="s1">&#39;http://irsa.ipac.caltech.edu/api/spectrumdm/convert/euclid/q1/SIR/102159776/EUC_SIR_W-COMBSPEC_102159776_2024-11-05T16:21:17.235160Z.fits?dataset_id=euclid_combspec&amp;hdu=217&#39;</span>
 
-fc.show_data(euclid_spec_url, preview_metadata=False)
+<span class="n">fc</span><span class="o">.</span><span class="n">show_data</span><span class="p">(</span><span class="n">euclid_spec_url</span><span class="p">,</span> <span class="n">preview_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

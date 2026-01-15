@@ -424,10 +424,10 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
 
-# Initialize a FireflyClient instance
-fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;)
+<span class="c1"># Initialize a FireflyClient instance</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -444,22 +444,22 @@ fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewe
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>hips_url = &#39;https://irsa.ipac.caltech.edu/data/hips/CDS/2MASS/Color/&#39;
-# hips_url = &#39;http://alasky.u-strasbg.fr/DSS/DSSColor&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hips_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/data/hips/CDS/2MASS/Color/&#39;</span>
+<span class="c1"># hips_url = &#39;http://alasky.u-strasbg.fr/DSS/DSSColor&#39;</span>
 
-ra = 202.4841667
-dec = 47.23055556
-size_in_deg = 1.6
-target = f&#39;{ra};{dec};EQ_J2000&#39;
+<span class="n">ra</span> <span class="o">=</span> <span class="mf">202.4841667</span>
+<span class="n">dec</span> <span class="o">=</span> <span class="mf">47.23055556</span>
+<span class="n">size_in_deg</span> <span class="o">=</span> <span class="mf">1.6</span>
+<span class="n">target</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ra</span><span class="si">}</span><span class="s1">;</span><span class="si">{</span><span class="n">dec</span><span class="si">}</span><span class="s1">;EQ_J2000&#39;</span>
 
-hips_plot_id = &#39;hips-img-id&#39; # to identify this particular image display for later operations
+<span class="n">hips_plot_id</span> <span class="o">=</span> <span class="s1">&#39;hips-img-id&#39;</span> <span class="c1"># to identify this particular image display for later operations</span>
 
-fc.show_hips(plot_id=hips_plot_id,
-             hips_root_url=hips_url,
-             Title=&#39;HiPS image&#39;,
-             WorldPt=target,
-             SizeInDeg=size_in_deg # can be omitted
-             )
+<span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">hips_plot_id</span><span class="p">,</span>
+             <span class="n">hips_root_url</span><span class="o">=</span><span class="n">hips_url</span><span class="p">,</span>
+             <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;HiPS image&#39;</span><span class="p">,</span>
+             <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+             <span class="n">SizeInDeg</span><span class="o">=</span><span class="n">size_in_deg</span> <span class="c1"># can be omitted</span>
+             <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -480,8 +480,8 @@ fc.show_hips(plot_id=hips_plot_id,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.set_pan(plot_id=hips_plot_id, # note we use the plot id we defined above
-           x=ra+0.25, y=dec-0.25, coord=&#39;j2000&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_pan</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">hips_plot_id</span><span class="p">,</span> <span class="c1"># note we use the plot id we defined above</span>
+           <span class="n">x</span><span class="o">=</span><span class="n">ra</span><span class="o">+</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">dec</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="s1">&#39;j2000&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -503,9 +503,9 @@ fc.show_hips(plot_id=hips_plot_id,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>moc_url = &#39;https://irsa.ipac.caltech.edu/data/MOC/spitzer_seip.moc.fits&#39;
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">moc_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/data/MOC/spitzer_seip.moc.fits&#39;</span>
 
-fc.show_table(file_input=moc_url, visible=False)
+<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">moc_url</span><span class="p">,</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

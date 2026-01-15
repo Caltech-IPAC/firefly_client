@@ -426,15 +426,15 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
 
-# Initialize a FireflyClient instance
-fc = FireflyClient.make_client(url=&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;)
+<span class="c1"># Initialize a FireflyClient instance</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
 
-# Display a FITS image (from URL of WISE W2 cutout of M51 galaxy)
-img_url = &#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;
-plot_id = &#39;wise-cutout&#39;
-fc.show_fits_image(file_input=img_url, plot_id=plot_id, title=&#39;WISE Cutout&#39;)
+<span class="c1"># Display a FITS image (from URL of WISE W2 cutout of M51 galaxy)</span>
+<span class="n">img_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;</span>
+<span class="n">plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-cutout&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">img_url</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="n">plot_id</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -455,15 +455,15 @@ fc.show_fits_image(file_input=img_url, plot_id=plot_id, title=&#39;WISE Cutout&#
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def print_coords(event):
-    if &#39;data&#39; in event and &#39;wpt&#39; in event[&#39;data&#39;]:
-        wpt = event[&#39;data&#39;][&#39;wpt&#39;] # world point
-        wdata = wpt.split(&#39;;&#39;)
-        ra = float(wdata[0])
-        dec = float(wdata[1])
-        print(f&#39;ra={ra:.6f}, dec={dec:.6f}&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">print_coords</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">&#39;data&#39;</span> <span class="ow">in</span> <span class="n">event</span> <span class="ow">and</span> <span class="s1">&#39;wpt&#39;</span> <span class="ow">in</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]:</span>
+        <span class="n">wpt</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;wpt&#39;</span><span class="p">]</span> <span class="c1"># world point</span>
+        <span class="n">wdata</span> <span class="o">=</span> <span class="n">wpt</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+        <span class="n">ra</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wdata</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">dec</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wdata</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ra=</span><span class="si">{</span><span class="n">ra</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">, dec=</span><span class="si">{</span><span class="n">dec</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-fc.add_listener(print_coords)
+<span class="n">fc</span><span class="o">.</span><span class="n">add_listener</span><span class="p">(</span><span class="n">print_coords</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -475,7 +475,7 @@ fc.add_listener(print_coords)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.add_extension(ext_type=&#39;POINT&#39;, plot_id=None, title=&#39;Print coords&#39;, extension_id=&#39;pickit&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="n">ext_type</span><span class="o">=</span><span class="s1">&#39;POINT&#39;</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Print coords&#39;</span><span class="p">,</span> <span class="n">extension_id</span><span class="o">=</span><span class="s1">&#39;pickit&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -516,7 +516,7 @@ ra=202.496007, dec=47.267874
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.remove_listener(print_coords)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">remove_listener</span><span class="p">(</span><span class="n">print_coords</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

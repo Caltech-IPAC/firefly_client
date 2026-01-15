@@ -426,12 +426,12 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
-import astropy.utils.data
-using_lab = False
-#url = &#39;https://irsa.ipac.caltech.edu/irsaviewer&#39;
-url = &#39;http://127.0.0.1:8080/firefly&#39;
-#FireflyClient._debug= True
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">astropy.utils.data</span>
+<span class="n">using_lab</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="c1">#url = &#39;https://irsa.ipac.caltech.edu/irsaviewer&#39;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://127.0.0.1:8080/firefly&#39;</span>
+<span class="c1">#FireflyClient._debug= True</span>
 </pre></div>
 </div>
 </div>
@@ -441,7 +441,7 @@ url = &#39;http://127.0.0.1:8080/firefly&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc = FireflyClient.make_lab_client() if using_lab else FireflyClient.make_client(url)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_lab_client</span><span class="p">()</span> <span class="k">if</span> <span class="n">using_lab</span> <span class="k">else</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -454,9 +454,9 @@ url = &#39;http://127.0.0.1:8080/firefly&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>image_url = (&#39;http://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/6a/02206a&#39; +
-             &#39;/149/02206a149-w1-int-1b.fits?center=70,20&amp;size=200pix&#39;)
-filename = astropy.utils.data.download_file(image_url, cache=True, timeout=120)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;http://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/6a/02206a&#39;</span> <span class="o">+</span>
+             <span class="s1">&#39;/149/02206a149-w1-int-1b.fits?center=70,20&amp;size=200pix&#39;</span><span class="p">)</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">image_url</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -465,10 +465,10 @@ filename = astropy.utils.data.download_file(image_url, cache=True, timeout=120)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>table_url = (&quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;&quot; +
-                                             &quot;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),&quot; +
-                                             &quot;CIRCLE(&#39;J2000&#39;,70.0,20.0,0.1))=1&quot;)
-tablename = astropy.utils.data.download_file(table_url, timeout=120, cache=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_url</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;&quot;</span> <span class="o">+</span>
+                                             <span class="s2">&quot;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),&quot;</span> <span class="o">+</span>
+                                             <span class="s2">&quot;CIRCLE(&#39;J2000&#39;,70.0,20.0,0.1))=1&quot;</span><span class="p">)</span>
+<span class="n">tablename</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">table_url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -480,7 +480,7 @@ tablename = astropy.utils.data.download_file(table_url, timeout=120, cache=True)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># localbrowser, browser_url = fc.launch_browser()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># localbrowser, browser_url = fc.launch_browser()</span>
 </pre></div>
 </div>
 </div>
@@ -489,7 +489,7 @@ tablename = astropy.utils.data.download_file(table_url, timeout=120, cache=True)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.display_url()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">display_url</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -498,9 +498,9 @@ tablename = astropy.utils.data.download_file(table_url, timeout=120, cache=True)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># from IPython.display import IFrame
-# print(&#39;url: %s&#39; % fc.get_firefly_url())
-# IFrame(fc.get_firefly_url(), 1100, 1000)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># from IPython.display import IFrame</span>
+<span class="c1"># print(&#39;url: %s&#39; % fc.get_firefly_url())</span>
+<span class="c1"># IFrame(fc.get_firefly_url(), 1100, 1000)</span>
 </pre></div>
 </div>
 </div>
@@ -509,8 +509,8 @@ tablename = astropy.utils.data.download_file(table_url, timeout=120, cache=True)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>imval = fc.upload_file(filename)
-status = fc.show_fits(file_on_server=imval, plot_id=&quot;wise-cutout&quot;, title=&#39;WISE Cutout&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imval</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_fits</span><span class="p">(</span><span class="n">file_on_server</span><span class="o">=</span><span class="n">imval</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s2">&quot;wise-cutout&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -519,9 +519,9 @@ status = fc.show_fits(file_on_server=imval, plot_id=&quot;wise-cutout&quot;, tit
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>status = fc.show_fits(file_on_server=None, plot_id=&quot;wise-fullimage&quot;,
-                      URL=&#39;http://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/6a/02206a&#39; +
-             &#39;/149/02206a149-w1-int-1b.fits&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_fits</span><span class="p">(</span><span class="n">file_on_server</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s2">&quot;wise-fullimage&quot;</span><span class="p">,</span>
+                      <span class="n">URL</span><span class="o">=</span><span class="s1">&#39;http://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/6a/02206a&#39;</span> <span class="o">+</span>
+             <span class="s1">&#39;/149/02206a149-w1-int-1b.fits&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -530,8 +530,8 @@ status = fc.show_fits(file_on_server=imval, plot_id=&quot;wise-cutout&quot;, tit
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>file= fc.upload_file(tablename)
-status = fc.show_table(file, tbl_id=&#39;tablemass&#39;, title=&#39;My 2MASS Catalog&#39;, page_size=50)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file</span><span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">tablename</span><span class="p">)</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">tbl_id</span><span class="o">=</span><span class="s1">&#39;tablemass&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;My 2MASS Catalog&#39;</span><span class="p">,</span> <span class="n">page_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -540,7 +540,7 @@ status = fc.show_table(file, tbl_id=&#39;tablemass&#39;, title=&#39;My 2MASS Cat
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>status = fc.show_xyplot(tbl_id=&#39;tablemass&#39;, xCol=&#39;j_m&#39;, yCol=&#39;h_m-k_m&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_xyplot</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="s1">&#39;tablemass&#39;</span><span class="p">,</span> <span class="n">xCol</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span><span class="p">,</span> <span class="n">yCol</span><span class="o">=</span><span class="s1">&#39;h_m-k_m&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -549,9 +549,9 @@ status = fc.show_table(file, tbl_id=&#39;tablemass&#39;, title=&#39;My 2MASS Cat
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># trace0 = {&#39;tbl_id&#39;: &#39;tablemass&#39;, &#39;x&#39;: &quot;tables::j_m&quot;, &#39;y&#39;: &quot;tables::h_m-k_m&quot;,
-#           &#39;type&#39; : &#39;scatter&#39;, &#39;mode&#39;: &#39;markers&#39;}
-# status = fc.show_chart(data=[trace0])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># trace0 = {&#39;tbl_id&#39;: &#39;tablemass&#39;, &#39;x&#39;: &quot;tables::j_m&quot;, &#39;y&#39;: &quot;tables::h_m-k_m&quot;,</span>
+<span class="c1">#           &#39;type&#39; : &#39;scatter&#39;, &#39;mode&#39;: &#39;markers&#39;}</span>
+<span class="c1"># status = fc.show_chart(data=[trace0])</span>
 </pre></div>
 </div>
 </div>
@@ -560,7 +560,7 @@ status = fc.show_table(file, tbl_id=&#39;tablemass&#39;, title=&#39;My 2MASS Cat
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>status = fc.set_zoom(&#39;wise-fullimage&#39;, 2)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">set_zoom</span><span class="p">(</span><span class="s1">&#39;wise-fullimage&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -569,7 +569,7 @@ status = fc.show_table(file, tbl_id=&#39;tablemass&#39;, title=&#39;My 2MASS Cat
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>status = fc.set_pan(&#39;wise-fullimage&#39;, x=70, y=20, coord=&#39;J2000&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">set_pan</span><span class="p">(</span><span class="s1">&#39;wise-fullimage&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="s1">&#39;J2000&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -578,7 +578,7 @@ status = fc.show_table(file, tbl_id=&#39;tablemass&#39;, title=&#39;My 2MASS Cat
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>status = fc.set_stretch(&#39;wise-fullimage&#39;, stype=&#39;zscale&#39;, algorithm=&#39;linear&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="s1">&#39;wise-fullimage&#39;</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">&#39;zscale&#39;</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -587,7 +587,7 @@ status = fc.show_table(file, tbl_id=&#39;tablemass&#39;, title=&#39;My 2MASS Cat
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>status = fc.set_color(&#39;wise-fullimage&#39;, colormap_id=6, bias=0.6, contrast=1.5)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;wise-fullimage&#39;</span><span class="p">,</span> <span class="n">colormap_id</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">contrast</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -596,10 +596,10 @@ status = fc.show_table(file, tbl_id=&#39;tablemass&#39;, title=&#39;My 2MASS Cat
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>my_regions= [&#39;image;polygon 125 25 160 195 150 150 #color=cyan&#39;,
-            &#39;icrs;circle 69.95d 20d 30i # color=orange text={region 5/7}&#39;]
-status = fc.add_region_data(region_data=my_regions, region_layer_id=&#39;layer1&#39;,
-                  plot_id=&#39;wise-cutout&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_regions</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;image;polygon 125 25 160 195 150 150 #color=cyan&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;icrs;circle 69.95d 20d 30i # color=orange text={region 5/7}&#39;</span><span class="p">]</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">add_region_data</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">my_regions</span><span class="p">,</span> <span class="n">region_layer_id</span><span class="o">=</span><span class="s1">&#39;layer1&#39;</span><span class="p">,</span>
+                  <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise-cutout&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -608,7 +608,7 @@ status = fc.add_region_data(region_data=my_regions, region_layer_id=&#39;layer1&
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc.remove_region_data(region_data=my_regions[1], region_layer_id=&#39;layer1&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">remove_region_data</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">my_regions</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">region_layer_id</span><span class="o">=</span><span class="s1">&#39;layer1&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

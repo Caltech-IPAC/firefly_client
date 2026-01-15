@@ -421,11 +421,11 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from firefly_client import FireflyClient
-using_lab = False
-#url=&#39;https://irsa.ipac.caltech.edu/irsaviewer&#39;
-url = &#39;http://127.0.0.1:8080/firefly&#39;
-#FireflyClient._debug= True
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
+<span class="n">using_lab</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="c1">#url=&#39;https://irsa.ipac.caltech.edu/irsaviewer&#39;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://127.0.0.1:8080/firefly&#39;</span>
+<span class="c1">#FireflyClient._debug= True</span>
 </pre></div>
 </div>
 </div>
@@ -433,7 +433,7 @@ url = &#39;http://127.0.0.1:8080/firefly&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fc = FireflyClient.make_lab_client() if using_lab else FireflyClient.make_client(url)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_lab_client</span><span class="p">()</span> <span class="k">if</span> <span class="n">using_lab</span> <span class="k">else</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -441,46 +441,46 @@ url = &#39;http://127.0.0.1:8080/firefly&#39;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Add a three color fits
-# in cell 0, 0, 1, 1
-target = &#39;210.80227;54.34895;EQ_J2000&#39; #Galaxy M101
-viewer_id = &#39;3C&#39;
-r = fc.add_cell(0, 0, 1, 1, &#39;images&#39;, viewer_id)
-rv = &#39;92,-2,92,8,NaN,2,44,25,600,120&#39;
-if r[&#39;success&#39;]:
-    threeC= [
-         {
-             &#39;Type&#39;      : &#39;SERVICE&#39;,
-             &#39;Service&#39;   : &#39;WISE&#39;,
-             &#39;Title&#39;     : &#39;3 color&#39;,
-             &#39;SurveyKey&#39;  : &#39;3a&#39;,
-             &#39;SurveyKeyBand&#39;: &#39;3&#39;,
-             &#39;WorldPt&#39;    : target,
-             &#39;RangeValues&#39;: rv,
-             &#39;SizeInDeg&#39;  : &#39;.14&#39;
-         },
-         {
-             &#39;Type&#39;      : &#39;SERVICE&#39;,
-             &#39;Service&#39;   : &#39;WISE&#39;,
-             &#39;Title&#39;     : &#39;3 color&#39;,
-             &#39;SurveyKey&#39;  : &#39;3a&#39;,
-             &#39;SurveyKeyBand&#39;: &#39;2&#39;,
-             &#39;WorldPt&#39;    : target,
-             &#39;RangeValues&#39;: rv,
-             &#39;SizeInDeg&#39;  : &#39;.14&#39;
-         },
-         {
-             &#39;Type&#39;      : &#39;SERVICE&#39;,
-             &#39;Service&#39;   : &#39;WISE&#39;,
-             &#39;Title&#39;     : &#39;3 color&#39;,
-             &#39;SurveyKey&#39;  : &#39;3a&#39;,
-             &#39;SurveyKeyBand&#39;: &#39;1&#39;,
-             &#39;WorldPt&#39;    : target,
-             &#39;RangeValues&#39;: rv,
-             &#39;SizeInDeg&#39;  : &#39;.14&#39;
-         }]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add a three color fits</span>
+<span class="c1"># in cell 0, 0, 1, 1</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;210.80227;54.34895;EQ_J2000&#39;</span> <span class="c1">#Galaxy M101</span>
+<span class="n">viewer_id</span> <span class="o">=</span> <span class="s1">&#39;3C&#39;</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">add_cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;images&#39;</span><span class="p">,</span> <span class="n">viewer_id</span><span class="p">)</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="s1">&#39;92,-2,92,8,NaN,2,44,25,600,120&#39;</span>
+<span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;success&#39;</span><span class="p">]:</span>
+    <span class="n">threeC</span><span class="o">=</span> <span class="p">[</span>
+         <span class="p">{</span>
+             <span class="s1">&#39;Type&#39;</span>      <span class="p">:</span> <span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;Service&#39;</span>   <span class="p">:</span> <span class="s1">&#39;WISE&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;Title&#39;</span>     <span class="p">:</span> <span class="s1">&#39;3 color&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;SurveyKey&#39;</span>  <span class="p">:</span> <span class="s1">&#39;3a&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;SurveyKeyBand&#39;</span><span class="p">:</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;WorldPt&#39;</span>    <span class="p">:</span> <span class="n">target</span><span class="p">,</span>
+             <span class="s1">&#39;RangeValues&#39;</span><span class="p">:</span> <span class="n">rv</span><span class="p">,</span>
+             <span class="s1">&#39;SizeInDeg&#39;</span>  <span class="p">:</span> <span class="s1">&#39;.14&#39;</span>
+         <span class="p">},</span>
+         <span class="p">{</span>
+             <span class="s1">&#39;Type&#39;</span>      <span class="p">:</span> <span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;Service&#39;</span>   <span class="p">:</span> <span class="s1">&#39;WISE&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;Title&#39;</span>     <span class="p">:</span> <span class="s1">&#39;3 color&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;SurveyKey&#39;</span>  <span class="p">:</span> <span class="s1">&#39;3a&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;SurveyKeyBand&#39;</span><span class="p">:</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;WorldPt&#39;</span>    <span class="p">:</span> <span class="n">target</span><span class="p">,</span>
+             <span class="s1">&#39;RangeValues&#39;</span><span class="p">:</span> <span class="n">rv</span><span class="p">,</span>
+             <span class="s1">&#39;SizeInDeg&#39;</span>  <span class="p">:</span> <span class="s1">&#39;.14&#39;</span>
+         <span class="p">},</span>
+         <span class="p">{</span>
+             <span class="s1">&#39;Type&#39;</span>      <span class="p">:</span> <span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;Service&#39;</span>   <span class="p">:</span> <span class="s1">&#39;WISE&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;Title&#39;</span>     <span class="p">:</span> <span class="s1">&#39;3 color&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;SurveyKey&#39;</span>  <span class="p">:</span> <span class="s1">&#39;3a&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;SurveyKeyBand&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;WorldPt&#39;</span>    <span class="p">:</span> <span class="n">target</span><span class="p">,</span>
+             <span class="s1">&#39;RangeValues&#39;</span><span class="p">:</span> <span class="n">rv</span><span class="p">,</span>
+             <span class="s1">&#39;SizeInDeg&#39;</span>  <span class="p">:</span> <span class="s1">&#39;.14&#39;</span>
+         <span class="p">}]</span>
 
-    fc.show_fits_3color(threeC, plot_id=&#39;wise_m101&#39;, viewer_id=viewer_id)
+    <span class="n">fc</span><span class="o">.</span><span class="n">show_fits_3color</span><span class="p">(</span><span class="n">threeC</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise_m101&#39;</span><span class="p">,</span> <span class="n">viewer_id</span><span class="o">=</span><span class="n">viewer_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -488,8 +488,8 @@ if r[&#39;success&#39;]:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set stretch using hue-preserving algorithm with scaling coefficients .15 for RED, 1.0 for GREEN, and .4 for BLUE.
-fc.set_stretch_hprgb(plot_id=&#39;wise_m101&#39;, asinh_q_value=4.2, scaling_k=[.15,1,.4])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set stretch using hue-preserving algorithm with scaling coefficients .15 for RED, 1.0 for GREEN, and .4 for BLUE.</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">set_stretch_hprgb</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise_m101&#39;</span><span class="p">,</span> <span class="n">asinh_q_value</span><span class="o">=</span><span class="mf">4.2</span><span class="p">,</span> <span class="n">scaling_k</span><span class="o">=</span><span class="p">[</span><span class="mf">.15</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">.4</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -509,8 +509,8 @@ fc.set_stretch_hprgb(plot_id=&#39;wise_m101&#39;, asinh_q_value=4.2, scaling_k=[
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set per-band stretch
-fc.set_stretch(plot_id=&#39;wise_m101&#39;, stype=&#39;ztype&#39;, algorithm=&#39;asinh&#39;, band=&#39;ALL&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set per-band stretch</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise_m101&#39;</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">&#39;ztype&#39;</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;asinh&#39;</span><span class="p">,</span> <span class="n">band</span><span class="o">=</span><span class="s1">&#39;ALL&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -528,8 +528,8 @@ fc.set_stretch(plot_id=&#39;wise_m101&#39;, stype=&#39;ztype&#39;, algorithm=&#3
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set contrast and bias for each band
-fc.set_rgb_colors(plot_id=&#39;wise_m101&#39;, bias=[0.4, 0.6, 0.5], contrast=[1.5, 1, 2])
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set contrast and bias for each band</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">set_rgb_colors</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise_m101&#39;</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">contrast</span><span class="o">=</span><span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -546,8 +546,8 @@ fc.set_rgb_colors(plot_id=&#39;wise_m101&#39;, bias=[0.4, 0.6, 0.5], contrast=[1
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set to use red and blue band only, with default bias and contrast
-fc.set_rgb_colors(plot_id=&#39;wise_m101&#39;, use_green=False)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set to use red and blue band only, with default bias and contrast</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">set_rgb_colors</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise_m101&#39;</span><span class="p">,</span> <span class="n">use_green</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
