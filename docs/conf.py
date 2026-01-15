@@ -72,5 +72,8 @@ nbsphinx_execute = 'never'
 # Allow build to continue even if some notebooks error (useful for demos).
 nbsphinx_allow_errors = True
 
+# Ensure Pygments syntax highlighting for Jupyter code cells.
+nbsphinx_codecell_lexer = 'ipython'
+
 # Remove the .txt suffix that gets added to source files
 html_sourcelink_suffix = ''
