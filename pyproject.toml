@@ -45,8 +45,10 @@ Repository = "http://github.com/Caltech-IPAC/firefly_client.git"
 
 [project.optional-dependencies]
 docs = [
-    "Sphinx~=7.1.0",
+    "Sphinx>=7.3,<8.0",
     "sphinx-automodapi",
     "pydata-sphinx-theme",
-    "myst-parser"
+    "myst-parser",
+    "nbsphinx",
+    "ipython" # for syntax highlighting in notebooks html output
 ]

@@ -7,6 +7,5 @@ Python API for [Firefly](http://github.com/Caltech-IPAC/firefly), IPAC's Advance
 
 You can find the documentation at https://caltech-ipac.github.io/firefly_client.
 
-NOTE: Many parts of this documentation are a work in progress because the firefly_client API and its use cases evolved since it was written.
 Please report any issues or suggestions on the [GitHub issues](https://github.com/Caltech-IPAC/firefly_client/issues).
 

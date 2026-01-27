@@ -21,7 +21,7 @@ def listener4(ev):
     print(ev)
 
 
-lsst_demo_host = 'https://lsst-demo.ncsa.illinois.edu/firefly'
+lsst_host = 'https://data.lsst.cloud/portal/app'
 local_host = 'http://127.0.0.1:8080/firefly'
 host = local_host
 channel1 = 'channel-test-1'

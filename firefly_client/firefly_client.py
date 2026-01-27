@@ -1006,7 +1006,8 @@ class FireflyClient:
         is_catalog : `bool`, optional
             If the table file is a catalog (the default is *True*) or not.
         meta : `dict`
-            META_INFO for the table search request.
+            META_INFO for the table search request. The meta data allowed in
+            this dict are defined in https://github.com/Caltech-IPAC/firefly/blob/master/src/firefly/js/data/MetaConst.js
         target_search_info : `dict`, optional
             The information for target search, it may contain the following fields:
 
@@ -1078,12 +1079,12 @@ class FireflyClient:
                 title = target_search_info.get('catalog', tbl_id)
 
         meta_info = {'title': title, 'tbl_id': tbl_id}
+        if not is_catalog:
+            meta_info.update({'CatalogOverlayType': False})
         meta and meta_info.update(meta)
 
         tbl_req = {'startIdx': 0, 'pageSize': page_size, 'tbl_id': tbl_id}
         if has_file_input:
-            tbl_type = 'table' if not is_catalog else 'catalog'
-            
             # Handle different params of file input
             source = None
             if file_input:
@@ -1096,7 +1097,7 @@ class FireflyClient:
                 warn('url is deprecated, use file_input parameter instead')
                 source = url
 
-            tbl_req.update({'source': source, 'tblType': tbl_type,
+            tbl_req.update({'source': source,
                             'id': 'IpacTableFromSource'})
             table_index and tbl_req.update({'tbl_index': table_index})
         elif target_search_info:
@@ -1235,7 +1236,7 @@ class FireflyClient:
         warning and r.update({'warning': warning})
         return r
 
-    def show_histogram(self, tbl_id, group_id=PINNED_CHART_VIEWER_ID, **histogram_params):
+    def show_histogram(self, tbl_id, group_id=None, **histogram_params):
         """
         Show a histogram
 
@@ -1286,7 +1287,7 @@ class FireflyClient:
         warning and r.update({'warning': warning})
         return r
 
-    def show_chart(self, group_id=PINNED_CHART_VIEWER_ID, **chart_params):
+    def show_chart(self, group_id=None, **chart_params):
         """
         Show a plot.ly chart
 

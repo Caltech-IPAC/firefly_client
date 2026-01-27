@@ -6,8 +6,13 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
+# Make local extension modules under _ext/ importable
+import os
+import sys
+sys.path.insert(0, os.path.abspath('_ext'))
+
 project = 'firefly_client'
-copyright = '2024, Caltech/IPAC Firefly Developers'
+copyright = '2026, Caltech/IPAC Firefly Developers'
 author = 'Caltech/IPAC Firefly Developers'
 
 # -- General configuration ---------------------------------------------------
@@ -15,11 +20,18 @@ author = 'Caltech/IPAC Firefly Developers'
 
 extensions = [
     'sphinx_automodapi.automodapi',
-    'myst_parser'
+    'myst_parser',
+    'nbsphinx',
+    'script_pages', # custom extension for auto-generating RST files for examples/*.py scripts
 ]
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = [
+    '_build', 'Thumbs.db', '.DS_Store',
+    # exclude any docs in subdirectories under usage/examples/ since they are
+    # not included in any toctree and are for internal use only
+    'usage/examples/*/**'
+]
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -52,3 +64,16 @@ html_theme_options = {
 
 # -- Options for extensions -------------------------------------------------
 myst_heading_anchors = 3
+
+# nbsphinx configuration: render notebooks and Python scripts
+# Do not execute notebooks during docs build; use stored outputs if present.
+nbsphinx_execute = 'never'
+
+# Allow build to continue even if some notebooks error (useful for demos).
+nbsphinx_allow_errors = True
+
+# Ensure Pygments syntax highlighting for Jupyter code cells.
+nbsphinx_codecell_lexer = 'ipython'
+
+# Remove the .txt suffix that gets added to source files
+html_sourcelink_suffix = ''
