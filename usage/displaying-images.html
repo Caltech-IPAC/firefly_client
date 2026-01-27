@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Displaying Images &#8212; firefly_client  documentation</title>
+    <title>Displaying FITS Images &#8212; firefly_client  documentation</title>
   
   
   
@@ -31,7 +31,8 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,19 +40,22 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'usage/displaying-images';</script>
     <script src="../_static/custom-icon.js?v=a18babe4"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Visualizing Regions" href="overlaying-regions.html" />
+    <link rel="next" title="Displaying 3-Color FITS Images" href="displaying-3color.html" />
     <link rel="prev" title="Initializing a FireflyClient instance" href="initializing-vanilla.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Dec 11, 2025"/>
+    <meta name="docbuild:last-update" content="Jan 27, 2026"/>
   </head>
   
   
@@ -326,12 +330,28 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="initializing-vanilla.html">Initializing a FireflyClient instance</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Displaying Images</a></li>
-<li class="toctree-l1"><a class="reference internal" href="overlaying-regions.html">Visualizing Regions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="viewing-tables.html">Visualizing Tables and Catalogs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="charting.html">Making Plots and Histograms</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Displaying FITS Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="displaying-3color.html">Displaying 3-Color FITS Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="displaying-hips.html">Displaying HiPS Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overlaying-regions.html">Visualizing Regions on Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewing-tables.html">Displaying Tables and Catalogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="charting.html">Visualizing tables as Charts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="callbacks-extensions.html">Advanced: Callbacks and Extensions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="demo-notebooks.html">Demo Notebooks</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="demo-notebooks.html">Demo Notebooks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/reference-guide.html">Reference Guide to Firefly Python Client API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-3color.html">Show a 3 color image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-HiPS.html">Show HiPS Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-basic.html">Basic API Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-multiple-table.html">Show a file containing multiple tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-overlay-footprint.html">Overlay a footprint on image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-region.html">Add region data to image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-simple-callback-in-jupyter.html">Extensions and Callback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-simple-callback-in-terminal.html">Extensions and Callback via Terminal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/plot-interface.html">Plot interface: <code class="docutils literal notranslate"><span class="pre">firefly_client.plot</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/filetable.html">Load files as a table of data products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/multi-moc.html">Load multiple MOCs</a></li>
+</ul>
+</details></li>
 </ul>
 </div>
 </nav></div>
@@ -375,7 +395,7 @@
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Using firefly_client</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Displaying Images</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Displaying FITS Images</span></li>
   </ul>
 </nav>
 </div>
@@ -392,200 +412,418 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="displaying-images">
-<h1>Displaying Images<a class="headerlink" href="#displaying-images" title="Permalink to this heading">#</a></h1>
-<p>Since Firefly was originally developed to visualize data products from
-astronomical archives, displaying an image is a two-step process of
-uploading a file and then showing it. The examples here use the data
-products downloaded in <a class="reference internal" href="getting-started.html#firefly-client-getting-started"><span class="std std-ref">Getting Started</span></a>.</p>
-<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">FireflyClient.upload_file()</span></code> method uploads the file and
-returns a location understood by the Firefly server. The location
-string is passed to <code class="xref py py-meth docutils literal notranslate"><span class="pre">FireflyClient.show_fits()</span></code> to display
-the image. In the display step,
-it is recommended to explicitly specify the <cite>plot_id</cite> parameter
-for later use in modifying the image display.</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">fval</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="s1">&#39;2mass-m31-green.fits&#39;</span><span class="p">)</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">show_fits</span><span class="p">(</span><span class="n">fval</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;m31-green&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;2MASS H, M31&#39;</span><span class="p">)</span>
+  <!--
+NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb` so the usage docs and reference guide stay in sync.
+--><section id="Displaying-FITS-Images">
+<h1>Displaying FITS Images<a class="headerlink" href="#Displaying-FITS-Images" title="Link to this heading">#</a></h1>
+<p>This notebook shows how to display FITS images in Firefly and how to modify the image display (pan/zoom/stretch/align).</p>
+<section id="Setup">
+<h2>Setup<a class="headerlink" href="#Setup" title="Link to this heading">#</a></h2>
+<p>First, we create a <code class="docutils literal notranslate"><span class="pre">FireflyClient</span></code> instance and open a Firefly viewer. See <a class="reference external" href="./initializing-vanilla.html">Initializing a FireflyClient instance</a> for more details.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<section id="modifying-an-image-display">
-<h2>Modifying an Image Display<a class="headerlink" href="#modifying-an-image-display" title="Permalink to this heading">#</a></h2>
-<p>Zooming, panning, and changing the stretch (mapping of pixels to display
-values) is accomplished by corresponding methods, passing in the <cite>plot_id</cite>
-as the first argument.</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_zoom</span><span class="p">(</span><span class="s1">&#39;m31-green&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">set_pan</span><span class="p">(</span><span class="s1">&#39;m31-green&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">195</span><span class="p">)</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="s1">&#39;m31-green&#39;</span><span class="p">,</span> <span class="s1">&#39;sigma&#39;</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="n">lower_value</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">upper_value</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Uncomment the next line to install dependencies if needed.</span>
+<span class="c1"># !pip install firefly-client astropy</span>
 </pre></div>
 </div>
-<p>A “zscale” stretch may be commanded with alternate parameters:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="s1">&#39;m31-green&#39;</span><span class="p">,</span> <span class="s1">&#39;zscale&#39;</span><span class="p">,</span> <span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<p>At present the API does not include a function for changing the color map
-for the image. The relevant Javascript action may be invoked using
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">FireflyClient.dispatch()</span></code>:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">action_type</span><span class="o">=</span><span class="s1">&#39;ImagePlotCntlr.ColorChange&#39;</span><span class="p">,</span>
-            <span class="n">payload</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;plotId&#39;</span><span class="p">:</span> <span class="s1">&#39;m31-green&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;cbarId&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">})</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
+
+<span class="c1"># Following imports are just for example data fetching and processing (not needed always)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">download_file</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.convolution</span><span class="w"> </span><span class="kn">import</span> <span class="n">convolve</span><span class="p">,</span> <span class="n">Gaussian2DKernel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+
+<span class="c1"># Initialize a FireflyClient instance</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The colormap can be reverted to the original grayscale by using the
-command above together with <cite>‘cbarId’ : 0</cite>.</p>
-</section>
-<section id="specifying-zoom-and-stretch-values-when-first-displaying-an-image">
-<h2>Specifying Zoom and Stretch Values When First Displaying an Image<a class="headerlink" href="#specifying-zoom-and-stretch-values-when-first-displaying-an-image" title="Permalink to this heading">#</a></h2>
-<p>It is often advantageous to specify the zoom, stretch, and color table
-parameters in the same command that displays the image, to avoid problems
-with the later commands being ignored when the image display has not completed.</p>
-<p>To specify the stretch as part of the image display, you can generate
-a range values string. This example is for an asinh stretch with a Q
-value of 6 and an upper level of 98 percent:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">rvstring</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">_create_rangevalues_standard</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;asinh&#39;</span><span class="p">,</span>
-                                           <span class="n">asinh_q_value</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
-                                           <span class="n">upper_value</span><span class="o">=</span><span class="mf">98.0</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>The zoom value can be
-specified in several different ways. When displaying images with different
-pixel scales, the best practice is to specify
-<cite>ZoomType=’ARCSEC_PER_SCREEN_PIX’</cite> and then the numerical value,
-e.g. <cite>ZoomArcsecPerScreenPix=0.3</cite>.</p>
-<p>The color table is specified with an integer. The pan point can be
-specified with parameter <cite>WorldPt</cite>. For example:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">size_in_arcsec</span> <span class="o">=</span> <span class="mi">400</span>
-<span class="n">ra</span> <span class="o">=</span> <span class="mf">150.00983</span>
-<span class="n">dec</span> <span class="o">=</span> <span class="mf">2.59783</span>
-<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">;</span><span class="si">{}</span><span class="s1">;EQ_J2000&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">show_fits</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;IRAC1&#39;</span><span class="p">,</span>
-             <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;COSMOS 3.6um&#39;</span><span class="p">,</span>
-             <span class="n">Type</span><span class="o">=</span><span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
-             <span class="n">Service</span><span class="o">=</span><span class="s1">&#39;ATLAS&#39;</span><span class="p">,</span>
-             <span class="n">SurveyKey</span><span class="o">=</span><span class="s1">&#39;cosmos.cosmos_irac&#39;</span><span class="p">,</span>
-             <span class="n">SurveyKeyBand</span><span class="o">=</span><span class="s1">&#39;IRAC1&#39;</span><span class="p">,</span>
-             <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
-             <span class="n">SizeInDeg</span><span class="o">=</span><span class="n">size_in_arcsec</span><span class="o">/</span><span class="mi">3600</span><span class="p">,</span>
-             <span class="n">ColorTable</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-             <span class="n">ZoomType</span><span class="o">=</span><span class="s1">&#39;ARCSEC_PER_SCREEN_PIX&#39;</span><span class="p">,</span>
-             <span class="n">ZoomArcsecPerScreenPix</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
-             <span class="n">RangeValues</span><span class="o">=</span><span class="n">rvstring</span><span class="p">)</span>
-</pre></div>
 </div>
 </section>
-<section id="turning-on-wcs-locking">
-<h2>Turning On WCS Locking<a class="headerlink" href="#turning-on-wcs-locking" title="Permalink to this heading">#</a></h2>
-<p>When multiple images covering the same sky location are displayed, you can
-align and lock by sky coordinates. To lock and align by world coordinates:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">align_images</span><span class="p">(</span><span class="n">lock_match</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<section id="Show-FITS-Image-in-Firefly">
+<h2>Show FITS Image in Firefly<a class="headerlink" href="#Show-FITS-Image-in-Firefly" title="Link to this heading">#</a></h2>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">show_fits_image</span></code> method of the FireflyClient object to display a FITS image. It can take a local file path, URL, or a file-like object as input via the <code class="docutils literal notranslate"><span class="pre">file_input</span></code> parameter.</p>
+<p>It is recommended to explicitly specify the <code class="docutils literal notranslate"><span class="pre">plot_id</span></code> parameter for later use in modifying the image display.</p>
+<section id="From-a-URL">
+<h3>From a URL<a class="headerlink" href="#From-a-URL" title="Link to this heading">#</a></h3>
+<p>You can specify url of any FITS image. Here we use cutout of a WISE all-sky image of M51 galaxy in W2 band:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-cutout&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">cutout_image_url</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="n">cutout_image_plot_id</span><span class="p">,</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
 </div>
 </section>
-<section id="retrieving-images-using-irsa-specific-searches">
-<h2>Retrieving Images Using IRSA-Specific Searches<a class="headerlink" href="#retrieving-images-using-irsa-specific-searches" title="Permalink to this heading">#</a></h2>
-<p>Firefly includes image search processors for Infrared Science Archive (IRSA)
-image holdings. A table of available projects for image searches is
-maintained in the Firefly code base. The information can be retrieved
-into an Astropy table:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">astropy.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
-<span class="n">surveys</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/Caltech-IPAC/firefly/dev/src/firefly/&#39;</span> <span class="o">+</span>
-                     <span class="s1">&#39;java/edu/caltech/ipac/firefly/resources/irsa-image-master-table.csv&#39;</span><span class="p">,</span>
-                     <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">)</span>
+<section id="From-a-local-file">
+<h3>From a local file<a class="headerlink" href="#From-a-local-file" title="Link to this heading">#</a></h3>
+<p>You can specify path of any local FITS file. Here we download the full WISE all-sky image of M51 in W2 and use its file path:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<p>To select images available for the COSMOS project:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">cosmos_surveys</span> <span class="o">=</span> <span class="n">surveys</span><span class="p">[</span><span class="n">surveys</span><span class="p">[</span><span class="s1">&#39;missionId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;COSMOS&#39;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits&#39;</span>
+<span class="n">full_image_fpath</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">full_image_url</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+<span class="n">full_image_fpath</span>
 </pre></div>
 </div>
-<p>To search the survey:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">size_in_arcsec</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="n">ra</span> <span class="o">=</span> <span class="mf">150.00983</span>
-<span class="n">dec</span> <span class="o">=</span> <span class="mf">2.59783</span>
-<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">;</span><span class="si">{}</span><span class="s1">;EQ_J2000&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">show_fits</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;IRAC1&#39;</span><span class="p">,</span>
-             <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;COSMOS 3.6um&#39;</span><span class="p">,</span>
-             <span class="n">Type</span><span class="o">=</span><span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
-             <span class="n">Service</span><span class="o">=</span><span class="s1">&#39;ATLAS&#39;</span><span class="p">,</span>
-             <span class="n">SurveyKey</span><span class="o">=</span><span class="s1">&#39;cosmos.cosmos_irac&#39;</span><span class="p">,</span>
-             <span class="n">SurveyKeyBand</span><span class="o">=</span><span class="s1">&#39;IRAC1&#39;</span><span class="p">,</span>
-             <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
-             <span class="n">SizeInDeg</span><span class="o">=</span><span class="n">size_in_arcsec</span><span class="o">/</span><span class="mi">3600</span><span class="p">,</span>
-             <span class="n">ColorTable</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-             <span class="n">ZoomType</span><span class="o">=</span><span class="s1">&#39;ARCSEC_PER_SCREEN_PIX&#39;</span><span class="p">,</span>
-             <span class="n">ZoomArcsecPerScreenPix</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
-             <span class="n">RangeValues</span><span class="o">=</span><span class="n">rvstring</span><span class="p">)</span>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-</section>
-<section id="displaying-hips-images">
-<h2>Displaying HiPS Images<a class="headerlink" href="#displaying-hips-images" title="Permalink to this heading">#</a></h2>
-<p>While the above examples involve displaying FITS images, it’s also possible to view a HiPS image using a different method that involves specifying the base URL where the target search is performed.
-To search the survey:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">hips_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/data/hips/CDS/2MASS/Color/&#39;</span>
-<span class="n">size_in_deg</span> <span class="o">=</span> <span class="mf">0.2</span>
-<span class="n">ra</span> <span class="o">=</span> <span class="mf">274.700727</span>
-<span class="n">dec</span> <span class="o">=</span> <span class="o">-</span><span class="mf">13.807228</span>
-<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">;</span><span class="si">{}</span><span class="s1">;EQ_J2000&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">viewer_id</span><span class="o">=</span><span class="s1">&#39;hipspc1&#39;</span><span class="p">,</span>
-             <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;HipsID1-1&#39;</span><span class="p">,</span>
-             <span class="n">hips_root_url</span> <span class="o">=</span> <span class="n">hips_url</span><span class="p">,</span>
-             <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;HiPS-2m&#39;</span><span class="p">,</span>
-             <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
-             <span class="n">SizeInDeg</span><span class="o">=</span><span class="n">size_in_deg</span><span class="p">)</span>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;/Users/jsinghal/.astropy/cache/download/url/ef686a664b2c17e3d8590b511be8a400/contents&#39;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-fullimage&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">full_image_fpath</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="c1"># using a different plot id to not overwrite previous plot</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Full Image&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
 </div>
 </section>
-<section id="displaying-3-color-images">
-<h2>Displaying 3-Color Images<a class="headerlink" href="#displaying-3-color-images" title="Permalink to this heading">#</a></h2>
-<p>It is possible to create a 3-color composite image using a list of dictionaries containing included parameters on all given bands (or simply one dictionary for that band). For example:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">rv</span> <span class="o">=</span> <span class="s1">&#39;92,-2,92,8,NaN,2,44,25,600,120&#39;</span>
-<span class="n">ra</span> <span class="o">=</span> <span class="mf">210.80227</span>
-<span class="n">dec</span> <span class="o">=</span> <span class="mf">54.34895</span>
-<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">;</span><span class="si">{}</span><span class="s1">;EQ_J2000&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
-<span class="n">threeC</span><span class="o">=</span> <span class="p">[</span>
-     <span class="p">{</span>
-         <span class="s1">&#39;Type&#39;</span>      <span class="p">:</span> <span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;Service&#39;</span>   <span class="p">:</span> <span class="s1">&#39;WISE&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;Title&#39;</span>     <span class="p">:</span> <span class="s1">&#39;3 color&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;SurveyKey&#39;</span>  <span class="p">:</span> <span class="s1">&#39;3a&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;SurveyKeyBand&#39;</span><span class="p">:</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;WorldPt&#39;</span>    <span class="p">:</span> <span class="n">target</span><span class="p">,</span>
-         <span class="s1">&#39;RangeValues&#39;</span><span class="p">:</span> <span class="n">rv</span><span class="p">,</span>
-         <span class="s1">&#39;SizeInDeg&#39;</span>  <span class="p">:</span> <span class="s1">&#39;.14&#39;</span>
-     <span class="p">},</span>
-     <span class="p">{</span>
-         <span class="s1">&#39;Type&#39;</span>      <span class="p">:</span> <span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;Service&#39;</span>   <span class="p">:</span> <span class="s1">&#39;WISE&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;Title&#39;</span>     <span class="p">:</span> <span class="s1">&#39;3 color&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;SurveyKey&#39;</span>  <span class="p">:</span> <span class="s1">&#39;3a&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;SurveyKeyBand&#39;</span><span class="p">:</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;WorldPt&#39;</span>    <span class="p">:</span> <span class="n">target</span><span class="p">,</span>
-         <span class="s1">&#39;RangeValues&#39;</span><span class="p">:</span> <span class="n">rv</span><span class="p">,</span>
-         <span class="s1">&#39;SizeInDeg&#39;</span>  <span class="p">:</span> <span class="s1">&#39;.14&#39;</span>
-     <span class="p">},</span>
-     <span class="p">{</span>
-         <span class="s1">&#39;Type&#39;</span>      <span class="p">:</span> <span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;Service&#39;</span>   <span class="p">:</span> <span class="s1">&#39;WISE&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;Title&#39;</span>     <span class="p">:</span> <span class="s1">&#39;3 color&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;SurveyKey&#39;</span>  <span class="p">:</span> <span class="s1">&#39;3a&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;SurveyKeyBand&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
-         <span class="s1">&#39;WorldPt&#39;</span>    <span class="p">:</span> <span class="n">target</span><span class="p">,</span>
-         <span class="s1">&#39;RangeValues&#39;</span><span class="p">:</span> <span class="n">rv</span><span class="p">,</span>
-         <span class="s1">&#39;SizeInDeg&#39;</span>  <span class="p">:</span> <span class="s1">&#39;.14&#39;</span>
-     <span class="p">}]</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_3color</span><span class="p">(</span><span class="n">threeC</span><span class="p">,</span>
-<span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise_m101&#39;</span><span class="p">,</span>
-<span class="n">viewer_id</span><span class="o">=</span><span class="s1">&#39;3C&#39;</span><span class="p">)</span>
+<section id="From-an-in-memory-file-like-object">
+<h3>From an in-memory file-like object<a class="headerlink" href="#From-an-in-memory-file-like-object" title="Link to this heading">#</a></h3>
+<p>You can also use a file-like object (e.g. <code class="docutils literal notranslate"><span class="pre">BytesIO</span></code> stream) instead of a local file path or URL. This is useful when you are working with a FITS file in memory and don’t want to write it to disk.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">processed_fits</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">cutout_image_url</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdul</span><span class="p">:</span>
+    <span class="c1"># Do some processing on FITS image data (like simple Gaussian smoothing here)</span>
+    <span class="n">img_data</span> <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">gaussian_kernel</span> <span class="o">=</span> <span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">x_stddev</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">img_data</span> <span class="o">=</span> <span class="n">convolve</span><span class="p">(</span><span class="n">img_data</span><span class="p">,</span> <span class="n">gaussian_kernel</span><span class="p">)</span>
+
+    <span class="n">new_hdu</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">img_data</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+    <span class="n">new_hdu</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="n">processed_fits</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">processed_fits</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># to bring reading pointer to the beginning of file</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">processed_fits</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise-processed&#39;</span><span class="p">,</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Processed WISE Cutout&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
 </div>
 </section>
-<section id="displaying-image-from-a-url">
-<h2>Displaying Image from a URL<a class="headerlink" href="#displaying-image-from-a-url" title="Permalink to this heading">#</a></h2>
-<p>If you have the URL of an image, you can pass it directly instead of
-downloading it and then uploading it to firefly:</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">image_url</span> <span class="o">=</span> <span class="s1">&#39;http://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/6a/02206a/149/02206a149-w1-int-1b.fits?center=70,20&amp;size=200pix&#39;</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">show_fits</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">image_url</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise-allsky&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE all-sky&#39;</span><span class="p">)</span>
+</section>
+<section id="Modify-the-displayed-image(s)">
+<h2>Modify the displayed image(s)<a class="headerlink" href="#Modify-the-displayed-image(s)" title="Link to this heading">#</a></h2>
+<p>Zooming, panning, and changing the stretch is accomplished by following methods, passing in the <code class="docutils literal notranslate"><span class="pre">plot_id</span></code> as the first argument.</p>
+<section id="Panning-to-a-coordinate">
+<h3>Panning to a coordinate<a class="headerlink" href="#Panning-to-a-coordinate" title="Link to this heading">#</a></h3>
+<p>To pan the full image to center on the M51 cutout’s center:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_pan</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="c1"># note we use the plot id we defined above</span>
+           <span class="n">x</span><span class="o">=</span><span class="mf">202.4841667</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">47.23055556</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="s1">&#39;j2000&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Zooming">
+<h3>Zooming<a class="headerlink" href="#Zooming" title="Link to this heading">#</a></h3>
+<p>To zoom into the full image by a factor of 2:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_zoom</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Changing-the-color-stretch">
+<h3>Changing the color stretch<a class="headerlink" href="#Changing-the-color-stretch" title="Link to this heading">#</a></h3>
+<p>Set the stretch for the full image based on IRAF zscale interval with a linear algorithm:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">&#39;zscale&#39;</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+
+<span class="c1"># Or for a log stretch with sigma limits:</span>
+<span class="c1"># fc.set_stretch(plot_id=full_image_plot_id, stype=&#39;sigma&#39;, algorithm=&#39;log&#39;, lower_value=-2, upper_value=30)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True,
+ &#39;rv_string&#39;: &#39;91,1.000000,91,1.000000,NaN,2.000000,44,25,600,120,0,NaN,1.000000&#39;}
+</pre></div></div>
+</div>
+</section>
+<section id="Aligning-multiple-images">
+<h3>Aligning multiple images<a class="headerlink" href="#Aligning-multiple-images" title="Link to this heading">#</a></h3>
+<p>You can align mutliple images covering the same sky location by target, WCS, pixels, etc. Optionally, you can also lock the alignment so that panning/zooming one image will pan/zoom the other images in sync.</p>
+<p>To align both full image and cutout image by WCS and to lock the WCS matching:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">align_images</span><span class="p">(</span><span class="n">lock_match</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Advanced-Usage-(Low-level,-Unstable-API)">
+<h2>Advanced Usage (Low-level, Unstable API)<a class="headerlink" href="#Advanced-Usage-(Low-level,-Unstable-API)" title="Link to this heading">#</a></h2>
+<p>In most cases, you do not need the low-level API to create or modify image displays, since the higher-level methods shown above cover common workflows and you can always directly use the UI controls in Firefly. For completeness, the sections below document low-level operations that may be useful to advanced users. Note that the low-level API is unstable and may change, so examples here might not work in all cases.</p>
+<section id="Changing-the-color-map">
+<h3>Changing the color map<a class="headerlink" href="#Changing-the-color-map" title="Link to this heading">#</a></h3>
+<p>FireflyClient doesn’t provide a high-level method to change the color map but you can do so by using the lower-level API: dispatch the relevant JavaScript action with the required parameters in the payload.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">action_type</span><span class="o">=</span><span class="s1">&#39;ImagePlotCntlr.ColorChange&#39;</span><span class="p">,</span>
+            <span class="n">payload</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;plotId&#39;</span><span class="p">:</span> <span class="n">full_image_plot_id</span><span class="p">,</span>
+                <span class="s1">&#39;cbarId&#39;</span><span class="p">:</span> <span class="mi">24</span> <span class="c1"># veridis color map</span>
+                <span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Specifying-Zoom-and-Stretch-Values-When-First-Displaying-an-Image">
+<h3>Specifying Zoom and Stretch Values When First Displaying an Image<a class="headerlink" href="#Specifying-Zoom-and-Stretch-Values-When-First-Displaying-an-Image" title="Link to this heading">#</a></h3>
+<p>It can be advantageous to specify the zoom, stretch, and color table parameters in the same command that displays the image, to avoid problems with the later commands being ignored when the image display has not completed.</p>
+<p>To specify the stretch as part of the image display, you can generate a range values string. This example is for an asinh stretch with a Q value of 6 and an upper level of 98 percent:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">RangeValues</span>
+<span class="n">rvstring</span> <span class="o">=</span> <span class="n">RangeValues</span><span class="o">.</span><span class="n">create_rv_standard</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;asinh&#39;</span><span class="p">,</span>
+                                          <span class="n">asinh_q_value</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                                          <span class="n">upper_value</span><span class="o">=</span><span class="mf">98.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The zoom value can be specified in several different ways. When displaying images with different pixel scales, the best practice is to specify <code class="docutils literal notranslate"><span class="pre">ZoomType='ARCSEC_PER_SCREEN_PIX'</span></code> and then the numerical value, e.g. <code class="docutils literal notranslate"><span class="pre">ZoomArcsecPerScreenPix=0.3</span></code>.</p>
+<p>These parameters use the key names defined in <a class="reference external" href="https://github.com/Caltech-IPAC/firefly/blob/dev/docs/fits-plotting-parameters.md">FITS Plotting Parameters</a> for the Firefly JavaScript. They can be passed to the <code class="docutils literal notranslate"><span class="pre">show_fits_image</span></code> method as additional keyword arguments:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">cutout_image_url</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="n">cutout_image_plot_id</span><span class="p">,</span> <span class="c1"># same plot id to replace the previous image</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">,</span>
+                   <span class="c1"># additional keyword arguments</span>
+                   <span class="n">ColorTable</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                   <span class="n">ZoomType</span><span class="o">=</span><span class="s1">&#39;ARCSEC_PER_SCREEN_PIX&#39;</span><span class="p">,</span>
+                   <span class="n">ZoomArcsecPerScreenPix</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                   <span class="n">RangeValues</span><span class="o">=</span><span class="n">rvstring</span>
+                   <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Retrieving-Images-Using-IRSA-Specific-Searches">
+<h3>Retrieving Images Using IRSA-Specific Searches<a class="headerlink" href="#Retrieving-Images-Using-IRSA-Specific-Searches" title="Link to this heading">#</a></h3>
+<p>Instead of providing FITS image file (as a local file path, URL, or file-like object), you can also retrieve images by utilizing Firefly’s image search processors that powers the IRSA archives.</p>
+<p>A table of available projects for image searches is maintained in the Firefly code base. The information can be retrieved into an Astropy table:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">astropy.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="n">surveys</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/Caltech-IPAC/firefly/dev/src/firefly/java/edu/caltech/ipac/firefly/resources/irsa-image-master-table.csv&#39;</span><span class="p">,</span>
+                    <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>To select images available for the WISE AllSky project:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wise_surveys</span> <span class="o">=</span> <span class="n">surveys</span><span class="p">[</span><span class="n">surveys</span><span class="p">[</span><span class="s1">&#39;missionId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;WISE&#39;</span><span class="p">]</span>
+<span class="n">wise_surveys</span><span class="p">[[</span><span class="s1">&#39;AllSky&#39;</span> <span class="ow">in</span> <span class="n">project</span> <span class="k">for</span> <span class="n">project</span> <span class="ow">in</span> <span class="n">wise_surveys</span><span class="p">[</span><span class="s1">&#39;project&#39;</span><span class="p">]]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div><i>Table length=4</i>
+<table id="table4412039312" class="table-striped table-bordered table-condensed">
+<thead><tr><th>missionId</th><th>project</th><th>subProject</th><th>surveyKey</th><th>acronym</th><th>wavebandId</th><th>imageId</th><th>title</th><th>wavelength</th><th>wavelengthDesc</th><th>waveType</th><th>projectTypeKey</th><th>projectTypeDesc</th><th>minRangeDeg</th><th>maxRangeDeg</th><th>helpUrl</th><th>tooltip</th><th>apiType</th><th>filter</th><th>dataType</th><th>defaultRgbColor</th></tr></thead>
+<thead><tr><th>str8</th><th>str115</th><th>str8</th><th>str33</th><th>str25</th><th>str11</th><th>str2</th><th>str42</th><th>float64</th><th>str15</th><th>str7</th><th>str13</th><th>str13</th><th>float64</th><th>float64</th><th>str74</th><th>str46</th><th>str7</th><th>str80</th><th>str5</th><th>str5</th></tr></thead>
+<tr><td>WISE</td><td>WISE  AllSky Atlas</td><td>--</td><td>1b</td><td>WISE AllSky W1</td><td>1</td><td>--</td><td>W1 (3.4 microns)</td><td>3.4</td><td>3.4 microns</td><td>mid-IR</td><td>all-sky</td><td>all-sky</td><td>0.01</td><td>0.2</td><td>https://irsa.ipac.caltech.edu/docs/irsaviewer_datasets.html#WISEAll-Sky</td><td>WISE AllSky SIngle Exposure W1 3.4 microns</td><td>WISE</td><td>--</td><td>image</td><td>--</td></tr>
+<tr><td>WISE</td><td>WISE  AllSky Atlas</td><td>--</td><td>1b</td><td>WISE AllSky W2</td><td>2</td><td>--</td><td>W2 (4.6 microns)</td><td>4.6</td><td>4.6 microns</td><td>mid-IR</td><td>all-sky</td><td>all-sky</td><td>0.01</td><td>0.2</td><td>https://irsa.ipac.caltech.edu/docs/irsaviewer_datasets.html#WISEAll-Sky</td><td>WISE AllSky SIngle Exposure W2</td><td>WISE</td><td>--</td><td>image</td><td>--</td></tr>
+<tr><td>WISE</td><td>WISE  AllSky Atlas</td><td>--</td><td>1b</td><td>WISE AllSky W3</td><td>3</td><td>--</td><td>W3 (12 microns)</td><td>12.0</td><td>12 microns</td><td>mid-IR</td><td>all-sky</td><td>all-sky</td><td>0.01</td><td>0.2</td><td>https://irsa.ipac.caltech.edu/docs/irsaviewer_datasets.html#WISEAll-Sky</td><td>WISE AllSky SIngle Exposure W3</td><td>WISE</td><td>--</td><td>image</td><td>--</td></tr>
+<tr><td>WISE</td><td>WISE  AllSky Atlas</td><td>--</td><td>1b</td><td>WISE AllSky W4</td><td>4</td><td>--</td><td>W4 (22 microns)</td><td>22.0</td><td>22 microns</td><td>mid-IR</td><td>all-sky</td><td>all-sky</td><td>0.01</td><td>0.2</td><td>https://irsa.ipac.caltech.edu/docs/irsaviewer_datasets.html#WISEAll-Sky</td><td>WISE AllSky SIngle Exposure W4</td><td>WISE</td><td>--</td><td>image</td><td>--</td></tr>
+</table></div></div>
+</div>
+<p>To search the WISE AllSky survey in W1 band:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">size_in_arcsec</span> <span class="o">=</span> <span class="mi">600</span>
+<span class="n">ra</span> <span class="o">=</span> <span class="mf">202.4841667</span>
+<span class="n">dec</span> <span class="o">=</span> <span class="mf">47.23055556</span>
+<span class="n">target</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ra</span><span class="si">}</span><span class="s1">;</span><span class="si">{</span><span class="n">dec</span><span class="si">}</span><span class="s1">;EQ_J2000&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;IRAC1&#39;</span><span class="p">,</span>
+                    <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;WISE AllSky W1 Search&#39;</span><span class="p">,</span>
+                    <span class="n">Type</span><span class="o">=</span><span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
+                    <span class="n">Service</span><span class="o">=</span><span class="s1">&#39;WISE&#39;</span><span class="p">,</span> <span class="c1"># apiType</span>
+                    <span class="n">SurveyKey</span><span class="o">=</span><span class="s1">&#39;1b&#39;</span><span class="p">,</span> <span class="c1"># surveyKey</span>
+                    <span class="n">SurveyKeyBand</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="c1"># wavebandId</span>
+                    <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+                    <span class="n">SizeInDeg</span><span class="o">=</span><span class="n">size_in_arcsec</span><span class="o">/</span><span class="mi">3600</span><span class="p">,</span>
+                    <span class="n">ColorTable</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">ZoomType</span><span class="o">=</span><span class="s1">&#39;ARCSEC_PER_SCREEN_PIX&#39;</span><span class="p">,</span>
+                    <span class="n">ZoomArcsecPerScreenPix</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                    <span class="n">RangeValues</span><span class="o">=</span><span class="n">rvstring</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+<p>Since we added additional images to the viewer, we re-align and lock them by WCS so panning/zooming stays in sync:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">align_images</span><span class="p">(</span><span class="n">lock_match</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
 </section>
 </section>
 
@@ -609,11 +847,11 @@ downloading it and then uploading it to firefly:</p>
       </div>
     </a>
     <a class="right-next"
-       href="overlaying-regions.html"
+       href="displaying-3color.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Visualizing Regions</p>
+        <p class="prev-next-title">Displaying 3-Color FITS Images</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -636,13 +874,26 @@ downloading it and then uploading it to firefly:</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-an-image-display">Modifying an Image Display</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-zoom-and-stretch-values-when-first-displaying-an-image">Specifying Zoom and Stretch Values When First Displaying an Image</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#turning-on-wcs-locking">Turning On WCS Locking</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieving-images-using-irsa-specific-searches">Retrieving Images Using IRSA-Specific Searches</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#displaying-hips-images">Displaying HiPS Images</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#displaying-3-color-images">Displaying 3-Color Images</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#displaying-image-from-a-url">Displaying Image from a URL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Show-FITS-Image-in-Firefly">Show FITS Image in Firefly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#From-a-URL">From a URL</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#From-a-local-file">From a local file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#From-an-in-memory-file-like-object">From an in-memory file-like object</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Modify-the-displayed-image(s)">Modify the displayed image(s)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Panning-to-a-coordinate">Panning to a coordinate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Zooming">Zooming</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Changing-the-color-stretch">Changing the color stretch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Aligning-multiple-images">Aligning multiple images</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Advanced-Usage-(Low-level,-Unstable-API)">Advanced Usage (Low-level, Unstable API)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Changing-the-color-map">Changing the color map</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Specifying-Zoom-and-Stretch-Values-When-First-Displaying-an-Image">Specifying Zoom and Stretch Values When First Displaying an Image</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Retrieving-Images-Using-IRSA-Specific-Searches">Retrieving Images Using IRSA-Specific Searches</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
@@ -650,7 +901,7 @@ downloading it and then uploading it to firefly:</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/usage/displaying-images.rst.txt"
+      <li><a href="../_sources/usage/displaying-images.ipynb"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>
@@ -680,14 +931,14 @@ downloading it and then uploading it to firefly:</p>
 
   <p class="copyright">
     
-      © Copyright 2024, Caltech/IPAC Firefly Developers.
+      © Copyright 2026, Caltech/IPAC Firefly Developers.
       <br/>
     
   </p>
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Dec 11, 2025.
+  Last updated on Jan 27, 2026.
   <br/>
 </p></div>
       
@@ -700,7 +951,7 @@ downloading it and then uploading it to firefly:</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     <br/>
   </p>
 </div>

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
@@ -31,7 +31,7 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,9 +39,10 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/firefly_client.FireflyClient';</script>
     <script src="../_static/custom-icon.js?v=a18babe4"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -50,7 +51,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Dec 11, 2025"/>
+    <meta name="docbuild:last-update" content="Jan 27, 2026"/>
   </head>
   
   
@@ -385,14 +386,14 @@
                 <article class="bd-article">
                   
   <section id="fireflyclient">
-<h1>FireflyClient<a class="headerlink" href="#fireflyclient" title="Permalink to this heading">#</a></h1>
+<h1>FireflyClient<a class="headerlink" href="#fireflyclient" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">firefly_client.</span></span><span class="sig-name descname"><span class="pre">FireflyClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_override</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">firefly_client.</span></span><span class="sig-name descname"><span class="pre">FireflyClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_override</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>For Firefly client to build interface to remotely communicate to the Firefly viewer.</p>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">#</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
 <dl>
 <dt>url<span class="classifier"><cite>str</cite></span></dt><dd><p>URL for Firefly server, e.g. <a class="reference external" href="https://lsst-demo.ncsa.illinois.edu/firefly">https://lsst-demo.ncsa.illinois.edu/firefly</a>.
 Defaults to the value of the environment variable FIREFLY_URL, if defined;
@@ -602,10 +603,7 @@ in the sessions attribute.</p>
 <td><p>Show any data file of the type that Firefly supports:</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#firefly_client.FireflyClient.show_fits" title="firefly_client.FireflyClient.show_fits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_fits</span></code></a>(*args, **kwargs)</p></td>
-<td><p><div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 3.4.0.</span></p>
-</div>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#firefly_client.FireflyClient.show_fits_3color" title="firefly_client.FireflyClient.show_fits_3color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_fits_3color</span></code></a>(three_color_params[, ...])</p></td>
 <td><p>Show a 3-color image constructed from the three color parameters</p></td>
@@ -661,87 +659,87 @@ in the sessions attribute.</p>
 <p class="rubric">Attributes Documentation</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.BIVIEW_IChCov_T">
-<span class="sig-name descname"><span class="pre">BIVIEW_IChCov_T</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BIVIEW_IChCov_T'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.BIVIEW_IChCov_T" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">BIVIEW_IChCov_T</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BIVIEW_IChCov_T'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.BIVIEW_IChCov_T" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.BIVIEW_ICov_Ch">
-<span class="sig-name descname"><span class="pre">BIVIEW_ICov_Ch</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BIVIEW_ICov_Ch'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.BIVIEW_ICov_Ch" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">BIVIEW_ICov_Ch</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BIVIEW_ICov_Ch'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.BIVIEW_ICov_Ch" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.BIVIEW_I_ChCov">
-<span class="sig-name descname"><span class="pre">BIVIEW_I_ChCov</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BIVIEW_I_ChCov'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.BIVIEW_I_ChCov" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">BIVIEW_I_ChCov</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BIVIEW_I_ChCov'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.BIVIEW_I_ChCov" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.BIVIEW_T_IChCov">
-<span class="sig-name descname"><span class="pre">BIVIEW_T_IChCov</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BIVIEW_T_IChCov'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.BIVIEW_T_IChCov" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">BIVIEW_T_IChCov</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BIVIEW_T_IChCov'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.BIVIEW_T_IChCov" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.NO_VIEWER">
-<span class="sig-name descname"><span class="pre">NO_VIEWER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NO_VIEWER'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.NO_VIEWER" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">NO_VIEWER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NO_VIEWER'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.NO_VIEWER" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.PINNED_CHART_VIEWER_ID">
-<span class="sig-name descname"><span class="pre">PINNED_CHART_VIEWER_ID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PINNED_CHART_VIEWER_ID'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.PINNED_CHART_VIEWER_ID" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">PINNED_CHART_VIEWER_ID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PINNED_CHART_VIEWER_ID'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.PINNED_CHART_VIEWER_ID" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.PINNED_IMAGE_VIEWER_ID">
-<span class="sig-name descname"><span class="pre">PINNED_IMAGE_VIEWER_ID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DEFAULT_FITS_VIEWER_ID'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.PINNED_IMAGE_VIEWER_ID" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">PINNED_IMAGE_VIEWER_ID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DEFAULT_FITS_VIEWER_ID'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.PINNED_IMAGE_VIEWER_ID" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.SLATE_VIEWER">
-<span class="sig-name descname"><span class="pre">SLATE_VIEWER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'FireflySlate'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.SLATE_VIEWER" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">SLATE_VIEWER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'FireflySlate'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.SLATE_VIEWER" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.TAB_ID">
-<span class="sig-name descname"><span class="pre">TAB_ID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'firefly-viewer-tab-id'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.TAB_ID" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">TAB_ID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'firefly-viewer-tab-id'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.TAB_ID" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.TRIVIEW_ICov_Ch_T">
-<span class="sig-name descname"><span class="pre">TRIVIEW_ICov_Ch_T</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'TRIVIEW_ICov_Ch_T'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.TRIVIEW_ICov_Ch_T" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">TRIVIEW_ICov_Ch_T</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'TRIVIEW_ICov_Ch_T'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.TRIVIEW_ICov_Ch_T" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.TRIVIEW_I_ChCov_T">
-<span class="sig-name descname"><span class="pre">TRIVIEW_I_ChCov_T</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'TRIVIEW_I_ChCov_T'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.TRIVIEW_I_ChCov_T" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">TRIVIEW_I_ChCov_T</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'TRIVIEW_I_ChCov_T'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.TRIVIEW_I_ChCov_T" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.TRIVIEW_VIEWER">
-<span class="sig-name descname"><span class="pre">TRIVIEW_VIEWER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'FireflyViewer'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.TRIVIEW_VIEWER" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">TRIVIEW_VIEWER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'FireflyViewer'</span></em><a class="headerlink" href="#firefly_client.FireflyClient.TRIVIEW_VIEWER" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.instances">
-<span class="sig-name descname"><span class="pre">instances</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#firefly_client.FireflyClient.instances" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">instances</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#firefly_client.FireflyClient.instances" title="Link to this definition">#</a></dt>
 <dd><p>All events are enabled for the listener (<cite>str</cite>).</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.tri_view_layout_desc">
-<span class="sig-name descname"><span class="pre">tri_view_layout_desc</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'BIVIEW_IChCov_T':</span> <span class="pre">'left:</span> <span class="pre">image/charts/cov,</span> <span class="pre">right:</span> <span class="pre">tables',</span> <span class="pre">'BIVIEW_ICov_Ch':</span> <span class="pre">'left:</span> <span class="pre">image/cov,</span> <span class="pre">right:</span> <span class="pre">charts',</span> <span class="pre">'BIVIEW_I_ChCov':</span> <span class="pre">'left:</span> <span class="pre">image,</span> <span class="pre">right:</span> <span class="pre">charts/cov',</span> <span class="pre">'BIVIEW_T_IChCov':</span> <span class="pre">'left:</span> <span class="pre">tables,</span> <span class="pre">right:</span> <span class="pre">image/charts/cov',</span> <span class="pre">'TRIVIEW_ICov_Ch_T':</span> <span class="pre">'top</span> <span class="pre">left:</span> <span class="pre">image/cov,</span> <span class="pre">top</span> <span class="pre">right:</span> <span class="pre">charts,</span> <span class="pre">bottom:</span> <span class="pre">tables',</span> <span class="pre">'TRIVIEW_I_ChCov_T':</span> <span class="pre">'top</span> <span class="pre">left:</span> <span class="pre">image,</span> <span class="pre">top</span> <span class="pre">right:</span> <span class="pre">charts/cov,</span> <span class="pre">bottom:</span> <span class="pre">tables'}</span></em><a class="headerlink" href="#firefly_client.FireflyClient.tri_view_layout_desc" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">tri_view_layout_desc</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'BIVIEW_IChCov_T':</span> <span class="pre">'left:</span> <span class="pre">image/charts/cov,</span> <span class="pre">right:</span> <span class="pre">tables',</span> <span class="pre">'BIVIEW_ICov_Ch':</span> <span class="pre">'left:</span> <span class="pre">image/cov,</span> <span class="pre">right:</span> <span class="pre">charts',</span> <span class="pre">'BIVIEW_I_ChCov':</span> <span class="pre">'left:</span> <span class="pre">image,</span> <span class="pre">right:</span> <span class="pre">charts/cov',</span> <span class="pre">'BIVIEW_T_IChCov':</span> <span class="pre">'left:</span> <span class="pre">tables,</span> <span class="pre">right:</span> <span class="pre">image/charts/cov',</span> <span class="pre">'TRIVIEW_ICov_Ch_T':</span> <span class="pre">'top</span> <span class="pre">left:</span> <span class="pre">image/cov,</span> <span class="pre">top</span> <span class="pre">right:</span> <span class="pre">charts,</span> <span class="pre">bottom:</span> <span class="pre">tables',</span> <span class="pre">'TRIVIEW_I_ChCov_T':</span> <span class="pre">'top</span> <span class="pre">left:</span> <span class="pre">image,</span> <span class="pre">top</span> <span class="pre">right:</span> <span class="pre">charts/cov,</span> <span class="pre">bottom:</span> <span class="pre">tables'}</span></em><a class="headerlink" href="#firefly_client.FireflyClient.tri_view_layout_desc" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.tri_view_types_list">
-<span class="sig-name descname"><span class="pre">tri_view_types_list</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['TRIVIEW_ICov_Ch_T',</span> <span class="pre">'TRIVIEW_I_ChCov_T',</span> <span class="pre">'BIVIEW_ICov_Ch',</span> <span class="pre">'BIVIEW_I_ChCov',</span> <span class="pre">'BIVIEW_T_IChCov',</span> <span class="pre">'BIVIEW_IChCov_T']</span></em><a class="headerlink" href="#firefly_client.FireflyClient.tri_view_types_list" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">tri_view_types_list</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['TRIVIEW_ICov_Ch_T',</span> <span class="pre">'TRIVIEW_I_ChCov_T',</span> <span class="pre">'BIVIEW_ICov_Ch',</span> <span class="pre">'BIVIEW_I_ChCov',</span> <span class="pre">'BIVIEW_T_IChCov',</span> <span class="pre">'BIVIEW_IChCov_T']</span></em><a class="headerlink" href="#firefly_client.FireflyClient.tri_view_types_list" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods Documentation</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.add_cell">
-<span class="sig-name descname"><span class="pre">add_cell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.add_cell" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_cell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.add_cell" title="Link to this definition">#</a></dt>
 <dd><p>Add a slate viewer cell.</p>
 <section id="id1">
-<h3>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <dl>
 <dt>row<span class="classifier"><cite>int</cite></span></dt><dd><p>Cell row position.</p>
 </dd>
@@ -758,7 +756,7 @@ in the sessions attribute.</p>
 </dl>
 </section>
 <section id="returns">
-<h3>Returns<a class="headerlink" href="#returns" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True, ‘cell_id’: ‘Cell-1’}.</p>
 </dd>
@@ -768,11 +766,11 @@ in the sessions attribute.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.add_extension">
-<span class="sig-name descname"><span class="pre">add_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ext_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_tip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shortcut_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_src</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.add_extension" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ext_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tool_tip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shortcut_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_src</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.add_extension" title="Link to this definition">#</a></dt>
 <dd><p>Add an extension to the plot.
 Extensions are context menus that allows you to extend what Firefly can do when certain actions happen.</p>
 <section id="id2">
-<h3>Parameters<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <dl>
 <dt>ext_type<span class="classifier">{‘AREA_SELECT’, ‘LINE_SELECT’, ‘POINT’, ‘table.select’, ‘table.highlight’}</span></dt><dd><p>Extension type. It can be one of the values in the list or any Firefly action,
 or it will be reset to be ‘NONE’.</p>
@@ -794,7 +792,7 @@ Image source could be an image path or an image url.</p>
 </dl>
 </section>
 <section id="id3">
-<h3>Returns<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -808,10 +806,10 @@ Image source could be an image path or an image url.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.add_listener">
-<span class="sig-name descname"><span class="pre">add_listener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ALL_EVENTS_ENABLED'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.add_listener" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_listener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ALL_EVENTS_ENABLED'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.add_listener" title="Link to this definition">#</a></dt>
 <dd><p>Add a callback function to listen for events on the Firefly client.</p>
 <section id="id4">
-<h3>Parameters<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
 <dl>
 <dt>callback<span class="classifier"><cite>Function</cite></span></dt><dd><p>The function to be called when a event happens on the Firefly client.</p>
 </dd>
@@ -820,17 +818,17 @@ Image source could be an image path or an image url.</p>
 </dl>
 </section>
 <section id="id5">
-<h3>Returns<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <p>out : none</p>
 </section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.add_mask">
-<span class="sig-name descname"><span class="pre">add_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bit_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_on_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.add_mask" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bit_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_on_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.add_mask" title="Link to this definition">#</a></dt>
 <dd><p>Add a mask layer.</p>
 <section id="id6">
-<h3>Parameters<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
 <dl>
 <dt>bit_number<span class="classifier"><cite>int</cite></span></dt><dd><p>Bit number of the mask to overlay.</p>
 </dd>
@@ -850,7 +848,7 @@ created in default if not specified.</p>
 </dl>
 </section>
 <section id="id7">
-<h3>Returns<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -860,10 +858,10 @@ created in default if not specified.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.add_region_data">
-<span class="sig-name descname"><span class="pre">add_region_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region_layer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.add_region_data" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_region_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region_layer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.add_region_data" title="Link to this definition">#</a></dt>
 <dd><p>Add region entries to a region layer with the given ID.</p>
 <section id="id8">
-<h3>Parameters<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
 <dl>
 <dt>region_data<span class="classifier"><cite>str</cite> or <cite>list</cite> of <cite>str</cite></span></dt><dd><p>Region entries to be added.</p>
 </dd>
@@ -878,7 +876,7 @@ If the region layer exists, this request applies to all plots attached to the la
 </dl>
 </section>
 <section id="id9">
-<h3>Returns<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -893,10 +891,10 @@ automatically just like how function <cite>overlay_region_layer</cite> works.</p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.align_images">
-<span class="sig-name descname"><span class="pre">align_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Standard'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lock_match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.align_images" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">align_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">match_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Standard'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lock_match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.align_images" title="Link to this definition">#</a></dt>
 <dd><p>Align the images being displayed.</p>
 <section id="id10">
-<h3>Parameters<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>match_type<span class="classifier">{‘Standard’, ‘Target’, ‘Pixel’, ‘PixelCenter’}, optional</span></dt><dd><p>Match type to use to align the images: align by WCS (‘Standard’),
 by target (‘Target’), by pixel prigins (‘Pixel’), and by pixel at
@@ -908,7 +906,7 @@ preserve the alignment in other images. Default is False.</p>
 </dl>
 </section>
 <section id="id11">
-<h3>Returns<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -918,10 +916,10 @@ preserve the alignment in other images. Default is False.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.apply_table_filters">
-<span class="sig-name descname"><span class="pre">apply_table_filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.apply_table_filters" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">apply_table_filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.apply_table_filters" title="Link to this definition">#</a></dt>
 <dd><p>Apply filters to a loaded table.</p>
 <section id="id12">
-<h3>Parameters<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
 <dl>
 <dt>tbl_id<span class="classifier"><cite>str</cite></span></dt><dd><p>ID of the table where you want to apply filters</p>
 </dd>
@@ -931,7 +929,7 @@ For e.g. ‘(“ra” &gt; 185 AND “ra” &lt; 185.1) OR (“dec” &gt; 15 AN
 </dl>
 </section>
 <section id="id13">
-<h3>Returns<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}</p>
 </dd>
@@ -941,15 +939,15 @@ For e.g. ‘(“ra” &gt; 185 AND “ra” &lt; 185.1) OR (“dec” &gt; 15 AN
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.call_response">
-<span class="sig-name descname"><span class="pre">call_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.call_response" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">call_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.call_response" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.change_triview_layout">
-<span class="sig-name descname"><span class="pre">change_triview_layout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.change_triview_layout" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">change_triview_layout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layout</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.change_triview_layout" title="Link to this definition">#</a></dt>
 <dd><p>Change the tri view layout</p>
 <section id="id14">
-<h3>Parameters<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
 <dl>
 <dt>layout<span class="classifier"><cite>str</cite></span></dt><dd><p>should be one of
 FireflyClient.TRIVIEW_ICov_Ch_T - top left: image/cov, top right: charts, bottom: tables
@@ -965,22 +963,22 @@ FireflyClient.BIVIEW_IChCov_T- left: image/charts/cov, right: tables</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.confirm_access">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">confirm_access</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.confirm_access" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">confirm_access</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.confirm_access" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.create_image_url">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_image_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_source</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.create_image_url" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_image_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_source</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.create_image_url" title="Link to this definition">#</a></dt>
 <dd><p>Create image url or data uri according to the image source.</p>
 <section id="id15">
-<h3>Parameters<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
 <dl>
 <dt>image_source<span class="classifier"><cite>str</cite></span></dt><dd><p>An image path or image url.</p>
 </dd>
 </dl>
 </section>
 <section id="id16">
-<h3>Returns<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
 <blockquote>
 <div><dl>
 <dt>out<span class="classifier"><cite>str</cite></span></dt><dd><p>Data URI or image url.</p>
@@ -992,10 +990,10 @@ FireflyClient.BIVIEW_IChCov_T- left: image/charts/cov, right: tables</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.delete_region_layer">
-<span class="sig-name descname"><span class="pre">delete_region_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region_layer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.delete_region_layer" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">delete_region_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region_layer_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.delete_region_layer" title="Link to this definition">#</a></dt>
 <dd><p>Delete region layer from the loaded FITS images.</p>
 <section id="id17">
-<h3>Parameters<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
 <dl>
 <dt>region_layer_id<span class="classifier"><cite>str</cite></span></dt><dd><p>Region layer ID. The region layer with the region layer ID is to be removed.</p>
 </dd>
@@ -1005,7 +1003,7 @@ If not specified, then remove region layer from all plots in the same group of t
 </dl>
 </section>
 <section id="id18">
-<h3>Returns<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
 <blockquote>
 <div><dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
@@ -1017,16 +1015,16 @@ If not specified, then remove region layer from all plots in the same group of t
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.disconnect">
-<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.disconnect" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.disconnect" title="Link to this definition">#</a></dt>
 <dd><p>DEPRECATED. Now just remove the listeners. Disconnect the WebSocket.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.dispatch">
-<span class="sig-name descname"><span class="pre">dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">override_channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.dispatch" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">override_channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.dispatch" title="Link to this definition">#</a></dt>
 <dd><p>Dispatch the action to the server by using ‘POST’ request.</p>
 <section id="id19">
-<h3>Parameters<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
 <dl>
 <dt>action_type<span class="classifier"><cite>str</cite></span></dt><dd><p>Action type, one of the actions from FireflyClient’s attribute, <cite>ACTION_DICT</cite>.</p>
 </dd>
@@ -1037,7 +1035,7 @@ If not specified, then remove region layer from all plots in the same group of t
 </dl>
 </section>
 <section id="id20">
-<h3>Returns<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the remote dispatch, like {‘success’: True}.</p>
 </dd>
@@ -1047,10 +1045,10 @@ If not specified, then remove region layer from all plots in the same group of t
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.display_url">
-<span class="sig-name descname"><span class="pre">display_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.display_url" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">display_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.display_url" title="Link to this definition">#</a></dt>
 <dd><p>Display URL in a user-friendly format</p>
 <section id="id21">
-<h3>Parameters<a class="headerlink" href="#id21" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id21" title="Link to this heading">#</a></h3>
 <dl>
 <dt>url<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>A url overriding the default (the default retrieves from <em>self.get_firefly_url</em>).</p>
 </dd>
@@ -1060,10 +1058,10 @@ If not specified, then remove region layer from all plots in the same group of t
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.fetch_table">
-<span class="sig-name descname"><span class="pre">fetch_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_on_server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tbl_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.fetch_table" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">fetch_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_on_server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tbl_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.fetch_table" title="Link to this definition">#</a></dt>
 <dd><p>Fetch table data without showing them</p>
 <section id="id22">
-<h3>Parameters<a class="headerlink" href="#id22" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id22" title="Link to this heading">#</a></h3>
 <dl>
 <dt>file_on_server<span class="classifier"><cite>str</cite></span></dt><dd><p>The name of the file on the server.
 If you use <cite>upload_file()</cite>, then it is the return value of the method. Otherwise it is a file that
@@ -1084,7 +1082,7 @@ a FITS file or the table at index 0 from a VOTable file.</p>
 </dl>
 </section>
 <section id="id23">
-<h3>Returns<a class="headerlink" href="#id23" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id23" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1094,18 +1092,18 @@ a FITS file or the table at index 0 from a VOTable file.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.get_firefly_url">
-<span class="sig-name descname"><span class="pre">get_firefly_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.get_firefly_url" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_firefly_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.get_firefly_url" title="Link to this definition">#</a></dt>
 <dd><p>Get URL to Firefly Tools viewer and the channel set.
 Normally this method will be called without any parameters.</p>
 <section id="id24">
-<h3>Parameters<a class="headerlink" href="#id24" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id24" title="Link to this heading">#</a></h3>
 <dl>
 <dt>channel<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>A different channel string than the default.</p>
 </dd>
 </dl>
 </section>
 <section id="id25">
-<h3>Returns<a class="headerlink" href="#id25" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id25" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>str</cite></span></dt><dd><p>url string.</p>
 </dd>
@@ -1115,10 +1113,10 @@ Normally this method will be called without any parameters.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.get_instances">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_instances</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.get_instances" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_instances</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.get_instances" title="Link to this definition">#</a></dt>
 <dd><p>Get all current instances</p>
 <section id="id26">
-<h3>Returns<a class="headerlink" href="#id26" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id26" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt><cite>list</cite></dt><dd><p>list of instances</p>
 </dd>
@@ -1128,11 +1126,11 @@ Normally this method will be called without any parameters.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.get_payload_from_file">
-<span class="sig-name descname"><span class="pre">get_payload_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.get_payload_from_file" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_payload_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.get_payload_from_file" title="Link to this definition">#</a></dt>
 <dd><p>Get payload for actions dispatched to Firefly server from the file input.</p>
 <p>It does all guesswork to determine file type and uploads it to the server if needed.</p>
 <section id="id27">
-<h3>Parameters<a class="headerlink" href="#id27" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id27" title="Link to this heading">#</a></h3>
 <dl>
 <dt>file_input<span class="classifier"><cite>str</cite> or <cite>file-like object</cite></span></dt><dd><p>The input file to show. It can be a local file path, a URL to a
 remote file, name of a file on the server (return value of
@@ -1141,7 +1139,7 @@ remote file, name of a file on the server (return value of
 </dl>
 </section>
 <section id="id28">
-<h3>Returns<a class="headerlink" href="#id28" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id28" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite> </span></dt><dd><p>A dict that can be used as part of payload. The returned dict will 
 have one of the following keys:</p>
@@ -1156,33 +1154,33 @@ have one of the following keys:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.get_title_from_file">
-<span class="sig-name descname"><span class="pre">get_title_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.get_title_from_file" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_title_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_input</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.get_title_from_file" title="Link to this definition">#</a></dt>
 <dd><p>Get a title from a file input if possible.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.get_viewer_mode">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_viewer_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_override</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.get_viewer_mode" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_viewer_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_override</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.get_viewer_mode" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.is_slate">
-<span class="sig-name descname"><span class="pre">is_slate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.is_slate" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">is_slate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.is_slate" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.is_triview">
-<span class="sig-name descname"><span class="pre">is_triview</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.is_triview" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">is_triview</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.is_triview" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.launch_browser">
-<span class="sig-name descname"><span class="pre">launch_browser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.launch_browser" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">launch_browser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.launch_browser" title="Link to this definition">#</a></dt>
 <dd><p>Launch a browser with the Firefly Tools viewer and the channel set.</p>
 <p>The page is launched when <cite>force</cite> is <em>True</em> or the page is not opened yet.
 Normally this method will be called without any parameters.</p>
 <section id="id29">
-<h3>Parameters<a class="headerlink" href="#id29" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id29" title="Link to this heading">#</a></h3>
 <dl>
 <dt>channel<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>A different channel than the default (the default is set as <em>self.channel</em>).</p>
 </dd>
@@ -1193,7 +1191,7 @@ Normally this method will be called without any parameters.</p>
 </dl>
 </section>
 <section id="id30">
-<h3>Returns<a class="headerlink" href="#id30" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id30" title="Link to this heading">#</a></h3>
 <dl>
 <dt>open_success<span class="classifier"><cite>bool</cite></span></dt><dd><p>If True, the web browser open was successful.</p>
 </dd>
@@ -1205,12 +1203,12 @@ Normally this method will be called without any parameters.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.make_client">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'http://localhost:8080/firefly'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">launch_browser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_override</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_override</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.make_client" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'http://localhost:8080/firefly'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">launch_browser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_override</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_override</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.make_client" title="Link to this definition">#</a></dt>
 <dd><p>Factory method to create a Firefly client in a plain Python, IPython, or
 notebook session, and attempt to open a display.  If a display cannot be
 opened, a link will be displayed.</p>
 <section id="id31">
-<h3>Parameters<a class="headerlink" href="#id31" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id31" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>url: <cite>str</cite>, optional</dt><dd><p>URL of the Firefly server. The default is determined by checking
 environment variables ‘fireflyURLLab’ and ‘FIREFLY_URL’; if these
@@ -1247,7 +1245,7 @@ maybe one of FireflyClient.TRIVIEW_VIEWER, FireflyClient.SLATE_VIEWER, FireflyCl
 </dl>
 </section>
 <section id="id32">
-<h3>Returns<a class="headerlink" href="#id32" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id32" title="Link to this heading">#</a></h3>
 <dl>
 <dt>fc<span class="classifier"><cite>FireflyClient</cite></span></dt><dd><p>A FireflyClient that works in the lab environment</p>
 </dd>
@@ -1257,13 +1255,13 @@ maybe one of FireflyClient.TRIVIEW_VIEWER, FireflyClient.SLATE_VIEWER, FireflyCl
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.make_lab_client">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_lab_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_browser_tab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_tab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.make_lab_client" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_lab_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_browser_tab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_tab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.make_lab_client" title="Link to this definition">#</a></dt>
 <dd><p>Factory method to create a Firefly client in the Jupyterlab environment.
 If you are using Jupyterlab with the jupyter_firefly_extension installed,
 then this method is the best way to construct a FireflyClient.
 If called in a non-Jupyterlab  environment, the method raises a RuntimeError.</p>
 <section id="id33">
-<h3>Parameters<a class="headerlink" href="#id33" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id33" title="Link to this heading">#</a></h3>
 <dl>
 <dt>start_browser_tab<span class="classifier"><cite>bool</cite></span></dt><dd><p>If True start a browser tab, if False start a lab tab. start_tab must
 also be True.
@@ -1291,7 +1289,7 @@ in the sessions attribute.</p>
 </dl>
 </section>
 <section id="id34">
-<h3>Returns<a class="headerlink" href="#id34" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id34" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>FireflyClient</cite></span></dt><dd><p>A FireflyClient that works in the lab environment</p>
 </dd>
@@ -1301,11 +1299,11 @@ in the sessions attribute.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.overlay_footprints">
-<span class="sig-name descname"><span class="pre">overlay_footprints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">footprint_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint_image</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint_layer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">additional_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.overlay_footprints" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">overlay_footprints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">footprint_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint_image</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint_layer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">additional_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.overlay_footprints" title="Link to this definition">#</a></dt>
 <dd><p>Overlay a footprint dictionary on displayed images.
 The dictionary must be convertible to JSON format.</p>
 <section id="id35">
-<h3>Parameters<a class="headerlink" href="#id35" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id35" title="Link to this heading">#</a></h3>
 <dl>
 <dt>footprint_file<span class="classifier"><cite>str</cite></span></dt><dd><p>footprint file with a table containing measurements and footprints</p>
 </dd>
@@ -1339,7 +1337,7 @@ a FITS file or the table at index 0 from a VOTable file.</p>
 </dl>
 </section>
 <section id="id38">
-<h3>Returns<a class="headerlink" href="#id38" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id38" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1349,11 +1347,11 @@ a FITS file or the table at index 0 from a VOTable file.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.overlay_region_layer">
-<span class="sig-name descname"><span class="pre">overlay_region_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_on_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region_layer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.overlay_region_layer" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">overlay_region_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_on_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region_layer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.overlay_region_layer" title="Link to this definition">#</a></dt>
 <dd><p>Overlay a region layer on the loaded FITS images.
 The regions are defined either by a file or by text region description.</p>
 <section id="id39">
-<h3>Parameters<a class="headerlink" href="#id39" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id39" title="Link to this heading">#</a></h3>
 <dl>
 <dt>file_on_server<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>This is the name of the file on the server.  If you use <cite>upload_file()</cite>,
 then it is the return value of the method. Otherwise it
@@ -1371,7 +1369,7 @@ If None,  then overlay region(s) on all plots in the same group of the active pl
 </dl>
 </section>
 <section id="id40">
-<h3>Returns<a class="headerlink" href="#id40" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id40" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1387,17 +1385,17 @@ If none is specified, no region layer is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.parse_rvstring">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_rvstring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rvstring</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.parse_rvstring" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_rvstring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rvstring</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.parse_rvstring" title="Link to this definition">#</a></dt>
 <dd><p>parse a Firefly RangeValues string into a dictionary</p>
 <section id="id41">
-<h3>Parameters<a class="headerlink" href="#id41" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id41" title="Link to this heading">#</a></h3>
 <dl>
 <dt>rvstring<span class="classifier"><cite>str</cite></span></dt><dd><p>RangeValues string as returned by the set_stretch method.</p>
 </dd>
 </dl>
 </section>
 <section id="id42">
-<h3>Returns<a class="headerlink" href="#id42" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id42" title="Link to this heading">#</a></h3>
 <dl>
 <dt>outdict<span class="classifier"><cite>dict</cite></span></dt><dd><p>dictionary of the inputs</p>
 </dd>
@@ -1407,10 +1405,10 @@ If none is specified, no region layer is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.reinit_viewer">
-<span class="sig-name descname"><span class="pre">reinit_viewer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.reinit_viewer" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">reinit_viewer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.reinit_viewer" title="Link to this definition">#</a></dt>
 <dd><p>re-initialize the viewer</p>
 <section id="id43">
-<h3>Returns<a class="headerlink" href="#id43" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id43" title="Link to this heading">#</a></h3>
 <blockquote>
 <div><dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
@@ -1422,10 +1420,10 @@ If none is specified, no region layer is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.remove_listener">
-<span class="sig-name descname"><span class="pre">remove_listener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ALL_EVENTS_ENABLED'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.remove_listener" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">remove_listener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ALL_EVENTS_ENABLED'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.remove_listener" title="Link to this definition">#</a></dt>
 <dd><p>Remove an event name from the callback listener.</p>
 <section id="id44">
-<h3>Parameters<a class="headerlink" href="#id44" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id44" title="Link to this heading">#</a></h3>
 <dl>
 <dt>callback<span class="classifier"><cite>Function</cite></span></dt><dd><p>A previously set callback function.</p>
 </dd>
@@ -1435,7 +1433,7 @@ If none is specified, no region layer is created.</p>
 </dl>
 </section>
 <section id="id45">
-<h3>Returns<a class="headerlink" href="#id45" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id45" title="Link to this heading">#</a></h3>
 <p>out : none</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1446,10 +1444,10 @@ If none is specified, no region layer is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.remove_mask">
-<span class="sig-name descname"><span class="pre">remove_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.remove_mask" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">remove_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.remove_mask" title="Link to this definition">#</a></dt>
 <dd><p>Remove a mask layer from the plot with the given plot ID.</p>
 <section id="id46">
-<h3>Parameters<a class="headerlink" href="#id46" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id46" title="Link to this heading">#</a></h3>
 <dl>
 <dt>plot_id<span class="classifier"><cite>str</cite></span></dt><dd><p>ID of the plot where the mask layer to be removed from.</p>
 </dd>
@@ -1458,7 +1456,7 @@ If none is specified, no region layer is created.</p>
 </dl>
 </section>
 <section id="id47">
-<h3>Returns<a class="headerlink" href="#id47" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id47" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}</p>
 </dd>
@@ -1468,10 +1466,10 @@ If none is specified, no region layer is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.remove_region_data">
-<span class="sig-name descname"><span class="pre">remove_region_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region_layer_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.remove_region_data" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">remove_region_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region_layer_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.remove_region_data" title="Link to this definition">#</a></dt>
 <dd><p>Remove region entries from a region layer with the give ID.</p>
 <section id="id48">
-<h3>Parameters<a class="headerlink" href="#id48" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id48" title="Link to this heading">#</a></h3>
 <dl>
 <dt>region_data<span class="classifier"><cite>str</cite> or <cite>list</cite> of <cite>str</cite></span></dt><dd><p>Region entries to be removed.</p>
 </dd>
@@ -1480,7 +1478,7 @@ If none is specified, no region layer is created.</p>
 </dl>
 </section>
 <section id="id49">
-<h3>Returns<a class="headerlink" href="#id49" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id49" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1490,17 +1488,17 @@ If none is specified, no region layer is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.rvstring_from_dict">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rvstring_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rvdict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.rvstring_from_dict" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rvstring_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rvdict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.rvstring_from_dict" title="Link to this definition">#</a></dt>
 <dd><p>create an rvstring from a dictionary</p>
 <section id="id50">
-<h3>Parameters<a class="headerlink" href="#id50" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id50" title="Link to this heading">#</a></h3>
 <dl>
 <dt>rvdict<span class="classifier"><cite>dict</cite></span></dt><dd><p>Dictionary with the same keys as those returned by parse_rvstring</p>
 </dd>
 </dl>
 </section>
 <section id="id51">
-<h3>Returns<a class="headerlink" href="#id51" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id51" title="Link to this heading">#</a></h3>
 <dl>
 <dt>rvstring<span class="classifier"><cite>str</cite></span></dt><dd><p>RangeValues string that can be passed to the show_fits_* methods</p>
 </dd>
@@ -1510,10 +1508,10 @@ If none is specified, no region layer is created.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.set_color">
-<span class="sig-name descname"><span class="pre">set_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colormap_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contrast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.set_color" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colormap_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contrast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.set_color" title="Link to this definition">#</a></dt>
 <dd><p>Change the color attributes (color map, bias, constrast) of an image plot.</p>
 <section id="id52">
-<h3>Parameters<a class="headerlink" href="#id52" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id52" title="Link to this heading">#</a></h3>
 <dl>
 <dt>plot_id<span class="classifier"><cite>str</cite> or <cite>list</cite> of <cite>str</cite></span></dt><dd><p>ID of the image plot to be colored.</p>
 </dd>
@@ -1529,7 +1527,7 @@ Refer to the color dropdown on the image toolbar to see how IDs are mapped.</p>
 </dl>
 </section>
 <section id="id53">
-<h3>Returns<a class="headerlink" href="#id53" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id53" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1543,11 +1541,11 @@ Refer to the color dropdown on the image toolbar to see how IDs are mapped.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.set_pan">
-<span class="sig-name descname"><span class="pre">set_pan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'image'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.set_pan" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_pan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'image'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.set_pan" title="Link to this definition">#</a></dt>
 <dd><p>Relocate the image to center on the given image coordinate or EQ_J2000 coordinate.
 If no (x, y) is given, the image is re-centered at the center of the image.</p>
 <section id="id54">
-<h3>Parameters<a class="headerlink" href="#id54" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id54" title="Link to this heading">#</a></h3>
 <dl>
 <dt>plot_id<span class="classifier"><cite>str</cite> or <cite>list</cite> of <cite>str</cite></span></dt><dd><p>ID of the plot to be panned. If plot_id is a list or tuple, then each plot in the list
 or the tuple is panned in order.</p>
@@ -1561,7 +1559,7 @@ The default is ‘image’ which will center on the image.</p>
 </dl>
 </section>
 <section id="id55">
-<h3>Returns<a class="headerlink" href="#id55" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id55" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1571,10 +1569,10 @@ The default is ‘image’ which will center on the image.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.set_rgb_colors">
-<span class="sig-name descname"><span class="pre">set_rgb_colors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_red</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_green</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_blue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0.5,</span> <span class="pre">0.5,</span> <span class="pre">0.5]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contrast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">1]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.set_rgb_colors" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_rgb_colors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_red</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_green</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_blue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0.5,</span> <span class="pre">0.5,</span> <span class="pre">0.5]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contrast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">1]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.set_rgb_colors" title="Link to this definition">#</a></dt>
 <dd><p>Change the color attributes of a 3-color fits image plot.</p>
 <section id="id56">
-<h3>Parameters<a class="headerlink" href="#id56" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id56" title="Link to this heading">#</a></h3>
 <dl>
 <dt>plot_id<span class="classifier"><cite>str</cite> or <cite>list</cite> of <cite>str</cite></span></dt><dd><p>ID of the image plot to be colored.</p>
 </dd>
@@ -1591,7 +1589,7 @@ The default is ‘image’ which will center on the image.</p>
 </dl>
 </section>
 <section id="id57">
-<h3>Returns<a class="headerlink" href="#id57" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id57" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1601,10 +1599,10 @@ The default is ‘image’ which will center on the image.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.set_stretch">
-<span class="sig-name descname"><span class="pre">set_stretch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">additional_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.set_stretch" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_stretch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">additional_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.set_stretch" title="Link to this definition">#</a></dt>
 <dd><p>Change the stretch of the image (no band or 3-color per-band cases).</p>
 <section id="id58">
-<h3>Parameters<a class="headerlink" href="#id58" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id58" title="Link to this heading">#</a></h3>
 <dl>
 <dt>plot_id<span class="classifier"><cite>str</cite> or <cite>list</cite> of <cite>str</cite></span></dt><dd><p>ID of the plot to be stretched. If <cite>plot_id</cite> is a list or tuple, then each plot in the list
 or the tuple is stretched in order.</p>
@@ -1638,7 +1636,7 @@ When not specified, Q is calculated by Firefly to use full color range.</p>
 </dl>
 </section>
 <section id="id61">
-<h3>Returns<a class="headerlink" href="#id61" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id61" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1653,12 +1651,12 @@ When not specified, Q is calculated by Firefly to use full color range.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.set_stretch_hprgb">
-<span class="sig-name descname"><span class="pre">set_stretch_hprgb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asinh_q_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pedestal_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pedestal_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'percent'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.set_stretch_hprgb" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_stretch_hprgb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asinh_q_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pedestal_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pedestal_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'percent'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.set_stretch_hprgb" title="Link to this definition">#</a></dt>
 <dd><p>Change the stretch of RGB image (hue-preserving rgb case). When a parameter is a list,
 it must contain three elements, for red, green and blue bands respectively.
 Otherwise the parameter is a scalar that is used for all three bands.</p>
 <section id="id62">
-<h3>Parameters<a class="headerlink" href="#id62" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id62" title="Link to this heading">#</a></h3>
 <dl>
 <dt>plot_id<span class="classifier"><cite>str</cite> or <cite>list</cite> of <cite>str</cite></span></dt><dd><p>ID of the plot to be stretched. If <cite>plot_id</cite> is a list or tuple, then each plot in the list
 or the tuple is stretched in order.</p>
@@ -1676,7 +1674,7 @@ When not specified, Q is calculated by Firefly to use full color range for inten
 </dl>
 </section>
 <section id="id63">
-<h3>Returns<a class="headerlink" href="#id63" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id63" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1690,10 +1688,10 @@ When not specified, Q is calculated by Firefly to use full color range for inten
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.set_zoom">
-<span class="sig-name descname"><span class="pre">set_zoom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.set_zoom" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_zoom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.set_zoom" title="Link to this definition">#</a></dt>
 <dd><p>Zoom the image.</p>
 <section id="id64">
-<h3>Parameters<a class="headerlink" href="#id64" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id64" title="Link to this heading">#</a></h3>
 <dl>
 <dt>plot_id<span class="classifier"><cite>str</cite> or <cite>list</cite> of <cite>str</cite></span></dt><dd><p>ID of the plot to be zoomed. If <cite>plot_id</cite> is a list or tuple, then each plot in the list
 or the tuple is zoomed in order.</p>
@@ -1703,7 +1701,7 @@ or the tuple is zoomed in order.</p>
 </dl>
 </section>
 <section id="id65">
-<h3>Returns<a class="headerlink" href="#id65" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id65" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1713,7 +1711,7 @@ or the tuple is zoomed in order.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.show_chart">
-<span class="sig-name descname"><span class="pre">show_chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'PINNED_CHART_VIEWER_ID'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">chart_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_chart" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">show_chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">chart_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_chart" title="Link to this definition">#</a></dt>
 <dd><p>Show a plot.ly chart</p>
 <p>Plotly chart is described by a list of trace data and a layout. Any list in trace data can come from a table.</p>
 <p>For example, if a trace is defined by <em>{‘tbl_id’: ‘wise’, ‘x’: ‘tables::w1pro’, ‘y’: ‘tables::w2mpro’ }</em>,
@@ -1722,7 +1720,7 @@ or the tuple is zoomed in order.</p>
 for the supported trace types and attributes. Note, that <em>data</em> and <em>layout</em> are expected to be
 basic Python object hierarchies, as <em>json.dumps</em> is used to convert them to JSON.</p>
 <section id="id66">
-<h3>Parameters<a class="headerlink" href="#id66" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id66" title="Link to this heading">#</a></h3>
 <dl>
 <dt>group_id<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>Group ID of the chart group where the chart belongs to. If grid view is used, group id is
 the cell id of the cell which contains the chart.</p>
@@ -1741,7 +1739,7 @@ the cell id of the cell which contains the chart.</p>
 </dl>
 </section>
 <section id="id69">
-<h3>Returns<a class="headerlink" href="#id69" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id69" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1751,10 +1749,10 @@ the cell id of the cell which contains the chart.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.show_coverage">
-<span class="sig-name descname"><span class="pre">show_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">viewer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'main'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_coverage" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">show_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">viewer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'main'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_coverage" title="Link to this definition">#</a></dt>
 <dd><p>Show image coverage associated with the active table in the specified table group</p>
 <section id="id70">
-<h3>Parameters<a class="headerlink" href="#id70" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id70" title="Link to this heading">#</a></h3>
 <dl>
 <dt>viewer_id<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>Viewer id, the cell id of the cell which contains the coverage image.</p>
 </dd>
@@ -1763,7 +1761,7 @@ the cell id of the cell which contains the chart.</p>
 </dl>
 </section>
 <section id="id71">
-<h3>Returns<a class="headerlink" href="#id71" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id71" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}</p>
 </dd>
@@ -1773,7 +1771,7 @@ the cell id of the cell which contains the chart.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.show_data">
-<span class="sig-name descname"><span class="pre">show_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preview_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_data" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">show_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preview_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_data" title="Link to this definition">#</a></dt>
 <dd><p>Show any data file of the type that Firefly supports:</p>
 <ul class="simple">
 <li><p>Custom catalog or table in IPAC, CSV, TSV, VOTABLE, Parquet, or FITS table format</p></li>
@@ -1784,7 +1782,7 @@ the cell id of the cell which contains the chart.</p>
 <li><p>A UWS job file</p></li>
 </ul>
 <section id="id72">
-<h3>Parameters<a class="headerlink" href="#id72" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id72" title="Link to this heading">#</a></h3>
 <dl>
 <dt>file_input<span class="classifier"><cite>str</cite> or <cite>file-like object</cite></span></dt><dd><p>The input file to show. It can be a local file path, a URL to a
 remote file, name of a file on the server (return value of
@@ -1804,7 +1802,7 @@ will be derived from the file name if possible.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.show_fits">
-<span class="sig-name descname"><span class="pre">show_fits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_fits" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">show_fits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_fits" title="Link to this definition">#</a></dt>
 <dd><div class="deprecated">
 <p><span class="versionmodified deprecated">Deprecated since version 3.4.0: </span>Use show_fits_image() instead.</p>
 </div>
@@ -1812,10 +1810,10 @@ will be derived from the file name if possible.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.show_fits_3color">
-<span class="sig-name descname"><span class="pre">show_fits_3color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">three_color_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_fits_3color" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">show_fits_3color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">three_color_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_fits_3color" title="Link to this definition">#</a></dt>
 <dd><p>Show a 3-color image constructed from the three color parameters</p>
 <section id="id73">
-<h3>Parameters<a class="headerlink" href="#id73" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id73" title="Link to this heading">#</a></h3>
 <dl>
 <dt>three_color_params<span class="classifier"><cite>list</cite> of <cite>dict</cite> or <cite>dict</cite></span></dt><dd><p>A list or objects contains image viewer plotting parameters for either all bands or one single band.
 For valid image viewer plotting parameter, please see the details in <a class="reference external" href="https://github.com/Caltech-IPAC/firefly/blob/dev/docs/fits-plotting-parameters.md">FITS plotting parameters</a> or
@@ -1829,7 +1827,7 @@ display, the viewer id is the cell id of the cell which contains the image plot.
 </dl>
 </section>
 <section id="id74">
-<h3>Returns<a class="headerlink" href="#id74" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id74" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1839,14 +1837,14 @@ display, the viewer id is the cell id of the cell which contains the image plot.
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.show_fits_image">
-<span class="sig-name descname"><span class="pre">show_fits_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_on_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">additional_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_fits_image" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">show_fits_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_on_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">additional_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_fits_image" title="Link to this definition">#</a></dt>
 <dd><p>Show a FITS image.</p>
 <p>If the FITS file has multiple extensions/HDUs (for 
 images, tables, etc.), all the image extensions are displayed by default
 within the image plot. You can use the <cite>multiImageIdx</cite> parameter
 to display only a particular image extension from the file.</p>
 <section id="id75">
-<h3>Parameters<a class="headerlink" href="#id75" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id75" title="Link to this heading">#</a></h3>
 <dl>
 <dt>file_input<span class="classifier"><cite>str</cite> or <cite>file-like object</cite>, optional</span></dt><dd><p>The input file to show. It can be a local file path, a URL to a
 remote file, name of a file on the server (return value of
@@ -1894,7 +1892,7 @@ data service rather than from a file input, as explained in <cite>this section</
 </dl>
 </section>
 <section id="id78">
-<h3>Returns<a class="headerlink" href="#id78" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id78" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1910,10 +1908,10 @@ service specific <cite>additional_params</cite> &gt; <cite>file_input</cite> (&g
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.show_hips">
-<span class="sig-name descname"><span class="pre">show_hips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hips_root_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hips_image_conversion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">additional_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_hips" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">show_hips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hips_root_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hips_image_conversion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">additional_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_hips" title="Link to this definition">#</a></dt>
 <dd><p>Show HiPS image.</p>
 <section id="id79">
-<h3>Parameters<a class="headerlink" href="#id79" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id79" title="Link to this heading">#</a></h3>
 <dl>
 <dt>plot_id<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The ID you assign to the image plot. This is necessary to further control the plot.</p>
 </dd>
@@ -1938,7 +1936,7 @@ set as the origin of the celestial coordinates.</p>
 </dl>
 </section>
 <section id="id82">
-<h3>Returns<a class="headerlink" href="#id82" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id82" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1948,10 +1946,10 @@ set as the origin of the celestial coordinates.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.show_histogram">
-<span class="sig-name descname"><span class="pre">show_histogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'PINNED_CHART_VIEWER_ID'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">histogram_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_histogram" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">show_histogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">histogram_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_histogram" title="Link to this definition">#</a></dt>
 <dd><p>Show a histogram</p>
 <section id="id83">
-<h3>Parameters<a class="headerlink" href="#id83" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id83" title="Link to this heading">#</a></h3>
 <dl>
 <dt>tbl_id<span class="classifier"><cite>str</cite></span></dt><dd><p>A table ID of the data to be plotted.</p>
 </dd>
@@ -1978,7 +1976,7 @@ ex. <em>log(col)</em> or <em>(col1-col2)/col3</em>.</p>
 </dl>
 </section>
 <section id="id86">
-<h3>Returns<a class="headerlink" href="#id86" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id86" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -1992,10 +1990,10 @@ ex. <em>log(col)</em> or <em>(col1-col2)/col3</em>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.show_image_metadata">
-<span class="sig-name descname"><span class="pre">show_image_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">viewer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'main'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_image_metadata" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">show_image_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">viewer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'main'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_image_metadata" title="Link to this definition">#</a></dt>
 <dd><p>Show the image associated with the active (image metadata) table in the specified table group</p>
 <section id="id87">
-<h3>Parameters<a class="headerlink" href="#id87" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id87" title="Link to this heading">#</a></h3>
 <dl>
 <dt>viewer_id<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>Viewer id, the cell id of the cell which contains the image from image metadata table.</p>
 </dd>
@@ -2004,7 +2002,7 @@ ex. <em>log(col)</em> or <em>(col1-col2)/col3</em>.</p>
 </dl>
 </section>
 <section id="id88">
-<h3>Returns<a class="headerlink" href="#id88" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id88" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}</p>
 </dd>
@@ -2014,10 +2012,10 @@ ex. <em>log(col)</em> or <em>(col1-col2)/col3</em>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.show_image_or_hips">
-<span class="sig-name descname"><span class="pre">show_image_or_hips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_request</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hips_request</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov_deg_fallover</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allsky_request</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_allsky_first</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_image_or_hips" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">show_image_or_hips</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viewer_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_request</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hips_request</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov_deg_fallover</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allsky_request</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_allsky_first</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_image_or_hips" title="Link to this definition">#</a></dt>
 <dd><p>Show a FiTS or HiPS image.</p>
 <section id="id89">
-<h3>Parameters<a class="headerlink" href="#id89" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id89" title="Link to this heading">#</a></h3>
 <dl>
 <dt>plot_id<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The ID you assign to the image plot. This is necessary to further control the plot.</p>
 </dd>
@@ -2039,7 +2037,7 @@ description of <cite>show_hips</cite>.</p>
 </dl>
 </section>
 <section id="id90">
-<h3>Returns<a class="headerlink" href="#id90" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id90" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -2049,16 +2047,16 @@ description of <cite>show_hips</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.show_lab_tab">
-<span class="sig-name descname"><span class="pre">show_lab_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_lab_tab" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">show_lab_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_lab_tab" title="Link to this definition">#</a></dt>
 <dd><p>If using a jupyter lab tab - show it or reopen it. If not using a lab tab then noop</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.show_table">
-<span class="sig-name descname"><span class="pre">show_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_on_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tbl_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_catalog</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_search_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_table" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">show_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_on_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tbl_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">page_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_catalog</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_search_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_table" title="Link to this definition">#</a></dt>
 <dd><p>Show a table.</p>
 <section id="id91">
-<h3>Parameters<a class="headerlink" href="#id91" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id91" title="Link to this heading">#</a></h3>
 <dl>
 <dt>file_input<span class="classifier"><cite>str</cite> or <cite>file-like object</cite>, optional</span></dt><dd><p>The input file to show. It can be a local file path, a URL to a
 remote file, name of a file on the server (return value of
@@ -2089,7 +2087,8 @@ it will be ignored if <cite>file_input</cite> is also passed.</p>
 </dd>
 <dt>is_catalog<span class="classifier"><cite>bool</cite>, optional</span></dt><dd><p>If the table file is a catalog (the default is <em>True</em>) or not.</p>
 </dd>
-<dt>meta<span class="classifier"><cite>dict</cite></span></dt><dd><p>META_INFO for the table search request.</p>
+<dt>meta<span class="classifier"><cite>dict</cite></span></dt><dd><p>META_INFO for the table search request. The meta data allowed in
+this dict are defined in <a class="github reference external" href="https://github.com/Caltech-IPAC/firefly/blob/master/src/firefly/js/data/MetaConst.js">Caltech-IPAC/firefly</a></p>
 </dd>
 <dt>target_search_info<span class="classifier"><cite>dict</cite>, optional</span></dt><dd><p>The information for target search, it may contain the following fields:</p>
 <ul>
@@ -2186,7 +2185,7 @@ Similar to <cite>fetch_table()</cite></p>
 </dl>
 </section>
 <section id="id92">
-<h3>Returns<a class="headerlink" href="#id92" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id92" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -2202,10 +2201,10 @@ If more than one of these parameters are passed, precedence order is:
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.show_xyplot">
-<span class="sig-name descname"><span class="pre">show_xyplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standalone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">chart_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_xyplot" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">show_xyplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standalone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">chart_params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.show_xyplot" title="Link to this definition">#</a></dt>
 <dd><p>Show a XY plot</p>
 <section id="id93">
-<h3>Parameters<a class="headerlink" href="#id93" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id93" title="Link to this heading">#</a></h3>
 <dl>
 <dt>tbl_id<span class="classifier"><cite>str</cite></span></dt><dd><p>A table ID of the data to be plotted.</p>
 </dd>
@@ -2252,7 +2251,7 @@ ex. <em>sin(col)</em> or <em>(col1-col2)/col3</em>.</p>
 </dl>
 </section>
 <section id="id96">
-<h3>Returns<a class="headerlink" href="#id96" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id96" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}.</p>
 </dd>
@@ -2267,10 +2266,10 @@ parameters are valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.sort_table_column">
-<span class="sig-name descname"><span class="pre">sort_table_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.sort_table_column" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">sort_table_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tbl_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.sort_table_column" title="Link to this definition">#</a></dt>
 <dd><p>Sort a loaded table by a given column name.</p>
 <section id="id97">
-<h3>Parameters<a class="headerlink" href="#id97" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id97" title="Link to this heading">#</a></h3>
 <dl>
 <dt>tbl_id<span class="classifier"><cite>str</cite></span></dt><dd><p>ID of the table where you want to apply sort</p>
 </dd>
@@ -2282,7 +2281,7 @@ parameters are valid.</p>
 </dl>
 </section>
 <section id="id98">
-<h3>Returns<a class="headerlink" href="#id98" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id98" title="Link to this heading">#</a></h3>
 <dl>
 <dt>out<span class="classifier"><cite>dict</cite></span></dt><dd><p>Status of the request, like {‘success’: True}</p>
 </dd>
@@ -2292,10 +2291,10 @@ parameters are valid.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.table_highlight_callback">
-<span class="sig-name descname"><span class="pre">table_highlight_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.table_highlight_callback" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">table_highlight_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.table_highlight_callback" title="Link to this definition">#</a></dt>
 <dd><p>Set a user-defined callback for table highlights</p>
 <section id="id99">
-<h3>Parameters<a class="headerlink" href="#id99" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id99" title="Link to this heading">#</a></h3>
 <dl>
 <dt>func<span class="classifier">function</span></dt><dd><p>The function to apply to the callback data. It must take as arguments:
 absolute_row, relative_row, column_data, table_id.
@@ -2317,18 +2316,18 @@ If None, all columns are included.</p>
 </dl>
 </section>
 <section id="id100">
-<h3>Returns<a class="headerlink" href="#id100" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id100" title="Link to this heading">#</a></h3>
 <p>func : the callback function that was added</p>
 </section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.upload_data">
-<span class="sig-name descname"><span class="pre">upload_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.upload_data" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">upload_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.upload_data" title="Link to this definition">#</a></dt>
 <dd><p>Upload a file like object to the Firefly server.
 The method should allow either FITS or non-FITS file like data to be streamed without using an actual file.</p>
 <section id="id101">
-<h3>Parameters<a class="headerlink" href="#id101" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id101" title="Link to this heading">#</a></h3>
 <dl>
 <dt>stream<span class="classifier"><cite>object</cite></span></dt><dd><p>A file like object containing FITS data or others.</p>
 </dd>
@@ -2337,7 +2336,7 @@ The method should allow either FITS or non-FITS file like data to be streamed wi
 </dl>
 </section>
 <section id="id102">
-<h3>Returns<a class="headerlink" href="#id102" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id102" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>out: <cite>str</cite></dt><dd><p>Path of file after the upload.</p>
 </dd>
@@ -2347,17 +2346,17 @@ The method should allow either FITS or non-FITS file like data to be streamed wi
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.upload_file">
-<span class="sig-name descname"><span class="pre">upload_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.upload_file" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">upload_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.upload_file" title="Link to this definition">#</a></dt>
 <dd><p>Upload a file to the Firefly Server.</p>
 <section id="id103">
-<h3>Parameters<a class="headerlink" href="#id103" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id103" title="Link to this heading">#</a></h3>
 <dl>
 <dt>path<span class="classifier"><cite>str</cite></span></dt><dd><p>Path of uploaded file. It can be fits, region, and various types of table files.</p>
 </dd>
 </dl>
 </section>
 <section id="id104">
-<h3>Returns<a class="headerlink" href="#id104" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id104" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>out: <cite>str</cite></dt><dd><p>Path of file after the upload.</p>
 </dd>
@@ -2371,11 +2370,11 @@ The method should allow either FITS or non-FITS file like data to be streamed wi
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.upload_fits_data">
-<span class="sig-name descname"><span class="pre">upload_fits_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.upload_fits_data" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">upload_fits_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.upload_fits_data" title="Link to this definition">#</a></dt>
 <dd><p>Upload a FITS file like object to the Firefly server.
 The method should allow file like data to be streamed without using an actual file.</p>
 <section id="id105">
-<h3>Parameters<a class="headerlink" href="#id105" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id105" title="Link to this heading">#</a></h3>
 <dl>
 <dt>stream<span class="classifier"><cite>object</cite></span></dt><dd><p>A FITS file like object containing fits data,
 such as if <em>f = open(&lt;a_fits_path&gt;)</em>, <em>f</em> is a file object.</p>
@@ -2383,7 +2382,7 @@ such as if <em>f = open(&lt;a_fits_path&gt;)</em>, <em>f</em> is a file object.<
 </dl>
 </section>
 <section id="id106">
-<h3>Returns<a class="headerlink" href="#id106" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id106" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>out: <cite>str</cite></dt><dd><p>Path of file after the upload.</p>
 </dd>
@@ -2393,11 +2392,11 @@ such as if <em>f = open(&lt;a_fits_path&gt;)</em>, <em>f</em> is a file object.<
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.upload_text_data">
-<span class="sig-name descname"><span class="pre">upload_text_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.upload_text_data" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">upload_text_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.upload_text_data" title="Link to this definition">#</a></dt>
 <dd><p>Upload a text file like object to the Firefly server.
 The method should allow text file like data to be streamed without using an actual file.</p>
 <section id="id107">
-<h3>Parameters<a class="headerlink" href="#id107" title="Permalink to this heading">#</a></h3>
+<h3>Parameters<a class="headerlink" href="#id107" title="Link to this heading">#</a></h3>
 <dl>
 <dt>stream<span class="classifier"><cite>object</cite></span></dt><dd><p>A text file like object containing text data,
 such as if <em>f = open(&lt;a_textfile_path&gt;)</em>, <em>f</em> is a file object.</p>
@@ -2405,7 +2404,7 @@ such as if <em>f = open(&lt;a_textfile_path&gt;)</em>, <em>f</em> is a file obje
 </dl>
 </section>
 <section id="id108">
-<h3>Returns<a class="headerlink" href="#id108" title="Permalink to this heading">#</a></h3>
+<h3>Returns<a class="headerlink" href="#id108" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>out: <cite>str</cite></dt><dd><p>Path of file after the upload.</p>
 </dd>
@@ -2415,7 +2414,7 @@ such as if <em>f = open(&lt;a_textfile_path&gt;)</em>, <em>f</em> is a file obje
 
 <dl class="py method">
 <dt class="sig sig-object py" id="firefly_client.FireflyClient.wait_for_events">
-<span class="sig-name descname"><span class="pre">wait_for_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.wait_for_events" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">wait_for_events</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#firefly_client.FireflyClient.wait_for_events" title="Link to this definition">#</a></dt>
 <dd><p>Wait over events from the server.</p>
 <p>Pause and do not exit.</p>
 <p>This is optional. You should not use this method in ipython notebook.
@@ -2550,7 +2549,7 @@ Event will get called anyway.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/api/firefly_client.FireflyClient.rst.txt"
+      <li><a href="../_sources/api/firefly_client.FireflyClient.rst"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>
@@ -2580,14 +2579,14 @@ Event will get called anyway.</p>
 
   <p class="copyright">
     
-      © Copyright 2024, Caltech/IPAC Firefly Developers.
+      © Copyright 2026, Caltech/IPAC Firefly Developers.
       <br/>
     
   </p>
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Dec 11, 2025.
+  Last updated on Jan 27, 2026.
   <br/>
 </p></div>
       
@@ -2600,7 +2599,7 @@ Event will get called anyway.</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     <br/>
   </p>
 </div>

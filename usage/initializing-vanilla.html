@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
@@ -31,7 +31,8 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,19 +40,22 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'usage/initializing-vanilla';</script>
     <script src="../_static/custom-icon.js?v=a18babe4"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Displaying Images" href="displaying-images.html" />
+    <link rel="next" title="Displaying FITS Images" href="displaying-images.html" />
     <link rel="prev" title="Getting Started" href="getting-started.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Dec 11, 2025"/>
+    <meta name="docbuild:last-update" content="Jan 27, 2026"/>
   </head>
   
   
@@ -326,12 +330,28 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Initializing a FireflyClient instance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="displaying-images.html">Displaying Images</a></li>
-<li class="toctree-l1"><a class="reference internal" href="overlaying-regions.html">Visualizing Regions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="viewing-tables.html">Visualizing Tables and Catalogs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="charting.html">Making Plots and Histograms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="displaying-images.html">Displaying FITS Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="displaying-3color.html">Displaying 3-Color FITS Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="displaying-hips.html">Displaying HiPS Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overlaying-regions.html">Visualizing Regions on Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewing-tables.html">Displaying Tables and Catalogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="charting.html">Visualizing tables as Charts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="callbacks-extensions.html">Advanced: Callbacks and Extensions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="demo-notebooks.html">Demo Notebooks</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="demo-notebooks.html">Demo Notebooks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/reference-guide.html">Reference Guide to Firefly Python Client API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-3color.html">Show a 3 color image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-HiPS.html">Show HiPS Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-basic.html">Basic API Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-multiple-table.html">Show a file containing multiple tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-overlay-footprint.html">Overlay a footprint on image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-region.html">Add region data to image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-simple-callback-in-jupyter.html">Extensions and Callback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/demo-simple-callback-in-terminal.html">Extensions and Callback via Terminal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/plot-interface.html">Plot interface: <code class="docutils literal notranslate"><span class="pre">firefly_client.plot</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/filetable.html">Load files as a table of data products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/multi-moc.html">Load multiple MOCs</a></li>
+</ul>
+</details></li>
 </ul>
 </div>
 </nav></div>
@@ -392,66 +412,170 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="initializing-a-fireflyclient-instance">
-<h1>Initializing a FireflyClient instance<a class="headerlink" href="#initializing-a-fireflyclient-instance" title="Permalink to this heading">#</a></h1>
-<p>Once a Firefly server has been identified, the connection parameters can be
-used to initialize a <code class="xref py py-class docutils literal notranslate"><span class="pre">FireflyClient</span></code> instance. By default, the value
-of the environment variable <cite>FIREFLY_URL</cite> will be used as the server URL, if defined. If
-<cite>FIREFLY_URL</cite> is not defined, the default server URL is <cite>http://localhost:8080/firefly</cite>
-which is often used for a Firefly server running locally.</p>
-<p>Optional arguments for initializing a <cite>FireflyClient</cite> instance include <cite>channel</cite>
-and <cite>html_file</cite>.</p>
-<p>For a default server running locally, use <cite>localhost</cite> or <cite>127.0.0.1</cite> together
-with the port that the server is using, and append <cite>/firefly</cite>. The default port is 8080.</p>
-<div class="highlight-py notranslate" id="using-localhost"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">firefly_client</span>
-<span class="n">fc</span> <span class="o">=</span> <span class="n">firefly_client</span><span class="o">.</span><span class="n">FireflyClient</span><span class="p">(</span><span class="s1">&#39;http://127.0.0.1:8080/firefly&#39;</span><span class="p">)</span>
+  <section id="Initializing-a-FireflyClient-instance">
+<h1>Initializing a FireflyClient instance<a class="headerlink" href="#Initializing-a-FireflyClient-instance" title="Link to this heading">#</a></h1>
+<p>This notebook focuses only on the initialization of a <code class="docutils literal notranslate"><span class="pre">FireflyClient</span></code> object. Later notebooks will demonstrate how to use it for visualizing your data.</p>
+<section id="Pick-a-Firefly-server-URL">
+<h2>Pick a Firefly server URL<a class="headerlink" href="#Pick-a-Firefly-server-URL" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://github.com/Caltech-IPAC/firefly">Firefly</a>, the interactive data visualization tool, is a web application (with a URL) that can be controlled from Python with a <code class="docutils literal notranslate"><span class="pre">FireflyClient</span></code> object. When we create the <code class="docutils literal notranslate"><span class="pre">FireflyClient</span></code> instance, we need to provide the URL of the Firefly server we want to connect to.</p>
+<p>By default, the value of the environment variable <code class="docutils literal notranslate"><span class="pre">FIREFLY_URL</span></code> will be used as the Firefly server URL. It can be set to one of the following:</p>
+<ol class="arabic simple">
+<li><p>a local Firefly server which can be run via a <a class="reference external" href="https://hub.docker.com/r/ipac/firefly">Firefly Docker image</a>, typically at <a class="reference external" href="http://localhost:8080/firefly">http://localhost:8080/firefly</a></p></li>
+<li><p>a public Firefly server such as:</p>
+<ul class="simple">
+<li><p>IRSA Viewer at <a class="reference external" href="https://irsa.ipac.caltech.edu/irsaviewer">https://irsa.ipac.caltech.edu/irsaviewer</a></p></li>
+<li><p>Rubin Science Platform Portal at <a class="reference external" href="https://data.lsst.cloud/portal/app/">https://data.lsst.cloud/portal/app/</a> (requires authentication; the <code class="docutils literal notranslate"><span class="pre">ACCESS_TOKEN</span></code> environment variable must be set)</p></li>
+</ul>
+</li>
+</ol>
+<p>For example, in a bash/zsh shell, enter <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">FIREFLY_URL=&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span></code> before launching the notebook via <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">lab</span></code> or <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">notebook</span></code> command.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">FIREFLY_URL</span></code> is not defined, the default server URL is <code class="docutils literal notranslate"><span class="pre">http://localhost:8080/firefly</span></code>, which is often used for a Firefly server running locally.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The environment variable must be defined in the shell where Jupyter (or the Python session) was started. It may not work if defined in a notebook cell through <code class="docutils literal notranslate"><span class="pre">%env</span></code> or <code class="docutils literal notranslate"><span class="pre">os.environ</span></code>.</p>
+</div>
+</section>
+<section id="Imports">
+<h2>Imports<a class="headerlink" href="#Imports" title="Link to this heading">#</a></h2>
+<p>The only required import here is <code class="docutils literal notranslate"><span class="pre">FireflyClient</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<p>If the Python session is running on your own machine, you can use the
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">FireflyClient.launch_browser()</span></code> method to open up a browser tab.</p>
-<div class="highlight-py notranslate" id="launch-browser"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">launch_browser</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Uncomment the next line if you have not installed the firefly-client package already.</span>
+<span class="c1"># !pip install firefly-client</span>
 </pre></div>
 </div>
-<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">FireflyClient.launch_browser()</span></code> method will return two values: a boolean
-indicating whether the web browser open was successful, and the URL for your
-web browser.</p>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Initialize-FireflyClient">
+<h2>Initialize FireflyClient<a class="headerlink" href="#Initialize-FireflyClient" title="Link to this heading">#</a></h2>
+<p>There are two ways to initialize <code class="docutils literal notranslate"><span class="pre">FireflyClient</span></code> from Python, depending on whether you’re running the notebook in JupyterLab or not:</p>
+<section id="1.-From-Jupyter-Notebook-(or-a-Python-shell)">
+<h3>1. From Jupyter Notebook (or a Python shell)<a class="headerlink" href="#1.-From-Jupyter-Notebook-(or-a-Python-shell)" title="Link to this heading">#</a></h3>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">make_client()</span></code> in a Jupyter Notebook (or even a Python shell), which will open the Firefly viewer in a new web browser tab. <code class="docutils literal notranslate"><span class="pre">make_client()</span></code> also allows you to pass the URL directly (other than through environment variable) as the <code class="docutils literal notranslate"><span class="pre">url</span></code> parameter.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fc = FireflyClient.make_client() # URL is taken from FIREFLY_URL env variable</span>
+
+<span class="c1"># URL can be defined explicitly as a parameter</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When running locally, <code class="docutils literal notranslate"><span class="pre">make_client()</span></code> will usually try to open a browser tab automatically. If it can’t (for example, if you’re running on a remote machine), it will print or display a URL that you can click to open.</p>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>On Mac OS X 10.12.5, an error message may be displayed with a URL and
-a note that it doesn’t understand the “open location message”. If a
-browser tab is not automatically opened, copy and paste the displayed
-URL into the address bar of your browser. This issue has been fixed
-in Mac OS X 10.12.6.</p>
+<p>After initializing <code class="docutils literal notranslate"><span class="pre">fc</span></code>, make sure you’ve opened the Firefly viewer URL before running methods which update the UI.</p>
 </div>
-<p>If your Python session is not running on your local machine, the
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">FireflyClient.launch_browser()</span></code>
-method will display the URL for your web browser. Alternatively, you can use
-the <code class="xref py py-meth docutils literal notranslate"><span class="pre">FireflyClient.display_url()</span></code> method to print the browser URL if
-running in a terminal, and to show a clickable link if running in a
-Jupyter notebook.</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">display_url</span><span class="p">()</span>
+</section>
+<section id="2.-From-JupyterLab">
+<h3>2. From JupyterLab<a class="headerlink" href="#2.-From-JupyterLab" title="Link to this heading">#</a></h3>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">make_lab_client()</span></code> in JupyterLab to open the Firefly viewer in a new tab within the Lab, which provides a more integrated UI experience. This requires you to have <a class="reference external" href="https://github.com/Caltech-IPAC/jupyter_firefly_extensions/blob/master/README.md">jupyter_firefly_extensions</a> set up in your environment:</p>
+<ol class="arabic simple">
+<li><p>In your Python environment, run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">jupyter_firefly_extensions</span></code>.</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">FIREFLY_URL</span></code> environment variable before running <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">lab</span></code>.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<p>In typical usage, it is unnecessary to set the <cite>channel</cite> parameter when
-instantiating <cite>FireflyClient</cite>. A unique string will be auto-generated.
-If you do wish to set the channel explicitly, e.g. for sharing your display
-with someone else, take care to make the channel unique.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>After initializing <code class="xref py py-class docutils literal notranslate"><span class="pre">FireflyClient</span></code>, make sure you have opened a web browser
-to the appropriate URL, before proceeding to use the Python API described
-in the following sections.</p>
-</div>
-<section id="initializing-with-the-make-client-factory-function">
-<h2>Initializing with the make_client Factory Function<a class="headerlink" href="#initializing-with-the-make-client-factory-function" title="Permalink to this heading">#</a></h2>
-<p>For an easier initialization, you can use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">FireflyClient.make_client()</span></code>
-factor function. This function will use the value of the FIREFLY_URL
-environment variable for the Firefly server. Additionally, it will attempt
-to start a Firefly browser tab or window if possible, and if not, it will
-display a link for the Firefly display.</p>
-<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fc = FireflyClient.make_lab_client()</span>
 </pre></div>
 </div>
+</div>
+</section>
+</section>
+<section id="Other-helpful-methods">
+<h2>Other helpful methods<a class="headerlink" href="#Other-helpful-methods" title="Link to this heading">#</a></h2>
+<section id="Reinitialize-the-viewer">
+<h3>Reinitialize the viewer<a class="headerlink" href="#Reinitialize-the-viewer" title="Link to this heading">#</a></h3>
+<p>To clean the state of the Firefly server (i.e., remove all displayed components and start fresh), you can reinitialize the viewer. This is specifically helpful if a Python connection with the server is already open and re-running <code class="docutils literal notranslate"><span class="pre">make_lab_client</span></code> (or <code class="docutils literal notranslate"><span class="pre">make_client</span></code>) leads to stale state.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">reinit_viewer</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Explicitly-open-a-browser-tab">
+<h3>Explicitly open a browser tab<a class="headerlink" href="#Explicitly-open-a-browser-tab" title="Link to this heading">#</a></h3>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">make_client()</span></code> opens a browser tab for Firefly. You can also trigger that behavior explicitly for a <code class="docutils literal notranslate"><span class="pre">FireflyClient</span></code> object by using the <code class="docutils literal notranslate"><span class="pre">launch_browser</span></code> method. It will return two values: a boolean indicating whether the web browser open was successful, and the URL for your web browser.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">launch_browser</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(True,
+ &#39;https://irsa.ipac.caltech.edu/irsaviewer/?__wsch=anNpbmdoYWwyMDI2LTAxLTA3&#39;)
+</pre></div></div>
+</div>
+</section>
+<section id="Display-Firefly-URL">
+<h3>Display Firefly URL<a class="headerlink" href="#Display-Firefly-URL" title="Link to this heading">#</a></h3>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">display_url()</span></code> to print the browser URL if running in a terminal, and to show a clickable link if running in a Jupyter notebook.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">display_url</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area rendered_html docutils container">
+Open your web browser to <a href="https://irsa.ipac.caltech.edu/irsaviewer/?__wsch=anNpbmdoYWwyMDI2LTAxLTA3"" target="_blank">this link</a></div>
+</div>
+</section>
+<section id="Set-a-custom-channel">
+<h3>Set a custom channel<a class="headerlink" href="#Set-a-custom-channel" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">FireflyClient</span></code> opens a connection to the Firefly server on a particular WebSocket channel. You can override it when using <code class="docutils literal notranslate"><span class="pre">make_client()</span></code> as shown below.</p>
+<p>In typical usage, it is unnecessary to set the channel when instantiating <code class="docutils literal notranslate"><span class="pre">FireflyClient</span></code>, as a unique string will be auto-generated. If you do wish to set the channel explicitly (e.g., for sharing your Firefly viewer/display with someone else), take care to make the channel unique.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc2</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">,</span>
+                                <span class="n">channel_override</span><span class="o">=</span><span class="s2">&quot;my-custom-channel&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
 </section>
 </section>
 
@@ -479,7 +603,7 @@ display a link for the Firefly display.</p>
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Displaying Images</p>
+        <p class="prev-next-title">Displaying FITS Images</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -502,7 +626,20 @@ display a link for the Firefly display.</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initializing-with-the-make-client-factory-function">Initializing with the make_client Factory Function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Pick-a-Firefly-server-URL">Pick a Firefly server URL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Imports">Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Initialize-FireflyClient">Initialize FireflyClient</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#1.-From-Jupyter-Notebook-(or-a-Python-shell)">1. From Jupyter Notebook (or a Python shell)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#2.-From-JupyterLab">2. From JupyterLab</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Other-helpful-methods">Other helpful methods</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Reinitialize-the-viewer">Reinitialize the viewer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Explicitly-open-a-browser-tab">Explicitly open a browser tab</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Display-Firefly-URL">Display Firefly URL</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Set-a-custom-channel">Set a custom channel</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
@@ -510,7 +647,7 @@ display a link for the Firefly display.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/usage/initializing-vanilla.rst.txt"
+      <li><a href="../_sources/usage/initializing-vanilla.ipynb"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>
@@ -540,14 +677,14 @@ display a link for the Firefly display.</p>
 
   <p class="copyright">
     
-      © Copyright 2024, Caltech/IPAC Firefly Developers.
+      © Copyright 2026, Caltech/IPAC Firefly Developers.
       <br/>
     
   </p>
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Dec 11, 2025.
+  Last updated on Jan 27, 2026.
   <br/>
 </p></div>
       
@@ -560,7 +697,7 @@ display a link for the Firefly display.</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     <br/>
   </p>
 </div>

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
@@ -31,7 +31,7 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,9 +39,10 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'development/guide';</script>
     <script src="../_static/custom-icon.js?v=a18babe4"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -51,7 +52,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Dec 11, 2025"/>
+    <meta name="docbuild:last-update" content="Jan 27, 2026"/>
   </head>
   
   
@@ -387,16 +388,33 @@
                 <article class="bd-article">
                   
   <section id="local-development">
-<h1>Local development<a class="headerlink" href="#local-development" title="Permalink to this heading">#</a></h1>
+<h1>Local development<a class="headerlink" href="#local-development" title="Link to this heading">#</a></h1>
 <p>Get latest source from <code class="docutils literal notranslate"><span class="pre">master</span></code> branch at <a class="github reference external" href="https://github.com/Caltech-IPAC/firefly_client">Caltech-IPAC/firefly_client</a>.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Caltech-IPAC/firefly_client.git
+<span class="nb">cd</span><span class="w"> </span>firefly_client
+</pre></div>
+</div>
 <section id="environment-setup">
-<h2>Environment Setup<a class="headerlink" href="#environment-setup" title="Permalink to this heading">#</a></h2>
-<p>TBD</p>
+<h2>Environment Setup<a class="headerlink" href="#environment-setup" title="Link to this heading">#</a></h2>
+<p>Create a Python virtual environment and install required dependencies.
+The folllowing commands demonstrate how to do this using <code class="docutils literal notranslate"><span class="pre">conda</span></code> (assuming you have <a class="reference external" href="https://www.anaconda.com/docs/getting-started/miniconda/">miniconda</a> installed on your system):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>ffpy<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>python<span class="w"> </span>jupyter<span class="w"> </span>astropy<span class="w"> </span><span class="c1"># jupyter and astropy are needed for running examples</span>
+conda<span class="w"> </span>activate<span class="w"> </span>ffpy
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[docs]&quot;</span><span class="w"> </span><span class="c1"># editable installation with docs dependencies</span>
+</pre></div>
+</div>
+<p>Now you can run the examples notebooks/scripts in the <code class="docutils literal notranslate"><span class="pre">examples/</span></code> directory.
+This can be done by starting a Jupyter Notebook or JupyterLab session from the terminal (<code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">notebook</span></code> or <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">lab</span></code>), or by using an IDE that supports running Python notebooks or scripts (like VSCode, IntelliJ, etc.).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The changes you make to the source code will be reflected when you run the examples since the package is installed in editable mode.
+But make sure to restart the active Python kernel/session to pick up the changes.</p>
+</div>
 </section>
 <section id="building-documentation">
-<h2>Building documentation<a class="headerlink" href="#building-documentation" title="Permalink to this heading">#</a></h2>
-<p>Make sure you have the virtual/conda environment activated and documentation
-dependencies installed in that environment.</p>
+<h2>Building documentation<a class="headerlink" href="#building-documentation" title="Link to this heading">#</a></h2>
+<p>Make sure you have the virtual environment activated and documentation
+dependencies installed in that environment (<code class="docutils literal notranslate"><span class="pre">[docs]</span></code>).</p>
 <p>Then do:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>docs
 make<span class="w"> </span>clean<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make<span class="w"> </span>html
@@ -405,7 +423,16 @@ make<span class="w"> </span>clean<span class="w"> </span><span class="o">&amp;&a
 <p>Open <code class="docutils literal notranslate"><span class="pre">docs/_build/html/index.html</span></code> in your browser to see the documentation
 website.</p>
 <p>Each time you make a change in documentation source, build it using
-above command and reload the above file in browser.</p>
+above command and reload the above html file in browser.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Sphinx docs include rendered Jupyter notebooks (via <code class="docutils literal notranslate"><span class="pre">nbsphinx</span></code>), which can require <strong>pandoc</strong>.
+If you see an error like <code class="docutils literal notranslate"><span class="pre">PandocMissing</span></code>, install pandoc first (e.g., <code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">pandoc</span></code> on macOS).</p>
+</div>
+</section>
+<section id="development-tests-examples">
+<h2>Development Tests/Examples<a class="headerlink" href="#development-tests-examples" title="Link to this heading">#</a></h2>
+<p>Refer to the <a class="reference external" href="https://github.com/Caltech-IPAC/firefly_client/tree/master/examples/development_tests">examples/development_tests directory</a> of firefly-client GitHub repository.</p>
 </section>
 </section>
 
@@ -458,6 +485,7 @@ above command and reload the above file in browser.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-setup">Environment Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-documentation">Building documentation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#development-tests-examples">Development Tests/Examples</a></li>
 </ul>
   </nav></div>
 
@@ -465,7 +493,7 @@ above command and reload the above file in browser.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/development/guide.rst.txt"
+      <li><a href="../_sources/development/guide.rst"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>
@@ -495,14 +523,14 @@ above command and reload the above file in browser.</p>
 
   <p class="copyright">
     
-      © Copyright 2024, Caltech/IPAC Firefly Developers.
+      © Copyright 2026, Caltech/IPAC Firefly Developers.
       <br/>
     
   </p>
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Dec 11, 2025.
+  Last updated on Jan 27, 2026.
   <br/>
 </p></div>
       
@@ -515,7 +543,7 @@ above command and reload the above file in browser.</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     <br/>
   </p>
 </div>
