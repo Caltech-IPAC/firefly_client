@@ -33,7 +33,7 @@ def filetable_to_firefly(
         Instance of FireflyClient connected to a Firefly server
 
     topdir: "str"
-        pathname for directory to search
+        pathname for directory to search, must be an absolute path.
 
     pattern: "str"
         filename pattern to search for, e.g. "*.fits"
@@ -159,10 +159,9 @@ def main():
     if printurl:
         input("Press Enter after you have opened the Firefly URL printed above...")
 
-    # TODO: figure out how to activate data products (meta) tab in Bi-View
-    # if "slate" not in html_file:
-    #     fc.change_triview_layout(firefly_client.FireflyClient.BIVIEW_T_IChCov)
-    #     fc.dispatch('layout.updateLayout', {'images':{'selectedTab':'meta'}})
+    if "slate" not in html_file:
+        fc.change_triview_layout(firefly_client.FireflyClient.BIVIEW_T_IChCov)
+        fc.dispatch('layout.updateLayout', {'rightSide': {'selectedTab': 'meta'}})
     r = fc.add_cell(0, 0, 1, 2, "tables", "main")
     fc.show_table(tbl_val, meta=metainfo)
     r = fc.add_cell(0, 1, 1, 2, "tableImageMeta", "image-meta")
@@ -170,4 +169,7 @@ def main():
 
 
 if __name__ == "__main__":
+    # Test example: 
+    # python filetable.py '/Users/jsinghal/dev/cm/__test_data' '*.*' --firefly_url http://localhost:8080/firefly/
+
     main()
