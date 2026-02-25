@@ -1,0 +1,706 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Load files as a table of data products &#8212; firefly_client  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'usage/examples/filetable';</script>
+    <script src="../../_static/custom-icon.js?v=a18babe4"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Load multiple MOCs" href="multi-moc.html" />
+    <link rel="prev" title="Plot interface: firefly_client.plot module" href="plot-interface.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="Feb 25, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">firefly_client  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../development/index.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/Caltech-IPAC/firefly_client" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/firefly-client" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-custom fa-pypi fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../development/index.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/Caltech-IPAC/firefly_client" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/firefly-client" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-custom fa-pypi fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../initializing-vanilla.html">Initializing a FireflyClient instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../displaying-images.html">Displaying FITS Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../displaying-3color.html">Displaying 3-Color FITS Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../displaying-hips.html">Displaying HiPS Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overlaying-regions.html">Visualizing Regions on Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../viewing-tables.html">Displaying Tables and Catalogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../charting.html">Visualizing tables as Charts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../callbacks-extensions.html">Advanced: Callbacks and Extensions</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../demo-notebooks.html">Demo Notebooks</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="reference-guide.html">Reference Guide to Firefly Python Client API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-3color.html">Show a 3 color image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-HiPS.html">Show HiPS Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-basic.html">Basic API Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-multiple-table.html">Show a file containing multiple tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-overlay-footprint.html">Overlay a footprint on image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-region.html">Add region data to image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-simple-callback-in-jupyter.html">Extensions and Callback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-simple-callback-in-terminal.html">Extensions and Callback via Terminal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot-interface.html">Plot interface: <code class="docutils literal notranslate"><span class="pre">firefly_client.plot</span></code> module</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Load files as a table of data products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi-moc.html">Load multiple MOCs</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Using firefly_client</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../demo-notebooks.html" class="nav-link">Demo Notebooks</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Load files as a table of data products</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="load-files-as-a-table-of-data-products">
+<h1>Load files as a table of data products<a class="headerlink" href="#load-files-as-a-table-of-data-products" title="Link to this heading">#</a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="ch">#!/usr/bin/env python</span>
+<span class="linenos">  2</span><span class="c1"># Load files as a table of data products</span>
+<span class="linenos">  3</span>
+<span class="linenos">  4</span><span class="kn">from</span><span class="w"> </span><span class="nn">argparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArgumentParser</span><span class="p">,</span> <span class="n">HelpFormatter</span>
+<span class="linenos">  5</span><span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+<span class="linenos">  6</span><span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span>
+<span class="linenos">  7</span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="linenos">  8</span><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="linenos">  9</span><span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
+<span class="linenos"> 10</span>
+<span class="linenos"> 11</span><span class="kn">import</span><span class="w"> </span><span class="nn">firefly_client</span>
+<span class="linenos"> 12</span>
+<span class="linenos"> 13</span>
+<span class="linenos"> 14</span><span class="c1"># From https://stackoverflow.com/a/64102901</span>
+<span class="linenos"> 15</span><span class="k">class</span><span class="w"> </span><span class="nc">RawFormatter</span><span class="p">(</span><span class="n">HelpFormatter</span><span class="p">):</span>
+<span class="linenos"> 16</span>    <span class="k">def</span><span class="w"> </span><span class="nf">_fill_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">indent</span><span class="p">):</span>
+<span class="linenos"> 17</span>        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="linenos"> 18</span>            <span class="p">[</span>
+<span class="linenos"> 19</span>                <span class="n">textwrap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
+<span class="linenos"> 20</span>                <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">text</span><span class="p">),</span> <span class="n">indent</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+<span class="linenos"> 21</span>            <span class="p">]</span>
+<span class="linenos"> 22</span>        <span class="p">)</span>
+<span class="linenos"> 23</span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span><span class="k">def</span><span class="w"> </span><span class="nf">filetable_to_firefly</span><span class="p">(</span>
+<span class="linenos"> 26</span>    <span class="n">ffclient</span><span class="p">,</span> <span class="n">topdir</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">path_prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span>
+<span class="linenos"> 27</span><span class="p">):</span>
+<span class="linenos"> 28</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Upload table of files matching a pattern to a FireflyClient</span>
+<span class="linenos"> 29</span>
+<span class="linenos"> 30</span><span class="sd">    Parameters:</span>
+<span class="linenos"> 31</span><span class="sd">    -----------</span>
+<span class="linenos"> 32</span><span class="sd">    ffclient: firefly_client.FireflyClient</span>
+<span class="linenos"> 33</span><span class="sd">        Instance of FireflyClient connected to a Firefly server</span>
+<span class="linenos"> 34</span>
+<span class="linenos"> 35</span><span class="sd">    topdir: &quot;str&quot;</span>
+<span class="linenos"> 36</span><span class="sd">        pathname for directory to search, must be an absolute path.</span>
+<span class="linenos"> 37</span>
+<span class="linenos"> 38</span><span class="sd">    pattern: &quot;str&quot;</span>
+<span class="linenos"> 39</span><span class="sd">        filename pattern to search for, e.g. &quot;*.fits&quot;</span>
+<span class="linenos"> 40</span>
+<span class="linenos"> 41</span><span class="sd">    path_prefix: &quot;str&quot;</span>
+<span class="linenos"> 42</span><span class="sd">        string to prepend to each file path after &quot;file://&quot;</span>
+<span class="linenos"> 43</span><span class="sd">        for example, specify &quot;/external&quot; for Firefly-in-Docker</span>
+<span class="linenos"> 44</span><span class="sd">        (default=&quot;&quot;)</span>
+<span class="linenos"> 45</span>
+<span class="linenos"> 46</span><span class="sd">    recursive: `bool`</span>
+<span class="linenos"> 47</span><span class="sd">        Search all subdirectories recursively (default=True)</span>
+<span class="linenos"> 48</span>
+<span class="linenos"> 49</span><span class="sd">    sort: `bool`</span>
+<span class="linenos"> 50</span><span class="sd">        Sort the file paths (default=False)</span>
+<span class="linenos"> 51</span>
+<span class="linenos"> 52</span><span class="sd">    Returns:</span>
+<span class="linenos"> 53</span><span class="sd">    --------</span>
+<span class="linenos"> 54</span><span class="sd">    tbl_val: &quot;str&quot;</span>
+<span class="linenos"> 55</span><span class="sd">        Descriptor of table that was uploaded to the Firefly server</span>
+<span class="linenos"> 56</span>
+<span class="linenos"> 57</span><span class="sd">    metadict: `dict`</span>
+<span class="linenos"> 58</span><span class="sd">        Dictionary of metadata items</span>
+<span class="linenos"> 59</span>
+<span class="linenos"> 60</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos"> 61</span>    <span class="k">if</span> <span class="n">recursive</span><span class="p">:</span>
+<span class="linenos"> 62</span>        <span class="n">file_lookup_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">topdir</span><span class="p">,</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span>
+<span class="linenos"> 63</span>    <span class="k">else</span><span class="p">:</span>
+<span class="linenos"> 64</span>        <span class="n">file_lookup_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">topdir</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span>
+<span class="linenos"> 65</span>    <span class="n">filelist</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">file_lookup_path</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span>
+<span class="linenos"> 66</span>    <span class="k">if</span> <span class="n">sort</span><span class="p">:</span>
+<span class="linenos"> 67</span>        <span class="n">filelist</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">filelist</span><span class="p">)</span>
+<span class="linenos"> 68</span>    <span class="n">metadict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;datasource&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">}</span>
+<span class="linenos"> 69</span>    <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w+t&quot;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.csv&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fd</span><span class="p">:</span>
+<span class="linenos"> 70</span>        <span class="n">csv_writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+<span class="linenos"> 71</span>        <span class="n">csv_writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s2">&quot;number&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;path&quot;</span><span class="p">])</span>
+<span class="linenos"> 72</span>        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filelist</span><span class="p">):</span>
+<span class="linenos"> 73</span>            <span class="c1"># Docker Firefly allows uploads from /external</span>
+<span class="linenos"> 74</span>            <span class="n">csv_writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span>
+<span class="linenos"> 75</span>                <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="s2">&quot;file://&quot;</span> <span class="o">+</span> <span class="n">path_prefix</span> <span class="o">+</span> <span class="n">path</span><span class="p">]</span>
+<span class="linenos"> 76</span>            <span class="p">)</span>
+<span class="linenos"> 77</span>
+<span class="linenos"> 78</span>    <span class="n">tbl_val</span> <span class="o">=</span> <span class="n">ffclient</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">fd</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="linenos"> 79</span>    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fd</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="linenos"> 80</span>    <span class="k">return</span> <span class="p">(</span><span class="n">tbl_val</span><span class="p">,</span> <span class="n">metadict</span><span class="p">)</span>
+<span class="linenos"> 81</span>
+<span class="linenos"> 82</span>
+<span class="linenos"> 83</span><span class="c1"># Sample application</span>
+<span class="linenos"> 84</span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="linenos"> 85</span>    <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span>
+<span class="linenos"> 86</span>        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="linenos"> 87</span><span class="s2">        Display a table of files in a Firefly window.</span>
+<span class="linenos"> 88</span><span class="s2">        </span>
+<span class="linenos"> 89</span><span class="s2">        Note that you must be running a Firefly server that is</span>
+<span class="linenos"> 90</span><span class="s2">        local to the data.</span>
+<span class="linenos"> 91</span><span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="linenos"> 92</span>        <span class="n">epilog</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="linenos"> 93</span><span class="s2">        If running Firefly via Docker, note that you can mount your</span>
+<span class="linenos"> 94</span><span class="s2">        disk area onto /external.</span>
+<span class="linenos"> 95</span><span class="s2">        </span>
+<span class="linenos"> 96</span><span class="s2">        Sample command for running the Firefly server:</span>
+<span class="linenos"> 97</span><span class="s2">            docker run -p 8090:8080  -e &quot;MAX_JVM_SIZE=64G&quot;  </span><span class="se">\\</span>
+<span class="linenos"> 98</span><span class="s2">            -e &quot;LOG_FILE_TO_CONSOLE=firefly.log&quot; --rm --name ncmds_firefly </span><span class="se">\\</span>
+<span class="linenos"> 99</span><span class="s2">            -v /neoswork:/external/neoswork ipac/firefly:latest</span>
+<span class="linenos">100</span><span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="linenos">101</span>        <span class="n">formatter_class</span><span class="o">=</span><span class="n">RawFormatter</span><span class="p">,</span>
+<span class="linenos">102</span>    <span class="p">)</span>
+<span class="linenos">103</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;topdir&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;top-level directory to search&quot;</span><span class="p">)</span>
+<span class="linenos">104</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;pattern&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;filename pattern for search&quot;</span><span class="p">)</span>
+<span class="linenos">105</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">106</span>        <span class="s2">&quot;--path_prefix&quot;</span><span class="p">,</span>
+<span class="linenos">107</span>        <span class="n">help</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span>
+<span class="linenos">108</span><span class="w">            </span><span class="sd">&quot;&quot;&quot;string to prepend to file paths,</span>
+<span class="linenos">109</span><span class="sd">        e.g. specify &#39;/external&#39; for Firefly-in-Docker&quot;&quot;&quot;</span>
+<span class="linenos">110</span>        <span class="p">),</span>
+<span class="linenos">111</span>        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="linenos">112</span>    <span class="p">)</span>
+<span class="linenos">113</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">114</span>        <span class="s2">&quot;--norecursion&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;do not recursively search topdir&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span>
+<span class="linenos">115</span>    <span class="p">)</span>
+<span class="linenos">116</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--sort&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;sort the file paths&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">)</span>
+<span class="linenos">117</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">118</span>        <span class="s2">&quot;--firefly_url&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;URL for Firefly server&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;FIREFLY_URL&quot;</span><span class="p">)</span>
+<span class="linenos">119</span>    <span class="p">)</span>
+<span class="linenos">120</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--channel&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;channel name for websocket&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="linenos">121</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">122</span>        <span class="s2">&quot;--html_file&quot;</span><span class="p">,</span>
+<span class="linenos">123</span>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Firefly landing page (default &#39;firefly.html&#39;)&quot;</span><span class="p">,</span>
+<span class="linenos">124</span>        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;firefly.html&quot;</span><span class="p">,</span>
+<span class="linenos">125</span>    <span class="p">)</span>
+<span class="linenos">126</span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+<span class="linenos">127</span>        <span class="s2">&quot;--printurl&quot;</span><span class="p">,</span>
+<span class="linenos">128</span>        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;print browser url instead of&quot;</span> <span class="o">+</span> <span class="s2">&quot; attempting to launch browser&quot;</span><span class="p">,</span>
+<span class="linenos">129</span>        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+<span class="linenos">130</span>    <span class="p">)</span>
+<span class="linenos">131</span>
+<span class="linenos">132</span>    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<span class="linenos">133</span>    <span class="n">topdir</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">topdir</span>
+<span class="linenos">134</span>    <span class="n">pattern</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">pattern</span>
+<span class="linenos">135</span>    <span class="n">firefly_url</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">firefly_url</span>
+<span class="linenos">136</span>    <span class="n">channel</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">channel</span>
+<span class="linenos">137</span>    <span class="n">printurl</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">printurl</span>
+<span class="linenos">138</span>    <span class="n">launch_browser</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">printurl</span> <span class="k">else</span> <span class="kc">True</span>
+<span class="linenos">139</span>    <span class="n">recursion</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">norecursion</span>
+<span class="linenos">140</span>    <span class="n">sort</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">sort</span>
+<span class="linenos">141</span>    <span class="n">path_prefix</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">path_prefix</span>
+<span class="linenos">142</span>    <span class="n">html_file</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">html_file</span>
+<span class="linenos">143</span>
+<span class="linenos">144</span>    <span class="n">fc</span> <span class="o">=</span> <span class="n">firefly_client</span><span class="o">.</span><span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span>
+<span class="linenos">145</span>        <span class="n">url</span><span class="o">=</span><span class="n">firefly_url</span><span class="p">,</span>
+<span class="linenos">146</span>        <span class="n">channel_override</span><span class="o">=</span><span class="n">channel</span><span class="p">,</span>
+<span class="linenos">147</span>        <span class="n">html_file</span><span class="o">=</span><span class="n">html_file</span><span class="p">,</span>
+<span class="linenos">148</span>        <span class="n">launch_browser</span><span class="o">=</span><span class="n">launch_browser</span><span class="p">,</span>
+<span class="linenos">149</span>    <span class="p">)</span>
+<span class="linenos">150</span>    <span class="k">if</span> <span class="n">printurl</span><span class="p">:</span>
+<span class="linenos">151</span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Firefly URL is </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">get_firefly_url</span><span class="p">()))</span>
+<span class="linenos">152</span>
+<span class="linenos">153</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Searching for files...&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="linenos">154</span>    <span class="n">tbl_val</span><span class="p">,</span> <span class="n">metainfo</span> <span class="o">=</span> <span class="n">filetable_to_firefly</span><span class="p">(</span>
+<span class="linenos">155</span>        <span class="n">fc</span><span class="p">,</span> <span class="n">topdir</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">path_prefix</span><span class="o">=</span><span class="n">path_prefix</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="n">recursion</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="n">sort</span>
+<span class="linenos">156</span>    <span class="p">)</span>
+<span class="linenos">157</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;done.&quot;</span><span class="p">)</span>
+<span class="linenos">158</span>
+<span class="linenos">159</span>    <span class="k">if</span> <span class="n">printurl</span><span class="p">:</span>
+<span class="linenos">160</span>        <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Press Enter after you have opened the Firefly URL printed above...&quot;</span><span class="p">)</span>
+<span class="linenos">161</span>
+<span class="linenos">162</span>    <span class="k">if</span> <span class="s2">&quot;slate&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">html_file</span><span class="p">:</span>
+<span class="linenos">163</span>        <span class="n">fc</span><span class="o">.</span><span class="n">change_triview_layout</span><span class="p">(</span><span class="n">firefly_client</span><span class="o">.</span><span class="n">FireflyClient</span><span class="o">.</span><span class="n">BIVIEW_T_IChCov</span><span class="p">)</span>
+<span class="linenos">164</span>        <span class="n">fc</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="s1">&#39;layout.updateLayout&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;rightSide&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;selectedTab&#39;</span><span class="p">:</span> <span class="s1">&#39;meta&#39;</span><span class="p">}})</span>
+<span class="linenos">165</span>    <span class="n">r</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">add_cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="s2">&quot;main&quot;</span><span class="p">)</span>
+<span class="linenos">166</span>    <span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">tbl_val</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">metainfo</span><span class="p">)</span>
+<span class="linenos">167</span>    <span class="n">r</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">add_cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;tableImageMeta&quot;</span><span class="p">,</span> <span class="s2">&quot;image-meta&quot;</span><span class="p">)</span>
+<span class="linenos">168</span>    <span class="n">fc</span><span class="o">.</span><span class="n">show_image_metadata</span><span class="p">(</span><span class="n">viewer_id</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;cell_id&quot;</span><span class="p">])</span>
+<span class="linenos">169</span>
+<span class="linenos">170</span>
+<span class="linenos">171</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">172</span>    <span class="c1"># Test example: </span>
+<span class="linenos">173</span>    <span class="c1"># python filetable.py &#39;/Users/jsinghal/dev/cm/__test_data&#39; &#39;*.*&#39; --firefly_url http://localhost:8080/firefly/</span>
+<span class="linenos">174</span>
+<span class="linenos">175</span>    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plot-interface.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Plot interface: <code class="docutils literal notranslate"><span class="pre">firefly_client.plot</span></code> module</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="multi-moc.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Load multiple MOCs</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/usage/examples/filetable.py"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Caltech/IPAC Firefly Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item"><p class="last-updated">
+  Last updated on Feb 25, 2026.
+  <br/>
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

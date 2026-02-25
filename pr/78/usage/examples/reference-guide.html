@@ -1,0 +1,1188 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Reference Guide to Firefly Python Client API &#8212; firefly_client  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'usage/examples/reference-guide';</script>
+    <script src="../../_static/custom-icon.js?v=a18babe4"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Show a 3 color image" href="demo-3color.html" />
+    <link rel="prev" title="Demo Notebooks" href="../demo-notebooks.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="Feb 25, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">firefly_client  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../development/index.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/Caltech-IPAC/firefly_client" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/firefly-client" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-custom fa-pypi fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../development/index.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../reference.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/Caltech-IPAC/firefly_client" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/firefly-client" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-custom fa-pypi fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../initializing-vanilla.html">Initializing a FireflyClient instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../displaying-images.html">Displaying FITS Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../displaying-3color.html">Displaying 3-Color FITS Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../displaying-hips.html">Displaying HiPS Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overlaying-regions.html">Visualizing Regions on Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../viewing-tables.html">Displaying Tables and Catalogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../charting.html">Visualizing tables as Charts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../callbacks-extensions.html">Advanced: Callbacks and Extensions</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../demo-notebooks.html">Demo Notebooks</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Reference Guide to Firefly Python Client API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-3color.html">Show a 3 color image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-HiPS.html">Show HiPS Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-basic.html">Basic API Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-multiple-table.html">Show a file containing multiple tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-overlay-footprint.html">Overlay a footprint on image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-region.html">Add region data to image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-simple-callback-in-jupyter.html">Extensions and Callback</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo-simple-callback-in-terminal.html">Extensions and Callback via Terminal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot-interface.html">Plot interface: <code class="docutils literal notranslate"><span class="pre">firefly_client.plot</span></code> module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filetable.html">Load files as a table of data products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi-moc.html">Load multiple MOCs</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Using firefly_client</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../demo-notebooks.html" class="nav-link">Demo Notebooks</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Reference Guide to Firefly Python Client API</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Reference-Guide-to-Firefly-Python-Client-API">
+<h1>Reference Guide to Firefly Python Client API<a class="headerlink" href="#Reference-Guide-to-Firefly-Python-Client-API" title="Link to this heading">#</a></h1>
+<p>This notebook aims to give a high-level overview of the Firefly Python client API and important methods to get you started. For <strong>full explanation</strong> of each method and its parameter, check <a class="reference external" href="https://caltech-ipac.github.io/firefly_client/api/firefly_client.FireflyClient.html">FireflyClient API reference</a>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
+
+<span class="c1"># Following imports are just for example data fetching and processing (not needed always)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">download_file</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">astropy.convolution</span><span class="w"> </span><span class="kn">import</span> <span class="n">convolve</span><span class="p">,</span> <span class="n">Gaussian2DKernel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+</pre></div>
+</div>
+</div>
+<section id="Initialize-Firefly-Client">
+<h2>Initialize Firefly Client<a class="headerlink" href="#Initialize-Firefly-Client" title="Link to this heading">#</a></h2>
+<p>Firefly is a web application (with a URL) that can be controlled from Python with a <code class="docutils literal notranslate"><span class="pre">FireflyClient</span></code> object.</p>
+<p>To indicate which Firefly server to talk to from our Python client, we set the environment variable <code class="docutils literal notranslate"><span class="pre">FIREFLY_URL</span></code>. In this notebook, we use a public Firefly server: the IRSA Viewer (<a class="reference external" href="https://irsa.ipac.caltech.edu/irsaviewer">https://irsa.ipac.caltech.edu/irsaviewer</a>). However, you can also run a local Firefly server via a <a class="reference external" href="https://hub.docker.com/r/ipac/firefly">Firefly Docker image</a> and access it at <code class="docutils literal notranslate"><span class="pre">http://localhost:8080/firefly</span></code>.</p>
+<p>There are two ways to initialize <code class="docutils literal notranslate"><span class="pre">FireflyClient</span></code> from Python, depending on whether you’re running the notebook in JupyterLab or not:</p>
+<section id="From-Jupyter-Lab">
+<h3>From Jupyter Lab<a class="headerlink" href="#From-Jupyter-Lab" title="Link to this heading">#</a></h3>
+<p>Assuming you have <code class="docutils literal notranslate"><span class="pre">jupyter-firefly-extensions</span></code> set up in your environment as explained <a class="reference external" href="https://github.com/Caltech-IPAC/jupyter_firefly_extensions/blob/master/README.md">here</a>, you can use <code class="docutils literal notranslate"><span class="pre">make_lab_client()</span></code> in JupyterLab, which will open the Firefly viewer in a new tab within the Lab.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fc = FireflyClient.make_lab_client()</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="From-Jupyter-Notebook-(or-even-a-Python-shell)">
+<h3>From Jupyter Notebook (or even a Python shell)<a class="headerlink" href="#From-Jupyter-Notebook-(or-even-a-Python-shell)" title="Link to this heading">#</a></h3>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">make_client()</span></code> in a Jupyter Notebook (or even a Python shell), which will open the Firefly viewer in a new web browser tab. <code class="docutils literal notranslate"><span class="pre">make_client()</span></code> also allows you to pass the URL directly (other than through environment variable) as the <code class="docutils literal notranslate"><span class="pre">url</span></code> parameter.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fc = FireflyClient.make_client() # URL is taken from FIREFLY_URL env variable</span>
+
+<span class="c1"># URL can be defined explicitly as a parameter</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="[Optional]-Reinitialize-Firefly-Client">
+<h2>[Optional] Reinitialize Firefly Client<a class="headerlink" href="#[Optional]-Reinitialize-Firefly-Client" title="Link to this heading">#</a></h2>
+<p>To clean the state of Firefly server (aka remove all displayed components and start fresh), you can reinitialise it. This is specifically helpful if a Python connection with server is already open and re-running <code class="docutils literal notranslate"><span class="pre">make_lab_client</span></code> (or <code class="docutils literal notranslate"><span class="pre">make_client</span></code>) leads to stale state.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">reinit_viewer</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Show-FITS-Image-in-Firefly">
+<h2>Show FITS Image in Firefly<a class="headerlink" href="#Show-FITS-Image-in-Firefly" title="Link to this heading">#</a></h2>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">show_fits_image</span></code> method of the FireflyClient object to display a FITS image. It can take a local file path, URL, or a file-like object as input via the <code class="docutils literal notranslate"><span class="pre">file_input</span></code> parameter.</p>
+<section id="From-a-URL">
+<h3>From a URL<a class="headerlink" href="#From-a-URL" title="Link to this heading">#</a></h3>
+<p>You can specify url of any FITS image. Here we use cutout of a WISE all-sky image of M51 galaxy in W2 band:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-cutout&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">cutout_image_url</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="n">cutout_image_plot_id</span><span class="p">,</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="From-a-local-file">
+<h3>From a local file<a class="headerlink" href="#From-a-local-file" title="Link to this heading">#</a></h3>
+<p>You can specify path of any local FITS file. Here we download the full WISE all-sky image of M51 in W2 and use its file path:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits&#39;</span>
+<span class="n">full_image_fpath</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">full_image_url</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+<span class="n">full_image_fpath</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&#39;/Users/jsinghal/.astropy/cache/download/url/ef686a664b2c17e3d8590b511be8a400/contents&#39;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-fullimage&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">full_image_fpath</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="c1"># using a different plot id to not overwrite previous plot</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Full Image&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="From-an-in-memory-file-like-object">
+<h3>From an in-memory file-like object<a class="headerlink" href="#From-an-in-memory-file-like-object" title="Link to this heading">#</a></h3>
+<p>You can also use a file-like object (e.g. <code class="docutils literal notranslate"><span class="pre">BytesIO</span></code> stream) instead of a local file path or URL. This is useful when you are working with a FITS file in memory and don’t want to write it to disk.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">processed_fits</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">cutout_image_url</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdul</span><span class="p">:</span>
+    <span class="c1"># Do some processing on FITS image data (like simple Gaussian smoothing here)</span>
+    <span class="n">img_data</span> <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">gaussian_kernel</span> <span class="o">=</span> <span class="n">Gaussian2DKernel</span><span class="p">(</span><span class="n">x_stddev</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">img_data</span> <span class="o">=</span> <span class="n">convolve</span><span class="p">(</span><span class="n">img_data</span><span class="p">,</span> <span class="n">gaussian_kernel</span><span class="p">)</span>
+
+    <span class="n">new_hdu</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">img_data</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+    <span class="n">new_hdu</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="n">processed_fits</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">processed_fits</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># to bring reading pointer to the beginning of file</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">processed_fits</span><span class="p">,</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise-processed&#39;</span><span class="p">,</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Processed WISE Cutout&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Modify-the-displayed-image(s)">
+<h2>Modify the displayed image(s)<a class="headerlink" href="#Modify-the-displayed-image(s)" title="Link to this heading">#</a></h2>
+<section id="Panning-to-a-coordinate">
+<h3>Panning to a coordinate<a class="headerlink" href="#Panning-to-a-coordinate" title="Link to this heading">#</a></h3>
+<p>To pan the full image to center on the M51 cutout’s center:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_pan</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="c1"># note we use the plot id we defined above</span>
+           <span class="n">x</span><span class="o">=</span><span class="mf">202.4841667</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">47.23055556</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="s1">&#39;j2000&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Zooming">
+<h3>Zooming<a class="headerlink" href="#Zooming" title="Link to this heading">#</a></h3>
+<p>To zoom into the full image by a factor of 2:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_zoom</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Aligning-multiple-images">
+<h3>Aligning multiple images<a class="headerlink" href="#Aligning-multiple-images" title="Link to this heading">#</a></h3>
+<p>To align both full image and cutout image by WCS and to lock the WCS matching:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">align_images</span><span class="p">(</span><span class="n">lock_match</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Changing-the-color-stretch">
+<h3>Changing the color stretch<a class="headerlink" href="#Changing-the-color-stretch" title="Link to this heading">#</a></h3>
+<p>Set the stretch for the full image based on IRAF zscale interval with a linear algorithm:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">&#39;zscale&#39;</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True,
+ &#39;rv_string&#39;: &#39;91,1.000000,91,1.000000,NaN,2.000000,44,25,600,120,0,NaN,1.000000&#39;}
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Show-Table/Catalogs-in-Firefly">
+<h2>Show Table/Catalogs in Firefly<a class="headerlink" href="#Show-Table/Catalogs-in-Firefly" title="Link to this heading">#</a></h2>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">show_table</span></code> method of the FireflyClient object to display a table/catalog. Similar to <code class="docutils literal notranslate"><span class="pre">show_fits_image</span></code>, it can take a local file path, URL, or a file-like object as input via the same <code class="docutils literal notranslate"><span class="pre">file_input</span></code> parameter.</p>
+<p>Here we use a 2MASS catalog (using IRSA VO TAP):</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_url</span> <span class="o">=</span> <span class="s2">&quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),CIRCLE(&#39;J2000&#39;,202.4841667,47.23055556,0.125))=1&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_id</span> <span class="o">=</span> <span class="s1">&#39;2mass-catalog&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">table_url</span><span class="p">,</span> <span class="c1"># can also be a local file path or file-like object</span>
+              <span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;2MASS Catalog&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+<p>Note: Displaying a catalog table also caused Firefly to overlay the image with markers by default. The markers can be visible on all the WISE images we displayed earlier since they would include the same field of view. Also we see the active chart and coverage tab as bonus!</p>
+</section>
+<section id="Modify-the-displayed-table">
+<h2>Modify the displayed table<a class="headerlink" href="#Modify-the-displayed-table" title="Link to this heading">#</a></h2>
+<section id="Sorting-by-a-column">
+<h3>Sorting by a column<a class="headerlink" href="#Sorting-by-a-column" title="Link to this heading">#</a></h3>
+<p>You can sort the table by a column in ascending (ASC) or descending (DESC) order:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">sort_table_column</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span>
+                     <span class="n">column_name</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span><span class="p">,</span> <span class="n">sort_direction</span><span class="o">=</span><span class="s1">&#39;ASC&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Filtering-the-rows">
+<h3>Filtering the rows<a class="headerlink" href="#Filtering-the-rows" title="Link to this heading">#</a></h3>
+<p>Filters can be specified as an SQL WHERE clause-like string with column names quoted:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">apply_table_filters</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="c1"># note: we use the table id we defined above</span>
+                       <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;&quot;j_m&quot;&lt;15 and &quot;j_cmsig&quot;&lt;0.05&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+<p>To remove the filters:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">apply_table_filters</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Plot-Chart-from-the-displayed-table">
+<h2>Plot Chart from the displayed table<a class="headerlink" href="#Plot-Chart-from-the-displayed-table" title="Link to this heading">#</a></h2>
+<p>We can use the dispalyed table data to plot columns on X and Y axis:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_xyplot</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">xCol</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span><span class="p">,</span> <span class="n">yCol</span><span class="o">=</span><span class="s1">&#39;h_m-k_m&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+<p>Alternatively, more generic method show_chart() can be used to create the same plot which accepts a lot of configuration parameters as <a class="reference external" href="https://plotly.com/javascript/reference/index/">Plotly data structure</a>:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trace0</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tbl_id&#39;</span><span class="p">:</span> <span class="n">table_id</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s2">&quot;tables::j_m&quot;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s2">&quot;tables::h_m-k_m&quot;</span><span class="p">,</span>
+          <span class="s1">&#39;type&#39;</span> <span class="p">:</span> <span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="s1">&#39;markers&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;marker&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)}</span>
+<span class="n">layout</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;2MASS color-mag&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;xaxis&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;J&#39;</span><span class="p">),</span> <span class="s1">&#39;yaxis&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;H - K&#39;</span><span class="p">)}</span>
+
+<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_chart</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">trace0</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Plot-Region-overlays-on-the-displayed-image">
+<h2>Plot Region overlays on the displayed image<a class="headerlink" href="#Plot-Region-overlays-on-the-displayed-image" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://ds9.si.edu/doc/ref/region.html">ds9-style regions</a> can be overlaid on the image displayed by Firefly:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sources_box</span> <span class="o">=</span> <span class="s2">&quot;icrs;box 202.4841667d 47.23055556d 15&#39; 15&#39; 0d # color=yellow&quot;</span>
+<span class="n">image_regions_id</span> <span class="o">=</span> <span class="s1">&#39;wise-regions&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">overlay_region_layer</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">sources_box</span><span class="p">,</span>
+                        <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE all-sky Annotations&#39;</span><span class="p">,</span>
+                        <span class="n">region_layer_id</span><span class="o">=</span><span class="n">image_regions_id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+<p>Add region data to an existing region layer:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="mf">202.49808</span><span class="p">,</span> <span class="mf">47.26617</span>
+<span class="n">point_source</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;icrs;point </span><span class="si">{</span><span class="n">ra</span><span class="si">}</span><span class="s1">d </span><span class="si">{</span><span class="n">dec</span><span class="si">}</span><span class="s1">d # point=cross 25 text=</span><span class="se">{{</span><span class="s1">NGC 5195</span><span class="se">}}</span><span class="s1"> color=yellow&#39;</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">add_region_data</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">point_source</span><span class="p">,</span>
+                   <span class="n">region_layer_id</span><span class="o">=</span><span class="n">image_regions_id</span><span class="p">)</span> <span class="c1"># note: we use same region_layer_id</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+<p>To remove region layer:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">delete_region_layer</span><span class="p">(</span><span class="n">image_regions_id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Show-HiPS-image">
+<h2>Show HiPS image<a class="headerlink" href="#Show-HiPS-image" title="Link to this heading">#</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hips_url</span> <span class="o">=</span> <span class="s1">&#39;http://alasky.u-strasbg.fr/DSS/DSSColor&#39;</span>
+<span class="n">hips_plot_id</span> <span class="o">=</span> <span class="s1">&#39;hips-img-id&#39;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;202.4841667;47.23055556;EQ_J2000&#39;</span>
+
+<span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">hips_plot_id</span><span class="p">,</span>
+             <span class="n">hips_root_url</span><span class="o">=</span><span class="n">hips_url</span><span class="p">,</span>
+             <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;HiPS-DSS&#39;</span><span class="p">,</span>
+             <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Show-3-color-image">
+<h2>Show 3-color image<a class="headerlink" href="#Show-3-color-image" title="Link to this heading">#</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [W4, W2, W1] from WISE all-sky as [R, G, B]</span>
+<span class="n">rgb_urls</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">-int-1b.fits&#39;</span>
+            <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;w4&#39;</span><span class="p">,</span> <span class="s1">&#39;w3&#39;</span><span class="p">,</span> <span class="s1">&#39;w2&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">three_color_params</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span>
+        <span class="s1">&#39;Title&#39;</span><span class="p">:</span> <span class="s2">&quot;3 color image&quot;</span>
+    <span class="p">}</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">rgb_urls</span><span class="p">]</span>
+
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_3color</span><span class="p">(</span><span class="n">three_color_params</span><span class="o">=</span><span class="n">three_color_params</span><span class="p">,</span>
+                    <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;3color-img&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Because we added more images, align and lock them by WCS again</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">align_images</span><span class="p">(</span><span class="n">lock_match</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Show-any-data-file">
+<h2>Show any data file<a class="headerlink" href="#Show-any-data-file" title="Link to this heading">#</a></h2>
+<p>To explore any data file you have at hand without delving into image or table specific options, you can use the <code class="docutils literal notranslate"><span class="pre">show_data</span></code> method of the FireflyClient object.</p>
+<section id="Preview-metadata">
+<h3>Preview metadata<a class="headerlink" href="#Preview-metadata" title="Link to this heading">#</a></h3>
+<p>It’s often useful to preview the metadata of a data file you have no information about. <code class="docutils literal notranslate"><span class="pre">preview_metadata</span></code> parameter allows you to do that:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spherex_l2_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/spherex/qr/level2/2025W19_2B/l2b-v11-2025-163/6/level2_2025W19_2B_0336_3D6_spx_l2b-v11-2025-163.fits&#39;</span>
+
+<span class="n">fc</span><span class="o">.</span><span class="n">show_data</span><span class="p">(</span><span class="n">spherex_l2_url</span><span class="p">,</span> <span class="n">preview_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># first argument can also be a local file path or file-like object</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+<p>This allows you to select which extensions/HDUs to load from a multi-extension FITS file. Same can be done for a VOTable with multiple tables.</p>
+</section>
+<section id="Directly-view-data">
+<h3>Directly view data<a class="headerlink" href="#Directly-view-data" title="Link to this heading">#</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">euclid_spec_url</span> <span class="o">=</span> <span class="s1">&#39;http://irsa.ipac.caltech.edu/api/spectrumdm/convert/euclid/q1/SIR/102159776/EUC_SIR_W-COMBSPEC_102159776_2024-11-05T16:21:17.235160Z.fits?dataset_id=euclid_combspec&amp;hdu=217&#39;</span>
+
+<span class="n">fc</span><span class="o">.</span><span class="n">show_data</span><span class="p">(</span><span class="n">euclid_spec_url</span><span class="p">,</span> <span class="n">preview_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+<blockquote>
+<div><p>NOTE: show_data is a recent addition to firefly_client and is still evolving. It doesn’t allow as much customization as image/table specific methods yet, but it is a quick way to get a look at your data.</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../demo-notebooks.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Demo Notebooks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="demo-3color.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Show a 3 color image</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Initialize-Firefly-Client">Initialize Firefly Client</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#From-Jupyter-Lab">From Jupyter Lab</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#From-Jupyter-Notebook-(or-even-a-Python-shell)">From Jupyter Notebook (or even a Python shell)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#[Optional]-Reinitialize-Firefly-Client">[Optional] Reinitialize Firefly Client</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Show-FITS-Image-in-Firefly">Show FITS Image in Firefly</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#From-a-URL">From a URL</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#From-a-local-file">From a local file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#From-an-in-memory-file-like-object">From an in-memory file-like object</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Modify-the-displayed-image(s)">Modify the displayed image(s)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Panning-to-a-coordinate">Panning to a coordinate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Zooming">Zooming</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Aligning-multiple-images">Aligning multiple images</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Changing-the-color-stretch">Changing the color stretch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Show-Table/Catalogs-in-Firefly">Show Table/Catalogs in Firefly</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Modify-the-displayed-table">Modify the displayed table</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Sorting-by-a-column">Sorting by a column</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Filtering-the-rows">Filtering the rows</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Plot-Chart-from-the-displayed-table">Plot Chart from the displayed table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Plot-Region-overlays-on-the-displayed-image">Plot Region overlays on the displayed image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Show-HiPS-image">Show HiPS image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Show-3-color-image">Show 3-color image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Show-any-data-file">Show any data file</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Preview-metadata">Preview metadata</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Directly-view-data">Directly view data</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/usage/examples/reference-guide.ipynb"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Caltech/IPAC Firefly Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item"><p class="last-updated">
+  Last updated on Feb 25, 2026.
+  <br/>
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
