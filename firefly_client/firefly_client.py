@@ -1230,6 +1230,7 @@ class FireflyClient:
 
         payload = {'chartId': cid, 'chartType': 'scatter',
                    'groupId': group_id, 'viewerId': group_id,
+                   'activateViewer': True,
                    'params': {'tbl_id': tbl_id, **chart_params}}
 
         r = self.dispatch(ACTION_DICT['ShowXYPlot'], payload)
@@ -1281,6 +1282,7 @@ class FireflyClient:
         payload = {'chartId': cid, 'chartType': 'histogram',
                    'groupId': group_id,
                    'viewerId': group_id,
+                   'activateViewer': True,
                    'params': {'tbl_id': tbl_id, **histogram_params}}
 
         r = self.dispatch(ACTION_DICT['ShowXYPlot'], payload)
@@ -1330,6 +1332,7 @@ class FireflyClient:
         payload = {'chartId': chart_id,
                    'groupId': group_id,
                    'viewerId': group_id,
+                   'activateViewer': True,
                    'chartType': 'plot.ly',
                    'closable': True}
 
