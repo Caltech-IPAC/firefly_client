@@ -52,7 +52,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Feb 04, 2026"/>
+    <meta name="docbuild:last-update" content="Feb 25, 2026"/>
   </head>
   
   
@@ -449,7 +449,7 @@
 <span class="linenos"> 33</span><span class="sd">        Instance of FireflyClient connected to a Firefly server</span>
 <span class="linenos"> 34</span>
 <span class="linenos"> 35</span><span class="sd">    topdir: &quot;str&quot;</span>
-<span class="linenos"> 36</span><span class="sd">        pathname for directory to search</span>
+<span class="linenos"> 36</span><span class="sd">        pathname for directory to search, must be an absolute path.</span>
 <span class="linenos"> 37</span>
 <span class="linenos"> 38</span><span class="sd">    pattern: &quot;str&quot;</span>
 <span class="linenos"> 39</span><span class="sd">        filename pattern to search for, e.g. &quot;*.fits&quot;</span>
@@ -575,18 +575,20 @@
 <span class="linenos">159</span>    <span class="k">if</span> <span class="n">printurl</span><span class="p">:</span>
 <span class="linenos">160</span>        <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Press Enter after you have opened the Firefly URL printed above...&quot;</span><span class="p">)</span>
 <span class="linenos">161</span>
-<span class="linenos">162</span>    <span class="c1"># TODO: figure out how to activate data products (meta) tab in Bi-View</span>
-<span class="linenos">163</span>    <span class="c1"># if &quot;slate&quot; not in html_file:</span>
-<span class="linenos">164</span>    <span class="c1">#     fc.change_triview_layout(firefly_client.FireflyClient.BIVIEW_T_IChCov)</span>
-<span class="linenos">165</span>    <span class="c1">#     fc.dispatch(&#39;layout.updateLayout&#39;, {&#39;images&#39;:{&#39;selectedTab&#39;:&#39;meta&#39;}})</span>
-<span class="linenos">166</span>    <span class="n">r</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">add_cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="s2">&quot;main&quot;</span><span class="p">)</span>
-<span class="linenos">167</span>    <span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">tbl_val</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">metainfo</span><span class="p">)</span>
-<span class="linenos">168</span>    <span class="n">r</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">add_cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;tableImageMeta&quot;</span><span class="p">,</span> <span class="s2">&quot;image-meta&quot;</span><span class="p">)</span>
-<span class="linenos">169</span>    <span class="n">fc</span><span class="o">.</span><span class="n">show_image_metadata</span><span class="p">(</span><span class="n">viewer_id</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;cell_id&quot;</span><span class="p">])</span>
+<span class="linenos">162</span>    <span class="k">if</span> <span class="s2">&quot;slate&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">html_file</span><span class="p">:</span>
+<span class="linenos">163</span>        <span class="n">fc</span><span class="o">.</span><span class="n">change_triview_layout</span><span class="p">(</span><span class="n">firefly_client</span><span class="o">.</span><span class="n">FireflyClient</span><span class="o">.</span><span class="n">BIVIEW_T_IChCov</span><span class="p">)</span>
+<span class="linenos">164</span>        <span class="n">fc</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="s1">&#39;layout.updateLayout&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;rightSide&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;selectedTab&#39;</span><span class="p">:</span> <span class="s1">&#39;meta&#39;</span><span class="p">}})</span>
+<span class="linenos">165</span>    <span class="n">r</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">add_cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;tables&quot;</span><span class="p">,</span> <span class="s2">&quot;main&quot;</span><span class="p">)</span>
+<span class="linenos">166</span>    <span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">tbl_val</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="n">metainfo</span><span class="p">)</span>
+<span class="linenos">167</span>    <span class="n">r</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">add_cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;tableImageMeta&quot;</span><span class="p">,</span> <span class="s2">&quot;image-meta&quot;</span><span class="p">)</span>
+<span class="linenos">168</span>    <span class="n">fc</span><span class="o">.</span><span class="n">show_image_metadata</span><span class="p">(</span><span class="n">viewer_id</span><span class="o">=</span><span class="n">r</span><span class="p">[</span><span class="s2">&quot;cell_id&quot;</span><span class="p">])</span>
+<span class="linenos">169</span>
 <span class="linenos">170</span>
-<span class="linenos">171</span>
-<span class="linenos">172</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<span class="linenos">173</span>    <span class="n">main</span><span class="p">()</span>
+<span class="linenos">171</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="linenos">172</span>    <span class="c1"># Test example: </span>
+<span class="linenos">173</span>    <span class="c1"># python filetable.py &#39;/Users/jsinghal/dev/cm/__test_data&#39; &#39;*.*&#39; --firefly_url http://localhost:8080/firefly/</span>
+<span class="linenos">174</span>
+<span class="linenos">175</span>    <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
@@ -671,7 +673,7 @@
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Feb 04, 2026.
+  Last updated on Feb 25, 2026.
   <br/>
 </p></div>
       
