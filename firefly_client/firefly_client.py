@@ -36,6 +36,10 @@ try:
 except ImportError:
     from fc_utils import debug, warn, dict_to_str, create_image_url, ensure3, gen_item_id,\
         DebugMarker, ALL, ACTION_DICT, LO_VIEW_DICT
+try:
+    from ._server_compat import COMPATIBLE_SERVER_VERSIONS, get_server_version, is_server_compatible
+except ImportError:
+    from _server_compat import COMPATIBLE_SERVER_VERSIONS, get_server_version, is_server_compatible
 
 __docformat__ = 'restructuredtext'
 _def_html_file = Env.find_default_firefly_html()
@@ -262,6 +266,18 @@ class FireflyClient:
                 'the `token` parameter must be passed.'
             )
             raise ValueError(f'{url_err_msg}\n\n{token_err_msg}')
+
+        ver = FireflyClient.confirm_version(url, token)
+        if not ver['reachable']:
+            warn(f'Could not retrieve version of Firefly server at {url}. Proceeding without version check.')
+            debug(f'Firefly server\'s version endpoint response: {ver["response"]}')
+        elif not ver['compatible']:
+            raise ValueError(
+                f'Incompatible Firefly server version at {url}.\n'
+                f'  Server version: {ver["server_version"]}\n'
+                f'  Required: {COMPATIBLE_SERVER_VERSIONS}'
+            )
+
         debug(f'new instance: {url}')
 
     def _lab_env_tab_start(self, tab_type, html_file):
@@ -302,6 +318,23 @@ class FireflyClient:
         # disable redirects that may happen in the absence of a token
         response = requests.get(healthz_url, headers=headers, allow_redirects=False)
         return {'success': response.status_code == 200, 'response': response}
+
+    @staticmethod
+    def confirm_version(url, token=None):
+        headers = {'Authorization': f'Bearer {token}'} if token else None
+        version_url = url + ('version' if url.endswith('/') else '/version')
+        server_response = requests.get(version_url, headers=headers, allow_redirects=False)
+
+        reachable = server_response.status_code == 200
+        server_version = get_server_version(server_response.json()) if reachable else None
+        compatible = is_server_compatible(server_version)
+
+        return {
+            'reachable': reachable,
+            'compatible': compatible,
+            'server_version': server_version,
+            'response': server_response,
+        }
 
     def _send_url_as_get(self, url):
         return self.call_response(self.session.get(url, headers=self.header_from_ws))
