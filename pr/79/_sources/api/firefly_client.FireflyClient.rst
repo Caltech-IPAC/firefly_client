@@ -1,0 +1,173 @@
+FireflyClient
+=============
+
+.. currentmodule:: firefly_client
+
+.. autoclass:: FireflyClient
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~FireflyClient.BIVIEW_IChCov_T
+      ~FireflyClient.BIVIEW_ICov_Ch
+      ~FireflyClient.BIVIEW_I_ChCov
+      ~FireflyClient.BIVIEW_T_IChCov
+      ~FireflyClient.NO_VIEWER
+      ~FireflyClient.PINNED_CHART_VIEWER_ID
+      ~FireflyClient.PINNED_IMAGE_VIEWER_ID
+      ~FireflyClient.SLATE_VIEWER
+      ~FireflyClient.TAB_ID
+      ~FireflyClient.TRIVIEW_ICov_Ch_T
+      ~FireflyClient.TRIVIEW_I_ChCov_T
+      ~FireflyClient.TRIVIEW_VIEWER
+      ~FireflyClient.instances
+      ~FireflyClient.tri_view_layout_desc
+      ~FireflyClient.tri_view_types_list
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~FireflyClient.add_cell
+      ~FireflyClient.add_extension
+      ~FireflyClient.add_listener
+      ~FireflyClient.add_mask
+      ~FireflyClient.add_region_data
+      ~FireflyClient.align_images
+      ~FireflyClient.apply_table_filters
+      ~FireflyClient.call_response
+      ~FireflyClient.change_triview_layout
+      ~FireflyClient.confirm_access
+      ~FireflyClient.create_image_url
+      ~FireflyClient.delete_region_layer
+      ~FireflyClient.disconnect
+      ~FireflyClient.dispatch
+      ~FireflyClient.display_url
+      ~FireflyClient.fetch_table
+      ~FireflyClient.get_firefly_url
+      ~FireflyClient.get_instances
+      ~FireflyClient.get_payload_from_file
+      ~FireflyClient.get_title_from_file
+      ~FireflyClient.get_viewer_mode
+      ~FireflyClient.is_slate
+      ~FireflyClient.is_triview
+      ~FireflyClient.launch_browser
+      ~FireflyClient.make_client
+      ~FireflyClient.make_lab_client
+      ~FireflyClient.overlay_footprints
+      ~FireflyClient.overlay_region_layer
+      ~FireflyClient.parse_rvstring
+      ~FireflyClient.reinit_viewer
+      ~FireflyClient.remove_listener
+      ~FireflyClient.remove_mask
+      ~FireflyClient.remove_region_data
+      ~FireflyClient.rvstring_from_dict
+      ~FireflyClient.set_color
+      ~FireflyClient.set_pan
+      ~FireflyClient.set_rgb_colors
+      ~FireflyClient.set_stretch
+      ~FireflyClient.set_stretch_hprgb
+      ~FireflyClient.set_zoom
+      ~FireflyClient.show_chart
+      ~FireflyClient.show_coverage
+      ~FireflyClient.show_data
+      ~FireflyClient.show_fits
+      ~FireflyClient.show_fits_3color
+      ~FireflyClient.show_fits_image
+      ~FireflyClient.show_hips
+      ~FireflyClient.show_histogram
+      ~FireflyClient.show_image_metadata
+      ~FireflyClient.show_image_or_hips
+      ~FireflyClient.show_lab_tab
+      ~FireflyClient.show_table
+      ~FireflyClient.show_xyplot
+      ~FireflyClient.sort_table_column
+      ~FireflyClient.table_highlight_callback
+      ~FireflyClient.upload_data
+      ~FireflyClient.upload_file
+      ~FireflyClient.upload_fits_data
+      ~FireflyClient.upload_text_data
+      ~FireflyClient.wait_for_events
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: BIVIEW_IChCov_T
+   .. autoattribute:: BIVIEW_ICov_Ch
+   .. autoattribute:: BIVIEW_I_ChCov
+   .. autoattribute:: BIVIEW_T_IChCov
+   .. autoattribute:: NO_VIEWER
+   .. autoattribute:: PINNED_CHART_VIEWER_ID
+   .. autoattribute:: PINNED_IMAGE_VIEWER_ID
+   .. autoattribute:: SLATE_VIEWER
+   .. autoattribute:: TAB_ID
+   .. autoattribute:: TRIVIEW_ICov_Ch_T
+   .. autoattribute:: TRIVIEW_I_ChCov_T
+   .. autoattribute:: TRIVIEW_VIEWER
+   .. autoattribute:: instances
+   .. autoattribute:: tri_view_layout_desc
+   .. autoattribute:: tri_view_types_list
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: add_cell
+   .. automethod:: add_extension
+   .. automethod:: add_listener
+   .. automethod:: add_mask
+   .. automethod:: add_region_data
+   .. automethod:: align_images
+   .. automethod:: apply_table_filters
+   .. automethod:: call_response
+   .. automethod:: change_triview_layout
+   .. automethod:: confirm_access
+   .. automethod:: create_image_url
+   .. automethod:: delete_region_layer
+   .. automethod:: disconnect
+   .. automethod:: dispatch
+   .. automethod:: display_url
+   .. automethod:: fetch_table
+   .. automethod:: get_firefly_url
+   .. automethod:: get_instances
+   .. automethod:: get_payload_from_file
+   .. automethod:: get_title_from_file
+   .. automethod:: get_viewer_mode
+   .. automethod:: is_slate
+   .. automethod:: is_triview
+   .. automethod:: launch_browser
+   .. automethod:: make_client
+   .. automethod:: make_lab_client
+   .. automethod:: overlay_footprints
+   .. automethod:: overlay_region_layer
+   .. automethod:: parse_rvstring
+   .. automethod:: reinit_viewer
+   .. automethod:: remove_listener
+   .. automethod:: remove_mask
+   .. automethod:: remove_region_data
+   .. automethod:: rvstring_from_dict
+   .. automethod:: set_color
+   .. automethod:: set_pan
+   .. automethod:: set_rgb_colors
+   .. automethod:: set_stretch
+   .. automethod:: set_stretch_hprgb
+   .. automethod:: set_zoom
+   .. automethod:: show_chart
+   .. automethod:: show_coverage
+   .. automethod:: show_data
+   .. automethod:: show_fits
+   .. automethod:: show_fits_3color
+   .. automethod:: show_fits_image
+   .. automethod:: show_hips
+   .. automethod:: show_histogram
+   .. automethod:: show_image_metadata
+   .. automethod:: show_image_or_hips
+   .. automethod:: show_lab_tab
+   .. automethod:: show_table
+   .. automethod:: show_xyplot
+   .. automethod:: sort_table_column
+   .. automethod:: table_highlight_callback
+   .. automethod:: upload_data
+   .. automethod:: upload_file
+   .. automethod:: upload_fits_data
+   .. automethod:: upload_text_data
+   .. automethod:: wait_for_events
