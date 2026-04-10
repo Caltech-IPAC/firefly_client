@@ -20,7 +20,7 @@ The folllowing commands demonstrate how to do this using ``conda`` (assuming you
 
     conda create -n ffpy -c conda-forge python jupyter astropy # jupyter and astropy are needed for running examples
     conda activate ffpy
-    pip install -e ".[docs]" # editable installation with docs dependencies
+    pip install -e ".[tests,docs]" # editable installation with tests and docs dependencies
 
 
 Now you can run the examples notebooks/scripts in the ``examples/`` directory.
@@ -53,7 +53,18 @@ above command and reload the above html file in browser.
     The Sphinx docs include rendered Jupyter notebooks (via ``nbsphinx``), which can require **pandoc**.
     If you see an error like ``PandocMissing``, install pandoc first (e.g., ``brew install pandoc`` on macOS).
 
+Unit Tests
+----------
+
+Unit tests live in the ``tests/`` directory and use ``pytest``.
+Make sure you have the virtual environment activated with test dependencies installed (``[tests]``), then run:
+
+.. code-block:: shell
+
+    pytest tests/
+
 Development Tests/Examples
 --------------------------
 
-Refer to the `examples/development_tests directory <https://github.com/Caltech-IPAC/firefly_client/tree/master/examples/development_tests>`_ of firefly-client GitHub repository.
+The ``examples/development_tests/`` directory contains notebooks for manually testing behaviour that requires a live Firefly server.
+Refer to the `examples/development_tests directory <https://github.com/Caltech-IPAC/firefly_client/tree/master/examples/development_tests>`_ of the firefly_client GitHub repository.
