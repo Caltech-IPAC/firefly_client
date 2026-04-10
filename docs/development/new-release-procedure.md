@@ -2,7 +2,9 @@
 
 ## Procedure
 1. To push a new release you must be a maintainer in pypi ([see pypi below](#pypi))
-2. Bump version in pyproject.toml  (this step might be done in the PR)
+2. Bump versions (this step might be done in the PR):
+   - Upgrade project.version in pyproject.toml
+   - If this release depends on the updates made in the Firefly server, **wait** until a firefly release is made. Then update the minimum compatible server version in `firefly_client/_server_compat.py` (the `MIN_SERVER_VERSION` variable) to the version of the new firefly release.
 3. Clean out old distribution 
    - `rm dist/*`
 4. Create the distribution
