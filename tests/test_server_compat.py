@@ -1,39 +1,32 @@
 import pytest
 from unittest.mock import patch
-from firefly_client._server_compat import (
-    standardize_version, is_server_compatible
-)
-
-
-@pytest.mark.parametrize('ver,expected_str', [
-    ('2026.1',                 '2026.1'),      # standard release
-    ('2026.1-DEV',             '2026.1.dev0'), # plain DEV
-    ('2026.1-DEV:branch_abc1', '2026.1.dev0'), # DEV with branch:commit suffix
-    ('2024.1-DEV_abc1',        '2024.1.dev0'), # DEV with underscore suffix
-    ('2026.1-PRE-3',           '2026.1rc3'),   # PRE with number
-    ('2026.1-PRE',             '2026.1rc0'),   # PRE without number
-    ('not_a_version',          'None'),        # unparseable
-])
-def test_standardize_version(ver, expected_str):
-    assert str(standardize_version(ver)) == expected_str
+from firefly_client._server_compat import is_server_compatible
 
 
 # Locked minimum version for test_is_server_compatible since test cases are based on this
-_FIXED_MIN_VERSION = standardize_version('2026.1-DEV')
+_FIXED_MIN_VERSION = '2026.1'
 
 
-@pytest.mark.parametrize('ver,expected', [
-    ('2026.1-DEV',            True),   # exact minimum
-    ('2026.1-DEV:branch_abc', True),   # DEV with suffix at minimum version
-    ('2026.1-PRE-3',          True),   # pre-release of same version cycle
-    ('2026.1',                True),   # formal release >= minimum
-    ('2027.1',                True),   # clearly newer
-    ('2025.6-PRE-3',          False),  # pre-release of older version cycle
-    ('2025.6',                False),  # below minimum
-    ('2024.1-DEV_abc1',       False),  # old DEV
-    ('not_a_version',         True),   # unparseable — unknown, pass through
-    (None,                    True),   # None — unknown, pass through
+# Read each row as: is_server_compatible(ver) for MIN=2026.1 → expected
+@pytest.mark.parametrize('ver, expected', [
+    # All variants within the 2026.1 cycle — DEV/PRE/patch all strip to (2026, 1)
+    ('2026.1',                True),   # clean
+    ('2026.1-DEV',            True),   # DEV suffix stripped
+    ('2026.1-DEV:branch_abc', True),   # branch:commit stripped
+    ('2026.1-PRE',            True),   # PRE stripped
+    ('2026.1-PRE-3',          True),   # PRE with number stripped
+    ('2026.1.2',              True),   # patch digit ignored
+    # Newer cycles
+    ('2026.2',                True),   # newer minor
+    ('2027.1',                True),   # newer major
+    # Older cycles
+    ('2025.6',                False),  # older cycle
+    ('2025.6-PRE-3',          False),  # older cycle, PRE stripped
+    ('2024.1-DEV_abc1',       False),  # older cycle, DEV stripped
+    # Unknown/unparseable — pass through
+    ('not_a_version',         True),   # unparseable → None → pass through
+    (None,                    True),   # None → pass through
 ])
 def test_is_server_compatible(ver, expected):
-    with patch('firefly_client._server_compat._MIN_VERSION', _FIXED_MIN_VERSION):
+    with patch('firefly_client._server_compat.MIN_SERVER_VERSION', _FIXED_MIN_VERSION):
         assert is_server_compatible(ver) == expected

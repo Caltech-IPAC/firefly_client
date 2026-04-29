@@ -15,7 +15,6 @@ requires-python = ">=3.10"
 dependencies = [
     "websocket-client",
     "requests",
-    "packaging",
 ]
 keywords = [
     "jupyter",
