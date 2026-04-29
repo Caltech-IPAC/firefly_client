@@ -36,6 +36,10 @@ try:
 except ImportError:
     from fc_utils import debug, warn, dict_to_str, create_image_url, ensure3, gen_item_id,\
         DebugMarker, ALL, ACTION_DICT, LO_VIEW_DICT
+try:
+    from ._server_compat import MIN_SERVER_VERSION, FIREFLY_VERSION_KEY, is_server_compatible
+except ImportError:
+    from _server_compat import MIN_SERVER_VERSION, FIREFLY_VERSION_KEY, is_server_compatible
 
 __docformat__ = 'restructuredtext'
 _def_html_file = Env.find_default_firefly_html()
@@ -238,8 +242,8 @@ class FireflyClient:
 
         # urls for cmd service and browser
         protocol = 'https' if ssl else 'http'
-        self.url_cmd_service = urljoin('{}://{}/'.format(protocol, self.location), 'sticky/CmdSrv')
-        self.url_browser = urljoin(urljoin('{}://{}/'.format(protocol, self.location), html_file), '?__wsch=')
+        self.url_cmd_service = urljoin(f'{protocol}://{self.location}/', 'CmdSrv/sync')
+        self.url_browser = urljoin(urljoin(f'{protocol}://{self.location}/', html_file), '?__wsch=')
         self.url_bw = self.url_browser  # keep around for backward compatibility
 
         self.session = requests.Session()
@@ -262,6 +266,16 @@ class FireflyClient:
                 'the `token` parameter must be passed.'
             )
             raise ValueError(f'{url_err_msg}\n\n{token_err_msg}')
+
+        ver = self._confirm_version()
+        if not ver['compatible']:
+            raise ValueError(
+                f'Version of the provided Firefly server {url} is not compatible with this version of firefly_client.\n'
+                f'  Server version: {ver["server_version"]}\n'
+                f'  Required: >={MIN_SERVER_VERSION}\n'
+                f'  Please use the URL of a compatible Firefly server\n'
+            )
+
         debug(f'new instance: {url}')
 
     def _lab_env_tab_start(self, tab_type, html_file):
@@ -302,6 +316,26 @@ class FireflyClient:
         # disable redirects that may happen in the absence of a token
         response = requests.get(healthz_url, headers=headers, allow_redirects=False)
         return {'success': response.status_code == 200, 'response': response}
+
+    def _confirm_version(self):
+        version_url = f'{self.url_cmd_service}?cmd=CmdVersion'
+        server_response = self.session.get(version_url, headers=self.header_from_ws)
+
+        server_version = None
+        compatible = True # to preserve backward compatibility with servers that don't have version_url
+
+        if server_response.status_code == 200:
+            payload = server_response.json()
+            if payload.get('success'):
+                version_data = payload.get('data', {})
+                server_version = version_data.get(FIREFLY_VERSION_KEY)
+                compatible = is_server_compatible(server_version)
+
+        return {
+            'compatible': compatible,
+            'server_version': server_version,
+            'response': server_response,
+        }
 
     def _send_url_as_get(self, url):
         return self.call_response(self.session.get(url, headers=self.header_from_ws))

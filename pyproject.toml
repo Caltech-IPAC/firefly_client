@@ -14,7 +14,7 @@ license = {file = "License.txt"}
 requires-python = ">=3.10"
 dependencies = [
     "websocket-client",
-    "requests"
+    "requests",
 ]
 keywords = [
     "jupyter",
@@ -44,6 +44,9 @@ Documentation = "https://caltech-ipac.github.io/firefly_client"
 Repository = "http://github.com/Caltech-IPAC/firefly_client.git"
 
 [project.optional-dependencies]
+tests = [
+    "pytest",
+]
 docs = [
     "Sphinx>=7.3,<8.0",
     "sphinx-automodapi",
