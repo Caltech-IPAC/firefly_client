@@ -1,18 +1,8 @@
 import pytest
 from unittest.mock import patch
 from firefly_client._server_compat import (
-    get_server_version, standardize_version, is_server_compatible
+    standardize_version, is_server_compatible
 )
-
-
-@pytest.mark.parametrize('data,expected', [
-    ({'Firefly Library Version': '2026.1-DEV:branch_abc'}, '2026.1-DEV:branch_abc'),  # library mode
-    ({'Version': '2026.1-DEV:branch_abc'},                 '2026.1-DEV:branch_abc'),  # app mode
-    ({'Firefly Library Version': '2026.1', 'Version': '2025.1'}, '2026.1'),           # library key wins
-    ({},                                                    None),                     # missing both keys
-])
-def test_get_server_version(data, expected):
-    assert get_server_version(data) == expected
 
 
 @pytest.mark.parametrize('ver,expected_str', [
@@ -41,8 +31,8 @@ _FIXED_MIN_VERSION = standardize_version('2026.1-DEV')
     ('2025.6-PRE-3',          False),  # pre-release of older version cycle
     ('2025.6',                False),  # below minimum
     ('2024.1-DEV_abc1',       False),  # old DEV
-    ('not_a_version',         False),  # unparseable
-    (None,                    False),  # None
+    ('not_a_version',         True),   # unparseable — unknown, pass through
+    (None,                    True),   # None — unknown, pass through
 ])
 def test_is_server_compatible(ver, expected):
     with patch('firefly_client._server_compat._MIN_VERSION', _FIXED_MIN_VERSION):

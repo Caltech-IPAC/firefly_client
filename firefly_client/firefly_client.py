@@ -37,9 +37,9 @@ except ImportError:
     from fc_utils import debug, warn, dict_to_str, create_image_url, ensure3, gen_item_id,\
         DebugMarker, ALL, ACTION_DICT, LO_VIEW_DICT
 try:
-    from ._server_compat import MIN_SERVER_VERSION, get_server_version, is_server_compatible
+    from ._server_compat import MIN_SERVER_VERSION, FIREFLY_VERSION_KEY, is_server_compatible
 except ImportError:
-    from _server_compat import MIN_SERVER_VERSION, get_server_version, is_server_compatible
+    from _server_compat import MIN_SERVER_VERSION, FIREFLY_VERSION_KEY, is_server_compatible
 
 __docformat__ = 'restructuredtext'
 _def_html_file = Env.find_default_firefly_html()
@@ -268,10 +268,7 @@ class FireflyClient:
             raise ValueError(f'{url_err_msg}\n\n{token_err_msg}')
 
         ver = self._confirm_version()
-        if not ver['reachable']:
-            warn(f'Could not retrieve version of the Firefly server {url}. Proceeding without compatibility check.')
-            debug(f'Firefly server\'s version endpoint response: {ver["response"].json()}')
-        elif not ver['compatible']:
+        if not ver['compatible']:
             raise ValueError(
                 f'Version of the provided Firefly server {url} is not compatible with this version of firefly_client.\n'
                 f'  Server version: {ver["server_version"]}\n'
@@ -324,12 +321,17 @@ class FireflyClient:
         version_url = f'{self.url_cmd_service}?cmd=CmdVersion'
         server_response = self.session.get(version_url, headers=self.header_from_ws)
 
-        reachable = server_response.status_code == 200
-        server_version = get_server_version(server_response.json()) if reachable else None
-        compatible = is_server_compatible(server_version)
+        server_version = None
+        compatible = True # to preserve backward compatibility with servers that don't have version_url
+
+        if server_response.status_code == 200:
+            payload = server_response.json()
+            if payload.get('success'):
+                version_data = payload.get('data', {})
+                server_version = version_data.get(FIREFLY_VERSION_KEY)
+                compatible = is_server_compatible(server_version)
 
         return {
-            'reachable': reachable,
             'compatible': compatible,
             'server_version': server_version,
             'response': server_response,
