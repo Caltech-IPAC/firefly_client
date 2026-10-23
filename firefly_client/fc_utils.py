@@ -44,6 +44,17 @@ def gen_item_id(item):
         return None
 
 
+def validate_id(id_value, id_name):
+    """
+    Raise ValueError if an ID (table, chart, or plot) contains a period ('.').
+    Firefly uses these IDs as lodash object paths, so a period splits the ID and
+    breaks the related UI (e.g. a table's charts and coverage image don't show).
+    """
+    if id_value and '.' in id_value:
+        raise ValueError(f"{id_name} '{id_value}' must not contain a period ('.'); "
+                         f"use another character such as '_' instead")
+
+
 def create_image_url(image_source):
     def is_url(url): return urllib.parse.urlparse(url).scheme != ''
 

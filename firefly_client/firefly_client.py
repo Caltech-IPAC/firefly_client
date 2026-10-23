@@ -31,10 +31,10 @@ try:
 except ImportError:
     from range_values import RangeValues
 try:
-    from .fc_utils import debug, warn, dict_to_str, create_image_url, ensure3, gen_item_id,\
+    from .fc_utils import debug, warn, dict_to_str, create_image_url, ensure3, gen_item_id, validate_id,\
         DebugMarker, ALL, ACTION_DICT, LO_VIEW_DICT
 except ImportError:
-    from fc_utils import debug, warn, dict_to_str, create_image_url, ensure3, gen_item_id,\
+    from fc_utils import debug, warn, dict_to_str, create_image_url, ensure3, gen_item_id, validate_id,\
         DebugMarker, ALL, ACTION_DICT, LO_VIEW_DICT
 try:
     from ._server_compat import MIN_SERVER_VERSION, FIREFLY_VERSION_KEY, is_server_compatible
@@ -881,6 +881,7 @@ class FireflyClient:
                 it will be ignored if `file_input` is also passed.
         plot_id : `str`, optional
             The ID you assign to the image plot. This is necessary to further control the plot.
+            It must not contain a period ('.').
         viewer_id : `str`, optional
             The ID you assign to the viewer (or cell) used to contain the image plot. If grid view is used for
             display, the viewer id is the cell id of the cell which contains the image plot.
@@ -915,6 +916,8 @@ class FireflyClient:
             If more than one of these parameters are passed, precedence order is:
             service specific `additional_params` > `file_input` (> `file_on_server` > `url`).
         """
+        validate_id(plot_id, 'plot_id')
+
         # WebPlotRequest parameters
         wp_request = {'plotGroupId': 'groupFromPython',
                       'GroupLocked': False}
@@ -972,6 +975,7 @@ class FireflyClient:
 
         plot_id : `str`, optional
             The ID you assign to the image plot. This is necessary to further control the plot.
+            It must not contain a period ('.').
         viewer_id : `str`, optional
             The ID you assign to the viewer (or cell) used to contain the image plot. If grid view is used for
             display, the viewer id is the cell id of the cell which contains the image plot.
@@ -989,6 +993,7 @@ class FireflyClient:
             item.update({'Title': item.get('Title') if 'Title' in item else '3 Color'})
             if 'plotId' not in item and plot_id:
                 item.update({'plotId': plot_id})
+            validate_id(item.get('plotId'), 'plot_id')
 
         payload = {'wpRequest': three_color, 'threeColor': True, 'useContextModifications': True}
         warning = None
@@ -1033,6 +1038,7 @@ class FireflyClient:
                 it will be ignored if `file_input` is also passed.
         tbl_id : `str`, optional
             A table ID. It will be created automatically if not specified.
+            It must not contain a period ('.').
         title : `str`, optional
             Title associated with the table.
         page_size : `int`, optional
@@ -1103,6 +1109,7 @@ class FireflyClient:
         """
         has_file_input = bool(file_on_server) or bool(url) or bool(file_input)
 
+        validate_id(tbl_id, 'tbl_id')
         if not tbl_id:
             tbl_id = gen_item_id('Table')
         if not title:
@@ -1165,6 +1172,7 @@ class FireflyClient:
             Firefly has direct access to.
         tbl_id : `str`, optional
             A table ID. It will be created automatically if not specified.
+            It must not contain a period ('.').
         title : `str`, optional
             Title associated with the table.
         page_size : `int`, optional
@@ -1181,6 +1189,7 @@ class FireflyClient:
         out : `dict`
             Status of the request, like {'success': True}.
         """
+        validate_id(tbl_id, 'tbl_id')
         if not tbl_id:
             tbl_id = gen_item_id('Table')
         if not title:
@@ -1345,7 +1354,7 @@ class FireflyClient:
             Parameters for the chart. The options are shown as below:
 
             **chartId**: `str`, optional
-                The chart ID.
+                The chart ID. It must not contain a period ('.').
             **data**: `list` of `dict`, optional
                 A list of data for all traces of the plot.ly chart. Firefly-specific keys: *tbl_id*,
                 *firefly* (for Firefly chart types).
@@ -1359,6 +1368,7 @@ class FireflyClient:
 
         """
         chart_id = chart_params.get('chartId') if 'chartId' in chart_params else gen_item_id('Plotly')
+        validate_id(chart_id, 'chartId')
         warning = None
         if self.is_triview():
             warning = 'group_id unnecessary and ignored in triview mode' if group_id else None
@@ -1522,6 +1532,7 @@ class FireflyClient:
         ----------
         plot_id : `str`, optional
             The ID you assign to the image plot. This is necessary to further control the plot.
+            It must not contain a period ('.').
         viewer_id : `str`, optional
             The ID you assign to the viewer (or cell) used to contain the image plot. If grid view is
             used for display, the viewer id is the cell id of the cell which contains the image plot.
@@ -1554,6 +1565,7 @@ class FireflyClient:
 
         payload = {'wpRequest': wp_request}
 
+        validate_id(plot_id, 'plot_id')
         if not plot_id:
             plot_id = gen_item_id('Image')
 
@@ -1583,6 +1595,7 @@ class FireflyClient:
         ----------
         plot_id : `str`, optional
             The ID you assign to the image plot. This is necessary to further control the plot.
+            It must not contain a period ('.').
         viewer_id : `str`, optional
             The ID you assign to the viewer (or cell) used to contain the image plot. If grid view is
             used for display, the viewer id is the cell id of the cell which contains the image plot.
@@ -1607,6 +1620,7 @@ class FireflyClient:
         if not image_request and not hips_request:
             return
 
+        validate_id(plot_id, 'plot_id')
         if not plot_id:
             plot_id = gen_item_id('Image')
         warning = None
