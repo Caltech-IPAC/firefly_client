@@ -72,6 +72,7 @@ ACTION_DICT = {
     'ShowTable': 'table.search',
     'TableFilter': 'table.filter',
     'TableSort': 'table.sort',
+    'SetTableOptions': 'tableUi.update',
     'ShowXYPlot': 'charts.data/chartAdd',
     'ShowPlot': 'charts.data/chartAdd',
     'ZoomImage': 'ImagePlotCntlr.ZoomImage',
