@@ -386,6 +386,11 @@ class FireflyClient:
     def _make_pid_param(plot_id):
         return ','.join(plot_id) if isinstance(plot_id, list) else plot_id
 
+    @staticmethod
+    def _get_tbl_ui_id(tbl_id):
+        """Return the table UI ID that `show_table()` assigns to a table with ID `tbl_id`."""
+        return f'{tbl_id}-ui'
+
 # -----------------------------------------------------------------
 # -----------------------------------------------------------------
 # Public API Begins
@@ -1069,14 +1074,10 @@ class FireflyClient:
                 The name of file on server on multi-objects for *'Table'* search.
 
         options : `dict`, optional
-            Containing parameters for table display, such as:
-
-            - **removable** : `bool`
-                if table is removable.
-            - **showUnits** : `bool`
-                if table shows units for the columns.
-            - **showFilters** : `bool`
-                if table shows filter button
+            Display options for the table UI, e.g. ``{'showFilters': True, 'removable': False}``.
+            See ``TblOptions`` typedef in
+            https://github.com/Caltech-IPAC/firefly/blob/master/src/firefly/js/tables/tables-typedefs.jsdoc
+            for all the supported options. Also see `set_table_options()`.
         table_index : `int`, optional
             The table to be shown in case file input contains multiple tables. It is the extension number for
             a FITS file or the table index for a VOTable file. In unspecified, the server will fetch extension 1 from
@@ -1144,11 +1145,14 @@ class FireflyClient:
             raise ValueError('Either file_input/file_on_server/url or target_search_info parameter is required.')
 
         tbl_req.update({'META_INFO': meta_info})
-        options and tbl_req.update({'options': options})
         column_spec and tbl_req.update({'inclCols': column_spec})
         filters and tbl_req.update({'filters': filters})
 
-        payload = {'request': tbl_req}
+        # A deterministic tbl_ui_id lets set_table_options() address this table's UI later
+        tbl_options = {'tbl_ui_id': self._get_tbl_ui_id(tbl_id)}
+        options and tbl_options.update(options)
+
+        payload = {'request': tbl_req, 'options': tbl_options}
         action_type = ACTION_DICT['ShowTable'] if visible else ACTION_DICT['FetchTable']
 
         return self.dispatch(action_type, payload)
@@ -2225,3 +2229,73 @@ class FireflyClient:
         tbl_req = {'tbl_id': tbl_id, 'sortInfo': f'{sort_direction},{column_name}'}
         payload = {'request': tbl_req}
         return self.dispatch(ACTION_DICT['TableSort'], payload)
+
+    def set_table_options(self, tbl_id, tbl_ui_id=None, **options):
+        """
+        Set display options of a table that is already shown.
+
+        The options are the same as the ``options`` parameter of `show_table()`.
+        Only the options you pass are changed; others keep their current values.
+
+        Parameters
+        ----------
+        tbl_id : `str`
+            ID of the table whose display options you want to set.
+        tbl_ui_id : `str`, optional
+            ID of the table's UI. Only needed if you passed a custom ``tbl_ui_id``
+            in the ``options`` of `show_table()`. By default, it is derived from `tbl_id`.
+        **options : optional
+            Display options to set, as keyword arguments. Some of them are:
+
+            - **showTitle** : `bool`
+                if the table title is shown.
+            - **showToolbar** : `bool`
+                if the toolbar (title, buttons, and paging) is shown.
+            - **showFilters** : `bool`
+                if the filter row is shown under the column headers.
+            - **showUnits** : `bool`
+                if column units are shown in the header.
+            - **showTypes** : `bool`
+                if column data types are shown in the header.
+            - **selectable** : `bool`
+                if rows can be selected with checkboxes.
+            - **expandable** : `bool`
+                if the table shows the button to expand it.
+            - **showToggleTextView** : `bool`
+                if the button to switch between table and text view is shown.
+            - **showSave** : `bool`
+                if the save button is shown.
+            - **showOptionButton** : `bool`
+                if the table options button is shown.
+            - **showFilterButton** : `bool`
+                if the button to show/hide the filter row is shown.
+
+            See ``TblOptions`` typedef in
+            https://github.com/Caltech-IPAC/firefly/blob/master/src/firefly/js/tables/tables-typedefs.jsdoc
+            for all the supported options.
+
+        Returns
+        --------
+        out : `dict`
+            Status of the request, like {'success': True}
+
+        Notes
+        -----
+        - The table must already be shown, e.g. with `show_table()`.
+          If no table UI exists for the given ID, nothing changes.
+        - With current Firefly versions, some options only take effect when the
+          table is added, so pass them in the ``options`` of `show_table()` instead:
+          ``removable``, ``pageSize``, ``showPaging``, ``backgroundable``, ``tbl_group``,
+          and ``setAsActive``. Passing them here has no effect.
+        - With current Firefly versions, setting ``showToolbar=False`` also hides the
+          title, paging, save button, and filter button, and setting ``showToolbar=True``
+          later doesn't restore them. Pass them explicitly, e.g. ``set_table_options(tbl_id,
+          showToolbar=True, showTitle=True, showPaging=True, showSave=True, showFilterButton=True)``.
+        - Options whose values are functions (e.g. ``leftButtons``) can't be set from Python.
+        """
+        if not options:
+            raise ValueError('At least one display option must be passed.')
+
+        payload = {'tbl_ui_id': tbl_ui_id or self._get_tbl_ui_id(tbl_id),
+                   'tbl_id': tbl_id, **options}
+        return self.dispatch(ACTION_DICT['SetTableOptions'], payload)
