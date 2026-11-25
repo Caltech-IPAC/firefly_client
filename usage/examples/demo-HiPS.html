@@ -56,7 +56,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Apr 29, 2026"/>
+    <meta name="docbuild:last-update" content="Nov 25, 2026"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -442,7 +442,7 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
 <span class="n">using_lab</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://127.0.0.1:8080/firefly&#39;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">'http://127.0.0.1:8080/firefly'</span>
 <span class="c1">#FireflyClient._debug= True</span>
 </pre></div>
 </div>
@@ -460,20 +460,20 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target</span><span class="o">=</span><span class="s1">&#39;148.892;69.0654;EQ_J2000&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target</span><span class="o">=</span><span class="s1">'148.892;69.0654;EQ_J2000'</span>
 <span class="n">fov_deg</span><span class="o">=</span><span class="mf">0.5</span>
 <span class="n">size</span><span class="o">=</span><span class="mf">0.2</span>
 
 <span class="n">image_basic_req</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;Service&#39;</span><span class="p">:</span> <span class="s1">&#39;WISE&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Title&#39;</span><span class="p">:</span> <span class="s1">&#39;Wise&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;SurveyKey&#39;</span><span class="p">:</span> <span class="s1">&#39;3a&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;SurveyKeyBand&#39;</span><span class="p">:</span> <span class="s1">&#39;2&#39;</span>
+    <span class="s1">'Service'</span><span class="p">:</span> <span class="s1">'WISE'</span><span class="p">,</span>
+    <span class="s1">'Title'</span><span class="p">:</span> <span class="s1">'Wise'</span><span class="p">,</span>
+    <span class="s1">'SurveyKey'</span><span class="p">:</span> <span class="s1">'3a'</span><span class="p">,</span>
+    <span class="s1">'SurveyKeyBand'</span><span class="p">:</span> <span class="s1">'2'</span>
 <span class="p">}</span>
 
 <span class="n">hips_basic_req</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;A HiPS - 0.2&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;hipsRootUrl&#39;</span><span class="p">:</span> <span class="s1">&#39;http://alasky.u-strasbg.fr/AllWISE/RGB-W4-W2-W1&#39;</span>
+    <span class="s1">'title'</span><span class="p">:</span> <span class="s1">'A HiPS - 0.2'</span><span class="p">,</span>
+    <span class="s1">'hipsRootUrl'</span><span class="p">:</span> <span class="s1">'http://alasky.u-strasbg.fr/AllWISE/RGB-W4-W2-W1'</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -486,12 +486,12 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">viewer_id</span> <span class="o">=</span> <span class="s1">&#39;hipsDIV1&#39;</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">add_cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;images&#39;</span><span class="p">,</span> <span class="n">viewer_id</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;success&#39;</span><span class="p">]:</span>
-    <span class="n">hips_url</span> <span class="o">=</span> <span class="s1">&#39;http://alasky.u-strasbg.fr/DSS/DSSColor&#39;</span><span class="p">;</span>
-    <span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">viewer_id</span><span class="o">=</span><span class="n">viewer_id</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;aHipsID1-1&#39;</span><span class="p">,</span> <span class="n">hips_root_url</span> <span class="o">=</span> <span class="n">hips_url</span><span class="p">,</span>
-                          <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;HiPS-DSS&#39;</span><span class="p">,</span> <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">viewer_id</span> <span class="o">=</span> <span class="s1">'hipsDIV1'</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">add_cell</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">'images'</span><span class="p">,</span> <span class="n">viewer_id</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s1">'success'</span><span class="p">]:</span>
+    <span class="n">hips_url</span> <span class="o">=</span> <span class="s1">'http://alasky.u-strasbg.fr/DSS/DSSColor'</span><span class="p">;</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">viewer_id</span><span class="o">=</span><span class="n">viewer_id</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s1">'aHipsID1-1'</span><span class="p">,</span> <span class="n">hips_root_url</span> <span class="o">=</span> <span class="n">hips_url</span><span class="p">,</span>
+                          <span class="n">Title</span><span class="o">=</span><span class="s1">'HiPS-DSS'</span><span class="p">,</span> <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -500,7 +500,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;aHipsID1-1&#39;</span><span class="p">,</span> <span class="n">colormap_id</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">contrast</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">'aHipsID1-1'</span><span class="p">,</span> <span class="n">colormap_id</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">contrast</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -509,9 +509,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">hips_url</span> <span class="o">=</span> <span class="s1">&#39;http://alasky.u-strasbg.fr/DSS/DSS2Merged&#39;</span><span class="p">;</span>
-<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;aHipsID1-2&#39;</span><span class="p">,</span> <span class="n">hips_root_url</span> <span class="o">=</span> <span class="n">hips_url</span><span class="p">,</span>
-                          <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;HiPS-DSS2&#39;</span><span class="p">,</span> <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="n">hips_url</span> <span class="o">=</span> <span class="s1">'http://alasky.u-strasbg.fr/DSS/DSS2Merged'</span><span class="p">;</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">'aHipsID1-2'</span><span class="p">,</span> <span class="n">hips_root_url</span> <span class="o">=</span> <span class="n">hips_url</span><span class="p">,</span>
+                          <span class="n">Title</span><span class="o">=</span><span class="s1">'HiPS-DSS2'</span><span class="p">,</span> <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -519,8 +519,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hips_url</span> <span class="o">=</span> <span class="s1">&#39;http://alasky.u-strasbg.fr/AllWISE/RGB-W4-W2-W1&#39;</span>
-<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;aHipsID2&#39;</span><span class="p">,</span> <span class="n">hips_root_url</span><span class="o">=</span><span class="n">hips_url</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hips_url</span> <span class="o">=</span> <span class="s1">'http://alasky.u-strasbg.fr/AllWISE/RGB-W4-W2-W1'</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">'aHipsID2'</span><span class="p">,</span> <span class="n">hips_root_url</span><span class="o">=</span><span class="n">hips_url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -620,7 +620,7 @@
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Apr 29, 2026.
+  Last updated on Nov 25, 2026.
   <br/>
 </p></div>
       

@@ -56,7 +56,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Apr 29, 2026"/>
+    <meta name="docbuild:last-update" content="Nov 25, 2026"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -456,7 +456,7 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 <span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
 
 <span class="c1"># Initialize a FireflyClient instance</span>
-<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">"https://irsa.ipac.caltech.edu/irsaviewer"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -472,7 +472,7 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_url</span> <span class="o">=</span> <span class="s1">'https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix'</span>
 </pre></div>
 </div>
 </div>
@@ -480,10 +480,10 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-cutout&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_plot_id</span> <span class="o">=</span> <span class="s1">'wise-cutout'</span>
 <span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">cutout_image_url</span><span class="p">,</span>
                    <span class="n">plot_id</span><span class="o">=</span><span class="n">cutout_image_plot_id</span><span class="p">,</span>
-                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">)</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">'WISE Cutout'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -504,7 +504,7 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_url</span> <span class="o">=</span> <span class="s1">'https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits'</span>
 <span class="n">full_image_fpath</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">full_image_url</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
 <span class="n">full_image_fpath</span>
 </pre></div>
@@ -523,10 +523,10 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-fullimage&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_plot_id</span> <span class="o">=</span> <span class="s1">'wise-fullimage'</span>
 <span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">full_image_fpath</span><span class="p">,</span>
                    <span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="c1"># using a different plot id to not overwrite previous plot</span>
-                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Full Image&#39;</span><span class="p">)</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">'WISE Full Image'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -566,8 +566,8 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">processed_fits</span><span class="p">,</span>
-                   <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise-processed&#39;</span><span class="p">,</span>
-                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Processed WISE Cutout&#39;</span><span class="p">)</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="s1">'wise-processed'</span><span class="p">,</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">'Processed WISE Cutout'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -593,7 +593,7 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_pan</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="c1"># note we use the plot id we defined above</span>
-           <span class="n">x</span><span class="o">=</span><span class="mf">202.4841667</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">47.23055556</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="s1">&#39;j2000&#39;</span><span class="p">)</span>
+           <span class="n">x</span><span class="o">=</span><span class="mf">202.4841667</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">47.23055556</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="s1">'j2000'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -635,10 +635,10 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">&#39;zscale&#39;</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">'zscale'</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">'linear'</span><span class="p">)</span>
 
 <span class="c1"># Or for a log stretch with sigma limits:</span>
-<span class="c1"># fc.set_stretch(plot_id=full_image_plot_id, stype=&#39;sigma&#39;, algorithm=&#39;log&#39;, lower_value=-2, upper_value=30)</span>
+<span class="c1"># fc.set_stretch(plot_id=full_image_plot_id, stype='sigma', algorithm='log', lower_value=-2, upper_value=30)</span>
 </pre></div>
 </div>
 </div>
@@ -686,10 +686,10 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">action_type</span><span class="o">=</span><span class="s1">&#39;ImagePlotCntlr.ColorChange&#39;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">action_type</span><span class="o">=</span><span class="s1">'ImagePlotCntlr.ColorChange'</span><span class="p">,</span>
             <span class="n">payload</span><span class="o">=</span><span class="p">{</span>
-                <span class="s1">&#39;plotId&#39;</span><span class="p">:</span> <span class="n">full_image_plot_id</span><span class="p">,</span>
-                <span class="s1">&#39;cbarId&#39;</span><span class="p">:</span> <span class="mi">24</span> <span class="c1"># veridis color map</span>
+                <span class="s1">'plotId'</span><span class="p">:</span> <span class="n">full_image_plot_id</span><span class="p">,</span>
+                <span class="s1">'cbarId'</span><span class="p">:</span> <span class="mi">24</span> <span class="c1"># veridis color map</span>
                 <span class="p">})</span>
 </pre></div>
 </div>
@@ -713,7 +713,7 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">RangeValues</span>
-<span class="n">rvstring</span> <span class="o">=</span> <span class="n">RangeValues</span><span class="o">.</span><span class="n">create_rv_standard</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;asinh&#39;</span><span class="p">,</span>
+<span class="n">rvstring</span> <span class="o">=</span> <span class="n">RangeValues</span><span class="o">.</span><span class="n">create_rv_standard</span><span class="p">(</span><span class="n">algorithm</span><span class="o">=</span><span class="s1">'asinh'</span><span class="p">,</span>
                                           <span class="n">asinh_q_value</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
                                           <span class="n">upper_value</span><span class="o">=</span><span class="mf">98.0</span><span class="p">)</span>
 </pre></div>
@@ -727,10 +727,10 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">cutout_image_url</span><span class="p">,</span>
                    <span class="n">plot_id</span><span class="o">=</span><span class="n">cutout_image_plot_id</span><span class="p">,</span> <span class="c1"># same plot id to replace the previous image</span>
-                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">,</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">'WISE Cutout'</span><span class="p">,</span>
                    <span class="c1"># additional keyword arguments</span>
                    <span class="n">ColorTable</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-                   <span class="n">ZoomType</span><span class="o">=</span><span class="s1">&#39;ARCSEC_PER_SCREEN_PIX&#39;</span><span class="p">,</span>
+                   <span class="n">ZoomType</span><span class="o">=</span><span class="s1">'ARCSEC_PER_SCREEN_PIX'</span><span class="p">,</span>
                    <span class="n">ZoomArcsecPerScreenPix</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
                    <span class="n">RangeValues</span><span class="o">=</span><span class="n">rvstring</span>
                    <span class="p">)</span>
@@ -756,8 +756,8 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">astropy.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
-<span class="n">surveys</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/Caltech-IPAC/firefly/dev/src/firefly/java/edu/caltech/ipac/firefly/resources/irsa-image-master-table.csv&#39;</span><span class="p">,</span>
-                    <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;csv&#39;</span><span class="p">)</span>
+<span class="n">surveys</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">'https://raw.githubusercontent.com/Caltech-IPAC/firefly/dev/src/firefly/java/edu/caltech/ipac/firefly/resources/irsa-image-master-table.csv'</span><span class="p">,</span>
+                    <span class="nb">format</span><span class="o">=</span><span class="s1">'csv'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -766,8 +766,8 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wise_surveys</span> <span class="o">=</span> <span class="n">surveys</span><span class="p">[</span><span class="n">surveys</span><span class="p">[</span><span class="s1">&#39;missionId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;WISE&#39;</span><span class="p">]</span>
-<span class="n">wise_surveys</span><span class="p">[[</span><span class="s1">&#39;AllSky&#39;</span> <span class="ow">in</span> <span class="n">project</span> <span class="k">for</span> <span class="n">project</span> <span class="ow">in</span> <span class="n">wise_surveys</span><span class="p">[</span><span class="s1">&#39;project&#39;</span><span class="p">]]]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wise_surveys</span> <span class="o">=</span> <span class="n">surveys</span><span class="p">[</span><span class="n">surveys</span><span class="p">[</span><span class="s1">'missionId'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'WISE'</span><span class="p">]</span>
+<span class="n">wise_surveys</span><span class="p">[[</span><span class="s1">'AllSky'</span> <span class="ow">in</span> <span class="n">project</span> <span class="k">for</span> <span class="n">project</span> <span class="ow">in</span> <span class="n">wise_surveys</span><span class="p">[</span><span class="s1">'project'</span><span class="p">]]]</span>
 </pre></div>
 </div>
 </div>
@@ -794,17 +794,17 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">size_in_arcsec</span> <span class="o">=</span> <span class="mi">600</span>
 <span class="n">ra</span> <span class="o">=</span> <span class="mf">202.4841667</span>
 <span class="n">dec</span> <span class="o">=</span> <span class="mf">47.23055556</span>
-<span class="n">target</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ra</span><span class="si">}</span><span class="s1">;</span><span class="si">{</span><span class="n">dec</span><span class="si">}</span><span class="s1">;EQ_J2000&#39;</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;IRAC1&#39;</span><span class="p">,</span>
-                    <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;WISE AllSky W1 Search&#39;</span><span class="p">,</span>
-                    <span class="n">Type</span><span class="o">=</span><span class="s1">&#39;SERVICE&#39;</span><span class="p">,</span>
-                    <span class="n">Service</span><span class="o">=</span><span class="s1">&#39;WISE&#39;</span><span class="p">,</span> <span class="c1"># apiType</span>
-                    <span class="n">SurveyKey</span><span class="o">=</span><span class="s1">&#39;1b&#39;</span><span class="p">,</span> <span class="c1"># surveyKey</span>
-                    <span class="n">SurveyKeyBand</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="c1"># wavebandId</span>
+<span class="n">target</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">ra</span><span class="si">}</span><span class="s1">;</span><span class="si">{</span><span class="n">dec</span><span class="si">}</span><span class="s1">;EQ_J2000'</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="s1">'IRAC1'</span><span class="p">,</span>
+                    <span class="n">Title</span><span class="o">=</span><span class="s1">'WISE AllSky W1 Search'</span><span class="p">,</span>
+                    <span class="n">Type</span><span class="o">=</span><span class="s1">'SERVICE'</span><span class="p">,</span>
+                    <span class="n">Service</span><span class="o">=</span><span class="s1">'WISE'</span><span class="p">,</span> <span class="c1"># apiType</span>
+                    <span class="n">SurveyKey</span><span class="o">=</span><span class="s1">'1b'</span><span class="p">,</span> <span class="c1"># surveyKey</span>
+                    <span class="n">SurveyKeyBand</span><span class="o">=</span><span class="s1">'1'</span><span class="p">,</span> <span class="c1"># wavebandId</span>
                     <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
                     <span class="n">SizeInDeg</span><span class="o">=</span><span class="n">size_in_arcsec</span><span class="o">/</span><span class="mi">3600</span><span class="p">,</span>
                     <span class="n">ColorTable</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                    <span class="n">ZoomType</span><span class="o">=</span><span class="s1">&#39;ARCSEC_PER_SCREEN_PIX&#39;</span><span class="p">,</span>
+                    <span class="n">ZoomType</span><span class="o">=</span><span class="s1">'ARCSEC_PER_SCREEN_PIX'</span><span class="p">,</span>
                     <span class="n">ZoomArcsecPerScreenPix</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
                     <span class="n">RangeValues</span><span class="o">=</span><span class="n">rvstring</span><span class="p">)</span>
 </pre></div>
@@ -952,7 +952,7 @@ NOTE: Cells below are intentionally copied from `examples/reference-guide.ipynb`
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Apr 29, 2026.
+  Last updated on Nov 25, 2026.
   <br/>
 </p></div>
       

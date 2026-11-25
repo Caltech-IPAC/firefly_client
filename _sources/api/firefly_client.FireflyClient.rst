@@ -69,6 +69,7 @@ FireflyClient
       ~FireflyClient.set_rgb_colors
       ~FireflyClient.set_stretch
       ~FireflyClient.set_stretch_hprgb
+      ~FireflyClient.set_table_options
       ~FireflyClient.set_zoom
       ~FireflyClient.show_chart
       ~FireflyClient.show_coverage
@@ -150,6 +151,7 @@ FireflyClient
    .. automethod:: set_rgb_colors
    .. automethod:: set_stretch
    .. automethod:: set_stretch_hprgb
+   .. automethod:: set_table_options
    .. automethod:: set_zoom
    .. automethod:: show_chart
    .. automethod:: show_coverage

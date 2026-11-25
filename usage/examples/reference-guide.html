@@ -56,7 +56,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Apr 29, 2026"/>
+    <meta name="docbuild:last-update" content="Nov 25, 2026"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -473,7 +473,7 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fc = FireflyClient.make_client() # URL is taken from FIREFLY_URL env variable</span>
 
 <span class="c1"># URL can be defined explicitly as a parameter</span>
-<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">"https://irsa.ipac.caltech.edu/irsaviewer"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -510,7 +510,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_url</span> <span class="o">=</span> <span class="s1">'https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix'</span>
 </pre></div>
 </div>
 </div>
@@ -518,10 +518,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-cutout&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cutout_image_plot_id</span> <span class="o">=</span> <span class="s1">'wise-cutout'</span>
 <span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">cutout_image_url</span><span class="p">,</span>
                    <span class="n">plot_id</span><span class="o">=</span><span class="n">cutout_image_plot_id</span><span class="p">,</span>
-                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">)</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">'WISE Cutout'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -542,7 +542,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_url</span> <span class="o">=</span> <span class="s1">'https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits'</span>
 <span class="n">full_image_fpath</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">full_image_url</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
 <span class="n">full_image_fpath</span>
 </pre></div>
@@ -561,10 +561,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-fullimage&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">full_image_plot_id</span> <span class="o">=</span> <span class="s1">'wise-fullimage'</span>
 <span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">full_image_fpath</span><span class="p">,</span>
                    <span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="c1"># using a different plot id to not overwrite previous plot</span>
-                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Full Image&#39;</span><span class="p">)</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">'WISE Full Image'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -604,8 +604,8 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">processed_fits</span><span class="p">,</span>
-                   <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;wise-processed&#39;</span><span class="p">,</span>
-                   <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Processed WISE Cutout&#39;</span><span class="p">)</span>
+                   <span class="n">plot_id</span><span class="o">=</span><span class="s1">'wise-processed'</span><span class="p">,</span>
+                   <span class="n">title</span><span class="o">=</span><span class="s1">'Processed WISE Cutout'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -630,7 +630,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_pan</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="c1"># note we use the plot id we defined above</span>
-           <span class="n">x</span><span class="o">=</span><span class="mf">202.4841667</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">47.23055556</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="s1">&#39;j2000&#39;</span><span class="p">)</span>
+           <span class="n">x</span><span class="o">=</span><span class="mf">202.4841667</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">47.23055556</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="s1">'j2000'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -693,7 +693,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">&#39;zscale&#39;</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">full_image_plot_id</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">'zscale'</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">'linear'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -717,7 +717,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_url</span> <span class="o">=</span> <span class="s2">&quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),CIRCLE(&#39;J2000&#39;,202.4841667,47.23055556,0.125))=1&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_url</span> <span class="o">=</span> <span class="s2">"http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT('J2000',ra,dec),CIRCLE('J2000',202.4841667,47.23055556,0.125))=1"</span>
 </pre></div>
 </div>
 </div>
@@ -725,10 +725,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_id</span> <span class="o">=</span> <span class="s1">&#39;2mass-catalog&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_id</span> <span class="o">=</span> <span class="s1">'2mass-catalog'</span>
 <span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">table_url</span><span class="p">,</span> <span class="c1"># can also be a local file path or file-like object</span>
               <span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span>
-              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;2MASS Catalog&#39;</span><span class="p">)</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">'2MASS Catalog'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -753,7 +753,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">sort_table_column</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span>
-                     <span class="n">column_name</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span><span class="p">,</span> <span class="n">sort_direction</span><span class="o">=</span><span class="s1">&#39;ASC&#39;</span><span class="p">)</span>
+                     <span class="n">column_name</span><span class="o">=</span><span class="s1">'j_m'</span><span class="p">,</span> <span class="n">sort_direction</span><span class="o">=</span><span class="s1">'ASC'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -775,7 +775,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">apply_table_filters</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="c1"># note: we use the table id we defined above</span>
-                       <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;&quot;j_m&quot;&lt;15 and &quot;j_cmsig&quot;&lt;0.05&#39;</span><span class="p">)</span>
+                       <span class="n">filters</span><span class="o">=</span><span class="s1">'"j_m"&lt;15 and "j_cmsig"&lt;0.05'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -793,7 +793,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">apply_table_filters</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">apply_table_filters</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">''</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -807,15 +807,14 @@
 </pre></div></div>
 </div>
 </section>
-</section>
-<section id="Plot-Chart-from-the-displayed-table">
-<h2>Plot Chart from the displayed table<a class="headerlink" href="#Plot-Chart-from-the-displayed-table" title="Link to this heading">#</a></h2>
-<p>We can use the dispalyed table data to plot columns on X and Y axis:</p>
+<section id="Changing-the-display-options">
+<h3>Changing the display options<a class="headerlink" href="#Changing-the-display-options" title="Link to this heading">#</a></h3>
+<p>You can also change how the table is displayed, e.g. to hide the filter row and column types:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_xyplot</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">xCol</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span><span class="p">,</span> <span class="n">yCol</span><span class="o">=</span><span class="s1">&#39;h_m-k_m&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_table_options</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">showFilters</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showTypes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -828,16 +827,38 @@
 {&#39;success&#39;: True}
 </pre></div></div>
 </div>
-<p>Alternatively, more generic method show_chart() can be used to create the same plot which accepts a lot of configuration parameters as <a class="reference external" href="https://plotly.com/javascript/reference/index/">Plotly data structure</a>:</p>
-<div class="nbinput nblast docutils container">
+</section>
+</section>
+<section id="Plot-Chart-from-the-displayed-table">
+<h2>Plot Chart from the displayed table<a class="headerlink" href="#Plot-Chart-from-the-displayed-table" title="Link to this heading">#</a></h2>
+<p>We can use the displayed table data to plot columns on X and Y axis:</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trace0</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tbl_id&#39;</span><span class="p">:</span> <span class="n">table_id</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s2">&quot;tables::j_m&quot;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s2">&quot;tables::h_m-k_m&quot;</span><span class="p">,</span>
-          <span class="s1">&#39;type&#39;</span> <span class="p">:</span> <span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="s1">&#39;markers&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;marker&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)}</span>
-<span class="n">layout</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;2MASS color-mag&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;xaxis&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;J&#39;</span><span class="p">),</span> <span class="s1">&#39;yaxis&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;H - K&#39;</span><span class="p">)}</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_xyplot</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">xCol</span><span class="o">=</span><span class="s1">'j_m'</span><span class="p">,</span> <span class="n">yCol</span><span class="o">=</span><span class="s1">'h_m-k_m'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+<p>Alternatively, more generic method show_chart() can be used to create the same plot which accepts a lot of configuration parameters as <a class="reference external" href="https://plotly.com/javascript/reference/index/">Plotly data structure</a>:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trace0</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'tbl_id'</span><span class="p">:</span> <span class="n">table_id</span><span class="p">,</span> <span class="s1">'x'</span><span class="p">:</span> <span class="s2">"tables::j_m"</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">:</span> <span class="s2">"tables::h_m-k_m"</span><span class="p">,</span>
+          <span class="s1">'type'</span> <span class="p">:</span> <span class="s1">'scatter'</span><span class="p">,</span> <span class="s1">'mode'</span><span class="p">:</span> <span class="s1">'markers'</span><span class="p">,</span>
+          <span class="s1">'marker'</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)}</span>
+<span class="n">layout</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'title'</span><span class="p">:</span> <span class="s1">'2MASS color-mag'</span><span class="p">,</span>
+           <span class="s1">'xaxis'</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'J'</span><span class="p">),</span> <span class="s1">'yaxis'</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'H - K'</span><span class="p">)}</span>
 
 <span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_chart</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">trace0</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
 </pre></div>
@@ -848,19 +869,19 @@
 <h2>Plot Region overlays on the displayed image<a class="headerlink" href="#Plot-Region-overlays-on-the-displayed-image" title="Link to this heading">#</a></h2>
 <p><a class="reference external" href="https://ds9.si.edu/doc/ref/region.html">ds9-style regions</a> can be overlaid on the image displayed by Firefly:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sources_box</span> <span class="o">=</span> <span class="s2">&quot;icrs;box 202.4841667d 47.23055556d 15&#39; 15&#39; 0d # color=yellow&quot;</span>
-<span class="n">image_regions_id</span> <span class="o">=</span> <span class="s1">&#39;wise-regions&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sources_box</span> <span class="o">=</span> <span class="s2">"icrs;box 202.4841667d 47.23055556d 15' 15' 0d # color=yellow"</span>
+<span class="n">image_regions_id</span> <span class="o">=</span> <span class="s1">'wise-regions'</span>
 <span class="n">fc</span><span class="o">.</span><span class="n">overlay_region_layer</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">sources_box</span><span class="p">,</span>
-                        <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE all-sky Annotations&#39;</span><span class="p">,</span>
+                        <span class="n">title</span><span class="o">=</span><span class="s1">'WISE all-sky Annotations'</span><span class="p">,</span>
                         <span class="n">region_layer_id</span><span class="o">=</span><span class="n">image_regions_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -870,18 +891,18 @@
 </div>
 <p>Add region data to an existing region layer:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="mf">202.49808</span><span class="p">,</span> <span class="mf">47.26617</span>
-<span class="n">point_source</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;icrs;point </span><span class="si">{</span><span class="n">ra</span><span class="si">}</span><span class="s1">d </span><span class="si">{</span><span class="n">dec</span><span class="si">}</span><span class="s1">d # point=cross 25 text=</span><span class="se">{{</span><span class="s1">NGC 5195</span><span class="se">}}</span><span class="s1"> color=yellow&#39;</span>
+<span class="n">point_source</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'icrs;point </span><span class="si">{</span><span class="n">ra</span><span class="si">}</span><span class="s1">d </span><span class="si">{</span><span class="n">dec</span><span class="si">}</span><span class="s1">d # point=cross 25 text=</span><span class="se">{{</span><span class="s1">NGC 5195</span><span class="se">}}</span><span class="s1"> color=yellow'</span>
 <span class="n">fc</span><span class="o">.</span><span class="n">add_region_data</span><span class="p">(</span><span class="n">region_data</span><span class="o">=</span><span class="n">point_source</span><span class="p">,</span>
                    <span class="n">region_layer_id</span><span class="o">=</span><span class="n">image_regions_id</span><span class="p">)</span> <span class="c1"># note: we use same region_layer_id</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -891,7 +912,7 @@
 </div>
 <p>To remove region layer:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">delete_region_layer</span><span class="p">(</span><span class="n">image_regions_id</span><span class="p">)</span>
@@ -899,7 +920,7 @@
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -911,22 +932,23 @@
 <section id="Show-HiPS-image">
 <h2>Show HiPS image<a class="headerlink" href="#Show-HiPS-image" title="Link to this heading">#</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hips_url</span> <span class="o">=</span> <span class="s1">&#39;http://alasky.u-strasbg.fr/DSS/DSSColor&#39;</span>
-<span class="n">hips_plot_id</span> <span class="o">=</span> <span class="s1">&#39;hips-img-id&#39;</span>
-<span class="n">target</span> <span class="o">=</span> <span class="s1">&#39;202.4841667;47.23055556;EQ_J2000&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hips_url</span> <span class="o">=</span> <span class="s1">'http://alasky.u-strasbg.fr/DSS/DSSColor'</span>
+<span class="n">hips_plot_id</span> <span class="o">=</span> <span class="s1">'hips-img-id'</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s1">'202.4841667;47.23055556;EQ_J2000'</span>
 
 <span class="n">fc</span><span class="o">.</span><span class="n">show_hips</span><span class="p">(</span><span class="n">plot_id</span><span class="o">=</span><span class="n">hips_plot_id</span><span class="p">,</span>
              <span class="n">hips_root_url</span><span class="o">=</span><span class="n">hips_url</span><span class="p">,</span>
-             <span class="n">Title</span><span class="o">=</span><span class="s1">&#39;HiPS-DSS&#39;</span><span class="p">,</span>
+             <span class="n">Title</span><span class="o">=</span><span class="s1">'HiPS-DSS'</span><span class="p">,</span>
              <span class="n">WorldPt</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
@@ -937,32 +959,32 @@
 <section id="Show-3-color-image">
 <h2>Show 3-color image<a class="headerlink" href="#Show-3-color-image" title="Link to this heading">#</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># [W4, W2, W1] from WISE all-sky as [R, G, B]</span>
-<span class="n">rgb_urls</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">-int-1b.fits&#39;</span>
-            <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;w4&#39;</span><span class="p">,</span> <span class="s1">&#39;w3&#39;</span><span class="p">,</span> <span class="s1">&#39;w2&#39;</span><span class="p">]]</span>
+<span class="n">rgb_urls</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">'https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">-int-1b.fits'</span>
+            <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'w4'</span><span class="p">,</span> <span class="s1">'w3'</span><span class="p">,</span> <span class="s1">'w2'</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">three_color_params</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">{</span>
-        <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span>
-        <span class="s1">&#39;Title&#39;</span><span class="p">:</span> <span class="s2">&quot;3 color image&quot;</span>
+        <span class="s1">'url'</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span>
+        <span class="s1">'Title'</span><span class="p">:</span> <span class="s2">"3 color image"</span>
     <span class="p">}</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">rgb_urls</span><span class="p">]</span>
 
 <span class="n">fc</span><span class="o">.</span><span class="n">show_fits_3color</span><span class="p">(</span><span class="n">three_color_params</span><span class="o">=</span><span class="n">three_color_params</span><span class="p">,</span>
-                    <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;3color-img&#39;</span><span class="p">)</span>
+                    <span class="n">plot_id</span><span class="o">=</span><span class="s1">'3color-img'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -971,7 +993,7 @@
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Because we added more images, align and lock them by WCS again</span>
@@ -980,7 +1002,7 @@
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -996,17 +1018,17 @@
 <h3>Preview metadata<a class="headerlink" href="#Preview-metadata" title="Link to this heading">#</a></h3>
 <p>It’s often useful to preview the metadata of a data file you have no information about. <code class="docutils literal notranslate"><span class="pre">preview_metadata</span></code> parameter allows you to do that:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spherex_l2_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/spherex/qr/level2/2025W19_2B/l2b-v11-2025-163/6/level2_2025W19_2B_0336_3D6_spx_l2b-v11-2025-163.fits&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spherex_l2_url</span> <span class="o">=</span> <span class="s1">'https://irsa.ipac.caltech.edu/ibe/data/spherex/qr/level2/2025W19_2B/l2b-v11-2025-163/6/level2_2025W19_2B_0336_3D6_spx_l2b-v11-2025-163.fits'</span>
 
 <span class="n">fc</span><span class="o">.</span><span class="n">show_data</span><span class="p">(</span><span class="n">spherex_l2_url</span><span class="p">,</span> <span class="n">preview_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># first argument can also be a local file path or file-like object</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1019,17 +1041,17 @@
 <section id="Directly-view-data">
 <h3>Directly view data<a class="headerlink" href="#Directly-view-data" title="Link to this heading">#</a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">euclid_spec_url</span> <span class="o">=</span> <span class="s1">&#39;http://irsa.ipac.caltech.edu/api/spectrumdm/convert/euclid/q1/SIR/102159776/EUC_SIR_W-COMBSPEC_102159776_2024-11-05T16:21:17.235160Z.fits?dataset_id=euclid_combspec&amp;hdu=217&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">euclid_spec_url</span> <span class="o">=</span> <span class="s1">'http://irsa.ipac.caltech.edu/api/spectrumdm/convert/euclid/q1/SIR/102159776/EUC_SIR_W-COMBSPEC_102159776_2024-11-05T16:21:17.235160Z.fits?dataset_id=euclid_combspec&amp;hdu=217'</span>
 
 <span class="n">fc</span><span class="o">.</span><span class="n">show_data</span><span class="p">(</span><span class="n">euclid_spec_url</span><span class="p">,</span> <span class="n">preview_metadata</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1114,6 +1136,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Modify-the-displayed-table">Modify the displayed table</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Sorting-by-a-column">Sorting by a column</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Filtering-the-rows">Filtering the rows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Changing-the-display-options">Changing the display options</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Plot-Chart-from-the-displayed-table">Plot Chart from the displayed table</a></li>
@@ -1169,7 +1192,7 @@
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Apr 29, 2026.
+  Last updated on Nov 25, 2026.
   <br/>
 </p></div>
       

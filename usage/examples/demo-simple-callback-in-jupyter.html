@@ -56,7 +56,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Apr 29, 2026"/>
+    <meta name="docbuild:last-update" content="Nov 25, 2026"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -463,10 +463,10 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pick some host</span>
-<span class="n">local_host</span> <span class="o">=</span> <span class="s1">&#39;http://127.0.0.1:8080/firefly&#39;</span>
-<span class="n">irsa</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/irsaviewer&#39;</span>
-<span class="n">fd</span> <span class="o">=</span> <span class="s1">&#39;https://fireflydev.ipac.caltech.edu/firefly&#39;</span>
-<span class="n">data_lsst_host</span> <span class="o">=</span> <span class="s1">&#39;https://data.lsst.cloud/portal/app/&#39;</span>
+<span class="n">local_host</span> <span class="o">=</span> <span class="s1">'http://127.0.0.1:8080/firefly'</span>
+<span class="n">irsa</span> <span class="o">=</span> <span class="s1">'https://irsa.ipac.caltech.edu/irsaviewer'</span>
+<span class="n">fd</span> <span class="o">=</span> <span class="s1">'https://fireflydev.ipac.caltech.edu/firefly'</span>
+<span class="n">data_lsst_host</span> <span class="o">=</span> <span class="s1">'https://data.lsst.cloud/portal/app/'</span>
 <span class="n">host</span> <span class="o">=</span> <span class="n">local_host</span>
 
 <span class="n">using_lab</span> <span class="o">=</span> <span class="kc">False</span>
@@ -488,7 +488,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="s2">&quot;http://web.ipac.caltech.edu.s3-us-west-2.amazonaws.com/staff/roby/demo/wise-00.fits&quot;</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s1">&#39;x2&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="s2">"http://web.ipac.caltech.edu.s3-us-west-2.amazonaws.com/staff/roby/demo/wise-00.fits"</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="s1">'x2'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -505,7 +505,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">&#39;zscale&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_stretch</span><span class="p">(</span><span class="s1">'x1'</span><span class="p">,</span> <span class="n">stype</span><span class="o">=</span><span class="s1">'zscale'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -525,9 +525,9 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extensions can be made but there is no web socket connections until a listener is added</span>
 
-<span class="n">fc</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="n">ext_type</span><span class="o">=</span><span class="s1">&#39;POINT&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Output Selected Point&#39;</span><span class="p">,</span> <span class="n">shortcut_key</span><span class="o">=</span><span class="s1">&#39;ctrl-p&#39;</span><span class="p">)</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="n">ext_type</span><span class="o">=</span><span class="s1">&#39;LINE_SELECT&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Output Selected line&#39;</span><span class="p">,</span> <span class="n">shortcut_key</span><span class="o">=</span><span class="s1">&#39;meta-b&#39;</span><span class="p">)</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="n">ext_type</span><span class="o">=</span><span class="s1">&#39;AREA_SELECT&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Output Selected Area&#39;</span><span class="p">,</span> <span class="n">shortcut_key</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="n">ext_type</span><span class="o">=</span><span class="s1">'POINT'</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Output Selected Point'</span><span class="p">,</span> <span class="n">shortcut_key</span><span class="o">=</span><span class="s1">'ctrl-p'</span><span class="p">)</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="n">ext_type</span><span class="o">=</span><span class="s1">'LINE_SELECT'</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Output Selected line'</span><span class="p">,</span> <span class="n">shortcut_key</span><span class="o">=</span><span class="s1">'meta-b'</span><span class="p">)</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="n">ext_type</span><span class="o">=</span><span class="s1">'AREA_SELECT'</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Output Selected Area'</span><span class="p">,</span> <span class="n">shortcut_key</span><span class="o">=</span><span class="s1">'a'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -549,20 +549,20 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">example_listener</span><span class="p">(</span><span class="n">ev</span><span class="p">):</span>
     <span class="k">if</span> <span class="kc">False</span><span class="p">:</span> <span class="c1"># set to True to see all events</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s1">&#39;data&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ev</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no data found in ev&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">'data'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ev</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'no data found in ev'</span><span class="p">)</span>
         <span class="k">return</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">ev</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="s1">&#39;payload&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;payload&#39;</span><span class="p">])</span>
-    <span class="k">if</span> <span class="s1">&#39;type&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;POINT&#39;</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   image point: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ipt&#39;</span><span class="p">])</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   world point: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;wpt&#39;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;LINE_SELECT&#39;</span> <span class="ow">or</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;AREA_SELECT&#39;</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   image points: </span><span class="si">%s</span><span class="s1"> to </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ipt0&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ipt1&#39;</span><span class="p">]))</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   world points: </span><span class="si">%s</span><span class="s1"> to </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;wpt0&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;wpt1&#39;</span><span class="p">]))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">ev</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s1">'payload'</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'payload'</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s1">'type'</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'type'</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">'type'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'POINT'</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'   image point: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">data</span><span class="p">[</span><span class="s1">'ipt'</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'   world point: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">data</span><span class="p">[</span><span class="s1">'wpt'</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">'type'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'LINE_SELECT'</span> <span class="ow">or</span> <span class="n">data</span><span class="p">[</span><span class="s1">'type'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'AREA_SELECT'</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'   image points: </span><span class="si">%s</span><span class="s1"> to </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'ipt0'</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">'ipt1'</span><span class="p">]))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'   world points: </span><span class="si">%s</span><span class="s1"> to </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'wpt0'</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">'wpt1'</span><span class="p">]))</span>
 
 
 <span class="n">fc</span><span class="o">.</span><span class="n">add_listener</span><span class="p">(</span><span class="n">example_listener</span><span class="p">)</span>
@@ -677,7 +677,7 @@ LINE_SELECT
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Apr 29, 2026.
+  Last updated on Nov 25, 2026.
   <br/>
 </p></div>
       

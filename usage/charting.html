@@ -56,7 +56,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Apr 29, 2026"/>
+    <meta name="docbuild:last-update" content="Nov 25, 2026"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -439,12 +439,12 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
 
 <span class="c1"># Initialize a FireflyClient instance</span>
-<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">"https://irsa.ipac.caltech.edu/irsaviewer"</span><span class="p">)</span>
 
 <span class="c1"># Display a catalog table (from URL of 2MASS TAP query for M51)</span>
-<span class="n">table_url</span> <span class="o">=</span> <span class="s2">&quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),CIRCLE(&#39;J2000&#39;,202.4841667,47.23055556,0.125))=1&quot;</span>
-<span class="n">table_id</span> <span class="o">=</span> <span class="s1">&#39;2mass-catalog&#39;</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">table_url</span><span class="p">,</span> <span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;2MASS Catalog&#39;</span><span class="p">)</span>
+<span class="n">table_url</span> <span class="o">=</span> <span class="s2">"http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT('J2000',ra,dec),CIRCLE('J2000',202.4841667,47.23055556,0.125))=1"</span>
+<span class="n">table_id</span> <span class="o">=</span> <span class="s1">'2mass-catalog'</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">table_url</span><span class="p">,</span> <span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'2MASS Catalog'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -469,7 +469,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_xyplot</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="c1"># specifies which table to plot from</span>
-               <span class="n">xCol</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span><span class="p">,</span> <span class="n">yCol</span><span class="o">=</span><span class="s1">&#39;h_m-k_m&#39;</span><span class="p">)</span>
+               <span class="n">xCol</span><span class="o">=</span><span class="s1">'j_m'</span><span class="p">,</span> <span class="n">yCol</span><span class="o">=</span><span class="s1">'h_m-k_m'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -490,7 +490,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_histogram</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span><span class="p">,</span> <span class="n">numBins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_histogram</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">'j_m'</span><span class="p">,</span> <span class="n">numBins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -518,13 +518,13 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trace0</span> <span class="o">=</span> <span class="p">{</span>
     <span class="c1"># Firefly-specific key and values</span>
-    <span class="s1">&#39;tbl_id&#39;</span><span class="p">:</span> <span class="n">table_id</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s2">&quot;tables::j_m&quot;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s2">&quot;tables::h_m-k_m&quot;</span><span class="p">,</span>
+    <span class="s1">'tbl_id'</span><span class="p">:</span> <span class="n">table_id</span><span class="p">,</span> <span class="s1">'x'</span><span class="p">:</span> <span class="s2">"tables::j_m"</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">:</span> <span class="s2">"tables::h_m-k_m"</span><span class="p">,</span>
     <span class="c1"># Plotly keys and values</span>
-    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="s1">&#39;markers&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;marker&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    <span class="s1">'type'</span><span class="p">:</span> <span class="s1">'scatter'</span><span class="p">,</span> <span class="s1">'mode'</span><span class="p">:</span> <span class="s1">'markers'</span><span class="p">,</span>
+    <span class="s1">'marker'</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
     <span class="p">}</span>
-<span class="n">layout</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;2MASS color-mag&#39;</span><span class="p">,</span>
-          <span class="s1">&#39;xaxis&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;J&#39;</span><span class="p">),</span> <span class="s1">&#39;yaxis&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;H - K&#39;</span><span class="p">)}</span>
+<span class="n">layout</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'title'</span><span class="p">:</span> <span class="s1">'2MASS color-mag'</span><span class="p">,</span>
+          <span class="s1">'xaxis'</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'J'</span><span class="p">),</span> <span class="s1">'yaxis'</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'H - K'</span><span class="p">)}</span>
 
 <span class="n">fc</span><span class="o">.</span><span class="n">show_chart</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">trace0</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
 </pre></div>
@@ -544,20 +544,20 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trace0</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;fireflyHistogram&#39;</span><span class="p">,</span>
-                <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;rgba(153, 51, 153, 0.8)&#39;</span><span class="p">),</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trace0</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">'fireflyHistogram'</span><span class="p">,</span>
+                <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'rgba(153, 51, 153, 0.8)'</span><span class="p">),</span>
                 <span class="n">firefly</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
                     <span class="n">tbl_id</span><span class="o">=</span><span class="n">table_id</span><span class="p">,</span>
                     <span class="n">options</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-                        <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;fixedsizeBins&#39;</span><span class="p">,</span>
-                        <span class="n">fixedBinSizeSelection</span><span class="o">=</span><span class="s1">&#39;numBins&#39;</span><span class="p">,</span>
+                        <span class="n">algorithm</span><span class="o">=</span><span class="s1">'fixedsizeBins'</span><span class="p">,</span>
+                        <span class="n">fixedBinSizeSelection</span><span class="o">=</span><span class="s1">'numBins'</span><span class="p">,</span>
                         <span class="n">numBins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
-                        <span class="n">columnOrExpr</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span>
+                        <span class="n">columnOrExpr</span><span class="o">=</span><span class="s1">'j_m'</span>
                         <span class="p">)))</span>
 
-<span class="n">layout_hist</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Photometry histogram&#39;</span><span class="p">,</span>
-                    <span class="n">xaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;J (mag)&#39;</span><span class="p">),</span>
-                    <span class="n">yaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Number&#39;</span><span class="p">))</span>
+<span class="n">layout_hist</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Photometry histogram'</span><span class="p">,</span>
+                    <span class="n">xaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'J (mag)'</span><span class="p">),</span>
+                    <span class="n">yaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Number'</span><span class="p">))</span>
 
 <span class="n">fc</span><span class="o">.</span><span class="n">show_chart</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="n">layout_hist</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">trace0</span><span class="p">])</span>
 </pre></div>
@@ -580,9 +580,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">euclid_spec_url</span> <span class="o">=</span> <span class="s1">&#39;http://irsa.ipac.caltech.edu/api/spectrumdm/convert/euclid/q1/SIR/102159776/EUC_SIR_W-COMBSPEC_102159776_2024-11-05T16:21:17.235160Z.fits?dataset_id=euclid_combspec&amp;hdu=217&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">euclid_spec_url</span> <span class="o">=</span> <span class="s1">'http://irsa.ipac.caltech.edu/api/spectrumdm/convert/euclid/q1/SIR/102159776/EUC_SIR_W-COMBSPEC_102159776_2024-11-05T16:21:17.235160Z.fits?dataset_id=euclid_combspec&amp;hdu=217'</span>
 
-<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">euclid_spec_url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Euclid Spectrum&#39;</span><span class="p">)</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">euclid_spec_url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Euclid Spectrum'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -694,7 +694,7 @@
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Apr 29, 2026.
+  Last updated on Nov 25, 2026.
   <br/>
 </p></div>
       

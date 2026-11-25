@@ -56,7 +56,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Apr 29, 2026"/>
+    <meta name="docbuild:last-update" content="Nov 25, 2026"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -433,7 +433,7 @@
 <h2>Setup<a class="headerlink" href="#Setup" title="Link to this heading">#</a></h2>
 <p>First, we create a <code class="docutils literal notranslate"><span class="pre">FireflyClient</span></code> instance and open a Firefly viewer. See <a class="reference external" href="./initializing-vanilla.html">Initializing a FireflyClient instance</a> for more details. Then, we display a FITS image from a URL so that we have an image for catalog overlays. See <a class="reference external" href="./displaying-fits-image.html">Displaying a FITS Image</a> for more details.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Uncomment the next line to install dependencies if needed.</span>
@@ -442,7 +442,7 @@
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
@@ -453,17 +453,17 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
 
 <span class="c1"># Initialize a FireflyClient instance</span>
-<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">"https://irsa.ipac.caltech.edu/irsaviewer"</span><span class="p">)</span>
 
 <span class="c1"># Display a FITS image (from URL of WISE W2 cutout of M51 galaxy)</span>
-<span class="n">cutout_image_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;</span>
-<span class="n">plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-cutout&#39;</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">cutout_image_url</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="n">plot_id</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">)</span>
+<span class="n">cutout_image_url</span> <span class="o">=</span> <span class="s1">'https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix'</span>
+<span class="n">plot_id</span> <span class="o">=</span> <span class="s1">'wise-cutout'</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">cutout_image_url</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="n">plot_id</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'WISE Cutout'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -479,17 +479,17 @@
 <h3>From a local file<a class="headerlink" href="#From-a-local-file" title="Link to this heading">#</a></h3>
 <p>You can specify path of any local table file. Here we download the Gaia DR3 catalog for 300” cone around M51 and use its file path:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_url_gaia</span> <span class="o">=</span> <span class="s2">&quot;https://gea.esac.esa.int/tap-server/tap/sync?LANG=ADQL&amp;QUERY=SELECT+*+FROM+gaiadr3.gaia_source+WHERE+CONTAINS(POINT(&#39;ICRS&#39;,ra,dec),CIRCLE(&#39;ICRS&#39;,202.4841667,47.23055556,0.083333))=1&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_url_gaia</span> <span class="o">=</span> <span class="s2">"https://gea.esac.esa.int/tap-server/tap/sync?LANG=ADQL&amp;QUERY=SELECT+*+FROM+gaiadr3.gaia_source+WHERE+CONTAINS(POINT('ICRS',ra,dec),CIRCLE('ICRS',202.4841667,47.23055556,0.083333))=1"</span>
 <span class="n">tbl_fpath_gaia</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">tbl_url_gaia</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
 <span class="n">tbl_fpath_gaia</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -498,18 +498,18 @@
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_id_gaia</span> <span class="o">=</span> <span class="s1">&#39;gaia-catalog&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_id_gaia</span> <span class="o">=</span> <span class="s1">'gaia-catalog'</span>
 <span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">tbl_fpath_gaia</span><span class="p">,</span>
               <span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_gaia</span><span class="p">,</span>
-              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Gaia Catalog&#39;</span><span class="p">)</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">'Gaia Catalog'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -522,22 +522,22 @@
 <h3>From an in-memory file-like object<a class="headerlink" href="#From-an-in-memory-file-like-object" title="Link to this heading">#</a></h3>
 <p>You can also use a file-like object (e.g. <code class="docutils literal notranslate"><span class="pre">StringIO</span></code> or <code class="docutils literal notranslate"><span class="pre">BytesIO</span></code> stream) instead of a local file path or URL. This is useful when you are working with a Table file in memory (for e.g. as an Astropy Table) and don’t want to write it to disk.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gaia_tbl</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">tbl_fpath_gaia</span><span class="p">)</span>
-<span class="n">gaia_galaxy_tbl</span> <span class="o">=</span> <span class="n">gaia_tbl</span><span class="p">[</span><span class="n">gaia_tbl</span><span class="p">[</span><span class="s1">&#39;classprob_dsc_combmod_galaxy&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">0.95</span><span class="p">]</span>
+<span class="n">gaia_galaxy_tbl</span> <span class="o">=</span> <span class="n">gaia_tbl</span><span class="p">[</span><span class="n">gaia_tbl</span><span class="p">[</span><span class="s1">'classprob_dsc_combmod_galaxy'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">0.95</span><span class="p">]</span>
 <span class="n">gaia_galaxy_tbl</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
 <div><i>Table length=5</i>
-<table id="table4697473392" class="table-striped table-bordered table-condensed">
+<table id="table4600490912" class="table-striped table-bordered table-condensed">
 <thead><tr><th>solution_id</th><th>DESIGNATION</th><th>SOURCE_ID</th><th>random_index</th><th>ref_epoch</th><th>ra</th><th>ra_error</th><th>dec</th><th>dec_error</th><th>parallax</th><th>parallax_error</th><th>parallax_over_error</th><th>pm</th><th>pmra</th><th>pmra_error</th><th>pmdec</th><th>pmdec_error</th><th>ra_dec_corr</th><th>ra_parallax_corr</th><th>ra_pmra_corr</th><th>ra_pmdec_corr</th><th>dec_parallax_corr</th><th>dec_pmra_corr</th><th>dec_pmdec_corr</th><th>parallax_pmra_corr</th><th>parallax_pmdec_corr</th><th>pmra_pmdec_corr</th><th>astrometric_n_obs_al</th><th>astrometric_n_obs_ac</th><th>astrometric_n_good_obs_al</th><th>astrometric_n_bad_obs_al</th><th>astrometric_gof_al</th><th>astrometric_chi2_al</th><th>astrometric_excess_noise</th><th>astrometric_excess_noise_sig</th><th>astrometric_params_solved</th><th>astrometric_primary_flag</th><th>nu_eff_used_in_astrometry</th><th>pseudocolour</th><th>pseudocolour_error</th><th>ra_pseudocolour_corr</th><th>dec_pseudocolour_corr</th><th>parallax_pseudocolour_corr</th><th>pmra_pseudocolour_corr</th><th>pmdec_pseudocolour_corr</th><th>astrometric_matched_transits</th><th>visibility_periods_used</th><th>astrometric_sigma5d_max</th><th>matched_transits</th><th>new_matched_transits</th><th>matched_transits_removed</th><th>ipd_gof_harmonic_amplitude</th><th>ipd_gof_harmonic_phase</th><th>ipd_frac_multi_peak</th><th>ipd_frac_odd_win</th><th>ruwe</th><th>scan_direction_strength_k1</th><th>scan_direction_strength_k2</th><th>scan_direction_strength_k3</th><th>scan_direction_strength_k4</th><th>scan_direction_mean_k1</th><th>scan_direction_mean_k2</th><th>scan_direction_mean_k3</th><th>scan_direction_mean_k4</th><th>duplicated_source</th><th>phot_g_n_obs</th><th>phot_g_mean_flux</th><th>phot_g_mean_flux_error</th><th>phot_g_mean_flux_over_error</th><th>phot_g_mean_mag</th><th>phot_bp_n_obs</th><th>phot_bp_mean_flux</th><th>phot_bp_mean_flux_error</th><th>phot_bp_mean_flux_over_error</th><th>phot_bp_mean_mag</th><th>phot_rp_n_obs</th><th>phot_rp_mean_flux</th><th>phot_rp_mean_flux_error</th><th>phot_rp_mean_flux_over_error</th><th>phot_rp_mean_mag</th><th>phot_bp_rp_excess_factor</th><th>phot_bp_n_contaminated_transits</th><th>phot_bp_n_blended_transits</th><th>phot_rp_n_contaminated_transits</th><th>phot_rp_n_blended_transits</th><th>phot_proc_mode</th><th>bp_rp</th><th>bp_g</th><th>g_rp</th><th>radial_velocity</th><th>radial_velocity_error</th><th>rv_method_used</th><th>rv_nb_transits</th><th>rv_nb_deblended_transits</th><th>rv_visibility_periods_used</th><th>rv_expected_sig_to_noise</th><th>rv_renormalised_gof</th><th>rv_chisq_pvalue</th><th>rv_time_duration</th><th>rv_amplitude_robust</th><th>rv_template_teff</th><th>rv_template_logg</th><th>rv_template_fe_h</th><th>rv_atm_param_origin</th><th>vbroad</th><th>vbroad_error</th><th>vbroad_nb_transits</th><th>grvs_mag</th><th>grvs_mag_error</th><th>grvs_mag_nb_transits</th><th>rvs_spec_sig_to_noise</th><th>phot_variable_flag</th><th>l</th><th>b</th><th>ecl_lon</th><th>ecl_lat</th><th>in_qso_candidates</th><th>in_galaxy_candidates</th><th>non_single_star</th><th>has_xp_continuous</th><th>has_xp_sampled</th><th>has_rvs</th><th>has_epoch_photometry</th><th>has_epoch_rv</th><th>has_mcmc_gspphot</th><th>has_mcmc_msc</th><th>in_andromeda_survey</th><th>classprob_dsc_combmod_quasar</th><th>classprob_dsc_combmod_galaxy</th><th>classprob_dsc_combmod_star</th><th>teff_gspphot</th><th>teff_gspphot_lower</th><th>teff_gspphot_upper</th><th>logg_gspphot</th><th>logg_gspphot_lower</th><th>logg_gspphot_upper</th><th>mh_gspphot</th><th>mh_gspphot_lower</th><th>mh_gspphot_upper</th><th>distance_gspphot</th><th>distance_gspphot_lower</th><th>distance_gspphot_upper</th><th>azero_gspphot</th><th>azero_gspphot_lower</th><th>azero_gspphot_upper</th><th>ag_gspphot</th><th>ag_gspphot_lower</th><th>ag_gspphot_upper</th><th>ebpminrp_gspphot</th><th>ebpminrp_gspphot_lower</th><th>ebpminrp_gspphot_upper</th><th>libname_gspphot</th></tr></thead>
 <thead><tr><th></th><th></th><th></th><th></th><th>yr</th><th>deg</th><th>mas</th><th>deg</th><th>mas</th><th>mas</th><th>mas</th><th></th><th>mas / yr</th><th>mas / yr</th><th>mas / yr</th><th>mas / yr</th><th>mas / yr</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>mas</th><th></th><th></th><th></th><th>1 / um</th><th>1 / um</th><th>1 / um</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>mas</th><th></th><th></th><th></th><th></th><th>deg</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>deg</th><th>deg</th><th>deg</th><th>deg</th><th></th><th></th><th>electron / s</th><th>electron / s</th><th></th><th>mag</th><th></th><th>electron / s</th><th>electron / s</th><th></th><th>mag</th><th></th><th>electron / s</th><th>electron / s</th><th></th><th>mag</th><th></th><th></th><th></th><th></th><th></th><th></th><th>mag</th><th>mag</th><th>mag</th><th>km / s</th><th>km / s</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>d</th><th>km / s</th><th>K</th><th>log(cm.s**-2)</th><th>dex</th><th></th><th>km / s</th><th>km / s</th><th></th><th>mag</th><th>mag</th><th></th><th></th><th></th><th>deg</th><th>deg</th><th>deg</th><th>deg</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>K</th><th>K</th><th>K</th><th>log(cm.s**-2)</th><th>log(cm.s**-2)</th><th>log(cm.s**-2)</th><th>dex</th><th>dex</th><th>dex</th><th>pc</th><th>pc</th><th>pc</th><th>mag</th><th>mag</th><th>mag</th><th>mag</th><th>mag</th><th>mag</th><th>mag</th><th>mag</th><th>mag</th><th></th></tr></thead>
 <thead><tr><th>int64</th><th>object</th><th>int64</th><th>int64</th><th>float64</th><th>float64</th><th>float32</th><th>float64</th><th>float32</th><th>float64</th><th>float32</th><th>float32</th><th>float32</th><th>float64</th><th>float32</th><th>float64</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>int16</th><th>int16</th><th>int16</th><th>int16</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>int16</th><th>bool</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>int16</th><th>int16</th><th>float32</th><th>int16</th><th>int16</th><th>int16</th><th>float32</th><th>float32</th><th>int16</th><th>int16</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>bool</th><th>int16</th><th>float64</th><th>float32</th><th>float32</th><th>float32</th><th>int16</th><th>float64</th><th>float32</th><th>float32</th><th>float32</th><th>int16</th><th>float64</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>int16</th><th>int16</th><th>int16</th><th>int16</th><th>int16</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>int16</th><th>int16</th><th>int16</th><th>int16</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>int16</th><th>float32</th><th>float32</th><th>int16</th><th>float32</th><th>float32</th><th>int16</th><th>float32</th><th>object</th><th>float64</th><th>float64</th><th>float64</th><th>float64</th><th>bool</th><th>bool</th><th>int16</th><th>bool</th><th>bool</th><th>bool</th><th>bool</th><th>bool</th><th>bool</th><th>bool</th><th>bool</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>float32</th><th>object</th></tr></thead>
@@ -549,11 +549,11 @@
 </table></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_stream</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
-<span class="n">gaia_galaxy_tbl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tbl_stream</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;votable&#39;</span><span class="p">)</span>
+<span class="n">gaia_galaxy_tbl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tbl_stream</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">'votable'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -566,17 +566,17 @@ WARNING: W50: ?:?:?: W50: Invalid unit string &#39;log(cm.s**-2)&#39; [astropy.i
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">tbl_stream</span><span class="p">,</span>
-              <span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_gaia</span><span class="o">+</span><span class="s1">&#39;-galaxy&#39;</span><span class="p">,</span>
-              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Gaia Galaxy Catalog&#39;</span><span class="p">)</span>
+              <span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_gaia</span><span class="o">+</span><span class="s1">'-galaxy'</span><span class="p">,</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">'Gaia Galaxy Catalog'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -589,26 +589,26 @@ WARNING: W50: ?:?:?: W50: Invalid unit string &#39;log(cm.s**-2)&#39; [astropy.i
 <h3>From a URL<a class="headerlink" href="#From-a-URL" title="Link to this heading">#</a></h3>
 <p>You can specify URL of any table. Here we use an IRSA TAP query to retrieve a 2MASS catalog for 0.125 degree cone at M51.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_url_2mass</span> <span class="o">=</span> <span class="s2">&quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),CIRCLE(&#39;J2000&#39;,202.4841667,47.23055556,0.125))=1&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_url_2mass</span> <span class="o">=</span> <span class="s2">"http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=SELECT+*+FROM+fp_psc+WHERE+CONTAINS(POINT('J2000',ra,dec),CIRCLE('J2000',202.4841667,47.23055556,0.125))=1"</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_id_2mass</span> <span class="o">=</span> <span class="s1">&#39;2mass-catalog&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_id_2mass</span> <span class="o">=</span> <span class="s1">'2mass-catalog'</span>
 <span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">tbl_url_2mass</span><span class="p">,</span>
               <span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_2mass</span><span class="p">,</span>
-              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;2MASS Catalog&#39;</span><span class="p">)</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">'2MASS Catalog'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -624,21 +624,21 @@ WARNING: W50: ?:?:?: W50: Invalid unit string &#39;log(cm.s**-2)&#39; [astropy.i
 </section>
 <section id="Modify-the-displayed-table">
 <h2>Modify the displayed table<a class="headerlink" href="#Modify-the-displayed-table" title="Link to this heading">#</a></h2>
-<p>After displaying a table in Firefly, you can apply filters and sorting by <code class="docutils literal notranslate"><span class="pre">tbl_id</span></code>.</p>
+<p>After displaying a table in Firefly, you can apply filters, sorting, and change display options by <code class="docutils literal notranslate"><span class="pre">tbl_id</span></code>.</p>
 <section id="Sorting-by-a-column">
 <h3>Sorting by a column<a class="headerlink" href="#Sorting-by-a-column" title="Link to this heading">#</a></h3>
 <p>You can sort the table by a column in ascending (<code class="docutils literal notranslate"><span class="pre">ASC</span></code>) or descending (<code class="docutils literal notranslate"><span class="pre">DESC</span></code>) order:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">sort_table_column</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_2mass</span><span class="p">,</span>  <span class="c1"># note: we use the table id we defined above</span>
-                     <span class="n">column_name</span><span class="o">=</span><span class="s1">&#39;j_m&#39;</span><span class="p">,</span> <span class="n">sort_direction</span><span class="o">=</span><span class="s1">&#39;ASC&#39;</span><span class="p">)</span>
+                     <span class="n">column_name</span><span class="o">=</span><span class="s1">'j_m'</span><span class="p">,</span> <span class="n">sort_direction</span><span class="o">=</span><span class="s1">'ASC'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -651,16 +651,16 @@ WARNING: W50: ?:?:?: W50: Invalid unit string &#39;log(cm.s**-2)&#39; [astropy.i
 <h3>Filtering the rows<a class="headerlink" href="#Filtering-the-rows" title="Link to this heading">#</a></h3>
 <p>Filters can be specified as an SQL WHERE clause-like string with column names quoted:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">apply_table_filters</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_2mass</span><span class="p">,</span>
-                       <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;&quot;j_m&quot;&lt;15 and &quot;j_cmsig&quot;&lt;0.05&#39;</span><span class="p">)</span>
+                       <span class="n">filters</span><span class="o">=</span><span class="s1">'"j_m"&lt;15 and "j_cmsig"&lt;0.05'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -674,15 +674,41 @@ WARNING: W50: ?:?:?: W50: Invalid unit string &#39;log(cm.s**-2)&#39; [astropy.i
 </div>
 <p>To remove the filters:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">apply_table_filters</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_2mass</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">apply_table_filters</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_2mass</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">''</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Changing-the-display-options">
+<h3>Changing the display options<a class="headerlink" href="#Changing-the-display-options" title="Link to this heading">#</a></h3>
+<p>You can change the display options of a table that is already shown, using its <code class="docutils literal notranslate"><span class="pre">tbl_id</span></code>. These are the same options that <code class="docutils literal notranslate"><span class="pre">show_table</span></code> accepts in its <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter, passed as keyword arguments. Only the options you pass are changed. For example, to hide the filter row and column types, and to turn off row selection:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A few options, such as <code class="docutils literal notranslate"><span class="pre">removable</span></code> and <code class="docutils literal notranslate"><span class="pre">pageSize</span></code>, can only be set when the table is added using <code class="docutils literal notranslate"><span class="pre">show_table</span></code>. See <a class="reference external" href="../api/firefly_client.FireflyClient.html#firefly_client.FireflyClient.set_table_options">set_table_options</a> for details.</p>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">set_table_options</span><span class="p">(</span><span class="n">tbl_id</span><span class="o">=</span><span class="n">tbl_id_2mass</span><span class="p">,</span>
+                     <span class="n">showFilters</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showTypes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">selectable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -703,18 +729,18 @@ WARNING: W50: ?:?:?: W50: Invalid unit string &#39;log(cm.s**-2)&#39; [astropy.i
 <p>This is especially useful for loading a MOC file (a single-column table) since you only want to overlay the MOC map on the HiPS image without displaying the table. See <a class="reference external" href="./displaying-hips.html">Overlay MOC on HiPS</a></p>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_url_spitzer</span> <span class="o">=</span> <span class="s2">&quot;https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query?outfmt=1&amp;catalog=slphotdr4&amp;objstr=202.484167d+47.230556d+eq+j2000&amp;spatial=Cone&amp;radius=240&quot;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tbl_url_spitzer</span> <span class="o">=</span> <span class="s2">"https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query?outfmt=1&amp;catalog=slphotdr4&amp;objstr=202.484167d+47.230556d+eq+j2000&amp;spatial=Cone&amp;radius=240"</span>
 <span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">tbl_url_spitzer</span><span class="p">,</span>
-              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Spitzer catalog&#39;</span><span class="p">,</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">'Spitzer catalog'</span><span class="p">,</span>
               <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -731,18 +757,42 @@ WARNING: W50: ?:?:?: W50: Invalid unit string &#39;log(cm.s**-2)&#39; [astropy.i
 <h3>Display table without catalog overlay<a class="headerlink" href="#Display-table-without-catalog-overlay" title="Link to this heading">#</a></h3>
 <p>If the table contains celestial coordinates recognized by Firefly, the catalog overlay will appear by default on the displayed image. But if you specifically do not want the table overlaid on the image, you can set the <code class="docutils literal notranslate"><span class="pre">is_catalog</span></code> parameter to False</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">tbl_url_spitzer</span><span class="p">,</span>
-              <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Spitzer: no overlay&#39;</span><span class="p">,</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">'Spitzer: no overlay'</span><span class="p">,</span>
               <span class="n">is_catalog</span><span class="o">=</span><span class="kc">False</span>
               <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;success&#39;: True}
+</pre></div></div>
+</div>
+</section>
+<section id="Set-display-options-when-showing-the-table">
+<h3>Set display options when showing the table<a class="headerlink" href="#Set-display-options-when-showing-the-table" title="Link to this heading">#</a></h3>
+<p>You can set display options of the table UI in the same <code class="docutils literal notranslate"><span class="pre">show_table</span></code> call, by passing a dictionary to the <code class="docutils literal notranslate"><span class="pre">options</span></code> parameter. This is also the only way to set options like <code class="docutils literal notranslate"><span class="pre">removable</span></code> that can’t be changed later with <code class="docutils literal notranslate"><span class="pre">set_table_options</span></code> (see <a class="reference internal" href="#Changing-the-display-options"><span class="std std-ref">Changing the display options</span></a>). For example, to hide the column units and to make the table non-removable:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">tbl_url_spitzer</span><span class="p">,</span>
+              <span class="n">tbl_id</span><span class="o">=</span><span class="s1">'spitzer-catalog'</span><span class="p">,</span>
+              <span class="n">title</span><span class="o">=</span><span class="s1">'Spitzer: custom display'</span><span class="p">,</span>
+              <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'showUnits'</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">'removable'</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -811,11 +861,13 @@ WARNING: W50: ?:?:?: W50: Invalid unit string &#39;log(cm.s**-2)&#39; [astropy.i
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Modify-the-displayed-table">Modify the displayed table</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Sorting-by-a-column">Sorting by a column</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Filtering-the-rows">Filtering the rows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Changing-the-display-options">Changing the display options</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Tweaking-the-table-display-parameters">Tweaking the table display parameters</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Load-table-without-displaying-it">Load table without displaying it</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Display-table-without-catalog-overlay">Display table without catalog overlay</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Set-display-options-when-showing-the-table">Set display options when showing the table</a></li>
 </ul>
 </li>
 </ul>
@@ -862,7 +914,7 @@ WARNING: W50: ?:?:?: W50: Invalid unit string &#39;log(cm.s**-2)&#39; [astropy.i
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Apr 29, 2026.
+  Last updated on Nov 25, 2026.
   <br/>
 </p></div>
       

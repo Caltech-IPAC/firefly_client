@@ -56,7 +56,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Apr 29, 2026"/>
+    <meta name="docbuild:last-update" content="Nov 25, 2026"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -444,7 +444,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
-<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://irsa.ipac.caltech.edu/irsaviewer&#39;</span><span class="p">)</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">'https://irsa.ipac.caltech.edu/irsaviewer'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -467,8 +467,8 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Image file can be a local path, URL, or file-like object - replace with your file</span>
 <span class="n">image_fpath</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/&#39;</span>
-    <span class="s1">&#39;05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;</span>
+    <span class="s1">'https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/'</span>
+    <span class="s1">'05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix'</span>
 <span class="p">)</span>
 <span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">image_fpath</span><span class="p">)</span>
 </pre></div>
@@ -494,10 +494,10 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Table file can be a local path, URL, or file-like object - replace with your file</span>
 <span class="n">table_fpath</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s2">&quot;http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY=&quot;</span>
-    <span class="s2">&quot;SELECT+*+FROM+fp_psc+&quot;</span>
-    <span class="s2">&quot;WHERE+CONTAINS(POINT(&#39;J2000&#39;,ra,dec),&quot;</span>
-    <span class="s2">&quot;CIRCLE(&#39;J2000&#39;,202.4841667,47.23055556,0.125))=1&quot;</span>
+    <span class="s2">"http://irsa.ipac.caltech.edu/TAP/sync?FORMAT=IPAC_TABLE&amp;QUERY="</span>
+    <span class="s2">"SELECT+*+FROM+fp_psc+"</span>
+    <span class="s2">"WHERE+CONTAINS(POINT('J2000',ra,dec),"</span>
+    <span class="s2">"CIRCLE('J2000',202.4841667,47.23055556,0.125))=1"</span>
 <span class="p">)</span>
 <span class="n">fc</span><span class="o">.</span><span class="n">show_table</span><span class="p">(</span><span class="n">table_fpath</span><span class="p">)</span>
 </pre></div>
@@ -609,7 +609,7 @@
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Apr 29, 2026.
+  Last updated on Nov 25, 2026.
   <br/>
 </p></div>
       

@@ -56,7 +56,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Apr 29, 2026"/>
+    <meta name="docbuild:last-update" content="Nov 25, 2026"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -443,12 +443,12 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
 
 <span class="c1"># Initialize a FireflyClient instance</span>
-<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://irsa.ipac.caltech.edu/irsaviewer&quot;</span><span class="p">)</span>
+<span class="n">fc</span> <span class="o">=</span> <span class="n">FireflyClient</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s2">"https://irsa.ipac.caltech.edu/irsaviewer"</span><span class="p">)</span>
 
 <span class="c1"># Display a FITS image (from URL of WISE W2 cutout of M51 galaxy)</span>
-<span class="n">img_url</span> <span class="o">=</span> <span class="s1">&#39;https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix&#39;</span>
-<span class="n">plot_id</span> <span class="o">=</span> <span class="s1">&#39;wise-cutout&#39;</span>
-<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">img_url</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="n">plot_id</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;WISE Cutout&#39;</span><span class="p">)</span>
+<span class="n">img_url</span> <span class="o">=</span> <span class="s1">'https://irsa.ipac.caltech.edu/ibe/data/wise/allsky/4band_p1bm_frm/9a/05379a/141/05379a141-w2-int-1b.fits?center=202.4841667,47.23055556&amp;size=400pix'</span>
+<span class="n">plot_id</span> <span class="o">=</span> <span class="s1">'wise-cutout'</span>
+<span class="n">fc</span><span class="o">.</span><span class="n">show_fits_image</span><span class="p">(</span><span class="n">file_input</span><span class="o">=</span><span class="n">img_url</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="n">plot_id</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'WISE Cutout'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -470,12 +470,12 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">print_coords</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s1">&#39;data&#39;</span> <span class="ow">in</span> <span class="n">event</span> <span class="ow">and</span> <span class="s1">&#39;wpt&#39;</span> <span class="ow">in</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]:</span>
-        <span class="n">wpt</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;wpt&#39;</span><span class="p">]</span> <span class="c1"># world point</span>
-        <span class="n">wdata</span> <span class="o">=</span> <span class="n">wpt</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">'data'</span> <span class="ow">in</span> <span class="n">event</span> <span class="ow">and</span> <span class="s1">'wpt'</span> <span class="ow">in</span> <span class="n">event</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]:</span>
+        <span class="n">wpt</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s1">'data'</span><span class="p">][</span><span class="s1">'wpt'</span><span class="p">]</span> <span class="c1"># world point</span>
+        <span class="n">wdata</span> <span class="o">=</span> <span class="n">wpt</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">';'</span><span class="p">)</span>
         <span class="n">ra</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wdata</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">dec</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wdata</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ra=</span><span class="si">{</span><span class="n">ra</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">, dec=</span><span class="si">{</span><span class="n">dec</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'ra=</span><span class="si">{</span><span class="n">ra</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">, dec=</span><span class="si">{</span><span class="n">dec</span><span class="si">:</span><span class="s1">.6f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
 <span class="n">fc</span><span class="o">.</span><span class="n">add_listener</span><span class="p">(</span><span class="n">print_coords</span><span class="p">)</span>
 </pre></div>
@@ -489,7 +489,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="n">ext_type</span><span class="o">=</span><span class="s1">&#39;POINT&#39;</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Print coords&#39;</span><span class="p">,</span> <span class="n">extension_id</span><span class="o">=</span><span class="s1">&#39;pickit&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fc</span><span class="o">.</span><span class="n">add_extension</span><span class="p">(</span><span class="n">ext_type</span><span class="o">=</span><span class="s1">'POINT'</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Print coords'</span><span class="p">,</span> <span class="n">extension_id</span><span class="o">=</span><span class="s1">'pickit'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -633,7 +633,7 @@ ra=202.496007, dec=47.267874
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Apr 29, 2026.
+  Last updated on Nov 25, 2026.
   <br/>
 </p></div>
       

@@ -56,7 +56,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Apr 29, 2026"/>
+    <meta name="docbuild:last-update" content="Nov 25, 2026"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -443,7 +443,7 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">firefly_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FireflyClient</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">astropy.utils.data</span>
 <span class="n">using_lab</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://127.0.0.1:8080/firefly&#39;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">'http://127.0.0.1:8080/firefly'</span>
 <span class="c1">#FireflyClient._debug= True</span>
 </pre></div>
 </div>
@@ -466,7 +466,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_url</span> <span class="o">=</span> <span class="s1">&#39;http://web.ipac.caltech.edu/staff/shupe/firefly_testdata/calexp-subset-HSC-R.fits&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_url</span> <span class="o">=</span> <span class="s1">'http://web.ipac.caltech.edu/staff/shupe/firefly_testdata/calexp-subset-HSC-R.fits'</span>
 <span class="n">filename</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">image_url</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
 <span class="n">imval</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
@@ -477,8 +477,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotid</span> <span class="o">=</span> <span class="s1">&#39;footprinttest&#39;</span>
-<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_fits</span><span class="p">(</span><span class="n">file_on_server</span><span class="o">=</span><span class="n">imval</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="n">plotid</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;footprints HSC R-band&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotid</span> <span class="o">=</span> <span class="s1">'footprinttest'</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">show_fits</span><span class="p">(</span><span class="n">file_on_server</span><span class="o">=</span><span class="n">imval</span><span class="p">,</span> <span class="n">plot_id</span><span class="o">=</span><span class="n">plotid</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'footprints HSC R-band'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -490,7 +490,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_url</span> <span class="o">=</span> <span class="s1">&#39;http://web.ipac.caltech.edu/staff/shupe/firefly_testdata/footprints-subset-HSC-R.xml&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_url</span> <span class="o">=</span> <span class="s1">'http://web.ipac.caltech.edu/staff/shupe/firefly_testdata/footprints-subset-HSC-R.xml'</span>
 <span class="n">footprint_table</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">table_url</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
 <span class="n">tableval</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">footprint_table</span><span class="p">)</span>
 </pre></div>
@@ -501,13 +501,13 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">overlay_footprints</span><span class="p">(</span><span class="n">tableval</span><span class="p">,</span>  <span class="n">title</span><span class="o">=</span><span class="s1">&#39;footprints HSC R-band&#39;</span><span class="p">,</span>
-                               <span class="n">footprint_layer_id</span><span class="o">=</span><span class="s1">&#39;footprint_layer_1&#39;</span><span class="p">,</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">overlay_footprints</span><span class="p">(</span><span class="n">tableval</span><span class="p">,</span>  <span class="n">title</span><span class="o">=</span><span class="s1">'footprints HSC R-band'</span><span class="p">,</span>
+                               <span class="n">footprint_layer_id</span><span class="o">=</span><span class="s1">'footprint_layer_1'</span><span class="p">,</span>
                                <span class="n">plot_id</span><span class="o">=</span><span class="n">plotid</span><span class="p">,</span>
-                               <span class="n">highlightColor</span><span class="o">=</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span>
-                               <span class="n">selectColor</span><span class="o">=</span><span class="s1">&#39;cyan&#39;</span><span class="p">,</span>
-                               <span class="n">style</span><span class="o">=</span><span class="s1">&#39;fill&#39;</span><span class="p">,</span>
-                               <span class="n">color</span><span class="o">=</span><span class="s1">&#39;rgba(74,144,226,0.30)&#39;</span><span class="p">)</span>
+                               <span class="n">highlightColor</span><span class="o">=</span><span class="s1">'yellow'</span><span class="p">,</span>
+                               <span class="n">selectColor</span><span class="o">=</span><span class="s1">'cyan'</span><span class="p">,</span>
+                               <span class="n">style</span><span class="o">=</span><span class="s1">'fill'</span><span class="p">,</span>
+                               <span class="n">color</span><span class="o">=</span><span class="s1">'rgba(74,144,226,0.30)'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -608,7 +608,7 @@
 </div>
       
         <div class="footer-item"><p class="last-updated">
-  Last updated on Apr 29, 2026.
+  Last updated on Nov 25, 2026.
   <br/>
 </p></div>
       
